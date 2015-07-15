@@ -1,21 +1,97 @@
-% Overview of Bioconductor
-% Kasper D. Hansen
-% Spring 2015
+---
+title: "Overview of Bioconductor"
+author:"Kasper D. Hansen"
+date: "Summer 2015"
 
-Per week
-========
+# Week 1
 
-## Week 1
-Introducing Bioconductor (overview, installation, getting help, basic R)
-Data containers: ExpressionSet
+## Introducing Bioconductor
+- overview
+- installation
+- getting help
+- basic R
+- levels of trust in online resources
+
+## data.frames(), vectors(), indexing
+
+## IRanges, GRanges
+
+## DataFrames()
+
+## Task
+Take some bed file
+
+
+
+Data containers: ExpressionSet, AffyBatch, NChannelSet, eSet
 Reading data: GEOquery
-Annotation:
+
+Biostrings? BSgenome?
 
 ## Week 2
+
+IRanges, GRanges
+SummarizedExperiment
+AnnotationHub
+rtracklayer: reading in BigWig, bed files
 
 ## Week 3
 
 ## Week 4
+
+
+
+## Packages
+
+IRanges / GenomicRanges
+- Beginning: IRanges(), GRanges(), findOverlaps() etc.
+- Intermediate: seqinfo(), Rle's, Views, 
+
+
+Biostrings
+rtracklayer
+
+Biobase
+SummarizedExperiment
+
+
+
+GenomeInfoDb
+VariantAnnotation
+Rsamtools
+
+
+
+AnnotationHub
+
+limma / edgeR / DEseq(2)
+biomaRt
+
+GenomicAlignments / GenomicFeatures
+affy / oligo / minfi 
+
+Gviz / ggbio
+
+GOstats / cummerbound?
+
+## Tasks
+
+Heatmaps
+Getting data into Bioconductor
+
+
+
+## Example tasks
+
+- Take some data (ChIP-seq or DMRs) and overlap it with ENCODE data and/or promoters.
+- Find SNPs overlapping this data.
+- Display some data on the Genome Browser.
+
+- compute GC content in some regions
+
+- Do this using AnnotationHub, rtracklayer to get information from UCSC / elsewhere.
+
+
 
 
 
@@ -65,8 +141,6 @@ Presentation: Recorded
 - help(package = "bsseq")
 - ? ??
 - Help depends on which packages are loaded
-
-
 
 # Data containers
 ## 3 types of data
