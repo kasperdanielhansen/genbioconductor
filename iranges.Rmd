@@ -1,0 +1,395 @@
+---
+author: Kasper D. Hansen
+title: IRanges and GenomicRanges
+subtitle: An introduction
+output:
+  beamer_presentation:
+    incremental: false
+  slidy_presentation:
+    incremental: false
+fontsize: 10pt
+---
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(fig.width=7, fig.height=2, size="footnotesize",
+                      warning=FALSE, message=FALSE)
+knitr::knit_hooks$set(small.mar = function(before, options, envir) {
+  if (before) graphics::par(mar = c(5,5,1.5,1))
+})
+```
+
+```{r load, echo=FALSE}
+library(IRanges)
+library(GenomicRanges)
+plotRanges <- function(x, xlim = x, main = deparse(substitute(x)),
+                       col = "black", sep = 0.5, ...) {
+    height <- 1
+    if (is(xlim, "Ranges"))
+        xlim <- c(min(start(xlim)), max(end(xlim)))
+    bins <- disjointBins(IRanges(start(x), end(x) + 1))
+    plot.new()
+    plot.window(xlim, c(0, max(bins)*(height + sep)))
+    ybottom <- bins * (sep + height) - height
+    rect(start(x)-0.5, ybottom, end(x)+0.5, ybottom + height, col = col, ...)
+    title(main)
+    axis(1)
+}
+```
+
+# Why you should care
+  
+IRanges and GRanges are data structures I use often to solve a variety of problems, typically related to annotating the genome.
+
+These data structures are very fast and efficient.
+
+Every R user who deals with genomic data should master these packages.
+  
+*These two packages are themselves compelling arguments for learning R!*
+
+# Aims
+
+We provide an overview of the two packages `IRanges` and `GenomicRanges`.
+
+At first, these two packages can appear daunting, with many classes and functions.  Luckily, things are not as hard as the first appear.
+
+Both packages now contain very extensive and useful vignettes.  Read them!
+
+
+# Idea
+
+A surprising amount of objects/tasks in computational biology can be formulated in terms of integer intervals, manipulation of integer intervals and overlap of integer intervals.
+
+*Objects*: A transcript (a union of integer intervals), a collection of SNPs (intervals of width 1), TF binding sites, a collection of aligned short reads.
+
+*Tasks*: Which TF binding sites hit the promoter of genes (overlap between two sets of intervals), which SNPs hit a collection of exons, which short reads hit a predetermined set of exons.
+
+`IRanges` are collections of integer intervals.  `GRanges` are like `IRanges`, but with an associated chromosome and strand, taking care of some book keeping.
+
+# Basic IRanges
+  
+Specify IRanges by 2 of start, end, width (SEW).
+  
+```{r}
+library(IRanges)
+ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
+ir1
+ir2 <- IRanges(start = c(1,3,5), width = 3)
+all.equal(ir1, ir2)
+``` 
+
+***
+
+Assessor methods: `start()`, `end()`, `width()` and also replacement methods
+```{r}
+width(ir2) <- 1
+ir2
+```
+
+They may have names
+```{r}
+names(ir1) <- paste("A", 1:3, sep = "")
+ir1
+```
+
+***
+
+and they have a single dimension
+```{r}
+dim(ir1)
+length(ir1)
+``` 
+
+Subsetting in one dimension, like
+```{r}
+ir1[1]
+ir1["A1"]
+```
+
+# Aside: GRanges
+
+GRanges are like IRanges but with a strand and a chromosome (seqnames)
+
+```{r}
+gr <- GRanges(seqnames = "chr1", ranges = ir1,
+              strand = c("+", "-", "+"))
+gr
+``` 
+
+There are some additional differences; we will return to GRanges later.
+
+# Normal IRanges
+
+A normal IRanges is a minimal representation of the IRanges viewed as
+a set.  Each integer only occur in a single range and there are as few
+ranges as possible.  In addition, it is ordered.  Created by reduce().
+
+```{r, echo=FALSE}
+ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
+``` 
+
+```{r, echo=FALSE, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+```{r, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+plotRanges(reduce(ir))
+``` 
+
+***
+
+```{r}
+ir
+reduce(ir)
+``` 
+
+Answers: "Given a set of overlapping exons, which bases belong to an exon?"
+
+
+# Disjoin
+
+```{r, eval=FALSE}
+disjoin(ir1)
+```
+
+```{r, echo=FALSE, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+```{r, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+plotRanges(disjoin(ir))
+``` 
+
+Answers: "Give a set of overlapping exons, which bases belong to the same set of exons?"
+
+# Manipulating IRanges
+
+1. `shift()`, `narrow()`, `flank()`, `shift()`, `narrow()`, `restrict()`
+2. `union()`, `intersect()`, `setdiff()`, `gaps()` (returns normalized IRanges)
+3. `punion()`, `pintersect()`, `psetdiff()`, `pgap()`
+
+Operators in 2. considers IRanges as sets of integers.  Operators in 3., like `pmax()` from base R, compares the first range in two different IRanges to each other.
+
+# Finding Overlaps
+
+Finding (pairwise) overlaps between two IRanges is done by `findOverlaps()`.  This function is very important and amazingly fast!
+
+```{r}
+ir1 <- IRanges(start = c(1,4,8), end = c(3,7,10))
+ir2 <- IRanges(start = c(3,4), width = 3)
+ov <- findOverlaps(ir1, ir2)
+ov
+``` 
+
+It returns a `Hits` object which is basically a sparse matrix index.  The two columns of the hits object can be accessed by `queryHits()` and `subjectHits()` (often used with `unique()`).
+
+# findOverlaps, arguments
+
+The list of arguments to `findOverlaps()` is long and takes a while to master.  For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.
+
+```{r, tidy=TRUE}
+args(findOverlaps)
+``` 
+
+# countOverlaps
+
+For efficiency, there is also `countOverlaps()`, which just returns the number of overlaps.
+```{r}
+countOverlaps(ir1, ir2)
+``` 
+
+# Finding nearest IRanges
+
+`nearest()`, `precede()`, `follow()`.  Watch out for ties!
+
+```{r}
+ir1
+ir2
+nearest(ir1, ir2)
+``` 
+
+# IRangesList
+
+An IRangesList is simply a list of IRanges.
+
+Why a separate class for this?
+
+- Methods dispatching, 'we know what we get;.
+- Easy to specify input and output.
+    
+Many XXList exists.
+	
+One biology use case: the set of transcripts of a gene.  Each transcript is an IRanges (each exon is a range), but we need something to glue the transcripts together.
+
+# Rle
+  
+Rle are 'run-length encoded' vectors, which are very useful for representing coverage vectors efficiently.
+
+```{r, echo=FALSE, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+```
+```{r}
+coverage(ir)
+as.vector(coverage(ir))
+``` 
+
+***
+
+Accessor functions `runLengths()`, `runValues()`.  This representation can be **dramatically** more efficient under certain conditions, for example if there are many zeroes (say ChIP-seq data). 
+
+# Computing on Rle
+
+Rle's can be extremely efficient, especially for really long vectors.
+They support are a wide variety of operations
+
+```{r}
+coverage(ir1) + coverage(ir2)
+range(coverage(ir2))
+log(coverage(ir2))
+``` 
+
+***
+
+`aggregate()` allows you to apply functions to the Rle inside an IRanges
+
+```{r}
+aggregate(coverage(ir2), IRanges(start = 3, width = 4), 
+          FUN = mean)
+``` 
+
+This example computes the average coverage over each of a set of genomic intervals.
+
+# Views
+
+Often we have a big object (think genome) and we are interested in subsets of this object.
+
+These subsets may be thought of as IRanges inside the object.  Think exons and genome sequence.  Key idea: store big object and just keep the ranges.
+
+```{r}
+library(BSgenome.Scerevisiae.UCSC.sacCer1)
+vi <- Views(Scerevisiae$chr1, 
+            start = seq(1, by = 10000, length = 20), 
+            width = 1000)
+head(vi, n = 4)
+``` 
+
+***
+
+This looks like a `DNAStringSet`, but internally it is just a `IRange` and a pointer to the genome.  This paradigm can be used to write extremely efficient code, but it takes a while to get used to.
+
+Views can also be made on coverage vectors
+
+```{r}
+coverage(ir)
+Views(coverage(ir), start = 3, width = 4)
+``` 
+
+# IRanges: important types of objects
+
+In summary, we have the following 
+
+- IRanges (and normal IRanges), IRangesList
+- Rle
+- Views
+- RangedData (not discussed): IRanges with metadata, think IRanges + data.frame
+
+These types of objects allow you to accomplish many useful tasks in a very efficient manner, but they sometimes require a bit creativity.
+
+# Return to GRanges
+
+`GRanges` are like `IRanges` with strand and chromosome.  Strand can be `+`, `-` and `*` (unknown strand or unstranded).
+
+```{r}
+gr
+``` 
+
+Natural accessor functions: `strand()`, `seqnmes()`, `ranges()`, `start()`, `end()`, `width()`.
+
+Because the have strand, some operations are now relative to the direction of transcription (`upstream()`, `downstream()`):
+
+```{r}
+flank(gr, 2, start = FALSE)
+``` 
+
+# GRanges, seqlengths
+
+
+`GRanges` operate within a universe of seqlengths (chromosomes/contigs and their lengths).
+
+```{r}
+seqlengths(gr) <- c("chr1" = 10)
+gaps(gr)
+``` 
+
+In this example, we know that the last gap stops at 10, because that is the length of the chromosome.  We can even specifiy that the chromosome is circular.
+
+# GRanges, metadata
+
+Finally, GRanges may have associated metadata.
+
+```{r}
+values(gr) <- DataFrame(score = c(0.1, 0.5, 0.3))
+gr
+``` 
+
+An easier way is to use
+```{r}
+gr$score2 = gr$score * 0.2
+gr
+```
+
+Formal accessor functions are `values()`, `elementMetadata()`.
+
+# Usecase I
+
+Suppose we want to identify TF binding sites that overlaps known SNPs.
+
+snps: GRanges (of width 1)
+
+TF: GRanges
+
+```{r, eval=FALSE}
+findOverlaps(snps, TF)
+``` 
+
+(watch out for strand)
+
+# Usecase II
+
+Suppose we have a set of DMRs (think genomic regions) and a set of
+CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
+
+dmrs: GRanges
+
+islands: GRanges
+
+```{r, eval=FALSE} 
+findOverlaps(dmrs, resize(islands, 
+      width = 20000 + width(islands), fix = "center"))
+``` 
+
+(watch out for strand)
+
+# Usecase III
+
+Suppose we want to compute the average coverage of bases belonging to
+(known) exons.
+
+reads: GRanges
+exons: GRanges
+
+```{r, eval=FALSE}
+bases <- reduce(exons)
+nBases <- sum(width(bases))
+nCoverage <- sum(Views(coverage(reads), bases))
+nCoverage / nBases
+``` 
+
+(watch out for strand)
+
+# SessionInfo
+
+\scriptsize
+
+```{r, echo=FALSE}
+sessionInfo()
+```

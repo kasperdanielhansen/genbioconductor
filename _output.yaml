@@ -1,0 +1,4 @@
+beamer_presentation:
+  incremental: false
+slidy_presentation:
+  incremental: false
