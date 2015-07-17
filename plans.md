@@ -1,7 +1,7 @@
 ---
 title: "Overview of Bioconductor"
 author:"Kasper D. Hansen"
-date: "Summer 2015"
+---
 
 # Week 1
 
