@@ -5,12 +5,32 @@ author:"Kasper D. Hansen"
 
 # Week 1
 
-## Introducing Bioconductor
-- overview
-- installation
-- getting help
-- basic R
-- levels of trust in online resources
+## Module 1: Bioconductor: Getting started
+
+
+- Introduction to Bioconductor
+- Installation (pointers to existing videos + video and material for how to install Bioconductor).
+- The Bioconductor website
+- The Bioconductor support site
+- Resources like: vignettes, workflows
+- Other places to get help: rseek, Stack Overflow
+- Trust in Bioconductor
+- Basic R pointers
+
+## Module 2: Introduction to Genomic Ranges
+
+- Basic R objects: data.frames, vectors, lists, indexing
+- A motivating example
+- IRanges, introduction (creation, findOverlaps)
+- GRanges, introduction (creation, data in GRanges)
+- DataFrames (short, with the intention of describing valueMetadata in GRanges)
+- Use AnnotationHub to get some tracks
+- How to put this all together to get some info and do overlaps
+
+# Week 2
+
+
+
 
 ## data.frames(), vectors(), indexing
 

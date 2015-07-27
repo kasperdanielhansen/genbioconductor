@@ -1,7 +1,7 @@
 ---
-author: Kasper D. Hansen
 title: Test
 subtitle: Test2
+author: Kasper D. Hansen
 fontsize: 10pt
 bibliography: genbioconductor.bib
 ---
@@ -11,8 +11,17 @@ bibliography: genbioconductor.bib
 
 # Dependencies
 
+This document has the following dependecies:
+
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
 ```
 
 # Section 1
@@ -44,7 +53,7 @@ plotRanges(ir)
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo}
 sessionInfo()
 ```
 

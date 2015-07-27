@@ -21,3 +21,4 @@ plotRanges <- function(x, xlim = x, main = deparse(substitute(x)),
     axis(1)
 }
 ```
+ 
