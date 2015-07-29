@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kasper D. Hansen" />
+
+
+<title>IRanges and GenomicRanges</title>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<link href="data:text/css,pre%20%2Eoperator%2C%0Apre%20%2Eparen%20%7B%0A%20color%3A%20rgb%28104%2C%20118%2C%20135%29%0A%7D%0A%0Apre%20%2Eliteral%20%7B%0A%20color%3A%20%23990073%0A%7D%0A%0Apre%20%2Enumber%20%7B%0A%20color%3A%20%23099%3B%0A%7D%0A%0Apre%20%2Ecomment%20%7B%0A%20color%3A%20%23998%3B%0A%20font%2Dstyle%3A%20italic%0A%7D%0A%0Apre%20%2Ekeyword%20%7B%0A%20color%3A%20%23900%3B%0A%20font%2Dweight%3A%20bold%0A%7D%0A%0Apre%20%2Eidentifier%20%7B%0A%20color%3A%20rgb%280%2C%200%2C%200%29%3B%0A%7D%0A%0Apre%20%2Estring%20%7B%0A%20color%3A%20%23d14%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
+<script src="data:application/x-javascript,%0Avar%20hljs%3Dnew%20function%28%29%7Bfunction%20m%28p%29%7Breturn%20p%2Ereplace%28%2F%26%2Fgm%2C%22%26amp%3B%22%29%2Ereplace%28%2F%3C%2Fgm%2C%22%26lt%3B%22%29%7Dfunction%20f%28r%2Cq%2Cp%29%7Breturn%20RegExp%28q%2C%22m%22%2B%28r%2EcI%3F%22i%22%3A%22%22%29%2B%28p%3F%22g%22%3A%22%22%29%29%7Dfunction%20b%28r%29%7Bfor%28var%20p%3D0%3Bp%3Cr%2EchildNodes%2Elength%3Bp%2B%2B%29%7Bvar%20q%3Dr%2EchildNodes%5Bp%5D%3Bif%28q%2EnodeName%3D%3D%22CODE%22%29%7Breturn%20q%7Dif%28%21%28q%2EnodeType%3D%3D3%26%26q%2EnodeValue%2Ematch%28%2F%5Cs%2B%2F%29%29%29%7Bbreak%7D%7D%7Dfunction%20h%28t%2Cs%29%7Bvar%20p%3D%22%22%3Bfor%28var%20r%3D0%3Br%3Ct%2EchildNodes%2Elength%3Br%2B%2B%29%7Bif%28t%2EchildNodes%5Br%5D%2EnodeType%3D%3D3%29%7Bvar%20q%3Dt%2EchildNodes%5Br%5D%2EnodeValue%3Bif%28s%29%7Bq%3Dq%2Ereplace%28%2F%5Cn%2Fg%2C%22%22%29%7Dp%2B%3Dq%7Delse%7Bif%28t%2EchildNodes%5Br%5D%2EnodeName%3D%3D%22BR%22%29%7Bp%2B%3D%22%5Cn%22%7Delse%7Bp%2B%3Dh%28t%2EchildNodes%5Br%5D%29%7D%7D%7Dif%28%2FMSIE%20%5B678%5D%2F%2Etest%28navigator%2EuserAgent%29%29%7Bp%3Dp%2Ereplace%28%2F%5Cr%2Fg%2C%22%5Cn%22%29%7Dreturn%20p%7Dfunction%20a%28s%29%7Bvar%20r%3Ds%2EclassName%2Esplit%28%2F%5Cs%2B%2F%29%3Br%3Dr%2Econcat%28s%2EparentNode%2EclassName%2Esplit%28%2F%5Cs%2B%2F%29%29%3Bfor%28var%20q%3D0%3Bq%3Cr%2Elength%3Bq%2B%2B%29%7Bvar%20p%3Dr%5Bq%5D%2Ereplace%28%2F%5Elanguage%2D%2F%2C%22%22%29%3Bif%28e%5Bp%5D%29%7Breturn%20p%7D%7D%7Dfunction%20c%28q%29%7Bvar%20p%3D%5B%5D%3B%28function%28s%2Ct%29%7Bfor%28var%20r%3D0%3Br%3Cs%2EchildNodes%2Elength%3Br%2B%2B%29%7Bif%28s%2EchildNodes%5Br%5D%2EnodeType%3D%3D3%29%7Bt%2B%3Ds%2EchildNodes%5Br%5D%2EnodeValue%2Elength%7Delse%7Bif%28s%2EchildNodes%5Br%5D%2EnodeName%3D%3D%22BR%22%29%7Bt%2B%3D1%7Delse%7Bif%28s%2EchildNodes%5Br%5D%2EnodeType%3D%3D1%29%7Bp%2Epush%28%7Bevent%3A%22start%22%2Coffset%3At%2Cnode%3As%2EchildNodes%5Br%5D%7D%29%3Bt%3Darguments%2Ecallee%28s%2EchildNodes%5Br%5D%2Ct%29%3Bp%2Epush%28%7Bevent%3A%22stop%22%2Coffset%3At%2Cnode%3As%2EchildNodes%5Br%5D%7D%29%7D%7D%7D%7Dreturn%20t%7D%29%28q%2C0%29%3Breturn%20p%7Dfunction%20k%28y%2Cw%2Cx%29%7Bvar%20q%3D0%3Bvar%20z%3D%22%22%3Bvar%20s%3D%5B%5D%3Bfunction%20u%28%29%7Bif%28y%2Elength%26%26w%2Elength%29%7Bif%28y%5B0%5D%2Eoffset%21%3Dw%5B0%5D%2Eoffset%29%7Breturn%28y%5B0%5D%2Eoffset%3Cw%5B0%5D%2Eoffset%29%3Fy%3Aw%7Delse%7Breturn%20w%5B0%5D%2Eevent%3D%3D%22start%22%3Fy%3Aw%7D%7Delse%7Breturn%20y%2Elength%3Fy%3Aw%7D%7Dfunction%20t%28D%29%7Bvar%20A%3D%22%3C%22%2BD%2EnodeName%2EtoLowerCase%28%29%3Bfor%28var%20B%3D0%3BB%3CD%2Eattributes%2Elength%3BB%2B%2B%29%7Bvar%20C%3DD%2Eattributes%5BB%5D%3BA%2B%3D%22%20%22%2BC%2EnodeName%2EtoLowerCase%28%29%3Bif%28C%2Evalue%21%3D%3Dundefined%26%26C%2Evalue%21%3D%3Dfalse%26%26C%2Evalue%21%3D%3Dnull%29%7BA%2B%3D%27%3D%22%27%2Bm%28C%2Evalue%29%2B%27%22%27%7D%7Dreturn%20A%2B%22%3E%22%7Dwhile%28y%2Elength%7C%7Cw%2Elength%29%7Bvar%20v%3Du%28%29%2Esplice%280%2C1%29%5B0%5D%3Bz%2B%3Dm%28x%2Esubstr%28q%2Cv%2Eoffset%2Dq%29%29%3Bq%3Dv%2Eoffset%3Bif%28v%2Eevent%3D%3D%22start%22%29%7Bz%2B%3Dt%28v%2Enode%29%3Bs%2Epush%28v%2Enode%29%7Delse%7Bif%28v%2Eevent%3D%3D%22stop%22%29%7Bvar%20p%2Cr%3Ds%2Elength%3Bdo%7Br%2D%2D%3Bp%3Ds%5Br%5D%3Bz%2B%3D%28%22%3C%2F%22%2Bp%2EnodeName%2EtoLowerCase%28%29%2B%22%3E%22%29%7Dwhile%28p%21%3Dv%2Enode%29%3Bs%2Esplice%28r%2C1%29%3Bwhile%28r%3Cs%2Elength%29%7Bz%2B%3Dt%28s%5Br%5D%29%3Br%2B%2B%7D%7D%7D%7Dreturn%20z%2Bm%28x%2Esubstr%28q%29%29%7Dfunction%20j%28%29%7Bfunction%20q%28x%2Cy%2Cv%29%7Bif%28x%2Ecompiled%29%7Breturn%7Dvar%20u%3Bvar%20s%3D%5B%5D%3Bif%28x%2Ek%29%7Bx%2ElR%3Df%28y%2Cx%2El%7C%7Chljs%2EIR%2Ctrue%29%3Bfor%28var%20w%20in%20x%2Ek%29%7Bif%28%21x%2Ek%2EhasOwnProperty%28w%29%29%7Bcontinue%7Dif%28x%2Ek%5Bw%5D%20instanceof%20Object%29%7Bu%3Dx%2Ek%5Bw%5D%7Delse%7Bu%3Dx%2Ek%3Bw%3D%22keyword%22%7Dfor%28var%20r%20in%20u%29%7Bif%28%21u%2EhasOwnProperty%28r%29%29%7Bcontinue%7Dx%2Ek%5Br%5D%3D%5Bw%2Cu%5Br%5D%5D%3Bs%2Epush%28r%29%7D%7D%7Dif%28%21v%29%7Bif%28x%2EbWK%29%7Bx%2Eb%3D%22%5C%5Cb%28%22%2Bs%2Ejoin%28%22%7C%22%29%2B%22%29%5C%5Cs%22%7Dx%2EbR%3Df%28y%2Cx%2Eb%3Fx%2Eb%3A%22%5C%5CB%7C%5C%5Cb%22%29%3Bif%28%21x%2Ee%26%26%21x%2EeW%29%7Bx%2Ee%3D%22%5C%5CB%7C%5C%5Cb%22%7Dif%28x%2Ee%29%7Bx%2EeR%3Df%28y%2Cx%2Ee%29%7D%7Dif%28x%2Ei%29%7Bx%2EiR%3Df%28y%2Cx%2Ei%29%7Dif%28x%2Er%3D%3D%3Dundefined%29%7Bx%2Er%3D1%7Dif%28%21x%2Ec%29%7Bx%2Ec%3D%5B%5D%7Dx%2Ecompiled%3Dtrue%3Bfor%28var%20t%3D0%3Bt%3Cx%2Ec%2Elength%3Bt%2B%2B%29%7Bif%28x%2Ec%5Bt%5D%3D%3D%22self%22%29%7Bx%2Ec%5Bt%5D%3Dx%7Dq%28x%2Ec%5Bt%5D%2Cy%2Cfalse%29%7Dif%28x%2Estarts%29%7Bq%28x%2Estarts%2Cy%2Cfalse%29%7D%7Dfor%28var%20p%20in%20e%29%7Bif%28%21e%2EhasOwnProperty%28p%29%29%7Bcontinue%7Dq%28e%5Bp%5D%2EdM%2Ce%5Bp%5D%2Ctrue%29%7D%7Dfunction%20d%28B%2CC%29%7Bif%28%21j%2Ecalled%29%7Bj%28%29%3Bj%2Ecalled%3Dtrue%7Dfunction%20q%28r%2CM%29%7Bfor%28var%20L%3D0%3BL%3CM%2Ec%2Elength%3BL%2B%2B%29%7Bif%28%28M%2Ec%5BL%5D%2EbR%2Eexec%28r%29%7C%7C%5Bnull%5D%29%5B0%5D%3D%3Dr%29%7Breturn%20M%2Ec%5BL%5D%7D%7D%7Dfunction%20v%28L%2Cr%29%7Bif%28D%5BL%5D%2Ee%26%26D%5BL%5D%2EeR%2Etest%28r%29%29%7Breturn%201%7Dif%28D%5BL%5D%2EeW%29%7Bvar%20M%3Dv%28L%2D1%2Cr%29%3Breturn%20M%3FM%2B1%3A0%7Dreturn%200%7Dfunction%20w%28r%2CL%29%7Breturn%20L%2Ei%26%26L%2EiR%2Etest%28r%29%7Dfunction%20K%28N%2CO%29%7Bvar%20M%3D%5B%5D%3Bfor%28var%20L%3D0%3BL%3CN%2Ec%2Elength%3BL%2B%2B%29%7BM%2Epush%28N%2Ec%5BL%5D%2Eb%29%7Dvar%20r%3DD%2Elength%2D1%3Bdo%7Bif%28D%5Br%5D%2Ee%29%7BM%2Epush%28D%5Br%5D%2Ee%29%7Dr%2D%2D%7Dwhile%28D%5Br%2B1%5D%2EeW%29%3Bif%28N%2Ei%29%7BM%2Epush%28N%2Ei%29%7Dreturn%20f%28O%2CM%2Ejoin%28%22%7C%22%29%2Ctrue%29%7Dfunction%20p%28M%2CL%29%7Bvar%20N%3DD%5BD%2Elength%2D1%5D%3Bif%28%21N%2Et%29%7BN%2Et%3DK%28N%2CE%29%7DN%2Et%2ElastIndex%3DL%3Bvar%20r%3DN%2Et%2Eexec%28M%29%3Breturn%20r%3F%5BM%2Esubstr%28L%2Cr%2Eindex%2DL%29%2Cr%5B0%5D%2Cfalse%5D%3A%5BM%2Esubstr%28L%29%2C%22%22%2Ctrue%5D%7Dfunction%20z%28N%2Cr%29%7Bvar%20L%3DE%2EcI%3Fr%5B0%5D%2EtoLowerCase%28%29%3Ar%5B0%5D%3Bvar%20M%3DN%2Ek%5BL%5D%3Bif%28M%26%26M%20instanceof%20Array%29%7Breturn%20M%7Dreturn%20false%7Dfunction%20F%28L%2CP%29%7BL%3Dm%28L%29%3Bif%28%21P%2Ek%29%7Breturn%20L%7Dvar%20r%3D%22%22%3Bvar%20O%3D0%3BP%2ElR%2ElastIndex%3D0%3Bvar%20M%3DP%2ElR%2Eexec%28L%29%3Bwhile%28M%29%7Br%2B%3DL%2Esubstr%28O%2CM%2Eindex%2DO%29%3Bvar%20N%3Dz%28P%2CM%29%3Bif%28N%29%7Bx%2B%3DN%5B1%5D%3Br%2B%3D%27%3Cspan%20class%3D%22%27%2BN%5B0%5D%2B%27%22%3E%27%2BM%5B0%5D%2B%22%3C%2Fspan%3E%22%7Delse%7Br%2B%3DM%5B0%5D%7DO%3DP%2ElR%2ElastIndex%3BM%3DP%2ElR%2Eexec%28L%29%7Dreturn%20r%2BL%2Esubstr%28O%2CL%2Elength%2DO%29%7Dfunction%20J%28L%2CM%29%7Bif%28M%2EsL%26%26e%5BM%2EsL%5D%29%7Bvar%20r%3Dd%28M%2EsL%2CL%29%3Bx%2B%3Dr%2Ekeyword%5Fcount%3Breturn%20r%2Evalue%7Delse%7Breturn%20F%28L%2CM%29%7D%7Dfunction%20I%28M%2Cr%29%7Bvar%20L%3DM%2EcN%3F%27%3Cspan%20class%3D%22%27%2BM%2EcN%2B%27%22%3E%27%3A%22%22%3Bif%28M%2ErB%29%7By%2B%3DL%3BM%2Ebuffer%3D%22%22%7Delse%7Bif%28M%2EeB%29%7By%2B%3Dm%28r%29%2BL%3BM%2Ebuffer%3D%22%22%7Delse%7By%2B%3DL%3BM%2Ebuffer%3Dr%7D%7DD%2Epush%28M%29%3BA%2B%3DM%2Er%7Dfunction%20G%28N%2CM%2CQ%29%7Bvar%20R%3DD%5BD%2Elength%2D1%5D%3Bif%28Q%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%3Breturn%20false%7Dvar%20P%3Dq%28M%2CR%29%3Bif%28P%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%3BI%28P%2CM%29%3Breturn%20P%2ErB%7Dvar%20L%3Dv%28D%2Elength%2D1%2CM%29%3Bif%28L%29%7Bvar%20O%3DR%2EcN%3F%22%3C%2Fspan%3E%22%3A%22%22%3Bif%28R%2ErE%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%2BO%7Delse%7Bif%28R%2EeE%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%2BO%2Bm%28M%29%7Delse%7By%2B%3DJ%28R%2Ebuffer%2BN%2BM%2CR%29%2BO%7D%7Dwhile%28L%3E1%29%7BO%3DD%5BD%2Elength%2D2%5D%2EcN%3F%22%3C%2Fspan%3E%22%3A%22%22%3By%2B%3DO%3BL%2D%2D%3BD%2Elength%2D%2D%7Dvar%20r%3DD%5BD%2Elength%2D1%5D%3BD%2Elength%2D%2D%3BD%5BD%2Elength%2D1%5D%2Ebuffer%3D%22%22%3Bif%28r%2Estarts%29%7BI%28r%2Estarts%2C%22%22%29%7Dreturn%20R%2ErE%7Dif%28w%28M%2CR%29%29%7Bthrow%22Illegal%22%7D%7Dvar%20E%3De%5BB%5D%3Bvar%20D%3D%5BE%2EdM%5D%3Bvar%20A%3D0%3Bvar%20x%3D0%3Bvar%20y%3D%22%22%3Btry%7Bvar%20s%2Cu%3D0%3BE%2EdM%2Ebuffer%3D%22%22%3Bdo%7Bs%3Dp%28C%2Cu%29%3Bvar%20t%3DG%28s%5B0%5D%2Cs%5B1%5D%2Cs%5B2%5D%29%3Bu%2B%3Ds%5B0%5D%2Elength%3Bif%28%21t%29%7Bu%2B%3Ds%5B1%5D%2Elength%7D%7Dwhile%28%21s%5B2%5D%29%3Bif%28D%2Elength%3E1%29%7Bthrow%22Illegal%22%7Dreturn%7Br%3AA%2Ckeyword%5Fcount%3Ax%2Cvalue%3Ay%7D%7Dcatch%28H%29%7Bif%28H%3D%3D%22Illegal%22%29%7Breturn%7Br%3A0%2Ckeyword%5Fcount%3A0%2Cvalue%3Am%28C%29%7D%7Delse%7Bthrow%20H%7D%7D%7Dfunction%20g%28t%29%7Bvar%20p%3D%7Bkeyword%5Fcount%3A0%2Cr%3A0%2Cvalue%3Am%28t%29%7D%3Bvar%20r%3Dp%3Bfor%28var%20q%20in%20e%29%7Bif%28%21e%2EhasOwnProperty%28q%29%29%7Bcontinue%7Dvar%20s%3Dd%28q%2Ct%29%3Bs%2Elanguage%3Dq%3Bif%28s%2Ekeyword%5Fcount%2Bs%2Er%3Er%2Ekeyword%5Fcount%2Br%2Er%29%7Br%3Ds%7Dif%28s%2Ekeyword%5Fcount%2Bs%2Er%3Ep%2Ekeyword%5Fcount%2Bp%2Er%29%7Br%3Dp%3Bp%3Ds%7D%7Dif%28r%2Elanguage%29%7Bp%2Esecond%5Fbest%3Dr%7Dreturn%20p%7Dfunction%20i%28r%2Cq%2Cp%29%7Bif%28q%29%7Br%3Dr%2Ereplace%28%2F%5E%28%28%3C%5B%5E%3E%5D%2B%3E%7C%5Ct%29%2B%29%2Fgm%2Cfunction%28t%2Cw%2Cv%2Cu%29%7Breturn%20w%2Ereplace%28%2F%5Ct%2Fg%2Cq%29%7D%29%7Dif%28p%29%7Br%3Dr%2Ereplace%28%2F%5Cn%2Fg%2C%22%3Cbr%3E%22%29%7Dreturn%20r%7Dfunction%20n%28t%2Cw%2Cr%29%7Bvar%20x%3Dh%28t%2Cr%29%3Bvar%20v%3Da%28t%29%3Bvar%20y%2Cs%3Bif%28v%29%7By%3Dd%28v%2Cx%29%7Delse%7Breturn%7Dvar%20q%3Dc%28t%29%3Bif%28q%2Elength%29%7Bs%3Ddocument%2EcreateElement%28%22pre%22%29%3Bs%2EinnerHTML%3Dy%2Evalue%3By%2Evalue%3Dk%28q%2Cc%28s%29%2Cx%29%7Dy%2Evalue%3Di%28y%2Evalue%2Cw%2Cr%29%3Bvar%20u%3Dt%2EclassName%3Bif%28%21u%2Ematch%28%22%28%5C%5Cs%7C%5E%29%28language%2D%29%3F%22%2Bv%2B%22%28%5C%5Cs%7C%24%29%22%29%29%7Bu%3Du%3F%28u%2B%22%20%22%2Bv%29%3Av%7Dif%28%2FMSIE%20%5B678%5D%2F%2Etest%28navigator%2EuserAgent%29%26%26t%2EtagName%3D%3D%22CODE%22%26%26t%2EparentNode%2EtagName%3D%3D%22PRE%22%29%7Bs%3Dt%2EparentNode%3Bvar%20p%3Ddocument%2EcreateElement%28%22div%22%29%3Bp%2EinnerHTML%3D%22%3Cpre%3E%3Ccode%3E%22%2By%2Evalue%2B%22%3C%2Fcode%3E%3C%2Fpre%3E%22%3Bt%3Dp%2EfirstChild%2EfirstChild%3Bp%2EfirstChild%2EcN%3Ds%2EcN%3Bs%2EparentNode%2EreplaceChild%28p%2EfirstChild%2Cs%29%7Delse%7Bt%2EinnerHTML%3Dy%2Evalue%7Dt%2EclassName%3Du%3Bt%2Eresult%3D%7Blanguage%3Av%2Ckw%3Ay%2Ekeyword%5Fcount%2Cre%3Ay%2Er%7D%3Bif%28y%2Esecond%5Fbest%29%7Bt%2Esecond%5Fbest%3D%7Blanguage%3Ay%2Esecond%5Fbest%2Elanguage%2Ckw%3Ay%2Esecond%5Fbest%2Ekeyword%5Fcount%2Cre%3Ay%2Esecond%5Fbest%2Er%7D%7D%7Dfunction%20o%28%29%7Bif%28o%2Ecalled%29%7Breturn%7Do%2Ecalled%3Dtrue%3Bvar%20r%3Ddocument%2EgetElementsByTagName%28%22pre%22%29%3Bfor%28var%20p%3D0%3Bp%3Cr%2Elength%3Bp%2B%2B%29%7Bvar%20q%3Db%28r%5Bp%5D%29%3Bif%28q%29%7Bn%28q%2Chljs%2EtabReplace%29%7D%7D%7Dfunction%20l%28%29%7Bif%28window%2EaddEventListener%29%7Bwindow%2EaddEventListener%28%22DOMContentLoaded%22%2Co%2Cfalse%29%3Bwindow%2EaddEventListener%28%22load%22%2Co%2Cfalse%29%7Delse%7Bif%28window%2EattachEvent%29%7Bwindow%2EattachEvent%28%22onload%22%2Co%29%7Delse%7Bwindow%2Eonload%3Do%7D%7D%7Dvar%20e%3D%7B%7D%3Bthis%2ELANGUAGES%3De%3Bthis%2Ehighlight%3Dd%3Bthis%2EhighlightAuto%3Dg%3Bthis%2EfixMarkup%3Di%3Bthis%2EhighlightBlock%3Dn%3Bthis%2EinitHighlighting%3Do%3Bthis%2EinitHighlightingOnLoad%3Dl%3Bthis%2EIR%3D%22%5Ba%2DzA%2DZ%5D%5Ba%2DzA%2DZ0%2D9%5F%5D%2A%22%3Bthis%2EUIR%3D%22%5Ba%2DzA%2DZ%5F%5D%5Ba%2DzA%2DZ0%2D9%5F%5D%2A%22%3Bthis%2ENR%3D%22%5C%5Cb%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2B%29%3F%22%3Bthis%2ECNR%3D%22%5C%5Cb%280%5BxX%5D%5Ba%2DfA%2DF0%2D9%5D%2B%7C%28%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2A%29%3F%7C%5C%5C%2E%5C%5Cd%2B%29%28%5BeE%5D%5B%2D%2B%5D%3F%5C%5Cd%2B%29%3F%29%22%3Bthis%2EBNR%3D%22%5C%5Cb%280b%5B01%5D%2B%29%22%3Bthis%2ERSR%3D%22%21%7C%21%3D%7C%21%3D%3D%7C%25%7C%25%3D%7C%26%7C%26%26%7C%26%3D%7C%5C%5C%2A%7C%5C%5C%2A%3D%7C%5C%5C%2B%7C%5C%5C%2B%3D%7C%2C%7C%5C%5C%2E%7C%2D%7C%2D%3D%7C%2F%7C%2F%3D%7C%3A%7C%3B%7C%3C%7C%3C%3C%7C%3C%3C%3D%7C%3C%3D%7C%3D%7C%3D%3D%7C%3D%3D%3D%7C%3E%7C%3E%3D%7C%3E%3E%7C%3E%3E%3D%7C%3E%3E%3E%7C%3E%3E%3E%3D%7C%5C%5C%3F%7C%5C%5C%5B%7C%5C%5C%7B%7C%5C%5C%28%7C%5C%5C%5E%7C%5C%5C%5E%3D%7C%5C%5C%7C%7C%5C%5C%7C%3D%7C%5C%5C%7C%5C%5C%7C%7C%7E%22%3Bthis%2EER%3D%22%28%3F%21%5B%5C%5Cs%5C%5CS%5D%29%22%3Bthis%2EBE%3D%7Bb%3A%22%5C%5C%5C%5C%2E%22%2Cr%3A0%7D%3Bthis%2EASM%3D%7BcN%3A%22string%22%2Cb%3A%22%27%22%2Ce%3A%22%27%22%2Ci%3A%22%5C%5Cn%22%2Cc%3A%5Bthis%2EBE%5D%2Cr%3A0%7D%3Bthis%2EQSM%3D%7BcN%3A%22string%22%2Cb%3A%27%22%27%2Ce%3A%27%22%27%2Ci%3A%22%5C%5Cn%22%2Cc%3A%5Bthis%2EBE%5D%2Cr%3A0%7D%3Bthis%2ECLCM%3D%7BcN%3A%22comment%22%2Cb%3A%22%2F%2F%22%2Ce%3A%22%24%22%7D%3Bthis%2ECBLCLM%3D%7BcN%3A%22comment%22%2Cb%3A%22%2F%5C%5C%2A%22%2Ce%3A%22%5C%5C%2A%2F%22%7D%3Bthis%2EHCM%3D%7BcN%3A%22comment%22%2Cb%3A%22%23%22%2Ce%3A%22%24%22%7D%3Bthis%2ENM%3D%7BcN%3A%22number%22%2Cb%3Athis%2ENR%2Cr%3A0%7D%3Bthis%2ECNM%3D%7BcN%3A%22number%22%2Cb%3Athis%2ECNR%2Cr%3A0%7D%3Bthis%2EBNM%3D%7BcN%3A%22number%22%2Cb%3Athis%2EBNR%2Cr%3A0%7D%3Bthis%2Einherit%3Dfunction%28r%2Cs%29%7Bvar%20p%3D%7B%7D%3Bfor%28var%20q%20in%20r%29%7Bp%5Bq%5D%3Dr%5Bq%5D%7Dif%28s%29%7Bfor%28var%20q%20in%20s%29%7Bp%5Bq%5D%3Ds%5Bq%5D%7D%7Dreturn%20p%7D%7D%28%29%3Bhljs%2ELANGUAGES%2Ecpp%3Dfunction%28%29%7Bvar%20a%3D%7Bkeyword%3A%7B%22false%22%3A1%2C%22int%22%3A1%2C%22float%22%3A1%2C%22while%22%3A1%2C%22private%22%3A1%2C%22char%22%3A1%2C%22catch%22%3A1%2C%22export%22%3A1%2Cvirtual%3A1%2Coperator%3A2%2Csizeof%3A2%2Cdynamic%5Fcast%3A2%2Ctypedef%3A2%2Cconst%5Fcast%3A2%2C%22const%22%3A1%2Cstruct%3A1%2C%22for%22%3A1%2Cstatic%5Fcast%3A2%2Cunion%3A1%2Cnamespace%3A1%2Cunsigned%3A1%2C%22long%22%3A1%2C%22throw%22%3A1%2C%22volatile%22%3A2%2C%22static%22%3A1%2C%22protected%22%3A1%2Cbool%3A1%2Ctemplate%3A1%2Cmutable%3A1%2C%22if%22%3A1%2C%22public%22%3A1%2Cfriend%3A2%2C%22do%22%3A1%2C%22return%22%3A1%2C%22goto%22%3A1%2Cauto%3A1%2C%22void%22%3A2%2C%22enum%22%3A1%2C%22else%22%3A1%2C%22break%22%3A1%2C%22new%22%3A1%2Cextern%3A1%2Cusing%3A1%2C%22true%22%3A1%2C%22class%22%3A1%2Casm%3A1%2C%22case%22%3A1%2Ctypeid%3A1%2C%22short%22%3A1%2Creinterpret%5Fcast%3A2%2C%22default%22%3A1%2C%22double%22%3A1%2Cregister%3A1%2Cexplicit%3A1%2Csigned%3A1%2Ctypename%3A1%2C%22try%22%3A1%2C%22this%22%3A1%2C%22switch%22%3A1%2C%22continue%22%3A1%2Cwchar%5Ft%3A1%2Cinline%3A1%2C%22delete%22%3A1%2Calignof%3A1%2Cchar16%5Ft%3A1%2Cchar32%5Ft%3A1%2Cconstexpr%3A1%2Cdecltype%3A1%2Cnoexcept%3A1%2Cnullptr%3A1%2Cstatic%5Fassert%3A1%2Cthread%5Flocal%3A1%2Crestrict%3A1%2C%5FBool%3A1%2Ccomplex%3A1%7D%2Cbuilt%5Fin%3A%7Bstd%3A1%2Cstring%3A1%2Ccin%3A1%2Ccout%3A1%2Ccerr%3A1%2Cclog%3A1%2Cstringstream%3A1%2Cistringstream%3A1%2Costringstream%3A1%2Cauto%5Fptr%3A1%2Cdeque%3A1%2Clist%3A1%2Cqueue%3A1%2Cstack%3A1%2Cvector%3A1%2Cmap%3A1%2Cset%3A1%2Cbitset%3A1%2Cmultiset%3A1%2Cmultimap%3A1%2Cunordered%5Fset%3A1%2Cunordered%5Fmap%3A1%2Cunordered%5Fmultiset%3A1%2Cunordered%5Fmultimap%3A1%2Carray%3A1%2Cshared%5Fptr%3A1%7D%7D%3Breturn%7BdM%3A%7Bk%3Aa%2Ci%3A%22%3C%2F%22%2Cc%3A%5Bhljs%2ECLCM%2Chljs%2ECBLCLM%2Chljs%2EQSM%2C%7BcN%3A%22string%22%2Cb%3A%22%27%5C%5C%5C%5C%3F%2E%22%2Ce%3A%22%27%22%2Ci%3A%22%2E%22%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%28%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2A%29%3F%7C%5C%5C%2E%5C%5Cd%2B%29%28u%7CU%7Cl%7CL%7Cul%7CUL%7Cf%7CF%29%22%7D%2Chljs%2ECNM%2C%7BcN%3A%22preprocessor%22%2Cb%3A%22%23%22%2Ce%3A%22%24%22%7D%2C%7BcN%3A%22stl%5Fcontainer%22%2Cb%3A%22%5C%5Cb%28deque%7Clist%7Cqueue%7Cstack%7Cvector%7Cmap%7Cset%7Cbitset%7Cmultiset%7Cmultimap%7Cunordered%5Fmap%7Cunordered%5Fset%7Cunordered%5Fmultiset%7Cunordered%5Fmultimap%7Carray%29%5C%5Cs%2A%3C%22%2Ce%3A%22%3E%22%2Ck%3Aa%2Cr%3A10%2Cc%3A%5B%22self%22%5D%7D%5D%7D%7D%7D%28%29%3Bhljs%2ELANGUAGES%2Er%3D%7BdM%3A%7Bc%3A%5Bhljs%2EHCM%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb0%5BxX%5D%5B0%2D9a%2DfA%2DF%5D%2B%5BLi%5D%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3FL%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%5C%5C%2E%28%3F%21%5C%5Cd%29%28%3F%3Ai%5C%5Cb%29%3F%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%28%3F%3A%5C%5C%2E%5C%5Cd%2A%29%3F%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3Fi%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5C%2E%5C%5Cd%2B%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3Fi%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%28%3F%3AtryCatch%7Clibrary%7CsetGeneric%7CsetGroupGeneric%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5C%2E%5C%5C%2E%5C%5C%2E%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5C%2E%5C%5C%2E%5C%5Cd%2B%28%3F%21%5B%5C%5Cw%2E%5D%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5Cb%28%3F%3Afunction%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A2%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%28%3F%3Aif%7Cin%7Cbreak%7Cnext%7Crepeat%7Celse%7Cfor%7Creturn%7Cswitch%7Cwhile%7Ctry%7Cstop%7Cwarning%7Crequire%7Cattach%7Cdetach%7Csource%7CsetMethod%7CsetClass%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22literal%22%2Cb%3A%22%28%3F%3ANA%7CNA%5Finteger%5F%7CNA%5Freal%5F%7CNA%5Fcharacter%5F%7CNA%5Fcomplex%5F%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22literal%22%2Cb%3A%22%28%3F%3ANULL%7CTRUE%7CFALSE%7CT%7CF%7CInf%7CNaN%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22identifier%22%2Cb%3A%22%5Ba%2DzA%2DZ%2E%5D%5Ba%2DzA%2DZ0%2D9%2E%5F%5D%2A%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%3C%5C%5C%2D%28%3F%21%5C%5Cs%2A%5C%5Cd%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A2%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%5C%5C%2D%3E%7C%3C%5C%5C%2D%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%25%25%7C%7E%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%3E%3D%7C%3C%3D%7C%3D%3D%7C%21%3D%7C%5C%5C%7C%5C%5C%7C%7C%26%26%7C%3D%7C%5C%5C%2B%7C%5C%5C%2D%7C%5C%5C%2A%7C%2F%7C%5C%5C%5E%7C%3E%7C%3C%7C%21%7C%26%7C%5C%5C%7C%7C%5C%5C%24%7C%3A%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%25%22%2Ce%3A%22%25%22%2Ci%3A%22%5C%5Cn%22%2Cr%3A1%7D%2C%7BcN%3A%22identifier%22%2Cb%3A%22%60%22%2Ce%3A%22%60%22%2Cr%3A0%7D%2C%7BcN%3A%22string%22%2Cb%3A%27%22%27%2Ce%3A%27%22%27%2Cc%3A%5Bhljs%2EBE%5D%2Cr%3A0%7D%2C%7BcN%3A%22string%22%2Cb%3A%22%27%22%2Ce%3A%22%27%22%2Cc%3A%5Bhljs%2EBE%5D%2Cr%3A0%7D%2C%7BcN%3A%22paren%22%2Cb%3A%22%5B%5B%28%7B%5C%5C%5D%29%7D%5D%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%5D%7D%7D%3B%0Ahljs%2EinitHighlightingOnLoad%28%29%3B%0A%0A"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+<link href="data:text/css,body%2C%20td%20%7B%0A%20%20%20font%2Dfamily%3A%20sans%2Dserif%3B%0A%20%20%20background%2Dcolor%3A%20white%3B%0A%20%20%20font%2Dsize%3A%2013px%3B%0A%7D%0A%0Abody%20%7B%0A%20%20max%2Dwidth%3A%20800px%3B%0A%20%20margin%3A%200%20auto%3B%0A%20%20padding%3A%201em%201em%202em%3B%0A%20%20line%2Dheight%3A%2020px%3B%0A%7D%0A%0A%2F%2A%20element%20spacing%20%2A%2F%0A%0Ap%2C%20pre%20%7B%20%0A%20%20margin%3A%200em%200em%201em%3B%0A%7D%0A%0A%2F%2A%20center%20images%20and%20tables%20%2A%2F%0Aimg%2C%20table%20%7B%0A%20%20margin%3A%200em%20auto%201em%3B%0A%7D%0A%0Ap%20%7B%0A%20%20text%2Dalign%3A%20justify%3B%0A%7D%0A%0Att%2C%20code%2C%20pre%20%7B%0A%20%20%20font%2Dfamily%3A%20%27DejaVu%20Sans%20Mono%27%2C%20%27Droid%20Sans%20Mono%27%2C%20%27Lucida%20Console%27%2C%20Consolas%2C%20Monaco%2C%20monospace%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%20%0A%20%20font%2Dfamily%3A%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20margin%3A%201%2E2em%200em%200%2E6em%200em%3B%0A%20%20font%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah1%2Etitle%20%7B%0A%20%20font%2Dsize%3A%20250%25%3B%0A%20%20font%2Dweight%3A%20normal%3B%0A%20%20color%3A%20%2387b13f%3B%0A%20%20line%2Dheight%3A%201%2E1em%3B%0A%20%20margin%2Dtop%3A%200px%3B%0A%20%20border%2Dbottom%3A%200px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20font%2Dsize%3A%20160%25%3B%0A%20%20font%2Dweight%3A%20normal%3B%0A%20%20line%2Dheight%3A%201%2E4em%3B%0A%20%20border%2Dbottom%3A%201px%20%231a81c2%20solid%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20font%2Dsize%3A%20130%25%3B%20%20%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%20%7B%0A%20%20color%3A%20%231a81c2%3B%0A%7D%0A%0Ah3%2C%20h4%2C%20h5%2C%20h6%20%7B%0A%20%20font%2Dsize%3A115%25%3B%0A%7D%20%2F%2A%20not%20expecting%20to%20dive%20deeper%20than%20four%20levels%20on%20a%20single%20page%20%2A%2F%0A%0A%2F%2A%20links%20are%20simply%20blue%2C%20hovering%20slightly%20less%20blue%20%2A%2F%0Aa%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Aactive%20%7B%20outline%3A%20none%3B%20%7D%0Aa%3Avisited%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Ahover%20%7B%20color%3A%20%234c94c2%3B%20%7D%0A%0Apre%2C%20img%20%7B%0A%20%20max%2Dwidth%3A%20100%25%3B%0A%20%20display%3A%20block%3B%0A%7D%0A%0Apre%20%7B%0A%20%20border%3A%200px%20none%3B%0A%20%20background%2Dcolor%3A%20%23F8F8F8%3B%0A%20%20white%2Dspace%3A%20pre%3B%0A%20%20overflow%2Dx%3A%20auto%3B%0A%7D%0A%0Apre%20code%20%7B%0A%20%20border%3A%201px%20%23aaa%20dashed%3B%0A%20%20background%2Dcolor%3A%20white%3B%0A%20%20display%3A%20block%3B%0A%20%20padding%3A%201em%3B%20%20%0A%20%20color%3A%20%23111%3B%0A%20%20overflow%2Dx%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20markdown%20v1%20%2A%2F%0Apre%20code%5Bclass%5D%20%7B%0A%20%20background%2Dcolor%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20markdown%20v2%20%2A%2F%0Apre%5Bclass%5D%20code%20%7B%0A%20%20background%2Dcolor%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20formatting%20of%20inline%20code%20%2A%2F%0Acode%20%7B%20%0A%20%20background%2Dcolor%3A%20transparent%3B%0A%20%20color%3A%20%2387b13f%3B%0A%20%20font%2Dsize%3A%2092%25%3B%0A%7D%0A%0A%2F%2A%20formatting%20of%20tables%20%2A%2F%0A%0Atable%2C%20td%2C%20th%20%7B%0A%20%20border%3A%20none%3B%0A%20%20padding%3A%200%200%2E5em%3B%0A%7D%0A%0A%2F%2A%20alternating%20row%20colors%20%2A%2F%0Atbody%20tr%3Anth%2Dchild%28odd%29%20td%20%7B%0A%20%20background%2Dcolor%3A%20%23F8F8F8%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20%20color%3A%23666666%3B%0A%20%20%20margin%3A0%3B%0A%20%20%20padding%2Dleft%3A%201em%3B%0A%20%20%20border%2Dleft%3A%200%2E5em%20%23EEE%20solid%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20%20height%3A%200px%3B%0A%20%20%20border%2Dbottom%3A%20none%3B%0A%20%20%20border%2Dtop%2Dwidth%3A%20thin%3B%0A%20%20%20border%2Dtop%2Dstyle%3A%20dotted%3B%0A%20%20%20border%2Dtop%2Dcolor%3A%20%23999999%3B%0A%7D%0A%0Aspan%2Eheader%2Dsection%2Dnumber%2C%20span%2Etoc%2Dsection%2Dnumber%20%7B%0A%20%20padding%2Dright%3A%201em%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%20%20%20%2A%20%7B%0A%20%20%20%20%20%20background%3A%20transparent%20%21important%3B%0A%20%20%20%20%20%20color%3A%20black%20%21important%3B%0A%20%20%20%20%20%20filter%3Anone%20%21important%3B%0A%20%20%20%20%20%20%2Dms%2Dfilter%3A%20none%20%21important%3B%0A%20%20%20%7D%0A%0A%20%20%20body%20%7B%0A%20%20%20%20%20%20font%2Dsize%3A12pt%3B%0A%20%20%20%20%20%20max%2Dwidth%3A100%25%3B%0A%20%20%20%7D%0A%0A%20%20%20a%2C%20a%3Avisited%20%7B%0A%20%20%20%20%20%20text%2Ddecoration%3A%20underline%3B%0A%20%20%20%7D%0A%0A%20%20%20hr%20%7B%0A%20%20%20%20%20%20visibility%3A%20hidden%3B%0A%20%20%20%20%20%20page%2Dbreak%2Dbefore%3A%20always%3B%0A%20%20%20%7D%0A%0A%20%20%20pre%2C%20blockquote%20%7B%0A%20%20%20%20%20%20padding%2Dright%3A%201em%3B%0A%20%20%20%20%20%20page%2Dbreak%2Dinside%3A%20avoid%3B%0A%20%20%20%7D%0A%0A%20%20%20tr%2C%20img%20%7B%0A%20%20%20%20%20%20page%2Dbreak%2Dinside%3A%20avoid%3B%0A%20%20%20%7D%0A%0A%20%20%20img%20%7B%0A%20%20%20%20%20%20max%2Dwidth%3A%20100%25%20%21important%3B%0A%20%20%20%7D%0A%0A%20%20%20%40page%20%3Aleft%20%7B%0A%20%20%20%20%20%20margin%3A%2015mm%2020mm%2015mm%2010mm%3B%0A%20%20%20%7D%0A%0A%20%20%20%40page%20%3Aright%20%7B%0A%20%20%20%20%20%20margin%3A%2015mm%2010mm%2015mm%2020mm%3B%0A%20%20%20%7D%0A%0A%20%20%20p%2C%20h2%2C%20h3%20%7B%0A%20%20%20%20%20%20orphans%3A%203%3B%20widows%3A%203%3B%0A%20%20%20%7D%0A%0A%20%20%20h2%2C%20h3%20%7B%0A%20%20%20%20%20%20page%2Dbreak%2Dafter%3A%20avoid%3B%0A%20%20%20%7D%0A%7D%0A" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  var links = document.links;  
+  for (var i = 0, linksLength = links.length; i < linksLength; i++)
+    if(links[i].hostname != window.location.hostname)
+      links[i].target = '_blank';
+});
+</script>
+
+</head>
+
+<body>
+
+
+<div id="header">
+<h1 class="title">IRanges and GenomicRanges</h1>
+<h3 class="subtitle"><em>An introduction</em></h3>
+<h4 class="author"><em>Kasper D. Hansen</em></h4>
+</div>
+
+<h1>Contents</h1>
+<div id="TOC">
+<ul>
+<li><a href="#dependencies"><span class="toc-section-number">1</span> Dependencies</a></li>
+<li><a href="#why-you-should-care"><span class="toc-section-number">2</span> Why you should care</a></li>
+<li><a href="#issues"><span class="toc-section-number">3</span> Issues</a></li>
+<li><a href="#basic-idea"><span class="toc-section-number">4</span> Basic idea</a></li>
+<li><a href="#basic-iranges"><span class="toc-section-number">5</span> Basic IRanges</a></li>
+<li><a href="#basic-granges"><span class="toc-section-number">6</span> Basic GRanges</a></li>
+<li><a href="#normal-iranges"><span class="toc-section-number">7</span> Normal IRanges</a></li>
+<li><a href="#disjoin"><span class="toc-section-number">8</span> Disjoin</a></li>
+<li><a href="#manipulating-iranges-intra-range"><span class="toc-section-number">9</span> Manipulating IRanges, intra-range</a></li>
+<li><a href="#manipulating-iranges-as-sets"><span class="toc-section-number">10</span> Manipulating IRanges, as sets</a></li>
+<li><a href="#finding-overlaps"><span class="toc-section-number">11</span> Finding Overlaps</a></li>
+<li><a href="#countoverlaps"><span class="toc-section-number">12</span> countOverlaps</a></li>
+<li><a href="#finding-nearest-iranges"><span class="toc-section-number">13</span> Finding nearest IRanges</a></li>
+<li><a href="#return-to-granges"><span class="toc-section-number">14</span> Return to GRanges</a></li>
+<li><a href="#granges-seqinfo"><span class="toc-section-number">15</span> GRanges, seqinfo</a></li>
+<li><a href="#granges-genomeinfodb"><span class="toc-section-number">16</span> GRanges, genomeInfoDb</a></li>
+<li><a href="#granges-metadata"><span class="toc-section-number">17</span> GRanges, metadata</a></li>
+<li><a href="#dataframe"><span class="toc-section-number">18</span> DataFrame</a></li>
+<li><a href="#biology-usecase-i"><span class="toc-section-number">19</span> Biology usecase I</a></li>
+<li><a href="#biology-usecase-ii"><span class="toc-section-number">20</span> Biology usecase II</a></li>
+<li><a href="#biology-usecase-iii"><span class="toc-section-number">21</span> Biology usecase III</a></li>
+<li><a href="#sessioninfo"><span class="toc-section-number">22</span> SessionInfo</a></li>
+</ul>
+</div>
+
+<div id="dependencies" class="section level1">
+<h1><span class="header-section-number">1</span> Dependencies</h1>
+<p>This document has the following dependecies:</p>
+<pre class="r"><code>library(IRanges)
+library(GenomicRanges)</code></pre>
+<p>Use the following commands to install these packages in R.</p>
+<pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
+biocLite(c(&quot;IRanges&quot;, &quot;GenomicRanges&quot;))</code></pre>
+</div>
+<div id="why-you-should-care" class="section level1">
+<h1><span class="header-section-number">2</span> Why you should care</h1>
+<p><em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GRanges.html">GRanges</a></em> are two packages I use every day to solve a variety of problems, typically related to annotating the genome.</p>
+<p>These packages uses efficient data structures and algorithms.</p>
+<p>Every R user who deals with genomic data should master these packages.</p>
+<p><strong>These two packages are themselves compelling arguments for learning R!</strong></p>
+</div>
+<div id="issues" class="section level1">
+<h1><span class="header-section-number">3</span> Issues</h1>
+<p>We provide an overview of the two packages <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em>.</p>
+<p>At first, these two packages can appear daunting, with many classes and functions. Luckily, things are not as hard as the first appear.</p>
+<p>Both packages now contain very extensive and useful vignettes. Read them!</p>
+</div>
+<div id="basic-idea" class="section level1">
+<h1><span class="header-section-number">4</span> Basic idea</h1>
+<p>A surprising amount of objects/tasks in computational biology can be formulated in terms of integer intervals, manipulation of integer intervals and overlap of integer intervals.</p>
+<p><strong>Objects</strong>: A transcript (a union of integer intervals), a collection of SNPs (intervals of width 1), TF binding sites, a collection of aligned short reads.</p>
+<p><strong>Tasks</strong>: Which transcription factor binding sites hit the promoter of genes (overlap between two sets of intervals), which SNPs hit a collection of exons, which short reads hit a predetermined set of exons.</p>
+<p><code>IRanges</code> are collections of integer intervals. <code>GRanges</code> are like <code>IRanges</code>, but with an associated chromosome and strand, taking care of some book keeping.</p>
+</div>
+<div id="basic-iranges" class="section level1">
+<h1><span class="header-section-number">5</span> Basic IRanges</h1>
+<p>Specify IRanges by 2 of start, end, width (SEW).</p>
+<pre class="r"><code>library(IRanges)
+ir1 &lt;- IRanges(start = c(1,3,5), end = c(3,5,7))
+ir1</code></pre>
+<pre><code>## IRanges of length 3
+##     start end width
+## [1]     1   3     3
+## [2]     3   5     3
+## [3]     5   7     3</code></pre>
+<pre class="r"><code>ir2 &lt;- IRanges(start = c(1,3,5), width = 3)
+all.equal(ir1, ir2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>An <code>IRange</code> consist of separate intervals; each interval is called a range. So <code>ir1</code> above contains 3 ranges.</p>
+<p>Assessor methods: <code>start()</code>, <code>end()</code>, <code>width()</code> and also replacement methods.</p>
+<pre class="r"><code>start(ir1)</code></pre>
+<pre><code>## [1] 1 3 5</code></pre>
+<pre class="r"><code>width(ir2) &lt;- 1
+ir2</code></pre>
+<pre><code>## IRanges of length 3
+##     start end width
+## [1]     1   1     1
+## [2]     3   3     1
+## [3]     5   5     1</code></pre>
+<p>They may have names</p>
+<pre class="r"><code>names(ir1) &lt;- paste(&quot;A&quot;, 1:3, sep = &quot;&quot;)
+ir1</code></pre>
+<pre><code>## IRanges of length 3
+##     start end width names
+## [1]     1   3     3    A1
+## [2]     3   5     3    A2
+## [3]     5   7     3    A3</code></pre>
+<p>and they have a single dimension</p>
+<pre class="r"><code>dim(ir1)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>length(ir1)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Because of this, subsetting works like a vector</p>
+<pre class="r"><code>ir1[1]</code></pre>
+<pre><code>## IRanges of length 1
+##     start end width names
+## [1]     1   3     3    A1</code></pre>
+<pre class="r"><code>ir1[&quot;A1&quot;]</code></pre>
+<pre><code>## IRanges of length 1
+##     start end width names
+## [1]     1   3     3    A1</code></pre>
+</div>
+<div id="basic-granges" class="section level1">
+<h1><span class="header-section-number">6</span> Basic GRanges</h1>
+<p><code>GRanges</code> are like <code>IRanges</code> but with a strand and a chromosome/contig (seqnames)</p>
+<pre class="r"><code>gr &lt;- GRanges(seqnames = &quot;chr1&quot;, ranges = ir1,
+              strand = c(&quot;+&quot;, &quot;-&quot;, &quot;+&quot;))
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##      seqnames    ranges strand
+##         &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   A1     chr1    [1, 3]      +
+##   A2     chr1    [3, 5]      -
+##   A3     chr1    [5, 7]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
+<p>There are some additional differences; we will return to GRanges later.</p>
+</div>
+<div id="normal-iranges" class="section level1">
+<h1><span class="header-section-number">7</span> Normal IRanges</h1>
+<p>A normal IRanges is a minimal representation of the IRanges viewed as a set. Each integer only occur in a single range and there are as few ranges as possible. In addition, it is ordered. Many functions produce a normal IRange. Created by <code>reduce()</code>.</p>
+<p><img src="data:image/png;base64,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2CreK3vt2rUbXCCFnQDe4ObwQlsEnnzyyTB06NDwv//9L7sJ/FlnnRXmzZvXlqKFXmbcuHFhm222KbTBf3U+fqC79dZbw6BBg7If+Dj77LPDO++8819FCvvaTz/9FE477bTMqUePHuGoo44KX331VWE9Wur4d999F7bbbrvw6quvNnt58uTJ4bDDDgvdu3cP+++//0YdZwK42eYwo60CL774Yjj33HPDvvvuG954441w1113hU8//TSccMIJ2a/9tLWeoi339ttvh4ceeqho3W5Xf6+55ppwzz33hJtvvjn7T/PPP//MQib+2o/pH4G413bKKaeE6dOnh0cffTQ8++yzYfny5eG4447Lfu3nnyWL+yiG78iRI8Ovv/7aDOG9994Ll112WTj99NPDtGnTwj777BOOP/74MGPGjGbLVmVGaQOaCOQSKL3J6wcOHFhf2ltpKP/UU0/Fn7esf/fddxvmefCPQOkn0DKzIUOG1Pfr1++fFzxqEPj555/rS0dU6h9//PGGeatWraov7Q3Xl/ZWGuZ5UF//zTffZO+3xx57rIEjvvfie/CFF15omFfUBw8//HB96ahA/e67756ZlHYamlAMHjy4/rzzzmsyr3REr/7iiy9uMq9aT+wBV+VjTTEqvfTSS8PEiRNDTU1NQ4d33nnn7HH8FG5qLnDDDTdkh+zPPPPM5i+akwk8/fTT2eHUCy+8sEFks802C6WwCeeff37DPA9C9jvJtbW1TfZ2//7774ymd+/ehSe64447Qjzd8/LLLzeziKfKZs+enR1BaPziySef3OLyjZep1OO6SlWknuIJnHrqqc06/cQTT4S6urrssHSzFws+47XXXgsxXL788stQ2mMpuMaGu//DDz+E0hGCMGfOnHDnnXdmh1eHDRsWJkyYEAYMGLDhggV8Jf6g/JgxY8J9990XevbsmV2Hcdttt4X99tsvHHTQQQUUadrlzz//PGy99dYtXpfy9ddfZwtvv/32TQrF54sWLQrxOoT44aaaU3Vrr+aaq7vDCUydOjXbI77++utD//79O9z6pVyheERg7Nix2XnNf7/hU65XR2x7/vz5YcmSJdmFMTGMY5g888wz2Ye6ls7jdcQ+bMx1itcT9OnTJ8QjUvFirO+//z47Fxw/CBd9iuG7oWnFihXZS/FDTOOpb9++2dXSG2OsCeDG8h7nFvjwww/DiBEjwvDhw7OrV3NX1EULXnvttWGPPfYIl1xySRftYeW6VTpPHmbOnBmuu+66EC9YixcXffbZZ2HhwoXZB5jKtdT5ayqdLw977713iFc/T5kyJbz55pvZnm+8mnejXUjUSRnXf0BpfAqtcVfi15aqPfmIVG3hAtT/1ltvZVcZxjf9888/H7p161aAXre9i/HQc/yqQzzsvP6rNPHKzPgGj8/jV2122GGHtlfYxZeMX8+Kh/4an+/dc889w1577RU++eSTLt779nWvdKFVdm78lVdeCbvuumtW+MADDwzbbrttKF3EFu6///72VVigpdcfpVu2bFmTXi9dujR7vjHOoQvgJvSetFcg7qGcdNJJ4ZhjjgmlK6CFbwuA8SsipasoQ+nKymavHn744eHuu+8ON954Y7PXijojfl8zfogrXSXehCDOX7NmTZN5RX8ST/uUruRtCN/oES9Yi+/HDz74oOg8/9n/+CElTgsWLGiyXDyqsNVWW2UXAjZ5oQpPHIKuAmpRqpw1a1YWvqNGjcrOOdnzbXnLX3HFFdl5uXhubv1fPLwa3+Tx+eWXX95ywYLOPfLII0Ppa0chntZYP61cuTI7HH3AAQesn+XfksCOO+4Y5s6dm3mtB4lXQb///vsuWFsPsoF/4x5wvNjvpZdearJEvL/BEUcc0WRetZ7YA66WbAHqjec1455dPOQVD3c1ng455JBQ+u5d41mFfRwPZf37cFa8aCYeZo3/gZqaChx66KHZHYniIeh4p7Utttgi3HTTTdnd1kaPHt104YI/u+iii7IroM8444zscHN8P957773Z+fIrr7yy4Dqtd/+qq67KrjU4+uijQ/yLF7TFu4jFi/42xiSAN4ZyF2wjHraJd7+K09VXX92sh/HCGQHcjMWMNgrEvZALLrgg+3AXvw4Sz5PH/xTj4VbTPwLxe/fxPHA8irLbbrtlL8SreidNmpQdhv5nSY9aEohXjsevI51zzjnZ6Y04vuK9DXbZZZeWFq/4vJp4h4+K16pCAgQIVEAg3noyXiTj+7+tY8Zzl6tXrw477bRTk5vjtF7SEtHtl19+2ehHpASwsUeAAAECBBIIuAgrAbomCRAgQICAADYGCBAgQIBAAgEBnABdkwQIECBAQAAbAwQIECBAIIGAAE6ArkkCBAgQICCAjQECBAgQIJBAQAAnQNckAQIECBAQwMYAAQIECBBIICCAE6BrkgABAgQICGBjgAABAgQIJBAQwAnQNUmAAAECBASwMUCAAAECBBIICOAE6JokQIAAAQIC2BggQIAAAQIJBARwAnRNEiBAgAABAWwMECBAgACBBAICOAG6JgkQIECAgAA2BggQIECAQAIBAZwAXZMECBAgQEAAGwMECBAgQCCBgABOgK5JAgQIECAggI0BAgQIECCQQEAAJ0DXJAECBAgQEMDGAAECBAgQSCAggBOga5IAAQIECAhgY4AAAQIECCQQEMAJ0DVJgAABAgQEsDFAgAABAgQSCAjgBOiaJECAAAECAtgYIECAAAECCQQEcAJ0TRIgQIAAAQFsDBAgQIAAgQQCAjgBuiYJECBAgIAANgYIECBAgEACAQGcAF2TBAgQIEBAABsDBAgQIEAggYAAToCuSQIECBAgIICNAQIECBAgkEBAACdA1yQBAgQIEBDAxgABAgQIEEggIIAToGuSAAECBAgIYGOAAAECBAgkEBDACdA1SYAAAQIEBLAxQIAAAQIEEggI4ATomiRAgAABAgLYGCBAgAABAgkEBHACdE0SIECAAAEBbAwQIECAAIEEAgI4AbomCRAgQICAADYGCBAgQIBAAgEBnABdkwQIECBAQAAbAwQIECBAIIGAAE6ArkkCBAgQICCAjQECBAgQIJBAQAAnQNckAQIECBAQwMYAAQIECBBIICCAE6BrkgABAgQICGBjgAABAgQIJBAQwAnQNUmAAAECBP4PAfiOKDBnrgQAAAAASUVORK5CYII=" /></p>
+<p><img src="data:image/png;base64,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nThDAE7Bwop0CmgvpG/fvubDnd4OotfJ9T9FHW4lJQnoffd6HVhHUWrUqGE26KzeKVOmmGHopJwshRPQmeN6O1KvXr3M5Q09v/TZBrfffnu47HFfl0Of8BH3UikQAQQQiIOAPnpSJ8lw/2/amHrt8tKlS1K5cuWQh+OkvSc51O3o0aMZPiJFAObcQwABBBBAwIIAk7AsoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAACBGDOAQQQQAABBCwIEIAtoFMlAggggAAC/wc+O2/Uk2k5DwAAAABJRU5ErkJggg==" /></p>
+<pre class="r"><code>ir</code></pre>
+<pre><code>## IRanges of length 4
+##     start end width
+## [1]     1   4     4
+## [2]     3   4     2
+## [3]     7   8     2
+## [4]     9  10     2</code></pre>
+<pre class="r"><code>reduce(ir)</code></pre>
+<pre><code>## IRanges of length 2
+##     start end width
+## [1]     1   4     4
+## [2]     7  10     4</code></pre>
+<p>Answers: “Given a set of overlapping exons, which bases belong to an exon?”</p>
+</div>
+<div id="disjoin" class="section level1">
+<h1><span class="header-section-number">8</span> Disjoin</h1>
+<p>From some perspective, <code>disjoin()</code> is the opposite of <code>reduce()</code>. An example explains better:</p>
+<pre class="r"><code>disjoin(ir1)</code></pre>
+<p><img src="data:image/png;base64,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2CreK3vt2rUbXCCFnQDe4ObwQlsEnnzyyTB06NDwv//9L7sJ/FlnnRXmzZvXlqKFXmbcuHFhm222KbTBf3U+fqC79dZbw6BBg7If+Dj77LPDO++8819FCvvaTz/9FE477bTMqUePHuGoo44KX331VWE9Wur4d999F7bbbrvw6quvNnt58uTJ4bDDDgvdu3cP+++//0YdZwK42eYwo60CL774Yjj33HPDvvvuG954441w1113hU8//TSccMIJ2a/9tLWeoi339ttvh4ceeqho3W5Xf6+55ppwzz33hJtvvjn7T/PPP//MQib+2o/pH4G413bKKaeE6dOnh0cffTQ8++yzYfny5eG4447Lfu3nnyWL+yiG78iRI8Ovv/7aDOG9994Ll112WTj99NPDtGnTwj777BOOP/74MGPGjGbLVmVGaQOaCOQSKL3J6wcOHFhf2ltpKP/UU0/Fn7esf/fddxvmefCPQOkn0DKzIUOG1Pfr1++fFzxqEPj555/rS0dU6h9//PGGeatWraov7Q3Xl/ZWGuZ5UF//zTffZO+3xx57rIEjvvfie/CFF15omFfUBw8//HB96ahA/e67756ZlHYamlAMHjy4/rzzzmsyr3REr/7iiy9uMq9aT+wBV+VjTTEqvfTSS8PEiRNDTU1NQ4d33nnn7HH8FG5qLnDDDTdkh+zPPPPM5i+akwk8/fTT2eHUCy+8sEFks802C6WwCeeff37DPA9C9jvJtbW1TfZ2//7774ymd+/ehSe64447Qjzd8/LLLzeziKfKZs+enR1BaPziySef3OLyjZep1OO6SlWknuIJnHrqqc06/cQTT4S6urrssHSzFws+47XXXgsxXL788stQ2mMpuMaGu//DDz+E0hGCMGfOnHDnnXdmh1eHDRsWJkyYEAYMGLDhggV8Jf6g/JgxY8J9990XevbsmV2Hcdttt4X99tsvHHTQQQUUadrlzz//PGy99dYtXpfy9ddfZwtvv/32TQrF54sWLQrxOoT44aaaU3Vrr+aaq7vDCUydOjXbI77++utD//79O9z6pVyheERg7Nix2XnNf7/hU65XR2x7/vz5YcmSJdmFMTGMY5g888wz2Ye6ls7jdcQ+bMx1itcT9OnTJ8QjUvFirO+//z47Fxw/CBd9iuG7oWnFihXZS/FDTOOpb9++2dXSG2OsCeDG8h7nFvjwww/DiBEjwvDhw7OrV3NX1EULXnvttWGPPfYIl1xySRftYeW6VTpPHmbOnBmuu+66EC9YixcXffbZZ2HhwoXZB5jKtdT5ayqdLw977713iFc/T5kyJbz55pvZnm+8mnejXUjUSRnXf0BpfAqtcVfi15aqPfmIVG3hAtT/1ltvZVcZxjf9888/H7p161aAXre9i/HQc/yqQzzsvP6rNPHKzPgGj8/jV2122GGHtlfYxZeMX8+Kh/4an+/dc889w1577RU++eSTLt779nWvdKFVdm78lVdeCbvuumtW+MADDwzbbrttKF3EFu6///72VVigpdcfpVu2bFmTXi9dujR7vjHOoQvgJvSetFcg7qGcdNJJ4ZhjjgmlK6CFbwuA8SsipasoQ+nKymavHn744eHuu+8ON954Y7PXijojfl8zfogrXSXehCDOX7NmTZN5RX8ST/uUruRtCN/oES9Yi+/HDz74oOg8/9n/+CElTgsWLGiyXDyqsNVWW2UXAjZ5oQpPHIKuAmpRqpw1a1YWvqNGjcrOOdnzbXnLX3HFFdl5uXhubv1fPLwa3+Tx+eWXX95ywYLOPfLII0Ppa0chntZYP61cuTI7HH3AAQesn+XfksCOO+4Y5s6dm3mtB4lXQb///vsuWFsPsoF/4x5wvNjvpZdearJEvL/BEUcc0WRetZ7YA66WbAHqjec1455dPOQVD3c1ng455JBQ+u5d41mFfRwPZf37cFa8aCYeZo3/gZqaChx66KHZHYniIeh4p7Utttgi3HTTTdnd1kaPHt104YI/u+iii7IroM8444zscHN8P957773Z+fIrr7yy4Dqtd/+qq67KrjU4+uijQ/yLF7TFu4jFi/42xiSAN4ZyF2wjHraJd7+K09VXX92sh/HCGQHcjMWMNgrEvZALLrgg+3AXvw4Sz5PH/xTj4VbTPwLxe/fxPHA8irLbbrtlL8SreidNmpQdhv5nSY9aEohXjsevI51zzjnZ6Y04vuK9DXbZZZeWFq/4vJp4h4+K16pCAgQIVEAg3noyXiTj+7+tY8Zzl6tXrw477bRTk5vjtF7SEtHtl19+2ehHpASwsUeAAAECBBIIuAgrAbomCRAgQICAADYGCBAgQIBAAgEBnABdkwQIECBAQAAbAwQIECBAIIGAAE6ArkkCBAgQICCAjQECBAgQIJBAQAAnQNckAQIECBAQwMYAAQIECBBIICCAE6BrkgABAgQICGBjgAABAgQIJBAQwAnQNUmAAAECBASwMUCAAAECBBIICOAE6JokQIAAAQIC2BggQIAAAQIJBARwAnRNEiBAgAABAWwMECBAgACBBAICOAG6JgkQIECAgAA2BggQIECAQAIBAZwAXZMECBAgQEAAGwMECBAgQCCBgABOgK5JAgQIECAggI0BAgQIECCQQEAAJ0DXJAECBAgQEMDGAAECBAgQSCAggBOga5IAAQIECAhgY4AAAQIECCQQEMAJ0DVJgAABAgQEsDFAgAABAgQSCAjgBOiaJECAAAECAtgYIECAAAECCQQEcAJ0TRIgQIAAAQFsDBAgQIAAgQQCAjgBuiYJECBAgIAANgYIECBAgEACAQGcAF2TBAgQIEBAABsDBAgQIEAggYAAToCuSQIECBAgIICNAQIECBAgkEBAACdA1yQBAgQIEBDAxgABAgQIEEggIIAToGuSAAECBAgIYGOAAAECBAgkEBDACdA1SYAAAQIEBLAxQIAAAQIEEggI4ATomiRAgAABAgLYGCBAgAABAgkEBHACdE0SIECAAAEBbAwQIECAAIEEAgI4AbomCRAgQICAADYGCBAgQIBAAgEBnABdkwQIECBAQAAbAwQIECBAIIGAAE6ArkkCBAgQICCAjQECBAgQIJBAQAAnQNckAQIECBAQwMYAAQIECBBIICCAE6BrkgABAgQICGBjgAABAgQIJBAQwAnQNUmAAAECBP4PAfiOKDBnrgQAAAAASUVORK5CYII=" /></p>
+<p><img src="data:image/png;base64,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" /></p>
+<p>Answers: “Give a set of overlapping exons, which bases belong to the same set of exons?”</p>
+</div>
+<div id="manipulating-iranges-intra-range" class="section level1">
+<h1><span class="header-section-number">9</span> Manipulating IRanges, intra-range</h1>
+<p>“Intra-range” manipulations are manipulations where each original range gets mapped to a new range.</p>
+<p>Examples of these are: <code>shift()</code>, <code>narrow()</code>, <code>flank()</code>, <code>resize()</code>, <code>restrict()</code>.</p>
+<p>For example, <code>resize()</code> can be extremely useful. It has a <code>fix</code> argument controling where the resizing occurs from.</p>
+<pre class="r"><code>resize(ir, width = 1, fix = &quot;start&quot;)</code></pre>
+<pre><code>## IRanges of length 4
+##     start end width
+## [1]     1   1     1
+## [2]     3   3     1
+## [3]     7   7     1
+## [4]     9   9     1</code></pre>
+<pre class="r"><code>resize(ir, width = 1, fix = &quot;end&quot;)</code></pre>
+<pre><code>## IRanges of length 4
+##     start end width
+## [1]     4   4     1
+## [2]     4   4     1
+## [3]     8   8     1
+## [4]    10  10     1</code></pre>
+<p>The help page is <code>?&quot;intra-range-methods&quot;</code> (note that there is both a help page in <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em>).</p>
+</div>
+<div id="manipulating-iranges-as-sets" class="section level1">
+<h1><span class="header-section-number">10</span> Manipulating IRanges, as sets</h1>
+<p>Manipulating <code>IRanges</code> as sets means that we view each <code>IRange</code> as a set of integers; individual integers is either contained in one or more ranges or they are not. This is equivalent to calling <code>reduce()</code> on the <code>IRange</code> first.</p>
+<p>Once this is done, we can use standard: <code>union()</code>, <code>intersect()</code>, <code>setdiff()</code>, <code>gaps()</code> between two <code>IRanges</code> (which all returns normalized <code>IRanges</code>).</p>
+<pre class="r"><code>ir1 &lt;- IRanges(start = c(1, 3, 5), width = 1)
+ir2 &lt;- IRanges(start = c(4, 5, 6), width = 1)
+union(ir1, ir2)</code></pre>
+<pre><code>## IRanges of length 2
+##     start end width
+## [1]     1   1     1
+## [2]     3   6     4</code></pre>
+<pre class="r"><code>intersect(ir1, ir2)</code></pre>
+<pre><code>## IRanges of length 1
+##     start end width
+## [1]     5   5     1</code></pre>
+<p>There is also an element-wise version of these: <code>punion()</code>, <code>pintersect()</code>, <code>psetdiff()</code>, <code>pgap()</code>; this is similar to say <code>pmax</code> from base R. In my experience, these functions are seldom used.</p>
+</div>
+<div id="finding-overlaps" class="section level1">
+<h1><span class="header-section-number">11</span> Finding Overlaps</h1>
+<p>Finding (pairwise) overlaps between two <code>IRanges</code> is done by <code>findOverlaps()</code>. This function is very important and amazingly fast!</p>
+<pre class="r"><code>ir1 &lt;- IRanges(start = c(1,4,8), end = c(3,7,10))
+ir2 &lt;- IRanges(start = c(3,4), width = 3)
+ov &lt;- findOverlaps(ir1, ir2)
+ov</code></pre>
+<pre><code>## Hits object with 3 hits and 0 metadata columns:
+##       queryHits subjectHits
+##       &lt;integer&gt;   &lt;integer&gt;
+##   [1]         1           1
+##   [2]         2           1
+##   [3]         2           2
+##   -------
+##   queryLength: 3
+##   subjectLength: 2</code></pre>
+<p>It returns a <code>Hits</code> object which describes the relationship between the two <code>IRanges</code>. This object is basically a two-column matrix of indicies into the two <code>IRanges</code>.</p>
+<p>The two columns of the hits object can be accessed by <code>queryHits()</code> and <code>subjectHits()</code> (often used with <code>unique()</code>).</p>
+<p>For example, the first row of the matrix describes that the first range of <code>ir1</code> overlaps with the first range of <code>ir2</code>. Or said differently, they have a non-empty intersection:</p>
+<pre class="r"><code>intersect(ir1[subjectHits(ov)[1]],
+          ir2[queryHits(ov)[2]])</code></pre>
+<pre><code>## IRanges of length 0</code></pre>
+<p>The elements of <code>unique(subjectHits)</code> gives you the indices of the range which actually had an overlap.</p>
+<pre class="r"><code>subjectHits(ov)</code></pre>
+<pre><code>## [1] 1 1 2</code></pre>
+<pre class="r"><code>unique(subjectHits(ov))</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<p>The list of arguments to <code>findOverlaps()</code> is long and takes a while to master. For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.</p>
+<pre class="r"><code>args(findOverlaps)</code></pre>
+<pre><code>## function (query, subject, maxgap = 0L, minoverlap = 1L, type = c(&quot;any&quot;, 
+##     &quot;start&quot;, &quot;end&quot;, &quot;within&quot;, &quot;equal&quot;), select = c(&quot;all&quot;, &quot;first&quot;, 
+##     &quot;last&quot;, &quot;arbitrary&quot;), algorithm = c(&quot;nclist&quot;, &quot;intervaltree&quot;), 
+##     ...) 
+## NULL</code></pre>
+</div>
+<div id="countoverlaps" class="section level1">
+<h1><span class="header-section-number">12</span> countOverlaps</h1>
+<p>For efficiency, there is also <code>countOverlaps()</code>, which just returns the number of overlaps. This function is faster and takes up less memory because it does not have to keep track of which ranges overlap, just the number of overlaps.</p>
+<pre class="r"><code>countOverlaps(ir1, ir2)</code></pre>
+<pre><code>## [1] 1 2 0</code></pre>
+</div>
+<div id="finding-nearest-iranges" class="section level1">
+<h1><span class="header-section-number">13</span> Finding nearest IRanges</h1>
+<p>Sometimes you have two sets of <code>IRanges</code> and you need to know which ones are closest to each other. Functions for this include <code>nearest()</code>, <code>precede()</code>, <code>follow()</code>. Watch out for ties!</p>
+<pre class="r"><code>ir1</code></pre>
+<pre><code>## IRanges of length 3
+##     start end width
+## [1]     1   3     3
+## [2]     4   7     4
+## [3]     8  10     3</code></pre>
+<pre class="r"><code>ir2</code></pre>
+<pre><code>## IRanges of length 2
+##     start end width
+## [1]     3   5     3
+## [2]     4   6     3</code></pre>
+<pre class="r"><code>nearest(ir1, ir2)</code></pre>
+<pre><code>## [1] 1 1 2</code></pre>
+</div>
+<div id="return-to-granges" class="section level1">
+<h1><span class="header-section-number">14</span> Return to GRanges</h1>
+<p><code>GRanges</code> are like <code>IRanges</code> with strand and chromosome. Strand can be <code>+</code>, <code>-</code> and <code>*</code>. The value <code>*</code> indicates ‘unknown strand’ or ‘unstranded’. This value usually gets treated as a third strand.</p>
+<pre class="r"><code>gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##      seqnames    ranges strand
+##         &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   A1     chr1    [1, 3]      +
+##   A2     chr1    [3, 5]      -
+##   A3     chr1    [5, 7]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
+<p>Natural accessor functions: <code>strand()</code>, <code>seqnmes()</code>, <code>ranges()</code>, <code>start()</code>, <code>end()</code>, <code>width()</code>.</p>
+<p>Because the have strand, we now have operations which are relative to the direction of transcription (<code>upstream()</code>, <code>downstream()</code>):</p>
+<pre class="r"><code>flank(gr, 2, start = FALSE)</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##      seqnames    ranges strand
+##         &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   A1     chr1    [4, 5]      +
+##   A2     chr1    [1, 2]      -
+##   A3     chr1    [8, 9]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
+</div>
+<div id="granges-seqinfo" class="section level1">
+<h1><span class="header-section-number">15</span> GRanges, seqinfo</h1>
+<p><code>GRanges</code> operate within a universe of sequences (chromosomes/contigs) and their lengths.</p>
+<p>This is described through <code>seqinfo</code>:</p>
+<pre class="r"><code>seqinfo(gr)</code></pre>
+<pre><code>## Seqinfo object with 1 sequence from an unspecified genome; no seqlengths:
+##   seqnames seqlengths isCircular genome
+##   chr1             NA         NA   &lt;NA&gt;</code></pre>
+<pre class="r"><code>seqlengths(gr) &lt;- c(&quot;chr1&quot; = 10)
+seqinfo(gr)</code></pre>
+<pre><code>## Seqinfo object with 1 sequence from an unspecified genome:
+##   seqnames seqlengths isCircular genome
+##   chr1             10         NA   &lt;NA&gt;</code></pre>
+<pre class="r"><code>seqlevels(gr)</code></pre>
+<pre><code>## [1] &quot;chr1&quot;</code></pre>
+<pre class="r"><code>seqlengths(gr)</code></pre>
+<pre><code>## chr1 
+##   10</code></pre>
+<p>Especially the length of the chromosomes are used by some functions. For example <code>gaps()</code> return the stretches of the genome not covered by the <code>GRanges</code>.</p>
+<pre class="r"><code>gaps(gr)</code></pre>
+<pre><code>## GRanges object with 5 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [4,  4]      +
+##   [2]     chr1   [8, 10]      +
+##   [3]     chr1   [1,  2]      -
+##   [4]     chr1   [6, 10]      -
+##   [5]     chr1   [1, 10]      *
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome</code></pre>
+<p>In this example, we know that the last gap stops at 10, because that is the length of the chromosome. Note how a range on the <code>*</code> strand appears in the result.</p>
+<p>Let us expand the <code>GRanges</code> with another chromosome</p>
+<pre class="r"><code>gr2 &lt;- GRanges(seqnames = c(&quot;chr1&quot;, &quot;chr2&quot;, &quot;chr1&quot;), strand = &quot;*&quot;, ranges = ir1)
+gr2</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1,  3]      *
+##   [2]     chr2   [4,  7]      *
+##   [3]     chr1   [8, 10]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="r"><code>sort(gr2)</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1,  3]      *
+##   [2]     chr1   [8, 10]      *
+##   [3]     chr2   [4,  7]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="r"><code>seqlevels(gr2)</code></pre>
+<pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot;</code></pre>
+<pre class="r"><code>seqlevels(gr2) &lt;- c(&quot;chr2&quot;, &quot;chr1&quot;)
+sort(gr2)</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr2   [4,  7]      *
+##   [2]     chr1   [1,  3]      *
+##   [3]     chr1   [8, 10]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>Note how the order of <code>seqlevels</code> affects how the <code>GRanges</code> is sorted.</p>
+<p>An easy way to drop chromosomes is by</p>
+<pre class="r"><code>seqlevels(gr2, force = TRUE) &lt;- &quot;chr1&quot;
+gr2</code></pre>
+<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1,  3]      *
+##   [2]     chr1   [8, 10]      *
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
+<p>There is also <code>dropSeqlevels()</code>, <code>keepSeqlevels()</code>, <code>keepStandardChromosomes</code>.</p>
+<p>Finally, you can put a <code>genome()</code> on the differenct sequences, like</p>
+<pre class="r"><code>genome(gr) &lt;- &quot;hg18&quot;
+genome(gr2) &lt;- &quot;hg19&quot;</code></pre>
+<p>This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error, like</p>
+<pre class="r"><code>findOverlaps(gr, gr2)</code></pre>
+<pre><code>## Error in mergeNamedAtomicVectors(genome(x), genome(y), what = c(&quot;sequence&quot;, : sequence chr1 has incompatible genomes:
+##   - in 'x': hg18
+##   - in 'y': hg19</code></pre>
+<p>The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.</p>
+</div>
+<div id="granges-genomeinfodb" class="section level1">
+<h1><span class="header-section-number">16</span> GRanges, genomeInfoDb</h1>
+<p>Some things gets tiring, like</p>
+<ul>
+<li>Adding <code>seqlengths</code> to your <code>GRanges</code></li>
+<li>Dealing with the fact that different annotation resources uses different naming conventions for chromosomes (like <code>chrM</code> vs <code>chrMT</code>).</li>
+</ul>
+<p>This is one reason the <code>GenomeInfoDb</code> package was created.</p>
+<p>FIXME</p>
+</div>
+<div id="granges-metadata" class="section level1">
+<h1><span class="header-section-number">17</span> GRanges, metadata</h1>
+<p><code>GRanges</code> (unlike <code>IRanges</code>) may have associated metadata. This is immensely useful. The formal way to access and set this metadata is through <code>values</code> or <code>elementMetadata</code> or <code>mcols</code>, like</p>
+<pre class="r"><code>values(gr) &lt;- DataFrame(score = c(0.1, 0.5, 0.3))
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 1 metadata column:
+##      seqnames    ranges strand |     score
+##         &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
+##   A1     chr1    [1, 3]      + |       0.1
+##   A2     chr1    [3, 5]      - |       0.5
+##   A3     chr1    [5, 7]      + |       0.3
+##   -------
+##   seqinfo: 1 sequence from hg18 genome</code></pre>
+<p>(note the <code>DataFrame</code> … we’ll get back to this).</p>
+<p>A much easier way to set and access metadata is through the <code>$</code> operator</p>
+<pre class="r"><code>gr$score</code></pre>
+<pre><code>## [1] 0.1 0.5 0.3</code></pre>
+<pre class="r"><code>gr$score2 = gr$score * 0.2
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 2 metadata columns:
+##      seqnames    ranges strand |     score    score2
+##         &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;numeric&gt;
+##   A1     chr1    [1, 3]      + |       0.1      0.02
+##   A2     chr1    [3, 5]      - |       0.5       0.1
+##   A3     chr1    [5, 7]      + |       0.3      0.06
+##   -------
+##   seqinfo: 1 sequence from hg18 genome</code></pre>
+</div>
+<div id="dataframe" class="section level1">
+<h1><span class="header-section-number">18</span> DataFrame</h1>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/S4Vectors.html">S4Vectors</a></em> package introduced the <code>DataFrame</code> class. This class is very similar to the base <code>data.frame</code> class from R, but it allows columns of any class, provided a number of required methods are supported. For example, <code>DataFrame</code> can have <code>IRanges</code> as columns, unlike <code>data.frame</code>:</p>
+<pre class="r"><code>df1 &lt;- DataFrame(iranges = ir1)
+df1</code></pre>
+<pre><code>## DataFrame with 3 rows and 1 column
+##     iranges
+##   &lt;IRanges&gt;
+## 1   [1,  3]
+## 2   [4,  7]
+## 3   [8, 10]</code></pre>
+<pre class="r"><code>df1$iranges</code></pre>
+<pre><code>## IRanges of length 3
+##     start end width
+## [1]     1   3     3
+## [2]     4   7     4
+## [3]     8  10     3</code></pre>
+<pre class="r"><code>df2 &lt;- data.frame(iranges = ir1)
+df2</code></pre>
+<pre><code>##   iranges.start iranges.end iranges.width
+## 1             1           3             3
+## 2             4           7             4
+## 3             8          10             3</code></pre>
+<p>In the <code>data.frame</code> case, the <code>IRanges</code> gives rise to 4 columns, whereas it is a single column when a <code>DataFrame</code> is used.</p>
+</div>
+<div id="biology-usecase-i" class="section level1">
+<h1><span class="header-section-number">19</span> Biology usecase I</h1>
+<p>Suppose we want to identify TF binding sites that overlaps known SNPs.</p>
+<p>snps: a <code>GRanges</code> (of width 1)<br />TF: a <code>GRanges</code></p>
+<pre class="r"><code>findOverlaps(snps, TF)</code></pre>
+<p>(watch out for strand)</p>
+</div>
+<div id="biology-usecase-ii" class="section level1">
+<h1><span class="header-section-number">20</span> Biology usecase II</h1>
+<p>Suppose we have a set of DMRs (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.</p>
+<p>dmrs: a <code>GRanges</code><br />islands: a <code>GRanges</code></p>
+<pre class="r"><code>findOverlaps(dmrs, resize(islands, 
+      width = 20000 + width(islands), fix = &quot;center&quot;))</code></pre>
+<p>(watch out for strand)</p>
+</div>
+<div id="biology-usecase-iii" class="section level1">
+<h1><span class="header-section-number">21</span> Biology usecase III</h1>
+<p>Suppose we want to compute the average coverage of bases belonging to (known) exons.</p>
+<p>reads: a <code>GRanges</code>.<br />exons: a <code>GRanges</code>.</p>
+<pre class="r"><code>bases &lt;- reduce(exons)
+nBases &lt;- sum(width(bases))
+nCoverage &lt;- sum(Views(coverage(reads), bases))
+nCoverage / nBases</code></pre>
+<p>(watch out for strand)</p>
+</div>
+<div id="sessioninfo" class="section level1">
+<h1><span class="header-section-number">22</span> SessionInfo</h1>
+<p></p>
+<pre><code>## R version 3.2.1 Patched (2015-07-12 r68650)
+## Platform: x86_64-apple-darwin14.4.0 (64-bit)
+## Running under: OS X 10.10.4 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats4    parallel  methods   stats     graphics  grDevices utils    
+## [8] datasets  base     
+## 
+## other attached packages:
+## [1] GenomicRanges_1.21.17 GenomeInfoDb_1.5.9    IRanges_2.3.15       
+## [4] S4Vectors_0.7.10      BiocGenerics_0.15.3   BiocStyle_1.7.4      
+## [7] rmarkdown_0.7        
+## 
+## loaded via a namespace (and not attached):
+##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7   
+##  [5] stringi_0.5-5   XVector_0.9.1   tools_3.2.1     stringr_1.0.0  
+##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.10.5</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
