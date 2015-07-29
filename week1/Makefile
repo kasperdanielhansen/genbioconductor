@@ -1,0 +1,21 @@
+R_SCRIPT=/usr/local/R/R-3.2.x/bin/Rscript
+OUTPUT_FORMAT="BiocStyle::html_document"
+RENDER=$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);
+RENDER_END=, output_format = $(OUTPUT_FORMAT))}'
+
+Materials_Week1: Materials_Week1.md
+	pandoc -o Materials_Week1.html Materials_Week1.md
+	open Materials_Week1.html
+
+IRanges_Basic : IRanges_Basic.Rmd
+	$(RENDER) render("IRanges_Basic.Rmd" $(RENDER_END)
+
+AnnotationHub : AnnotationHub.Rmd
+	$(RENDER) render("AnnotationHub.Rmd" $(RENDER_END)
+
+Usecase_AnnotationHub_GRanges : Usecase_AnnotationHub_GRanges.Rmd
+	$(RENDER) render("Usecase_AnnotationHub_GRanges.Rmd" $(RENDER_END)
+
+clean:
+	rm -f *.html *.pdf
+
