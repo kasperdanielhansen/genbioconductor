@@ -32,7 +32,7 @@ These packages uses efficient data structures and algorithms.
 
 Every R user who deals with genomic data should master these packages.
   
-*These two packages are themselves compelling arguments for learning R!*
+**These two packages are themselves compelling arguments for learning R!**
 
 # Issues
 
@@ -47,9 +47,9 @@ Both packages now contain very extensive and useful vignettes.  Read them!
 
 A surprising amount of objects/tasks in computational biology can be formulated in terms of integer intervals, manipulation of integer intervals and overlap of integer intervals.
 
-*Objects*: A transcript (a union of integer intervals), a collection of SNPs (intervals of width 1), TF binding sites, a collection of aligned short reads.
+**Objects**: A transcript (a union of integer intervals), a collection of SNPs (intervals of width 1), TF binding sites, a collection of aligned short reads.
 
-*Tasks*: Which transcription factor binding sites hit the promoter of genes (overlap between two sets of intervals), which SNPs hit a collection of exons, which short reads hit a predetermined set of exons.
+**Tasks**: Which transcription factor binding sites hit the promoter of genes (overlap between two sets of intervals), which SNPs hit a collection of exons, which short reads hit a predetermined set of exons.
 
 `IRanges` are collections of integer intervals.  `GRanges` are like `IRanges`, but with an associated chromosome and strand, taking care of some book keeping.
 

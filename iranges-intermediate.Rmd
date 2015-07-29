@@ -1,3 +1,35 @@
+---
+author: Kasper D. Hansen
+title: IRanges and GenomicRanges
+subtitle: An introduction
+fontsize: 10pt
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(IRanges)
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("IRanges", "GenomicRanges"))
+```
+
+# Continuation
+
+Here we will work on expanding our understanding of `r Biocpkg("IRanges")` and `r Biocpkg("GenomicRanges")` and the data structure they use.
+
+We assume an understanding of the `IRanges` and `GRanges` data structures.
+
 # IRangesList
 
 An IRangesList is simply a list of IRanges.
@@ -7,7 +39,7 @@ Why a separate class for this?
 - Methods dispatching, 'we know what we get'.
 - Easy to specify input and output.
     
-Many XXList exists.
+Many XXList exists exists in the two packages.
 	
 One biology use case: the set of transcripts of a gene.  Each transcript is an IRanges (each exon is a range), but we need something to glue the transcripts together.
 
@@ -38,8 +70,6 @@ range(coverage(ir2))
 log(coverage(ir2))
 ``` 
 
-***
-
 `aggregate()` allows you to apply functions to the Rle inside an IRanges
 
 ```{r}
@@ -62,8 +92,6 @@ vi <- Views(Scerevisiae$chr1,
             width = 1000)
 head(vi, n = 4)
 ``` 
-
-***
 
 This looks like a `DNAStringSet`, but internally it is just a `IRange` and a pointer to the genome.  This paradigm can be used to write extremely efficient code, but it takes a while to get used to.
 
