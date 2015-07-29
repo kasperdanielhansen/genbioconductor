@@ -1,0 +1,102 @@
+---
+title: AnnotationHub
+author: Kasper D. Hansen
+fontsize: 10pt
+bibliography: genbioconductor.bib
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(AnnotationHub)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("AnnotationHub"))
+```
+
+# Overview
+
+Annotation information is extremely important for putting your data into context.  There are many online resources for doing this, and many different databases organizes different information suing different approaches.
+
+There are multiple ways to access annotation information in Bioconductor.
+
+Here we discuss a new way of doing so, through the package `r Biocpkg("AnnotationHub")`.  This package provides access to a ton of online resources through a unified interface.  However, each data resource has its own peculiarities, so a user still needs to understand what the different datasets are.
+
+In a recent paper I was involved in FIXME:citation, I used `r Biocpkg("AnnotationHub")` to interrogate my data against all transcription factor data available through the ENCODE project.  I managed to write the code and conduct the analysis in the matter of a single evening, which I think is pretty awesome.
+
+# Other Resources
+
+The [Annotation Resources](http://www.bioconductor.org/help/workflows/annotation/Annotation_Resources/) workflow on Bioconductor contains material on `r Biocpkg("AnnotationHub")`.
+
+The BioC 2015 conference had a tutorial on `r Biocpkg("AnnotationHub")`; material is available through the [course materials](http://www.bioconductor.org/help/course-materials/) site.
+
+# Usage
+
+First we create an `AnnotationHub` instance.  The first time you do this, it will create a local cache on your system, so that repeat queries for the same information (even in different R sessions) will be very fast.
+  
+```{r annoHub}
+ah <- AnnotationHub()
+ah
+```
+
+As you can see, `ah` contains tons of information.  The information content is constantly changing, which is why there is a `snapshotDate`.  While the object is big, it actually only contains pointers to online information.  Actually downloading all the resources available in an `AnnotationHub` is prohibitive.
+
+The object is organized as a vector, with single-dimension indexing.  You can get information about a single resource by indexing with a single `[`; using two brackets (`[[`) downloads the object:
+
+```{r no1}
+ah[1]
+```
+
+The way you use `r Biocpkg("AnnotationHub")` is by using various tools to narrow down your hub to a single or a small number of datasets.  Then you download these datasets for your own usage.
+
+Let us first explore some high-level features of the hub:
+```{r look}
+unique(ah$dataprovider)
+unique(ah$rdataclass)
+```
+(we will discuss many of these data classes in future sessions).
+
+You can narrow down the hub by using one (or more) of the following strategies
+
+- Use `subset` (or `[`) to do a specific subsetting operation.
+- Use `query` to do a command-line search over the metadata of the hub.
+- Use `display` to get a Shiny interface in a browser, so you can browse the object.
+
+It is often useful to start with a very rough subsetting, for example to data from a specific species.  The `subset` function is useful for doing a standard R subsetting (the function also works on `data.frame`s).
+
+```{r subset}
+ah <- subset(ah, species == "Homo sapiens")
+ah
+```
+
+We can use `query` to search the hub.  The (possible) drawback to query is that it searches over different fields in the hub, so watch out with using a search term which is very non-specific.  The query is a regular expression, which by default is case-insensitive.  Here we locate all datasets on the **H3K4me3** histone modification (in H. sapiens because we selected this species above)
+
+```{r query}
+query(ah, "H3K4me3")
+```
+
+Another way of searching a hub is by using a browser.  Notice how we assign the output of `display` to make sure that we can capture our selection in the browser
+```{r display, eval=FALSE}
+display(qhub)
+```
+FIXME:make_screenshot.
+
+
+# SessionInfo
+
+\scriptsize
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# References

@@ -1,0 +1,219 @@
+---
+title: Test
+subtitle: Test2
+author: Kasper D. Hansen
+fontsize: 10pt
+bibliography: genbioconductor.bib
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+# Usecase
+
+We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.
+
+# Getting the data
+
+First we use `r Biocpkg("AnnotationHub")` to get data on homo sapiens.
+
+```{r}
+ah <- AnnotationHub()
+ah <- subset(ah, species == "Homo sapiens")
+```
+
+Next we search for two keywords: **H3K4me3** and **Gm12878** which is the name of the cell line we are interested in.
+
+```{r}
+qhs <- query(ah, "H3K4me3")
+qhs <- query(qhs, "Gm12878")
+```
+
+(Note: I like to keep my full annotation hub around, so I can re-do my query with a different search term in case I end up with no hits.  This is why I start assigning output to the `qhs` object and not `ah`).
+
+Lets have a look
+```{r}
+qhs
+```
+Note how some of these hits don't contain **Gm12878** in their title.  This is a useful illustration of how `query` searches over multiple fields.
+
+Lets have a closer look at this
+```{r}
+qhs$title
+qhs$dataprovider
+```
+This result is a great illustration of the mess of public data.  It turns our that **E116** is a Roadmap Epigenetics code for the **Gm12878** cell line.  The first 5 hits are from ENCODE, hosted at UCSC and the last 6 hits are from Roadmap Epigenomics hosted at the Broad Institute.  The Roadmap data is different representation (and peaks) from the same underlying data.  For the ENCODE data, two different centers did the same experiment in the same cell line (`Broad`, hit 1) and (`Uw`, hit 2-5), where `Uw` exposed data on two replicates (whatever that means).  These two experiments seems to be analyzed using different algorithms.  It is even possible that the Roadmap data is from the same raw data but just analyzed using different algorithms.
+
+Lets take a look at the `narrowPeak` data:
+```{r}
+gr1 <- subset(qhs, title == "wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz")[[1]]
+gr1
+gr2 <- subset(qhs, title == "E116-H3K4me3.narrowPeak.gz")[[1]]
+gr2
+```
+(I use this code, where I use `title` to refer to the different resources, to make this script more robust over time).
+
+This gives us two `GRanges` objects.  Let us look at the distribution of peak widths:
+```{r}
+summary(widths(gr1))
+table(widths(gr1))
+summary(widths(gr2))
+```
+Turns out that almost all peaks in `gr1` have a width of 150bp, whereas `gr2` is much more variable.  This is likely a product of the data processing algorithm.
+
+At this time one can spend a lot of time thinking about which dataset is best.  We talked about ENCODE data above, in the problem formulation, so let us stick with `gr1`.
+
+Now we need to get some promoter coordinates.  There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub.  RefSeq is a highly curated (aka conservative) collection of genes.  Most genes in RefSeq has a single isoform, which shows how conservative they are.
+
+Lets get started
+```{r}
+qhs <- query(ah, "RefSeq")
+qhs
+```
+This is a bit weird at first.  We probably need the thing called `RefSeq Genes` and not `Other RefSeq` but why are there multiple resources with the same name?
+
+Turns out the answer is obvious:
+```{r}
+genome(qhs)
+```
+This looks like the same resources, but in different genome builds.  We have
+```{r}
+genome(gr1)
+```
+so we know which one to get:
+```{r refseq}
+refseq <- qhs[qhs$genome == "hg19" & qhs$title == "RefSeq Genes")]
+refseq
+refseq <- refseq[[1]] # Downloads
+```
+
+Lets have a look
+```{r}
+refseq
+```
+Let us look at the number of isoforms per gene name:
+```{r}
+table(table(refseq$name))
+```
+(the `table(table())` construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).
+
+Notice that each transcript is a separate range.  Therefore, each transcript is represented as the "outer" coordinates of the gene; the ranges does not exclude introns.  Because we got this from UCSC I know that the `$blocks` metadata really contains the coordinates of the different exons.  In a later example we shall see an easier way to operate on genes, where we keep track of exons and introns through something known as a `TxDb` (transcript database) object.
+
+For now, we just need the promoters, so we don't really care about introns.  We need to keep track of which strand each transcript is on, to get the transcription start site.
+
+Or we could just use the convenience function `promoters()`:
+```{r}
+promoters <- promoters(refseq)
+table(width(promoters))
+args(promoters)
+```
+There are many definations of promoters based on transcription start site.  The default here is to use 2kb upstream and 200bp downstream.  Lets keep this.
+
+Now we compute which promoters have a H3K4me3 peak in them:
+```{r findOverlaps}
+ov <- findOverlaps(promoters, gr1)
+ov
+```
+
+Let us compute how many percent of the peaks are in promoter
+```{r queryHits}
+length(unique(queryHits(ov))) / length(gr1)
+```
+and how many percent of promoters have a peak
+```{r subjectHits}
+length(unique(subjectHits(ov))) / length(promoters)
+```
+My rule of thumb is that in any cell typearound 50% of genes are expressed, which fits pretty well with these numbers.
+
+Now, the overlap is non-empty, but is it interesting or "significant".  Providing a very good answer to this question is not easy, but one can use different back-of-the-envelope calculations to get a feel for it.
+
+First we notice that both promoters and peaks are small compared to the size of the human genome:
+```{r widthPercentage}
+sum(width(reduce(gr1))) / 10^6
+sum(width(reduce(promoters))) / 10^6
+```
+(result is in megabases).  Just this fact alone should convince you that the overlap is highly unlikely to be random.  To take this thought to its logical conclusion, let us calculate the overlap in megabases:
+```{r}
+sum(width(intersect(gr1, promoters))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+See how some of these records do not appear to have the **Gm12878** string in their `title`.  We can look where we get the hit by
+```{r}
+qhub[length(qhub)]
+```
+This is a great demonstration of the fact that `query` searches over multiple fields.
+
+
+
+
+
+In fact, the amount of information is staggering.  Which is why there is a number of tools design to easily find the information you are looking for.  Conceptually, this happens by repeatedly subsetting the `ah` object.
+
+Let us explore a bit
+
+
+So you probably don't know what all of those data classes are.  
+
+
+
+
+Blah
+
+# Section 2
+  
+Specify IRanges by 2 of start, end, width (SEW).
+  
+```{r}
+ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
+ir1
+``` 
+
+# Section 3
+
+Some plots
+
+```{r, echo=FALSE}
+ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
+``` 
+
+```{r, echo=FALSE, fig.width=7, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+# SessionInfo
+
+\scriptsize
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# References
