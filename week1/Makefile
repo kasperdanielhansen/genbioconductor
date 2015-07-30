@@ -19,6 +19,9 @@ AnnotationHub : AnnotationHub.Rmd
 Usecase_AnnotationHub_GRanges : Usecase_AnnotationHub_GRanges.Rmd
 	$(RENDER) render("Usecase_AnnotationHub_GRanges.Rmd" $(RENDER_END)
 
+fixme:
+	grep FIXME *.Rmd
+
 all: Materials_Week1 IRanges_Basic AnnotationHub Usecase_AnnotationHub_GRanges 
 
 clean:
