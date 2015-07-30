@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kasper D. Hansen" />
+
+
+<title>Test</title>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<link href="data:text/css,pre%20%2Eoperator%2C%0Apre%20%2Eparen%20%7B%0A%20color%3A%20rgb%28104%2C%20118%2C%20135%29%0A%7D%0A%0Apre%20%2Eliteral%20%7B%0A%20color%3A%20%23990073%0A%7D%0A%0Apre%20%2Enumber%20%7B%0A%20color%3A%20%23099%3B%0A%7D%0A%0Apre%20%2Ecomment%20%7B%0A%20color%3A%20%23998%3B%0A%20font%2Dstyle%3A%20italic%0A%7D%0A%0Apre%20%2Ekeyword%20%7B%0A%20color%3A%20%23900%3B%0A%20font%2Dweight%3A%20bold%0A%7D%0A%0Apre%20%2Eidentifier%20%7B%0A%20color%3A%20rgb%280%2C%200%2C%200%29%3B%0A%7D%0A%0Apre%20%2Estring%20%7B%0A%20color%3A%20%23d14%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
+<script src="data:application/x-javascript,%0Avar%20hljs%3Dnew%20function%28%29%7Bfunction%20m%28p%29%7Breturn%20p%2Ereplace%28%2F%26%2Fgm%2C%22%26amp%3B%22%29%2Ereplace%28%2F%3C%2Fgm%2C%22%26lt%3B%22%29%7Dfunction%20f%28r%2Cq%2Cp%29%7Breturn%20RegExp%28q%2C%22m%22%2B%28r%2EcI%3F%22i%22%3A%22%22%29%2B%28p%3F%22g%22%3A%22%22%29%29%7Dfunction%20b%28r%29%7Bfor%28var%20p%3D0%3Bp%3Cr%2EchildNodes%2Elength%3Bp%2B%2B%29%7Bvar%20q%3Dr%2EchildNodes%5Bp%5D%3Bif%28q%2EnodeName%3D%3D%22CODE%22%29%7Breturn%20q%7Dif%28%21%28q%2EnodeType%3D%3D3%26%26q%2EnodeValue%2Ematch%28%2F%5Cs%2B%2F%29%29%29%7Bbreak%7D%7D%7Dfunction%20h%28t%2Cs%29%7Bvar%20p%3D%22%22%3Bfor%28var%20r%3D0%3Br%3Ct%2EchildNodes%2Elength%3Br%2B%2B%29%7Bif%28t%2EchildNodes%5Br%5D%2EnodeType%3D%3D3%29%7Bvar%20q%3Dt%2EchildNodes%5Br%5D%2EnodeValue%3Bif%28s%29%7Bq%3Dq%2Ereplace%28%2F%5Cn%2Fg%2C%22%22%29%7Dp%2B%3Dq%7Delse%7Bif%28t%2EchildNodes%5Br%5D%2EnodeName%3D%3D%22BR%22%29%7Bp%2B%3D%22%5Cn%22%7Delse%7Bp%2B%3Dh%28t%2EchildNodes%5Br%5D%29%7D%7D%7Dif%28%2FMSIE%20%5B678%5D%2F%2Etest%28navigator%2EuserAgent%29%29%7Bp%3Dp%2Ereplace%28%2F%5Cr%2Fg%2C%22%5Cn%22%29%7Dreturn%20p%7Dfunction%20a%28s%29%7Bvar%20r%3Ds%2EclassName%2Esplit%28%2F%5Cs%2B%2F%29%3Br%3Dr%2Econcat%28s%2EparentNode%2EclassName%2Esplit%28%2F%5Cs%2B%2F%29%29%3Bfor%28var%20q%3D0%3Bq%3Cr%2Elength%3Bq%2B%2B%29%7Bvar%20p%3Dr%5Bq%5D%2Ereplace%28%2F%5Elanguage%2D%2F%2C%22%22%29%3Bif%28e%5Bp%5D%29%7Breturn%20p%7D%7D%7Dfunction%20c%28q%29%7Bvar%20p%3D%5B%5D%3B%28function%28s%2Ct%29%7Bfor%28var%20r%3D0%3Br%3Cs%2EchildNodes%2Elength%3Br%2B%2B%29%7Bif%28s%2EchildNodes%5Br%5D%2EnodeType%3D%3D3%29%7Bt%2B%3Ds%2EchildNodes%5Br%5D%2EnodeValue%2Elength%7Delse%7Bif%28s%2EchildNodes%5Br%5D%2EnodeName%3D%3D%22BR%22%29%7Bt%2B%3D1%7Delse%7Bif%28s%2EchildNodes%5Br%5D%2EnodeType%3D%3D1%29%7Bp%2Epush%28%7Bevent%3A%22start%22%2Coffset%3At%2Cnode%3As%2EchildNodes%5Br%5D%7D%29%3Bt%3Darguments%2Ecallee%28s%2EchildNodes%5Br%5D%2Ct%29%3Bp%2Epush%28%7Bevent%3A%22stop%22%2Coffset%3At%2Cnode%3As%2EchildNodes%5Br%5D%7D%29%7D%7D%7D%7Dreturn%20t%7D%29%28q%2C0%29%3Breturn%20p%7Dfunction%20k%28y%2Cw%2Cx%29%7Bvar%20q%3D0%3Bvar%20z%3D%22%22%3Bvar%20s%3D%5B%5D%3Bfunction%20u%28%29%7Bif%28y%2Elength%26%26w%2Elength%29%7Bif%28y%5B0%5D%2Eoffset%21%3Dw%5B0%5D%2Eoffset%29%7Breturn%28y%5B0%5D%2Eoffset%3Cw%5B0%5D%2Eoffset%29%3Fy%3Aw%7Delse%7Breturn%20w%5B0%5D%2Eevent%3D%3D%22start%22%3Fy%3Aw%7D%7Delse%7Breturn%20y%2Elength%3Fy%3Aw%7D%7Dfunction%20t%28D%29%7Bvar%20A%3D%22%3C%22%2BD%2EnodeName%2EtoLowerCase%28%29%3Bfor%28var%20B%3D0%3BB%3CD%2Eattributes%2Elength%3BB%2B%2B%29%7Bvar%20C%3DD%2Eattributes%5BB%5D%3BA%2B%3D%22%20%22%2BC%2EnodeName%2EtoLowerCase%28%29%3Bif%28C%2Evalue%21%3D%3Dundefined%26%26C%2Evalue%21%3D%3Dfalse%26%26C%2Evalue%21%3D%3Dnull%29%7BA%2B%3D%27%3D%22%27%2Bm%28C%2Evalue%29%2B%27%22%27%7D%7Dreturn%20A%2B%22%3E%22%7Dwhile%28y%2Elength%7C%7Cw%2Elength%29%7Bvar%20v%3Du%28%29%2Esplice%280%2C1%29%5B0%5D%3Bz%2B%3Dm%28x%2Esubstr%28q%2Cv%2Eoffset%2Dq%29%29%3Bq%3Dv%2Eoffset%3Bif%28v%2Eevent%3D%3D%22start%22%29%7Bz%2B%3Dt%28v%2Enode%29%3Bs%2Epush%28v%2Enode%29%7Delse%7Bif%28v%2Eevent%3D%3D%22stop%22%29%7Bvar%20p%2Cr%3Ds%2Elength%3Bdo%7Br%2D%2D%3Bp%3Ds%5Br%5D%3Bz%2B%3D%28%22%3C%2F%22%2Bp%2EnodeName%2EtoLowerCase%28%29%2B%22%3E%22%29%7Dwhile%28p%21%3Dv%2Enode%29%3Bs%2Esplice%28r%2C1%29%3Bwhile%28r%3Cs%2Elength%29%7Bz%2B%3Dt%28s%5Br%5D%29%3Br%2B%2B%7D%7D%7D%7Dreturn%20z%2Bm%28x%2Esubstr%28q%29%29%7Dfunction%20j%28%29%7Bfunction%20q%28x%2Cy%2Cv%29%7Bif%28x%2Ecompiled%29%7Breturn%7Dvar%20u%3Bvar%20s%3D%5B%5D%3Bif%28x%2Ek%29%7Bx%2ElR%3Df%28y%2Cx%2El%7C%7Chljs%2EIR%2Ctrue%29%3Bfor%28var%20w%20in%20x%2Ek%29%7Bif%28%21x%2Ek%2EhasOwnProperty%28w%29%29%7Bcontinue%7Dif%28x%2Ek%5Bw%5D%20instanceof%20Object%29%7Bu%3Dx%2Ek%5Bw%5D%7Delse%7Bu%3Dx%2Ek%3Bw%3D%22keyword%22%7Dfor%28var%20r%20in%20u%29%7Bif%28%21u%2EhasOwnProperty%28r%29%29%7Bcontinue%7Dx%2Ek%5Br%5D%3D%5Bw%2Cu%5Br%5D%5D%3Bs%2Epush%28r%29%7D%7D%7Dif%28%21v%29%7Bif%28x%2EbWK%29%7Bx%2Eb%3D%22%5C%5Cb%28%22%2Bs%2Ejoin%28%22%7C%22%29%2B%22%29%5C%5Cs%22%7Dx%2EbR%3Df%28y%2Cx%2Eb%3Fx%2Eb%3A%22%5C%5CB%7C%5C%5Cb%22%29%3Bif%28%21x%2Ee%26%26%21x%2EeW%29%7Bx%2Ee%3D%22%5C%5CB%7C%5C%5Cb%22%7Dif%28x%2Ee%29%7Bx%2EeR%3Df%28y%2Cx%2Ee%29%7D%7Dif%28x%2Ei%29%7Bx%2EiR%3Df%28y%2Cx%2Ei%29%7Dif%28x%2Er%3D%3D%3Dundefined%29%7Bx%2Er%3D1%7Dif%28%21x%2Ec%29%7Bx%2Ec%3D%5B%5D%7Dx%2Ecompiled%3Dtrue%3Bfor%28var%20t%3D0%3Bt%3Cx%2Ec%2Elength%3Bt%2B%2B%29%7Bif%28x%2Ec%5Bt%5D%3D%3D%22self%22%29%7Bx%2Ec%5Bt%5D%3Dx%7Dq%28x%2Ec%5Bt%5D%2Cy%2Cfalse%29%7Dif%28x%2Estarts%29%7Bq%28x%2Estarts%2Cy%2Cfalse%29%7D%7Dfor%28var%20p%20in%20e%29%7Bif%28%21e%2EhasOwnProperty%28p%29%29%7Bcontinue%7Dq%28e%5Bp%5D%2EdM%2Ce%5Bp%5D%2Ctrue%29%7D%7Dfunction%20d%28B%2CC%29%7Bif%28%21j%2Ecalled%29%7Bj%28%29%3Bj%2Ecalled%3Dtrue%7Dfunction%20q%28r%2CM%29%7Bfor%28var%20L%3D0%3BL%3CM%2Ec%2Elength%3BL%2B%2B%29%7Bif%28%28M%2Ec%5BL%5D%2EbR%2Eexec%28r%29%7C%7C%5Bnull%5D%29%5B0%5D%3D%3Dr%29%7Breturn%20M%2Ec%5BL%5D%7D%7D%7Dfunction%20v%28L%2Cr%29%7Bif%28D%5BL%5D%2Ee%26%26D%5BL%5D%2EeR%2Etest%28r%29%29%7Breturn%201%7Dif%28D%5BL%5D%2EeW%29%7Bvar%20M%3Dv%28L%2D1%2Cr%29%3Breturn%20M%3FM%2B1%3A0%7Dreturn%200%7Dfunction%20w%28r%2CL%29%7Breturn%20L%2Ei%26%26L%2EiR%2Etest%28r%29%7Dfunction%20K%28N%2CO%29%7Bvar%20M%3D%5B%5D%3Bfor%28var%20L%3D0%3BL%3CN%2Ec%2Elength%3BL%2B%2B%29%7BM%2Epush%28N%2Ec%5BL%5D%2Eb%29%7Dvar%20r%3DD%2Elength%2D1%3Bdo%7Bif%28D%5Br%5D%2Ee%29%7BM%2Epush%28D%5Br%5D%2Ee%29%7Dr%2D%2D%7Dwhile%28D%5Br%2B1%5D%2EeW%29%3Bif%28N%2Ei%29%7BM%2Epush%28N%2Ei%29%7Dreturn%20f%28O%2CM%2Ejoin%28%22%7C%22%29%2Ctrue%29%7Dfunction%20p%28M%2CL%29%7Bvar%20N%3DD%5BD%2Elength%2D1%5D%3Bif%28%21N%2Et%29%7BN%2Et%3DK%28N%2CE%29%7DN%2Et%2ElastIndex%3DL%3Bvar%20r%3DN%2Et%2Eexec%28M%29%3Breturn%20r%3F%5BM%2Esubstr%28L%2Cr%2Eindex%2DL%29%2Cr%5B0%5D%2Cfalse%5D%3A%5BM%2Esubstr%28L%29%2C%22%22%2Ctrue%5D%7Dfunction%20z%28N%2Cr%29%7Bvar%20L%3DE%2EcI%3Fr%5B0%5D%2EtoLowerCase%28%29%3Ar%5B0%5D%3Bvar%20M%3DN%2Ek%5BL%5D%3Bif%28M%26%26M%20instanceof%20Array%29%7Breturn%20M%7Dreturn%20false%7Dfunction%20F%28L%2CP%29%7BL%3Dm%28L%29%3Bif%28%21P%2Ek%29%7Breturn%20L%7Dvar%20r%3D%22%22%3Bvar%20O%3D0%3BP%2ElR%2ElastIndex%3D0%3Bvar%20M%3DP%2ElR%2Eexec%28L%29%3Bwhile%28M%29%7Br%2B%3DL%2Esubstr%28O%2CM%2Eindex%2DO%29%3Bvar%20N%3Dz%28P%2CM%29%3Bif%28N%29%7Bx%2B%3DN%5B1%5D%3Br%2B%3D%27%3Cspan%20class%3D%22%27%2BN%5B0%5D%2B%27%22%3E%27%2BM%5B0%5D%2B%22%3C%2Fspan%3E%22%7Delse%7Br%2B%3DM%5B0%5D%7DO%3DP%2ElR%2ElastIndex%3BM%3DP%2ElR%2Eexec%28L%29%7Dreturn%20r%2BL%2Esubstr%28O%2CL%2Elength%2DO%29%7Dfunction%20J%28L%2CM%29%7Bif%28M%2EsL%26%26e%5BM%2EsL%5D%29%7Bvar%20r%3Dd%28M%2EsL%2CL%29%3Bx%2B%3Dr%2Ekeyword%5Fcount%3Breturn%20r%2Evalue%7Delse%7Breturn%20F%28L%2CM%29%7D%7Dfunction%20I%28M%2Cr%29%7Bvar%20L%3DM%2EcN%3F%27%3Cspan%20class%3D%22%27%2BM%2EcN%2B%27%22%3E%27%3A%22%22%3Bif%28M%2ErB%29%7By%2B%3DL%3BM%2Ebuffer%3D%22%22%7Delse%7Bif%28M%2EeB%29%7By%2B%3Dm%28r%29%2BL%3BM%2Ebuffer%3D%22%22%7Delse%7By%2B%3DL%3BM%2Ebuffer%3Dr%7D%7DD%2Epush%28M%29%3BA%2B%3DM%2Er%7Dfunction%20G%28N%2CM%2CQ%29%7Bvar%20R%3DD%5BD%2Elength%2D1%5D%3Bif%28Q%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%3Breturn%20false%7Dvar%20P%3Dq%28M%2CR%29%3Bif%28P%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%3BI%28P%2CM%29%3Breturn%20P%2ErB%7Dvar%20L%3Dv%28D%2Elength%2D1%2CM%29%3Bif%28L%29%7Bvar%20O%3DR%2EcN%3F%22%3C%2Fspan%3E%22%3A%22%22%3Bif%28R%2ErE%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%2BO%7Delse%7Bif%28R%2EeE%29%7By%2B%3DJ%28R%2Ebuffer%2BN%2CR%29%2BO%2Bm%28M%29%7Delse%7By%2B%3DJ%28R%2Ebuffer%2BN%2BM%2CR%29%2BO%7D%7Dwhile%28L%3E1%29%7BO%3DD%5BD%2Elength%2D2%5D%2EcN%3F%22%3C%2Fspan%3E%22%3A%22%22%3By%2B%3DO%3BL%2D%2D%3BD%2Elength%2D%2D%7Dvar%20r%3DD%5BD%2Elength%2D1%5D%3BD%2Elength%2D%2D%3BD%5BD%2Elength%2D1%5D%2Ebuffer%3D%22%22%3Bif%28r%2Estarts%29%7BI%28r%2Estarts%2C%22%22%29%7Dreturn%20R%2ErE%7Dif%28w%28M%2CR%29%29%7Bthrow%22Illegal%22%7D%7Dvar%20E%3De%5BB%5D%3Bvar%20D%3D%5BE%2EdM%5D%3Bvar%20A%3D0%3Bvar%20x%3D0%3Bvar%20y%3D%22%22%3Btry%7Bvar%20s%2Cu%3D0%3BE%2EdM%2Ebuffer%3D%22%22%3Bdo%7Bs%3Dp%28C%2Cu%29%3Bvar%20t%3DG%28s%5B0%5D%2Cs%5B1%5D%2Cs%5B2%5D%29%3Bu%2B%3Ds%5B0%5D%2Elength%3Bif%28%21t%29%7Bu%2B%3Ds%5B1%5D%2Elength%7D%7Dwhile%28%21s%5B2%5D%29%3Bif%28D%2Elength%3E1%29%7Bthrow%22Illegal%22%7Dreturn%7Br%3AA%2Ckeyword%5Fcount%3Ax%2Cvalue%3Ay%7D%7Dcatch%28H%29%7Bif%28H%3D%3D%22Illegal%22%29%7Breturn%7Br%3A0%2Ckeyword%5Fcount%3A0%2Cvalue%3Am%28C%29%7D%7Delse%7Bthrow%20H%7D%7D%7Dfunction%20g%28t%29%7Bvar%20p%3D%7Bkeyword%5Fcount%3A0%2Cr%3A0%2Cvalue%3Am%28t%29%7D%3Bvar%20r%3Dp%3Bfor%28var%20q%20in%20e%29%7Bif%28%21e%2EhasOwnProperty%28q%29%29%7Bcontinue%7Dvar%20s%3Dd%28q%2Ct%29%3Bs%2Elanguage%3Dq%3Bif%28s%2Ekeyword%5Fcount%2Bs%2Er%3Er%2Ekeyword%5Fcount%2Br%2Er%29%7Br%3Ds%7Dif%28s%2Ekeyword%5Fcount%2Bs%2Er%3Ep%2Ekeyword%5Fcount%2Bp%2Er%29%7Br%3Dp%3Bp%3Ds%7D%7Dif%28r%2Elanguage%29%7Bp%2Esecond%5Fbest%3Dr%7Dreturn%20p%7Dfunction%20i%28r%2Cq%2Cp%29%7Bif%28q%29%7Br%3Dr%2Ereplace%28%2F%5E%28%28%3C%5B%5E%3E%5D%2B%3E%7C%5Ct%29%2B%29%2Fgm%2Cfunction%28t%2Cw%2Cv%2Cu%29%7Breturn%20w%2Ereplace%28%2F%5Ct%2Fg%2Cq%29%7D%29%7Dif%28p%29%7Br%3Dr%2Ereplace%28%2F%5Cn%2Fg%2C%22%3Cbr%3E%22%29%7Dreturn%20r%7Dfunction%20n%28t%2Cw%2Cr%29%7Bvar%20x%3Dh%28t%2Cr%29%3Bvar%20v%3Da%28t%29%3Bvar%20y%2Cs%3Bif%28v%29%7By%3Dd%28v%2Cx%29%7Delse%7Breturn%7Dvar%20q%3Dc%28t%29%3Bif%28q%2Elength%29%7Bs%3Ddocument%2EcreateElement%28%22pre%22%29%3Bs%2EinnerHTML%3Dy%2Evalue%3By%2Evalue%3Dk%28q%2Cc%28s%29%2Cx%29%7Dy%2Evalue%3Di%28y%2Evalue%2Cw%2Cr%29%3Bvar%20u%3Dt%2EclassName%3Bif%28%21u%2Ematch%28%22%28%5C%5Cs%7C%5E%29%28language%2D%29%3F%22%2Bv%2B%22%28%5C%5Cs%7C%24%29%22%29%29%7Bu%3Du%3F%28u%2B%22%20%22%2Bv%29%3Av%7Dif%28%2FMSIE%20%5B678%5D%2F%2Etest%28navigator%2EuserAgent%29%26%26t%2EtagName%3D%3D%22CODE%22%26%26t%2EparentNode%2EtagName%3D%3D%22PRE%22%29%7Bs%3Dt%2EparentNode%3Bvar%20p%3Ddocument%2EcreateElement%28%22div%22%29%3Bp%2EinnerHTML%3D%22%3Cpre%3E%3Ccode%3E%22%2By%2Evalue%2B%22%3C%2Fcode%3E%3C%2Fpre%3E%22%3Bt%3Dp%2EfirstChild%2EfirstChild%3Bp%2EfirstChild%2EcN%3Ds%2EcN%3Bs%2EparentNode%2EreplaceChild%28p%2EfirstChild%2Cs%29%7Delse%7Bt%2EinnerHTML%3Dy%2Evalue%7Dt%2EclassName%3Du%3Bt%2Eresult%3D%7Blanguage%3Av%2Ckw%3Ay%2Ekeyword%5Fcount%2Cre%3Ay%2Er%7D%3Bif%28y%2Esecond%5Fbest%29%7Bt%2Esecond%5Fbest%3D%7Blanguage%3Ay%2Esecond%5Fbest%2Elanguage%2Ckw%3Ay%2Esecond%5Fbest%2Ekeyword%5Fcount%2Cre%3Ay%2Esecond%5Fbest%2Er%7D%7D%7Dfunction%20o%28%29%7Bif%28o%2Ecalled%29%7Breturn%7Do%2Ecalled%3Dtrue%3Bvar%20r%3Ddocument%2EgetElementsByTagName%28%22pre%22%29%3Bfor%28var%20p%3D0%3Bp%3Cr%2Elength%3Bp%2B%2B%29%7Bvar%20q%3Db%28r%5Bp%5D%29%3Bif%28q%29%7Bn%28q%2Chljs%2EtabReplace%29%7D%7D%7Dfunction%20l%28%29%7Bif%28window%2EaddEventListener%29%7Bwindow%2EaddEventListener%28%22DOMContentLoaded%22%2Co%2Cfalse%29%3Bwindow%2EaddEventListener%28%22load%22%2Co%2Cfalse%29%7Delse%7Bif%28window%2EattachEvent%29%7Bwindow%2EattachEvent%28%22onload%22%2Co%29%7Delse%7Bwindow%2Eonload%3Do%7D%7D%7Dvar%20e%3D%7B%7D%3Bthis%2ELANGUAGES%3De%3Bthis%2Ehighlight%3Dd%3Bthis%2EhighlightAuto%3Dg%3Bthis%2EfixMarkup%3Di%3Bthis%2EhighlightBlock%3Dn%3Bthis%2EinitHighlighting%3Do%3Bthis%2EinitHighlightingOnLoad%3Dl%3Bthis%2EIR%3D%22%5Ba%2DzA%2DZ%5D%5Ba%2DzA%2DZ0%2D9%5F%5D%2A%22%3Bthis%2EUIR%3D%22%5Ba%2DzA%2DZ%5F%5D%5Ba%2DzA%2DZ0%2D9%5F%5D%2A%22%3Bthis%2ENR%3D%22%5C%5Cb%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2B%29%3F%22%3Bthis%2ECNR%3D%22%5C%5Cb%280%5BxX%5D%5Ba%2DfA%2DF0%2D9%5D%2B%7C%28%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2A%29%3F%7C%5C%5C%2E%5C%5Cd%2B%29%28%5BeE%5D%5B%2D%2B%5D%3F%5C%5Cd%2B%29%3F%29%22%3Bthis%2EBNR%3D%22%5C%5Cb%280b%5B01%5D%2B%29%22%3Bthis%2ERSR%3D%22%21%7C%21%3D%7C%21%3D%3D%7C%25%7C%25%3D%7C%26%7C%26%26%7C%26%3D%7C%5C%5C%2A%7C%5C%5C%2A%3D%7C%5C%5C%2B%7C%5C%5C%2B%3D%7C%2C%7C%5C%5C%2E%7C%2D%7C%2D%3D%7C%2F%7C%2F%3D%7C%3A%7C%3B%7C%3C%7C%3C%3C%7C%3C%3C%3D%7C%3C%3D%7C%3D%7C%3D%3D%7C%3D%3D%3D%7C%3E%7C%3E%3D%7C%3E%3E%7C%3E%3E%3D%7C%3E%3E%3E%7C%3E%3E%3E%3D%7C%5C%5C%3F%7C%5C%5C%5B%7C%5C%5C%7B%7C%5C%5C%28%7C%5C%5C%5E%7C%5C%5C%5E%3D%7C%5C%5C%7C%7C%5C%5C%7C%3D%7C%5C%5C%7C%5C%5C%7C%7C%7E%22%3Bthis%2EER%3D%22%28%3F%21%5B%5C%5Cs%5C%5CS%5D%29%22%3Bthis%2EBE%3D%7Bb%3A%22%5C%5C%5C%5C%2E%22%2Cr%3A0%7D%3Bthis%2EASM%3D%7BcN%3A%22string%22%2Cb%3A%22%27%22%2Ce%3A%22%27%22%2Ci%3A%22%5C%5Cn%22%2Cc%3A%5Bthis%2EBE%5D%2Cr%3A0%7D%3Bthis%2EQSM%3D%7BcN%3A%22string%22%2Cb%3A%27%22%27%2Ce%3A%27%22%27%2Ci%3A%22%5C%5Cn%22%2Cc%3A%5Bthis%2EBE%5D%2Cr%3A0%7D%3Bthis%2ECLCM%3D%7BcN%3A%22comment%22%2Cb%3A%22%2F%2F%22%2Ce%3A%22%24%22%7D%3Bthis%2ECBLCLM%3D%7BcN%3A%22comment%22%2Cb%3A%22%2F%5C%5C%2A%22%2Ce%3A%22%5C%5C%2A%2F%22%7D%3Bthis%2EHCM%3D%7BcN%3A%22comment%22%2Cb%3A%22%23%22%2Ce%3A%22%24%22%7D%3Bthis%2ENM%3D%7BcN%3A%22number%22%2Cb%3Athis%2ENR%2Cr%3A0%7D%3Bthis%2ECNM%3D%7BcN%3A%22number%22%2Cb%3Athis%2ECNR%2Cr%3A0%7D%3Bthis%2EBNM%3D%7BcN%3A%22number%22%2Cb%3Athis%2EBNR%2Cr%3A0%7D%3Bthis%2Einherit%3Dfunction%28r%2Cs%29%7Bvar%20p%3D%7B%7D%3Bfor%28var%20q%20in%20r%29%7Bp%5Bq%5D%3Dr%5Bq%5D%7Dif%28s%29%7Bfor%28var%20q%20in%20s%29%7Bp%5Bq%5D%3Ds%5Bq%5D%7D%7Dreturn%20p%7D%7D%28%29%3Bhljs%2ELANGUAGES%2Ecpp%3Dfunction%28%29%7Bvar%20a%3D%7Bkeyword%3A%7B%22false%22%3A1%2C%22int%22%3A1%2C%22float%22%3A1%2C%22while%22%3A1%2C%22private%22%3A1%2C%22char%22%3A1%2C%22catch%22%3A1%2C%22export%22%3A1%2Cvirtual%3A1%2Coperator%3A2%2Csizeof%3A2%2Cdynamic%5Fcast%3A2%2Ctypedef%3A2%2Cconst%5Fcast%3A2%2C%22const%22%3A1%2Cstruct%3A1%2C%22for%22%3A1%2Cstatic%5Fcast%3A2%2Cunion%3A1%2Cnamespace%3A1%2Cunsigned%3A1%2C%22long%22%3A1%2C%22throw%22%3A1%2C%22volatile%22%3A2%2C%22static%22%3A1%2C%22protected%22%3A1%2Cbool%3A1%2Ctemplate%3A1%2Cmutable%3A1%2C%22if%22%3A1%2C%22public%22%3A1%2Cfriend%3A2%2C%22do%22%3A1%2C%22return%22%3A1%2C%22goto%22%3A1%2Cauto%3A1%2C%22void%22%3A2%2C%22enum%22%3A1%2C%22else%22%3A1%2C%22break%22%3A1%2C%22new%22%3A1%2Cextern%3A1%2Cusing%3A1%2C%22true%22%3A1%2C%22class%22%3A1%2Casm%3A1%2C%22case%22%3A1%2Ctypeid%3A1%2C%22short%22%3A1%2Creinterpret%5Fcast%3A2%2C%22default%22%3A1%2C%22double%22%3A1%2Cregister%3A1%2Cexplicit%3A1%2Csigned%3A1%2Ctypename%3A1%2C%22try%22%3A1%2C%22this%22%3A1%2C%22switch%22%3A1%2C%22continue%22%3A1%2Cwchar%5Ft%3A1%2Cinline%3A1%2C%22delete%22%3A1%2Calignof%3A1%2Cchar16%5Ft%3A1%2Cchar32%5Ft%3A1%2Cconstexpr%3A1%2Cdecltype%3A1%2Cnoexcept%3A1%2Cnullptr%3A1%2Cstatic%5Fassert%3A1%2Cthread%5Flocal%3A1%2Crestrict%3A1%2C%5FBool%3A1%2Ccomplex%3A1%7D%2Cbuilt%5Fin%3A%7Bstd%3A1%2Cstring%3A1%2Ccin%3A1%2Ccout%3A1%2Ccerr%3A1%2Cclog%3A1%2Cstringstream%3A1%2Cistringstream%3A1%2Costringstream%3A1%2Cauto%5Fptr%3A1%2Cdeque%3A1%2Clist%3A1%2Cqueue%3A1%2Cstack%3A1%2Cvector%3A1%2Cmap%3A1%2Cset%3A1%2Cbitset%3A1%2Cmultiset%3A1%2Cmultimap%3A1%2Cunordered%5Fset%3A1%2Cunordered%5Fmap%3A1%2Cunordered%5Fmultiset%3A1%2Cunordered%5Fmultimap%3A1%2Carray%3A1%2Cshared%5Fptr%3A1%7D%7D%3Breturn%7BdM%3A%7Bk%3Aa%2Ci%3A%22%3C%2F%22%2Cc%3A%5Bhljs%2ECLCM%2Chljs%2ECBLCLM%2Chljs%2EQSM%2C%7BcN%3A%22string%22%2Cb%3A%22%27%5C%5C%5C%5C%3F%2E%22%2Ce%3A%22%27%22%2Ci%3A%22%2E%22%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%28%5C%5Cd%2B%28%5C%5C%2E%5C%5Cd%2A%29%3F%7C%5C%5C%2E%5C%5Cd%2B%29%28u%7CU%7Cl%7CL%7Cul%7CUL%7Cf%7CF%29%22%7D%2Chljs%2ECNM%2C%7BcN%3A%22preprocessor%22%2Cb%3A%22%23%22%2Ce%3A%22%24%22%7D%2C%7BcN%3A%22stl%5Fcontainer%22%2Cb%3A%22%5C%5Cb%28deque%7Clist%7Cqueue%7Cstack%7Cvector%7Cmap%7Cset%7Cbitset%7Cmultiset%7Cmultimap%7Cunordered%5Fmap%7Cunordered%5Fset%7Cunordered%5Fmultiset%7Cunordered%5Fmultimap%7Carray%29%5C%5Cs%2A%3C%22%2Ce%3A%22%3E%22%2Ck%3Aa%2Cr%3A10%2Cc%3A%5B%22self%22%5D%7D%5D%7D%7D%7D%28%29%3Bhljs%2ELANGUAGES%2Er%3D%7BdM%3A%7Bc%3A%5Bhljs%2EHCM%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb0%5BxX%5D%5B0%2D9a%2DfA%2DF%5D%2B%5BLi%5D%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3FL%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%5C%5C%2E%28%3F%21%5C%5Cd%29%28%3F%3Ai%5C%5Cb%29%3F%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5Cb%5C%5Cd%2B%28%3F%3A%5C%5C%2E%5C%5Cd%2A%29%3F%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3Fi%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22number%22%2Cb%3A%22%5C%5C%2E%5C%5Cd%2B%28%3F%3A%5BeE%5D%5B%2B%5C%5C%2D%5D%3F%5C%5Cd%2A%29%3Fi%3F%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%28%3F%3AtryCatch%7Clibrary%7CsetGeneric%7CsetGroupGeneric%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5C%2E%5C%5C%2E%5C%5C%2E%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5C%2E%5C%5C%2E%5C%5Cd%2B%28%3F%21%5B%5C%5Cw%2E%5D%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%5C%5Cb%28%3F%3Afunction%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A2%7D%2C%7BcN%3A%22keyword%22%2Cb%3A%22%28%3F%3Aif%7Cin%7Cbreak%7Cnext%7Crepeat%7Celse%7Cfor%7Creturn%7Cswitch%7Cwhile%7Ctry%7Cstop%7Cwarning%7Crequire%7Cattach%7Cdetach%7Csource%7CsetMethod%7CsetClass%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22literal%22%2Cb%3A%22%28%3F%3ANA%7CNA%5Finteger%5F%7CNA%5Freal%5F%7CNA%5Fcharacter%5F%7CNA%5Fcomplex%5F%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A10%7D%2C%7BcN%3A%22literal%22%2Cb%3A%22%28%3F%3ANULL%7CTRUE%7CFALSE%7CT%7CF%7CInf%7CNaN%29%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22identifier%22%2Cb%3A%22%5Ba%2DzA%2DZ%2E%5D%5Ba%2DzA%2DZ0%2D9%2E%5F%5D%2A%5C%5Cb%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%3C%5C%5C%2D%28%3F%21%5C%5Cs%2A%5C%5Cd%29%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A2%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%5C%5C%2D%3E%7C%3C%5C%5C%2D%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A1%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%25%25%7C%7E%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%3E%3D%7C%3C%3D%7C%3D%3D%7C%21%3D%7C%5C%5C%7C%5C%5C%7C%7C%26%26%7C%3D%7C%5C%5C%2B%7C%5C%5C%2D%7C%5C%5C%2A%7C%2F%7C%5C%5C%5E%7C%3E%7C%3C%7C%21%7C%26%7C%5C%5C%7C%7C%5C%5C%24%7C%3A%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%2C%7BcN%3A%22operator%22%2Cb%3A%22%25%22%2Ce%3A%22%25%22%2Ci%3A%22%5C%5Cn%22%2Cr%3A1%7D%2C%7BcN%3A%22identifier%22%2Cb%3A%22%60%22%2Ce%3A%22%60%22%2Cr%3A0%7D%2C%7BcN%3A%22string%22%2Cb%3A%27%22%27%2Ce%3A%27%22%27%2Cc%3A%5Bhljs%2EBE%5D%2Cr%3A0%7D%2C%7BcN%3A%22string%22%2Cb%3A%22%27%22%2Ce%3A%22%27%22%2Cc%3A%5Bhljs%2EBE%5D%2Cr%3A0%7D%2C%7BcN%3A%22paren%22%2Cb%3A%22%5B%5B%28%7B%5C%5C%5D%29%7D%5D%22%2Ce%3Ahljs%2EIMMEDIATE%5FRE%2Cr%3A0%7D%5D%7D%7D%3B%0Ahljs%2EinitHighlightingOnLoad%28%29%3B%0A%0A"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+<link href="data:text/css,body%2C%20td%20%7B%0A%20%20%20font%2Dfamily%3A%20sans%2Dserif%3B%0A%20%20%20background%2Dcolor%3A%20white%3B%0A%20%20%20font%2Dsize%3A%2013px%3B%0A%7D%0A%0Abody%20%7B%0A%20%20max%2Dwidth%3A%20800px%3B%0A%20%20margin%3A%200%20auto%3B%0A%20%20padding%3A%201em%201em%202em%3B%0A%20%20line%2Dheight%3A%2020px%3B%0A%7D%0A%0A%2F%2A%20element%20spacing%20%2A%2F%0A%0Ap%2C%20pre%20%7B%20%0A%20%20margin%3A%200em%200em%201em%3B%0A%7D%0A%0A%2F%2A%20center%20images%20and%20tables%20%2A%2F%0Aimg%2C%20table%20%7B%0A%20%20margin%3A%200em%20auto%201em%3B%0A%7D%0A%0Ap%20%7B%0A%20%20text%2Dalign%3A%20justify%3B%0A%7D%0A%0Att%2C%20code%2C%20pre%20%7B%0A%20%20%20font%2Dfamily%3A%20%27DejaVu%20Sans%20Mono%27%2C%20%27Droid%20Sans%20Mono%27%2C%20%27Lucida%20Console%27%2C%20Consolas%2C%20Monaco%2C%20monospace%3B%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%20%0A%20%20font%2Dfamily%3A%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20margin%3A%201%2E2em%200em%200%2E6em%200em%3B%0A%20%20font%2Dweight%3A%20bold%3B%0A%7D%0A%0Ah1%2Etitle%20%7B%0A%20%20font%2Dsize%3A%20250%25%3B%0A%20%20font%2Dweight%3A%20normal%3B%0A%20%20color%3A%20%2387b13f%3B%0A%20%20line%2Dheight%3A%201%2E1em%3B%0A%20%20margin%2Dtop%3A%200px%3B%0A%20%20border%2Dbottom%3A%200px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20font%2Dsize%3A%20160%25%3B%0A%20%20font%2Dweight%3A%20normal%3B%0A%20%20line%2Dheight%3A%201%2E4em%3B%0A%20%20border%2Dbottom%3A%201px%20%231a81c2%20solid%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20font%2Dsize%3A%20130%25%3B%20%20%0A%7D%0A%0Ah1%2C%20h2%2C%20h3%20%7B%0A%20%20color%3A%20%231a81c2%3B%0A%7D%0A%0Ah3%2C%20h4%2C%20h5%2C%20h6%20%7B%0A%20%20font%2Dsize%3A115%25%3B%0A%7D%20%2F%2A%20not%20expecting%20to%20dive%20deeper%20than%20four%20levels%20on%20a%20single%20page%20%2A%2F%0A%0A%2F%2A%20links%20are%20simply%20blue%2C%20hovering%20slightly%20less%20blue%20%2A%2F%0Aa%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Aactive%20%7B%20outline%3A%20none%3B%20%7D%0Aa%3Avisited%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Ahover%20%7B%20color%3A%20%234c94c2%3B%20%7D%0A%0Apre%2C%20img%20%7B%0A%20%20max%2Dwidth%3A%20100%25%3B%0A%20%20display%3A%20block%3B%0A%7D%0A%0Apre%20%7B%0A%20%20border%3A%200px%20none%3B%0A%20%20background%2Dcolor%3A%20%23F8F8F8%3B%0A%20%20white%2Dspace%3A%20pre%3B%0A%20%20overflow%2Dx%3A%20auto%3B%0A%7D%0A%0Apre%20code%20%7B%0A%20%20border%3A%201px%20%23aaa%20dashed%3B%0A%20%20background%2Dcolor%3A%20white%3B%0A%20%20display%3A%20block%3B%0A%20%20padding%3A%201em%3B%20%20%0A%20%20color%3A%20%23111%3B%0A%20%20overflow%2Dx%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20markdown%20v1%20%2A%2F%0Apre%20code%5Bclass%5D%20%7B%0A%20%20background%2Dcolor%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20markdown%20v2%20%2A%2F%0Apre%5Bclass%5D%20code%20%7B%0A%20%20background%2Dcolor%3A%20inherit%3B%0A%7D%0A%0A%2F%2A%20formatting%20of%20inline%20code%20%2A%2F%0Acode%20%7B%20%0A%20%20background%2Dcolor%3A%20transparent%3B%0A%20%20color%3A%20%2387b13f%3B%0A%20%20font%2Dsize%3A%2092%25%3B%0A%7D%0A%0A%2F%2A%20formatting%20of%20tables%20%2A%2F%0A%0Atable%2C%20td%2C%20th%20%7B%0A%20%20border%3A%20none%3B%0A%20%20padding%3A%200%200%2E5em%3B%0A%7D%0A%0A%2F%2A%20alternating%20row%20colors%20%2A%2F%0Atbody%20tr%3Anth%2Dchild%28odd%29%20td%20%7B%0A%20%20background%2Dcolor%3A%20%23F8F8F8%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20%20color%3A%23666666%3B%0A%20%20%20margin%3A0%3B%0A%20%20%20padding%2Dleft%3A%201em%3B%0A%20%20%20border%2Dleft%3A%200%2E5em%20%23EEE%20solid%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20%20height%3A%200px%3B%0A%20%20%20border%2Dbottom%3A%20none%3B%0A%20%20%20border%2Dtop%2Dwidth%3A%20thin%3B%0A%20%20%20border%2Dtop%2Dstyle%3A%20dotted%3B%0A%20%20%20border%2Dtop%2Dcolor%3A%20%23999999%3B%0A%7D%0A%0Aspan%2Eheader%2Dsection%2Dnumber%2C%20span%2Etoc%2Dsection%2Dnumber%20%7B%0A%20%20padding%2Dright%3A%201em%3B%0A%7D%0A%0A%40media%20print%20%7B%0A%20%20%20%2A%20%7B%0A%20%20%20%20%20%20background%3A%20transparent%20%21important%3B%0A%20%20%20%20%20%20color%3A%20black%20%21important%3B%0A%20%20%20%20%20%20filter%3Anone%20%21important%3B%0A%20%20%20%20%20%20%2Dms%2Dfilter%3A%20none%20%21important%3B%0A%20%20%20%7D%0A%0A%20%20%20body%20%7B%0A%20%20%20%20%20%20font%2Dsize%3A12pt%3B%0A%20%20%20%20%20%20max%2Dwidth%3A100%25%3B%0A%20%20%20%7D%0A%0A%20%20%20a%2C%20a%3Avisited%20%7B%0A%20%20%20%20%20%20text%2Ddecoration%3A%20underline%3B%0A%20%20%20%7D%0A%0A%20%20%20hr%20%7B%0A%20%20%20%20%20%20visibility%3A%20hidden%3B%0A%20%20%20%20%20%20page%2Dbreak%2Dbefore%3A%20always%3B%0A%20%20%20%7D%0A%0A%20%20%20pre%2C%20blockquote%20%7B%0A%20%20%20%20%20%20padding%2Dright%3A%201em%3B%0A%20%20%20%20%20%20page%2Dbreak%2Dinside%3A%20avoid%3B%0A%20%20%20%7D%0A%0A%20%20%20tr%2C%20img%20%7B%0A%20%20%20%20%20%20page%2Dbreak%2Dinside%3A%20avoid%3B%0A%20%20%20%7D%0A%0A%20%20%20img%20%7B%0A%20%20%20%20%20%20max%2Dwidth%3A%20100%25%20%21important%3B%0A%20%20%20%7D%0A%0A%20%20%20%40page%20%3Aleft%20%7B%0A%20%20%20%20%20%20margin%3A%2015mm%2020mm%2015mm%2010mm%3B%0A%20%20%20%7D%0A%0A%20%20%20%40page%20%3Aright%20%7B%0A%20%20%20%20%20%20margin%3A%2015mm%2010mm%2015mm%2020mm%3B%0A%20%20%20%7D%0A%0A%20%20%20p%2C%20h2%2C%20h3%20%7B%0A%20%20%20%20%20%20orphans%3A%203%3B%20widows%3A%203%3B%0A%20%20%20%7D%0A%0A%20%20%20h2%2C%20h3%20%7B%0A%20%20%20%20%20%20page%2Dbreak%2Dafter%3A%20avoid%3B%0A%20%20%20%7D%0A%7D%0A" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  var links = document.links;  
+  for (var i = 0, linksLength = links.length; i < linksLength; i++)
+    if(links[i].hostname != window.location.hostname)
+      links[i].target = '_blank';
+});
+</script>
+
+</head>
+
+<body>
+
+
+<div id="header">
+<h1 class="title">Test</h1>
+<h3 class="subtitle"><em>Test2</em></h3>
+<h4 class="author"><em>Kasper D. Hansen</em></h4>
+</div>
+
+<h1>Contents</h1>
+<div id="TOC">
+<ul>
+<li><a href="#dependencies"><span class="toc-section-number">1</span> Dependencies</a></li>
+<li><a href="#usecase"><span class="toc-section-number">2</span> Usecase</a></li>
+<li><a href="#getting-the-data"><span class="toc-section-number">3</span> Getting the data</a></li>
+<li><a href="#sessioninfo"><span class="toc-section-number">4</span> SessionInfo</a></li>
+</ul>
+</div>
+
+<div id="dependencies" class="section level1">
+<h1><span class="header-section-number">1</span> Dependencies</h1>
+<p>This document has the following dependecies:</p>
+<pre class="r"><code>library(GenomicRanges)
+library(AnnotationHub)</code></pre>
+<p>Use the following commands to install these packages in R.</p>
+<pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
+biocLite(c(&quot;GenomicRanges&quot;, &quot;AnnotationHub&quot;))</code></pre>
+</div>
+<div id="usecase" class="section level1">
+<h1><span class="header-section-number">2</span> Usecase</h1>
+<p>We are going to use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> to access ENCODE data on the H3K4me3 histone modification in a specific cell line. This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.</p>
+</div>
+<div id="getting-the-data" class="section level1">
+<h1><span class="header-section-number">3</span> Getting the data</h1>
+<p>First we use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> to get data on homo sapiens.</p>
+<pre class="r"><code>ah &lt;- AnnotationHub()
+ah &lt;- subset(ah, species == &quot;Homo sapiens&quot;)</code></pre>
+<p>Next we search for two keywords: <strong>H3K4me3</strong> and <strong>Gm12878</strong> which is the name of the cell line we are interested in.</p>
+<pre class="r"><code>qhs &lt;- query(ah, &quot;H3K4me3&quot;)
+qhs &lt;- query(qhs, &quot;Gm12878&quot;)</code></pre>
+<p>(Note: I like to keep my full annotation hub around, so I can re-do my query with a different search term in case I end up with no hits. This is why I start assigning output to the <code>qhs</code> object and not <code>ah</code>).</p>
+<p>Lets have a look</p>
+<pre class="r"><code>qhs</code></pre>
+<pre><code>## AnnotationHub with 11 records
+## # snapshotDate(): 2015-07-27 
+## # $dataprovider: BroadInstitute, UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges, BigWigFile
+## # additional mcols(): taxonomyid, genome, description, tags,
+## #   sourceurl, sourcetype 
+## # retrieve records with, e.g., 'object[[&quot;AH23256&quot;]]' 
+## 
+##             title                                                      
+##   AH23256 | wgEncodeBroadHistoneGm12878H3k4me3StdPk.broadPeak.gz       
+##   AH27075 | wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep1.broadPeak.gz
+##   AH27076 | wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep2.broadPeak.gz
+##   AH27077 | wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz     
+##   AH27078 | wgEncodeUwHistoneGm12878H3k4me3StdPkRep2.narrowPeak.gz     
+##   ...       ...                                                        
+##   AH30747 | E116-H3K4me3.narrowPeak.gz                                 
+##   AH31690 | E116-H3K4me3.gappedPeak.gz                                 
+##   AH32869 | E116-H3K4me3.fc.signal.bigwig                              
+##   AH33901 | E116-H3K4me3.pval.signal.bigwig                            
+##   AH40294 | E116-H3K4me3.imputed.pval.signal.bigwig</code></pre>
+<p>Note how some of these hits don’t contain <strong>Gm12878</strong> in their title. This is a useful illustration of how <code>query</code> searches over multiple fields.</p>
+<p>Lets have a closer look at this</p>
+<pre class="r"><code>qhs$title</code></pre>
+<pre><code>##  [1] &quot;wgEncodeBroadHistoneGm12878H3k4me3StdPk.broadPeak.gz&quot;       
+##  [2] &quot;wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep1.broadPeak.gz&quot;
+##  [3] &quot;wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep2.broadPeak.gz&quot;
+##  [4] &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz&quot;     
+##  [5] &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep2.narrowPeak.gz&quot;     
+##  [6] &quot;E116-H3K4me3.broadPeak.gz&quot;                                  
+##  [7] &quot;E116-H3K4me3.narrowPeak.gz&quot;                                 
+##  [8] &quot;E116-H3K4me3.gappedPeak.gz&quot;                                 
+##  [9] &quot;E116-H3K4me3.fc.signal.bigwig&quot;                              
+## [10] &quot;E116-H3K4me3.pval.signal.bigwig&quot;                            
+## [11] &quot;E116-H3K4me3.imputed.pval.signal.bigwig&quot;</code></pre>
+<pre class="r"><code>qhs$dataprovider</code></pre>
+<pre><code>##  [1] &quot;UCSC&quot;           &quot;UCSC&quot;           &quot;UCSC&quot;           &quot;UCSC&quot;          
+##  [5] &quot;UCSC&quot;           &quot;BroadInstitute&quot; &quot;BroadInstitute&quot; &quot;BroadInstitute&quot;
+##  [9] &quot;BroadInstitute&quot; &quot;BroadInstitute&quot; &quot;BroadInstitute&quot;</code></pre>
+<p>This result is a great illustration of the mess of public data. It turns our that <strong>E116</strong> is a Roadmap Epigenetics code for the <strong>Gm12878</strong> cell line. The first 5 hits are from ENCODE, hosted at UCSC and the last 6 hits are from Roadmap Epigenomics hosted at the Broad Institute. The Roadmap data is different representation (and peaks) from the same underlying data. For the ENCODE data, two different centers did the same experiment in the same cell line (<code>Broad</code>, hit 1) and (<code>Uw</code>, hit 2-5), where <code>Uw</code> exposed data on two replicates (whatever that means). These two experiments seems to be analyzed using different algorithms. It is even possible that the Roadmap data is from the same raw data but just analyzed using different algorithms.</p>
+<p>Lets take a look at the <code>narrowPeak</code> data:</p>
+<pre class="r"><code>gr1 &lt;- subset(qhs, title == &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz&quot;)[[1]]
+gr1</code></pre>
+<pre><code>## GRanges object with 74470 ranges and 6 metadata columns:
+##           seqnames                 ranges strand   |        name     score
+##              &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;character&gt; &lt;numeric&gt;
+##       [1]     chr1       [713301, 713450]      *   |        &lt;NA&gt;         0
+##       [2]     chr1       [713501, 713650]      *   |        &lt;NA&gt;         0
+##       [3]     chr1       [713881, 714030]      *   |        &lt;NA&gt;         0
+##       [4]     chr1       [714181, 714330]      *   |        &lt;NA&gt;         0
+##       [5]     chr1       [714481, 714630]      *   |        &lt;NA&gt;         0
+##       ...      ...                    ...    ... ...         ...       ...
+##   [74466]     chrX [154492741, 154492890]      *   |        &lt;NA&gt;         0
+##   [74467]     chrX [154493401, 154493550]      *   |        &lt;NA&gt;         0
+##   [74468]     chrX [154560441, 154560590]      *   |        &lt;NA&gt;         0
+##   [74469]     chrX [154562121, 154562270]      *   |        &lt;NA&gt;         0
+##   [74470]     chrX [154842061, 154842210]      *   |        &lt;NA&gt;         0
+##           signalValue    pValue    qValue      peak
+##             &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+##       [1]          91  112.7680        -1        -1
+##       [2]          25   26.7181        -1        -1
+##       [3]          81   77.4798        -1        -1
+##       [4]          32  106.5650        -1        -1
+##       [5]         122  153.8320        -1        -1
+##       ...         ...       ...       ...       ...
+##   [74466]          43  52.20930        -1        -1
+##   [74467]         122 203.16800        -1        -1
+##   [74468]           8   4.49236        -1        -1
+##   [74469]           8   4.41978        -1        -1
+##   [74470]         125 170.20100        -1        -1
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome</code></pre>
+<pre class="r"><code>gr2 &lt;- subset(qhs, title == &quot;E116-H3K4me3.narrowPeak.gz&quot;)[[1]]
+gr2</code></pre>
+<pre><code>## GRanges object with 76188 ranges and 6 metadata columns:
+##           seqnames                 ranges strand   |        name     score
+##              &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;character&gt; &lt;numeric&gt;
+##       [1]     chr9 [123553464, 123557122]      *   |      Rank_1       623
+##       [2]     chr3 [ 53196213,  53197995]      *   |      Rank_2       622
+##       [3]    chr18 [  9137534,   9142676]      *   |      Rank_3       583
+##       [4]    chr11 [ 75110593,  75111943]      *   |      Rank_4       548
+##       [5]    chr13 [ 41343776,  41345943]      *   |      Rank_5       543
+##       ...      ...                    ...    ... ...         ...       ...
+##   [76184]     chr8 [ 98881411,  98881613]      *   |  Rank_76184        20
+##   [76185]     chr9 [ 26812360,  26812533]      *   |  Rank_76185        20
+##   [76186]     chrX [ 49019816,  49020016]      *   |  Rank_76186        20
+##   [76187]     chrX [ 55932872,  55933045]      *   |  Rank_76187        20
+##   [76188]     chr5 [118322235, 118322408]      *   |  Rank_76188        20
+##           signalValue    pValue    qValue      peak
+##             &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+##       [1]    23.09216  62.34132  52.85911      1736
+##       [2]    24.91976  62.22835  52.85911       439
+##       [3]    22.48938  58.39180  50.67302       442
+##       [4]    22.47056  54.84914  47.77176       752
+##       [5]    20.82804  54.31837  47.29083       909
+##       ...         ...       ...       ...       ...
+##   [76184]     2.63471   2.02539   0.27458        94
+##   [76185]     2.63471   2.02539   0.27458        32
+##   [76186]     2.63471   2.02539   0.27458        82
+##   [76187]     2.63471   2.02539   0.27458        41
+##   [76188]     2.62206   2.00970   0.26790        52
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome</code></pre>
+<p>(I use this code, where I use <code>title</code> to refer to the different resources, to make this script more robust over time).</p>
+<p>This gives us two <code>GRanges</code> objects. Let us look at the distribution of peak widths:</p>
+<pre class="r"><code>summary(width(gr1))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   150.0   150.0   150.0   150.3   150.0   410.0</code></pre>
+<pre class="r"><code>table(width(gr1))</code></pre>
+<pre><code>## 
+##   150   210   230   250   270   290   390   410 
+## 74313     1    13    24    37    77     4     1</code></pre>
+<pre class="r"><code>summary(width(gr2))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     174     243     387     662     770   12340</code></pre>
+<p>Turns out that almost all peaks in <code>gr1</code> have a width of 150bp, whereas <code>gr2</code> is much more variable. This is likely a product of the data processing algorithm.</p>
+<p>At this time one can spend a lot of time thinking about which dataset is best. We talked about ENCODE data above, in the problem formulation, so let us stick with <code>gr1</code>.</p>
+<p>Now we need to get some promoter coordinates. There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub. RefSeq is a highly curated (aka conservative) collection of genes. Most genes in RefSeq has a single isoform, which shows how conservative they are.</p>
+<p>Lets get started</p>
+<pre class="r"><code>qhs &lt;- query(ah, &quot;RefSeq&quot;)
+qhs</code></pre>
+<pre><code>## AnnotationHub with 8 records
+## # snapshotDate(): 2015-07-27 
+## # $dataprovider: UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges
+## # additional mcols(): taxonomyid, genome, description, tags,
+## #   sourceurl, sourcetype 
+## # retrieve records with, e.g., 'object[[&quot;AH5040&quot;]]' 
+## 
+##            title       
+##   AH5040 | RefSeq Genes
+##   AH5041 | Other RefSeq
+##   AH5155 | RefSeq Genes
+##   AH5156 | Other RefSeq
+##   AH5306 | RefSeq Genes
+##   AH5307 | Other RefSeq
+##   AH5431 | RefSeq Genes
+##   AH5432 | Other RefSeq</code></pre>
+<p>This is a bit weird at first. We probably need the thing called <code>RefSeq Genes</code> and not <code>Other RefSeq</code> but why are there multiple resources with the same name?</p>
+<p>Turns out the answer makes sense:</p>
+<pre class="r"><code>qhs$genome</code></pre>
+<pre><code>## [1] &quot;hg19&quot; &quot;hg19&quot; &quot;hg18&quot; &quot;hg18&quot; &quot;hg17&quot; &quot;hg17&quot; &quot;hg16&quot; &quot;hg16&quot;</code></pre>
+<p>This looks like the same resources, but in different genome builds. We have</p>
+<pre class="r"><code>genome(gr1)</code></pre>
+<pre><code>##                  chr1                  chr2                  chr3 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                  chr4                  chr5                  chr6 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                  chr7                  chr8                  chr9 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                 chr10                 chr11                 chr12 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                 chr13                 chr14                 chr15 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                 chr16                 chr17                 chr18 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                 chr19                 chr20                 chr21 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                 chr22                  chrX                  chrY 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##                  chrM  chr1_gl000191_random  chr1_gl000192_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chr4_ctg9_hap1  chr4_gl000193_random  chr4_gl000194_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##         chr6_apd_hap1         chr6_cox_hap2         chr6_dbb_hap3 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chr6_mann_hap4         chr6_mcf_hap5         chr6_qbl_hap6 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chr6_ssto_hap7  chr7_gl000195_random  chr8_gl000196_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##  chr8_gl000197_random  chr9_gl000198_random  chr9_gl000199_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##  chr9_gl000200_random  chr9_gl000201_random chr11_gl000202_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##       chr17_ctg5_hap1 chr17_gl000203_random chr17_gl000204_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+## chr17_gl000205_random chr17_gl000206_random chr18_gl000207_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+## chr19_gl000208_random chr19_gl000209_random chr21_gl000210_random 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000211        chrUn_gl000212        chrUn_gl000213 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000214        chrUn_gl000215        chrUn_gl000216 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000217        chrUn_gl000218        chrUn_gl000219 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000220        chrUn_gl000221        chrUn_gl000222 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000223        chrUn_gl000224        chrUn_gl000225 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000226        chrUn_gl000227        chrUn_gl000228 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000229        chrUn_gl000230        chrUn_gl000231 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000232        chrUn_gl000233        chrUn_gl000234 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000235        chrUn_gl000236        chrUn_gl000237 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000238        chrUn_gl000239        chrUn_gl000240 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000241        chrUn_gl000242        chrUn_gl000243 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000244        chrUn_gl000245        chrUn_gl000246 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot; 
+##        chrUn_gl000247        chrUn_gl000248        chrUn_gl000249 
+##                &quot;hg19&quot;                &quot;hg19&quot;                &quot;hg19&quot;</code></pre>
+<p>so we know which one to get:</p>
+<pre class="r"><code>refseq &lt;- qhs[qhs$genome == &quot;hg19&quot; &amp; qhs$title == &quot;RefSeq Genes&quot;]
+refseq</code></pre>
+<pre><code>## AnnotationHub with 1 record
+## # snapshotDate(): 2015-07-27 
+## # names(): AH5040
+## # $dataprovider: UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges
+## # $title: RefSeq Genes
+## # $description: GRanges object from UCSC track 'RefSeq Genes'
+## # $taxonomyid: 9606
+## # $genome: hg19
+## # $sourcetype: UCSC track
+## # $sourceurl: rtracklayer://hgdownload.cse.ucsc.edu/goldenpath/hg19/dat...
+## # $sourcelastmodifieddate: NA
+## # $sourcesize: NA
+## # $tags: refGene, UCSC, track, Gene, Transcript, Annotation 
+## # retrieve record with 'object[[&quot;AH5040&quot;]]'</code></pre>
+<pre class="r"><code>refseq &lt;- refseq[[1]] # Downloads</code></pre>
+<p>Lets have a look</p>
+<pre class="r"><code>refseq</code></pre>
+<pre><code>## UCSC track 'refGene'
+## UCSCData object with 50066 ranges and 5 metadata columns:
+##                        seqnames               ranges strand   |
+##                           &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;   |
+##       [1]                  chr1 [66999825, 67210768]      +   |
+##       [2]                  chr1 [ 8378145,  8404227]      +   |
+##       [3]                  chr1 [48998527, 50489626]      -   |
+##       [4]                  chr1 [16767167, 16786584]      +   |
+##       [5]                  chr1 [16767167, 16786584]      +   |
+##       ...                   ...                  ...    ... ...
+##   [50062] chr19_gl000209_random     [ 57209,  68123]      +   |
+##   [50063] chr19_gl000209_random     [ 46646,  68123]      +   |
+##   [50064] chr19_gl000209_random     [ 98135, 112667]      +   |
+##   [50065] chr19_gl000209_random     [ 70071,  84658]      +   |
+##   [50066] chr19_gl000209_random     [131433, 145745]      +   |
+##                   name     score     itemRgb                thick
+##            &lt;character&gt; &lt;numeric&gt; &lt;character&gt;            &lt;IRanges&gt;
+##       [1]    NM_032291         0        &lt;NA&gt; [67000042, 67208778]
+##       [2] NM_001080397         0        &lt;NA&gt; [ 8378169,  8404073]
+##       [3]    NM_032785         0        &lt;NA&gt; [48999845, 50489468]
+##       [4] NM_001145277         0        &lt;NA&gt; [16767257, 16785491]
+##       [5] NM_001145278         0        &lt;NA&gt; [16767257, 16785385]
+##       ...          ...       ...         ...                  ...
+##   [50062]    NM_002255         0        &lt;NA&gt;     [ 57249,  67717]
+##   [50063] NM_001258383         0        &lt;NA&gt;     [ 57132,  67717]
+##   [50064]    NM_012313         0        &lt;NA&gt;     [ 98146, 112480]
+##   [50065] NM_001083539         0        &lt;NA&gt;     [ 70108,  83979]
+##   [50066]    NM_012312         0        &lt;NA&gt;     [131468, 145120]
+##                                                     blocks
+##                                              &lt;IRangesList&gt;
+##       [1] [    1,   227] [91706, 91769] [98929, 98953] ...
+##       [2]       [   1,  102] [6222, 6642] [7214, 7306] ...
+##       [3]       [   1, 1439] [2036, 2062] [6788, 6884] ...
+##       [4]       [   1,  182] [2961, 3061] [7199, 7303] ...
+##       [5]       [   1,  104] [2961, 3061] [7199, 7303] ...
+##       ...                                              ...
+##   [50062]       [   1,   80] [ 280,  315] [1182, 1466] ...
+##   [50063] [    1,    86] [10414, 10643] [10843, 10878] ...
+##   [50064]       [   1,   46] [1523, 1557] [4002, 4301] ...
+##   [50065]       [   1,   71] [1071, 1106] [1851, 2135] ...
+##   [50066]       [   1,   69] [ 862,  897] [3334, 3633] ...
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome</code></pre>
+<p>Let us look at the number of isoforms per gene name:</p>
+<pre class="r"><code>table(table(refseq$name))</code></pre>
+<pre><code>## 
+##     1     2     3     4     5     6     7     8     9    10    12    13 
+## 45178   568   102    27    74    52   171   129    13    19     1     1 
+##    19 
+##     5</code></pre>
+<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).</p>
+<p>Notice that each transcript is a separate range. Therefore, each transcript is represented as the “outer” coordinates of the gene; the ranges does not exclude introns. Because we got this from UCSC I know that the <code>$blocks</code> metadata really contains the coordinates of the different exons. In a later example we shall see an easier way to operate on genes, where we keep track of exons and introns through something known as a <code>TxDb</code> (transcript database) object.</p>
+<p>For now, we just need the promoters, so we don’t really care about introns. We need to keep track of which strand each transcript is on, to get the transcription start site.</p>
+<p>Or we could just use the convenience function <code>promoters()</code>:</p>
+<pre class="r"><code>promoters &lt;- promoters(refseq)
+table(width(promoters))</code></pre>
+<pre><code>## 
+##  2200 
+## 50066</code></pre>
+<pre class="r"><code>args(promoters)</code></pre>
+<pre><code>## NULL</code></pre>
+<p>There are many definations of promoters based on transcription start site. The default here is to use 2kb upstream and 200bp downstream. Lets keep this.</p>
+<p>Now we compute which promoters have a H3K4me3 peak in them:</p>
+<pre class="r"><code>ov &lt;- findOverlaps(promoters, gr1)
+ov</code></pre>
+<pre><code>## Hits object with 46022 hits and 0 metadata columns:
+##           queryHits subjectHits
+##           &lt;integer&gt;   &lt;integer&gt;
+##       [1]         2         387
+##       [2]         3        2523
+##       [3]         4         774
+##       [4]         5         774
+##       [5]         6        1114
+##       ...       ...         ...
+##   [46018]     47457       47491
+##   [46019]     47459       47493
+##   [46020]     47459       47494
+##   [46021]     47460       47493
+##   [46022]     47460       47494
+##   -------
+##   queryLength: 50066
+##   subjectLength: 74470</code></pre>
+<p>Let us compute how many percent of the peaks are in promoter</p>
+<pre class="r"><code>length(unique(queryHits(ov))) / length(gr1)</code></pre>
+<pre><code>## [1] 0.3333691</code></pre>
+<p>and how many percent of promoters have a peak</p>
+<pre class="r"><code>length(unique(subjectHits(ov))) / length(promoters)</code></pre>
+<pre><code>## [1] 0.440878</code></pre>
+<p>My rule of thumb is that in any cell typearound 50% of genes are expressed, which fits pretty well with these numbers.</p>
+<p>Now, the overlap is non-empty, but is it interesting or “significant”. Providing a very good answer to this question is not easy, but one can use different back-of-the-envelope calculations to get a feel for it.</p>
+<p>First we notice that both promoters and peaks are small compared to the size of the human genome:</p>
+<pre class="r"><code>sum(width(reduce(gr1))) / 10^6</code></pre>
+<pre><code>## [1] 11.19044</code></pre>
+<pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
+<pre><code>## [1] 64.3005</code></pre>
+<p>(result is in megabases). Just this fact alone should convince you that the overlap is highly unlikely to be random. To take this thought to its logical conclusion, let us calculate the overlap in megabases:</p>
+<pre class="r"><code>sum(width(intersect(gr1, promoters)))</code></pre>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="sessioninfo" class="section level1">
+<h1><span class="header-section-number">4</span> SessionInfo</h1>
+<p></p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.2.1 Patched (2015-07-12 r68650)
+## Platform: x86_64-apple-darwin14.4.0 (64-bit)
+## Running under: OS X 10.10.4 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats4    parallel  methods   stats     graphics  grDevices utils    
+## [8] datasets  base     
+## 
+## other attached packages:
+## [1] rtracklayer_1.29.12   AnnotationHub_2.1.31  GenomicRanges_1.21.17
+## [4] GenomeInfoDb_1.5.9    IRanges_2.3.15        S4Vectors_0.7.10     
+## [7] BiocGenerics_0.15.3   BiocStyle_1.7.4       rmarkdown_0.7        
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.0                  futile.logger_1.4.1         
+##  [3] BiocInstaller_1.19.9         formatR_1.2                 
+##  [5] XVector_0.9.1                futile.options_1.0.0        
+##  [7] bitops_1.0-6                 tools_3.2.1                 
+##  [9] zlibbioc_1.15.0              digest_0.6.8                
+## [11] BSgenome_1.37.4              RSQLite_1.0.0               
+## [13] evaluate_0.7                 shiny_0.12.1                
+## [15] DBI_0.3.1                    curl_0.9.1                  
+## [17] yaml_2.1.13                  httr_1.0.0                  
+## [19] stringr_1.0.0                knitr_1.10.5                
+## [21] Biostrings_2.37.2            Biobase_2.29.1              
+## [23] R6_2.1.0                     AnnotationDbi_1.31.17       
+## [25] XML_3.98-1.3                 BiocParallel_1.3.41         
+## [27] lambda.r_1.1.7               magrittr_1.5                
+## [29] GenomicAlignments_1.5.12     Rsamtools_1.21.14           
+## [31] htmltools_0.2.6              SummarizedExperiment_0.3.2  
+## [33] mime_0.3                     interactiveDisplayBase_1.7.1
+## [35] xtable_1.7-4                 httpuv_1.3.2                
+## [37] stringi_0.5-5                RCurl_1.95-4.7</code></pre>
+<div class="references">
+<h1 id="references" class="unnumbered">References</h1>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

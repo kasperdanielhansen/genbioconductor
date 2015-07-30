@@ -1,0 +1,228 @@
+---
+author: Kasper D. Hansen
+title: IRanges and GenomicRanges
+subtitle: An introduction
+fontsize: 10pt
+output:
+  html_document:
+    css: styles.css
+    number_sections: true
+    toc: yes
+    toc_depth: 3
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+# GRanges
+
+`GRanges` are like `IRanges` with strand and chromosome.  Strand can be `+`, `-` and `*`. The value `*` indicates 'unknown strand' or 'unstranded'.  This value usually gets treated as a third strand, which is sometimes confusing to users (examples below).
+
+They get created with the `GRanges` constructor:
+
+```{r}
+gr <- GRanges(seqnames = "chr1", strand = c("+", "-", "+"),
+              ranges = IRanges(start = c(1,3,5), width = 3))
+              
+``` 
+
+Natural accessor functions: `strand()`, `seqnmes()`, `ranges()`, `start()`, `end()`, `width()`.
+
+Because the have strand, we now have operations which are relative to the direction of transcription (`upstream()`, `downstream()`):
+
+```{r}
+flank(gr, 2, start = FALSE)
+``` 
+
+
+# GRanges, seqinfo
+
+`GRanges` operate within a universe of sequences (chromosomes/contigs) and their lengths.
+
+This is described through `seqinfo`:
+
+```{r seqinfo}
+seqinfo(gr)
+seqlengths(gr) <- c("chr1" = 10)
+seqinfo(gr)
+seqlevels(gr)
+seqlengths(gr)
+``` 
+
+Especially the length of the chromosomes are used by some functions.  For example `gaps()` return the stretches of the genome not covered by the `GRanges`.
+
+```{r gaps}
+gaps(gr)
+```
+
+In this example, we know that the last gap stops at 10, because that is the length of the chromosome.  Note how a range on the `*` strand appears in the result.
+
+Let us expand the `GRanges` with another chromosome
+
+```{r gr2}
+gr2 <- GRanges(seqnames = c("chr1", "chr2", "chr1"), strand = "*",
+               ranges = IRanges(start = c(1, 3, 5), width = 3))
+gr2
+sort(gr2)
+seqlevels(gr2)
+seqlevels(gr2) <- c("chr2", "chr1")
+sort(gr2)
+```
+
+Note how the order of `seqlevels` affects how the `GRanges` is sorted.
+
+An easy way to drop chromosomes is by
+```{r seqlevelsForce}
+seqlevels(gr2, force = TRUE) <- "chr1"
+gr2
+```
+There is also `dropSeqlevels()`, `keepSeqlevels()`, `keepStandardChromosomes`.
+
+Finally, you can put a `genome()` on the differenct sequences, like
+```{r genome}
+genome(gr) <- "hg19"
+genome(gr2) <- "hg18"
+```
+
+This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error, like
+
+```{r gr-error, error=TRUE}
+findOverlaps(gr, gr2)
+```
+
+The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.
+
+Lets clean up `gr2` because we use it below
+```{r cleanup}
+genome(gr2) <- "hg19"
+```
+
+# GRanges, seqinfo and genomeInfoDb
+
+Some things gets tiring, like
+
+- Adding `seqlengths` to your `GRanges`
+- Dealing with the fact that different annotation resources uses different naming conventions for chromosomes (like `chrM` vs `chrMT`).
+
+This is one reason the `GenomeInfoDb` package was created.  It contains information about the "standard" chromosomes from widely used organisms.
+
+FIXME
+
+# GRanges, metadata
+
+`GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
+
+```{r}
+values(gr) <- DataFrame(score = c(0.1, 0.5, 0.3))
+gr
+values(gr)
+``` 
+
+(note the `DataFrame` ... see next section.)
+
+A much easier way to set and access metadata is through the `$` operator
+
+```{r grdollar}
+gr$score
+gr$score2 = gr$score * 0.2
+gr
+```
+
+# DataFrame
+
+The `r Biocpkg("S4Vectors")` package introduced the `DataFrame` class.  This class is very similar to the base `data.frame` class from R, but it allows columns of any class, provided a number of required methods are supported.  For example, `DataFrame` can have `IRanges` as columns, unlike `data.frame`:
+
+```{r DataFrame}
+ir <- IRanges(start = 1:2, width = 3)
+df1 <- DataFrame(iranges = ir)
+df1
+df1$iranges
+df2 <- data.frame(iranges = ir)
+df2
+```
+
+In the `data.frame` case, the `IRanges` gives rise to 4 columns, whereas it is a single column when a `DataFrame` is used.
+
+Think of this as an expanded and more versatile class.
+
+# findOverlaps
+
+`findOverlaps` works exactly as for `IRanges`.  But the `strand` information can be confusing.  Let us make an example
+
+```{r findOverlaps_setup}
+gr
+gr2
+```
+
+Note how the `ranges` in the two `GRanges` object are the same coordinates, they just have different `seqnames` and `strand`.  Let us try to do a standard `findOverlaps`:
+
+```{r findOverlaps}
+findOverlaps(gr, gr2)
+```
+
+FIXME: this section is wrong
+
+Notice how the first element of `gr` does not overlap with the first element of `gr2`.  This is because by default a strand of `*` does not overlap a strand of `+`.  This might be confusing.  One way of fixing this is by using the `ignore.strand` argument to `findOverlaps`:
+
+```{r findOverlaps_ignore}
+findOverlaps(gr, gr2, ignore.strand = TRUE)
+```
+
+Several other functions in `GenomicRanges` have an `ignore.strand` argument for this reason.
+
+# Biology usecases
+
+Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
+
+## Biology usecase I
+
+Suppose we want to identify TF binding sites that overlaps known SNPs.
+
+Input objects are  
+snps: a `GRanges` (of width 1)  
+TF: a `GRanges`
+
+```{r, eval=FALSE}
+findOverlaps(snps, TF)
+``` 
+
+(watch out for strand)
+
+# Biology usecase II
+
+Suppose we have a set of DMRs (think genomic regions) and a set of
+CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
+
+dmrs: a `GRanges`  
+islands: a `GRanges`
+
+```{r, eval=FALSE}
+big_islands <- resize(islands, width = 20000 + width(islands), fix = "center")
+findOverlaps(dmrs, big_islands)
+``` 
+
+(watch out for strand)
+
+
+# SessionInfo
+
+\scriptsize
+
+```{r, echo=FALSE}
+sessionInfo()
+```
