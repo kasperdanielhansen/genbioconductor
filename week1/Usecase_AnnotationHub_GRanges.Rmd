@@ -1,6 +1,5 @@
 ---
-title: Test
-subtitle: Test2
+title: Usecase: Basic GRanges and AnnotationHub
 author: Kasper D. Hansen
 fontsize: 10pt
 bibliography: genbioconductor.bib
@@ -25,9 +24,13 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges", "AnnotationHub"))
 ```
 
-# Usecase
+# Usecase: overall description
 
-We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.
+We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.  This involves
+
+1. Getting the ENCODE histone data using `r Biocpkg("AnnotationHub")`.
+2. Getting promoters using `r Biocpkg("AnnotationHub")`.
+3. Comparing the histone data and promoters using `findOverlaps` in `r Biocpkg("GRanges")`.
 
 # Getting the data
 
@@ -88,9 +91,9 @@ qhs
 ```
 This is a bit weird at first.  We probably need the thing called `RefSeq Genes` and not `Other RefSeq` but why are there multiple resources with the same name?
 
-Turns out the answer is obvious:
+Turns out the answer makes sense:
 ```{r ahub_refseq_genome}
-genome(qhs)
+qhs$genome
 ```
 This looks like the same resources, but in different genome builds.  We have
 ```{r ahub_histone_genome}
@@ -98,7 +101,7 @@ genome(gr1)
 ```
 so we know which one to get:
 ```{r ahub_get_refseq}
-refseq <- qhs[qhs$genome == "hg19" & qhs$title == "RefSeq Genes")]
+refseq <- qhs[qhs$genome == "hg19" & qhs$title == "RefSeq Genes"]
 refseq
 refseq <- refseq[[1]] # Downloads
 ```
@@ -150,7 +153,7 @@ sum(width(reduce(promoters))) / 10^6
 ```
 (result is in megabases).  Just this fact alone should convince you that the overlap is highly unlikely to be random.  To take this thought to its logical conclusion, let us calculate the overlap in megabases:
 ```{r size}
-sum(width(intersect(gr1, promoters))
+sum(width(intersect(gr1, promoters)))
 ```
 
 # SessionInfo

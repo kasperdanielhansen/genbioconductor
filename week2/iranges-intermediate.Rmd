@@ -113,3 +113,21 @@ In summary, we have the following
 
 These types of objects allow you to accomplish many useful tasks in a very efficient manner, but they sometimes require a bit creativity.
 
+
+# Biology usecase III
+
+Suppose we want to compute the average coverage of bases belonging to
+(known) exons.
+
+reads: a `GRanges`.  
+exons: a `GRanges`.
+
+```{r, eval=FALSE}
+bases <- reduce(exons)
+nBases <- sum(width(bases))
+nCoverage <- sum(Views(coverage(reads), bases))
+nCoverage / nBases
+``` 
+
+(watch out for strand)
+
