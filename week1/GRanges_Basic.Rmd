@@ -1,14 +1,8 @@
 ---
 author: Kasper D. Hansen
-title: IRanges and GenomicRanges
-subtitle: An introduction
+title: GRanges - Basic Usage
 fontsize: 10pt
-output:
-  html_document:
-    css: styles.css
-    number_sections: true
-    toc: yes
-    toc_depth: 3
+bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -28,6 +22,12 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
+
+# Other Resources
+
+The `r Biocpkg("GRanges")` vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+
+The package is decribed in a paper in PLOS Computational Biology [@GenomicRanges].
 
 # GRanges
 
@@ -121,7 +121,7 @@ Some things gets tiring, like
 
 This is one reason the `GenomeInfoDb` package was created.  It contains information about the "standard" chromosomes from widely used organisms.
 
-FIXME
+FIXME: add section on GenomeInfoDb
 
 # GRanges, metadata
 
@@ -226,3 +226,6 @@ findOverlaps(dmrs, big_islands)
 ```{r, echo=FALSE}
 sessionInfo()
 ```
+
+# References
+

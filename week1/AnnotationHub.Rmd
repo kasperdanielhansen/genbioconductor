@@ -31,9 +31,11 @@ There are multiple ways to access annotation information in Bioconductor.
 
 Here we discuss a new way of doing so, through the package `r Biocpkg("AnnotationHub")`.  This package provides access to a ton of online resources through a unified interface.  However, each data resource has its own peculiarities, so a user still needs to understand what the different datasets are.
 
-In a recent paper I was involved in FIXME:citation, I used `r Biocpkg("AnnotationHub")` to interrogate my data against all transcription factor data available through the ENCODE project.  I managed to write the code and conduct the analysis in the matter of a single evening, which I think is pretty awesome.
+In a recent paper I was involved in [@Hansen:EBV], I used `r Biocpkg("AnnotationHub")` to interrogate my data against all transcription factor data available through the ENCODE project.  I managed to write the code and conduct the analysis in the matter of a single evening, which I think is pretty awesome.
 
 # Other Resources
+
+The `r Biocpkg("AnnotationHub")` vignette from the [AnnotationHub webpage](http://bioconductor.org/packages/AnnotationHub).
 
 The [Annotation Resources](http://www.bioconductor.org/help/workflows/annotation/Annotation_Resources/) workflow on Bioconductor contains material on `r Biocpkg("AnnotationHub")`.
 

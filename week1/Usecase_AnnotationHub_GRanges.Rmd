@@ -1,5 +1,5 @@
 ---
-title: Usecase: Basic GRanges and AnnotationHub
+title: Usecase - Basic GRanges and AnnotationHub
 author: Kasper D. Hansen
 fontsize: 10pt
 bibliography: genbioconductor.bib
@@ -24,7 +24,7 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges", "AnnotationHub"))
 ```
 
-# Usecase: overall description
+# Overview
 
 We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.  This involves
 
@@ -156,6 +156,8 @@ sum(width(reduce(promoters))) / 10^6
 sum(width(intersect(gr1, promoters)))
 ```
 
+FIXME: write a conclusion to this usecase.
+
 # SessionInfo
 
 \scriptsize
@@ -164,4 +166,3 @@ sum(width(intersect(gr1, promoters)))
 sessionInfo()
 ```
 
-# References

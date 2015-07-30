@@ -6,6 +6,11 @@ knitr::knit_hooks$set(small.mar = function(before, options, envir) {
 })
 ```
 
+```{r standardPackages, echo=FALSE, message=FALSE}
+## require("knitcitations")
+## cleanbib()
+```
+
 ```{r plotRanges, echo=FALSE}
 plotRanges <- function(x, xlim = x, main = deparse(substitute(x)),
                        col = "black", sep = 0.5, ...) {

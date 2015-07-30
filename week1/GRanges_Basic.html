@@ -11,7 +11,7 @@
 <meta name="author" content="Kasper D. Hansen" />
 
 
-<title>IRanges and GenomicRanges</title>
+<title>GRanges - Basic Usage</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <div id="header">
-<h1 class="title">IRanges and GenomicRanges</h1>
-<h3 class="subtitle"><em>An introduction</em></h3>
+<h1 class="title">GRanges - Basic Usage</h1>
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
@@ -57,17 +56,18 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="TOC">
 <ul>
 <li><a href="#dependencies"><span class="toc-section-number">1</span> Dependencies</a></li>
-<li><a href="#granges"><span class="toc-section-number">2</span> GRanges</a></li>
-<li><a href="#granges-seqinfo"><span class="toc-section-number">3</span> GRanges, seqinfo</a></li>
-<li><a href="#granges-seqinfo-and-genomeinfodb"><span class="toc-section-number">4</span> GRanges, seqinfo and genomeInfoDb</a></li>
-<li><a href="#granges-metadata"><span class="toc-section-number">5</span> GRanges, metadata</a></li>
-<li><a href="#dataframe"><span class="toc-section-number">6</span> DataFrame</a></li>
-<li><a href="#findoverlaps"><span class="toc-section-number">7</span> findOverlaps</a></li>
-<li><a href="#biology-usecases"><span class="toc-section-number">8</span> Biology usecases</a><ul>
-<li><a href="#biology-usecase-i"><span class="toc-section-number">8.1</span> Biology usecase I</a></li>
+<li><a href="#other-resources"><span class="toc-section-number">2</span> Other Resources</a></li>
+<li><a href="#granges"><span class="toc-section-number">3</span> GRanges</a></li>
+<li><a href="#granges-seqinfo"><span class="toc-section-number">4</span> GRanges, seqinfo</a></li>
+<li><a href="#granges-seqinfo-and-genomeinfodb"><span class="toc-section-number">5</span> GRanges, seqinfo and genomeInfoDb</a></li>
+<li><a href="#granges-metadata"><span class="toc-section-number">6</span> GRanges, metadata</a></li>
+<li><a href="#dataframe"><span class="toc-section-number">7</span> DataFrame</a></li>
+<li><a href="#findoverlaps"><span class="toc-section-number">8</span> findOverlaps</a></li>
+<li><a href="#biology-usecases"><span class="toc-section-number">9</span> Biology usecases</a><ul>
+<li><a href="#biology-usecase-i"><span class="toc-section-number">9.1</span> Biology usecase I</a></li>
 </ul></li>
-<li><a href="#biology-usecase-ii"><span class="toc-section-number">9</span> Biology usecase II</a></li>
-<li><a href="#sessioninfo"><span class="toc-section-number">10</span> SessionInfo</a></li>
+<li><a href="#biology-usecase-ii"><span class="toc-section-number">10</span> Biology usecase II</a></li>
+<li><a href="#sessioninfo"><span class="toc-section-number">11</span> SessionInfo</a></li>
 </ul>
 </div>
 
@@ -79,8 +79,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
 </div>
+<div id="other-resources" class="section level1">
+<h1><span class="header-section-number">2</span> Other Resources</h1>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/GRanges.html">GRanges</a></em> vignette from the <a href="http://bioconductor.org/packages/GenomicRanges">GenomicRanges webpage</a>.</p>
+<p>The package is decribed in a paper in PLOS Computational Biology <span class="citation">(Lawrence et al. 2013)</span>.</p>
+</div>
 <div id="granges" class="section level1">
-<h1><span class="header-section-number">2</span> GRanges</h1>
+<h1><span class="header-section-number">3</span> GRanges</h1>
 <p><code>GRanges</code> are like <code>IRanges</code> with strand and chromosome. Strand can be <code>+</code>, <code>-</code> and <code>*</code>. The value <code>*</code> indicates ‘unknown strand’ or ‘unstranded’. This value usually gets treated as a third strand, which is sometimes confusing to users (examples below).</p>
 <p>They get created with the <code>GRanges</code> constructor:</p>
 <pre class="r"><code>gr &lt;- GRanges(seqnames = &quot;chr1&quot;, strand = c(&quot;+&quot;, &quot;-&quot;, &quot;+&quot;),
@@ -98,7 +103,7 @@ biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
 </div>
 <div id="granges-seqinfo" class="section level1">
-<h1><span class="header-section-number">3</span> GRanges, seqinfo</h1>
+<h1><span class="header-section-number">4</span> GRanges, seqinfo</h1>
 <p><code>GRanges</code> operate within a universe of sequences (chromosomes/contigs) and their lengths.</p>
 <p>This is described through <code>seqinfo</code>:</p>
 <pre class="r"><code>seqinfo(gr)</code></pre>
@@ -186,17 +191,17 @@ genome(gr2) &lt;- &quot;hg18&quot;</code></pre>
 <pre class="r"><code>genome(gr2) &lt;- &quot;hg19&quot;</code></pre>
 </div>
 <div id="granges-seqinfo-and-genomeinfodb" class="section level1">
-<h1><span class="header-section-number">4</span> GRanges, seqinfo and genomeInfoDb</h1>
+<h1><span class="header-section-number">5</span> GRanges, seqinfo and genomeInfoDb</h1>
 <p>Some things gets tiring, like</p>
 <ul>
 <li>Adding <code>seqlengths</code> to your <code>GRanges</code></li>
 <li>Dealing with the fact that different annotation resources uses different naming conventions for chromosomes (like <code>chrM</code> vs <code>chrMT</code>).</li>
 </ul>
 <p>This is one reason the <code>GenomeInfoDb</code> package was created. It contains information about the “standard” chromosomes from widely used organisms.</p>
-<p>FIXME</p>
+<p>FIXME: add section on GenomeInfoDb</p>
 </div>
 <div id="granges-metadata" class="section level1">
-<h1><span class="header-section-number">5</span> GRanges, metadata</h1>
+<h1><span class="header-section-number">6</span> GRanges, metadata</h1>
 <p><code>GRanges</code> (unlike <code>IRanges</code>) may have associated metadata. This is immensely useful. The formal way to access and set this metadata is through <code>values</code> or <code>elementMetadata</code> or <code>mcols</code>, like</p>
 <pre class="r"><code>values(gr) &lt;- DataFrame(score = c(0.1, 0.5, 0.3))
 gr</code></pre>
@@ -231,7 +236,7 @@ gr</code></pre>
 ##   seqinfo: 1 sequence from hg19 genome</code></pre>
 </div>
 <div id="dataframe" class="section level1">
-<h1><span class="header-section-number">6</span> DataFrame</h1>
+<h1><span class="header-section-number">7</span> DataFrame</h1>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/S4Vectors.html">S4Vectors</a></em> package introduced the <code>DataFrame</code> class. This class is very similar to the base <code>data.frame</code> class from R, but it allows columns of any class, provided a number of required methods are supported. For example, <code>DataFrame</code> can have <code>IRanges</code> as columns, unlike <code>data.frame</code>:</p>
 <pre class="r"><code>ir &lt;- IRanges(start = 1:2, width = 3)
 df1 &lt;- DataFrame(iranges = ir)
@@ -255,7 +260,7 @@ df2</code></pre>
 <p>Think of this as an expanded and more versatile class.</p>
 </div>
 <div id="findoverlaps" class="section level1">
-<h1><span class="header-section-number">7</span> findOverlaps</h1>
+<h1><span class="header-section-number">8</span> findOverlaps</h1>
 <p><code>findOverlaps</code> works exactly as for <code>IRanges</code>. But the <code>strand</code> information can be confusing. Let us make an example</p>
 <pre class="r"><code>gr</code></pre>
 <pre><code>## GRanges object with 3 ranges and 2 metadata columns:
@@ -302,10 +307,10 @@ df2</code></pre>
 <p>Several other functions in <code>GenomicRanges</code> have an <code>ignore.strand</code> argument for this reason.</p>
 </div>
 <div id="biology-usecases" class="section level1">
-<h1><span class="header-section-number">8</span> Biology usecases</h1>
+<h1><span class="header-section-number">9</span> Biology usecases</h1>
 <p>Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with <code>GRanges</code> objects and functionality.</p>
 <div id="biology-usecase-i" class="section level2">
-<h2><span class="header-section-number">8.1</span> Biology usecase I</h2>
+<h2><span class="header-section-number">9.1</span> Biology usecase I</h2>
 <p>Suppose we want to identify TF binding sites that overlaps known SNPs.</p>
 <p>Input objects are<br />snps: a <code>GRanges</code> (of width 1)<br />TF: a <code>GRanges</code></p>
 <pre class="r"><code>findOverlaps(snps, TF)</code></pre>
@@ -313,7 +318,7 @@ df2</code></pre>
 </div>
 </div>
 <div id="biology-usecase-ii" class="section level1">
-<h1><span class="header-section-number">9</span> Biology usecase II</h1>
+<h1><span class="header-section-number">10</span> Biology usecase II</h1>
 <p>Suppose we have a set of DMRs (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.</p>
 <p>dmrs: a <code>GRanges</code><br />islands: a <code>GRanges</code></p>
 <pre class="r"><code>big_islands &lt;- resize(islands, width = 20000 + width(islands), fix = &quot;center&quot;)
@@ -321,7 +326,7 @@ findOverlaps(dmrs, big_islands)</code></pre>
 <p>(watch out for strand)</p>
 </div>
 <div id="sessioninfo" class="section level1">
-<h1><span class="header-section-number">10</span> SessionInfo</h1>
+<h1><span class="header-section-number">11</span> SessionInfo</h1>
 <p></p>
 <pre><code>## R version 3.2.1 Patched (2015-07-12 r68650)
 ## Platform: x86_64-apple-darwin14.4.0 (64-bit)
@@ -343,6 +348,10 @@ findOverlaps(dmrs, big_islands)</code></pre>
 ##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7   
 ##  [5] stringi_0.5-5   XVector_0.9.1   tools_3.2.1     stringr_1.0.0  
 ##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.10.5</code></pre>
+<div class="references">
+<h1 id="references" class="unnumbered">References</h1>
+<p>Lawrence, Michael, Wolfgang Huber, Herv<span>é</span> Pag<span>è</span>s, Patrick Aboyoun, Marc Carlson, Robert Gentleman, Martin T Morgan, and Vincent J Carey. 2013. “Software for computing and annotating genomic ranges.” <em>PLoS Computational Biology</em> 9 (8): e1003118. doi:<a href="http://dx.doi.org/10.1371/journal.pcbi.1003118">10.1371/journal.pcbi.1003118</a>.</p>
+</div>
 </div>
 
 

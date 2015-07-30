@@ -1,14 +1,8 @@
 ---
 author: Kasper D. Hansen
-title: IRanges and GenomicRanges
-subtitle: An introduction
+title: IRanges - Basic Usage
 fontsize: 10pt
-output:
-  html_document:
-    css: styles.css
-    number_sections: true
-    toc: yes
-    toc_depth: 3
+bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -29,7 +23,7 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("IRanges"))
 ```
 
-# Why?
+# Overview
 
 A surprising amount of objects/tasks in computational biology can be formulated in terms of integer intervals, manipulation of integer intervals and overlap of integer intervals.
 
@@ -39,7 +33,11 @@ A surprising amount of objects/tasks in computational biology can be formulated 
 
 `IRanges` are collections of integer intervals.  `GRanges` are like `IRanges`, but with an associated chromosome and strand, taking care of some book keeping.
 
-Here we discuss `IRanges`, which provides the foundation for `GRanges`.
+Here we discuss `IRanges`, which provides the foundation for `GRanges`.  This package implements (amongst other things) an algebra for handling integer intervals.
+
+# Other Resources
+
+The `r Biocpkg("IRanges")` vignette from the [IRanges webpage](http://bioconductor.org/packages/IRanges).
 
 # Basic IRanges
   
