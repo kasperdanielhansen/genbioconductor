@@ -91,8 +91,8 @@ biocLite(c(&quot;AnnotationHub&quot;))</code></pre>
 <p>First we create an <code>AnnotationHub</code> instance. The first time you do this, it will create a local cache on your system, so that repeat queries for the same information (even in different R sessions) will be very fast.</p>
 <pre class="r"><code>ah &lt;- AnnotationHub()
 ah</code></pre>
-<pre><code>## AnnotationHub with 34805 records
-## # snapshotDate(): 2015-07-27 
+<pre><code>## AnnotationHub with 34809 records
+## # snapshotDate(): 2015-07-31 
 ## # $dataprovider: BroadInstitute, UCSC, Ensembl, ftp://ftp.ncbi.nlm.nih....
 ## # $species: Homo sapiens, Mus musculus, Bos taurus, Pan troglodytes, Da...
 ## # $rdataclass: GRanges, BigWigFile, FaFile, ChainFile, OrgDb, Inparanoi...
@@ -100,23 +100,23 @@ ah</code></pre>
 ## #   sourceurl, sourcetype 
 ## # retrieve records with, e.g., 'object[[&quot;AH2&quot;]]' 
 ## 
-##             title                                               
-##   AH2     | Ailuropoda_melanoleuca.ailMel1.69.dna.toplevel.fa   
-##   AH3     | Ailuropoda_melanoleuca.ailMel1.69.dna_rm.toplevel.fa
-##   AH4     | Ailuropoda_melanoleuca.ailMel1.69.dna_sm.toplevel.fa
-##   AH5     | Ailuropoda_melanoleuca.ailMel1.69.ncrna.fa          
-##   AH6     | Ailuropoda_melanoleuca.ailMel1.69.pep.all.fa        
-##   ...       ...                                                 
-##   AH49001 | org.Rickettsia_rickettsii_str._Iowa.eg.sqlite       
-##   AH49002 | org.Desulfurococcus_fermentans_DSM_16532.eg.sqlite  
-##   AH49003 | org.Pandoravirus_dulcis.eg.sqlite                   
-##   AH49004 | org.Methanocaldococcus_infernus_ME.eg.sqlite        
-##   AH49005 | org.Lactobacillus_jensenii_JV-V16.eg.sqlite</code></pre>
+##             title                                                         
+##   AH2     | Ailuropoda_melanoleuca.ailMel1.69.dna.toplevel.fa             
+##   AH3     | Ailuropoda_melanoleuca.ailMel1.69.dna_rm.toplevel.fa          
+##   AH4     | Ailuropoda_melanoleuca.ailMel1.69.dna_sm.toplevel.fa          
+##   AH5     | Ailuropoda_melanoleuca.ailMel1.69.ncrna.fa                    
+##   AH6     | Ailuropoda_melanoleuca.ailMel1.69.pep.all.fa                  
+##   ...       ...                                                           
+##   AH49005 | org.Lactobacillus_jensenii_JV-V16.eg.sqlite                   
+##   AH49006 | PXD000001: Erwinia carotovora and spiked-in protein fasta file
+##   AH49007 | PXD000001: Peptide-level quantitation data                    
+##   AH49008 | PXD000001: raw mass spectrometry data                         
+##   AH49009 | PXD000001: MS-GF+ identiciation data</code></pre>
 <p>As you can see, <code>ah</code> contains tons of information. The information content is constantly changing, which is why there is a <code>snapshotDate</code>. While the object is big, it actually only contains pointers to online information. Actually downloading all the resources available in an <code>AnnotationHub</code> is prohibitive.</p>
 <p>The object is organized as a vector, with single-dimension indexing. You can get information about a single resource by indexing with a single <code>[</code>; using two brackets (<code>[[</code>) downloads the object:</p>
 <pre class="r"><code>ah[1]</code></pre>
 <pre><code>## AnnotationHub with 1 record
-## # snapshotDate(): 2015-07-27 
+## # snapshotDate(): 2015-07-31 
 ## # names(): AH2
 ## # $dataprovider: Ensembl
 ## # $species: Ailuropoda melanoleuca
@@ -147,12 +147,15 @@ ah</code></pre>
 ## [11] &quot;GEO&quot;                                  
 ## [12] &quot;BroadInstitute&quot;                       
 ## [13] &quot;ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/&quot;
-## [14] &quot;dbSNP&quot;</code></pre>
+## [14] &quot;dbSNP&quot;                                
+## [15] &quot;PRIDE&quot;</code></pre>
 <pre class="r"><code>unique(ah$rdataclass)</code></pre>
 <pre><code>##  [1] &quot;FaFile&quot;           &quot;GRanges&quot;          &quot;Inparanoid8Db&quot;   
 ##  [4] &quot;TwoBitFile&quot;       &quot;ChainFile&quot;        &quot;SQLiteConnection&quot;
 ##  [7] &quot;data.frame&quot;       &quot;biopax&quot;           &quot;BigWigFile&quot;      
-## [10] &quot;ExpressionSet&quot;    &quot;OrgDb&quot;            &quot;VcfFile&quot;</code></pre>
+## [10] &quot;ExpressionSet&quot;    &quot;OrgDb&quot;            &quot;VcfFile&quot;         
+## [13] &quot;AAStringSet&quot;      &quot;MSnSet&quot;           &quot;mzRpwiz&quot;         
+## [16] &quot;mzRident&quot;</code></pre>
 <p>(we will discuss many of these data classes in future sessions).</p>
 <p>You can narrow down the hub by using one (or more) of the following strategies</p>
 <ul>
@@ -164,7 +167,7 @@ ah</code></pre>
 <pre class="r"><code>ah &lt;- subset(ah, species == &quot;Homo sapiens&quot;)
 ah</code></pre>
 <pre><code>## AnnotationHub with 24230 records
-## # snapshotDate(): 2015-07-27 
+## # snapshotDate(): 2015-07-31 
 ## # $dataprovider: BroadInstitute, UCSC, Ensembl, dbSNP, NIH Pathway Inte...
 ## # $species: Homo sapiens
 ## # $rdataclass: GRanges, BigWigFile, ChainFile, FaFile, VcfFile, biopax,...
@@ -187,7 +190,7 @@ ah</code></pre>
 <p>We can use <code>query</code> to search the hub. The (possible) drawback to query is that it searches over different fields in the hub, so watch out with using a search term which is very non-specific. The query is a regular expression, which by default is case-insensitive. Here we locate all datasets on the <strong>H3K4me3</strong> histone modification (in H. sapiens because we selected this species above)</p>
 <pre class="r"><code>query(ah, &quot;H3K4me3&quot;)</code></pre>
 <pre><code>## AnnotationHub with 2018 records
-## # snapshotDate(): 2015-07-27 
+## # snapshotDate(): 2015-07-31 
 ## # $dataprovider: BroadInstitute, UCSC
 ## # $species: Homo sapiens
 ## # $rdataclass: GRanges, BigWigFile

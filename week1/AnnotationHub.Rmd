@@ -86,10 +86,10 @@ query(ah, "H3K4me3")
 
 Another way of searching a hub is by using a browser.  Notice how we assign the output of `display` to make sure that we can capture our selection in the browser
 ```{r display, eval=FALSE}
-display(qhub)
+hist <- display(ah)
 ```
-FIXME:make_screenshot.
 
+(./ahub_display.png)
 
 # SessionInfo
 
