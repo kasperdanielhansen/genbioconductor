@@ -14,6 +14,7 @@ This document has the following dependecies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
+library(rtracklayer)
 library(AnnotationHub)
 ```
 
@@ -21,7 +22,7 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges", "AnnotationHub"))
+biocLite(c("GenomicRanges", "rtracklayer", "AnnotationHub"))
 ```
 
 # Overview

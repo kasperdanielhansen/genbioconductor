@@ -37,7 +37,7 @@ Here we discuss `IRanges`, which provides the foundation for `GRanges`.  This pa
 
 # Other Resources
 
-- The `r Biocpkg("IRanges")` vignette from the [IRanges webpage](http://bioconductor.org/packages/IRanges).
+- The vignette titled "An Introduction to IRanges" from the [IRanges webpage](http://bioconductor.org/packages/IRanges).
 
 # Basic IRanges
   
