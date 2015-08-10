@@ -106,22 +106,6 @@ findOverlaps(gr, gr2)
 
 The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.
 
-Lets clean up `gr2` because we use it below
-```{r cleanup}
-genome(gr2) <- "hg19"
-```
-
-# GRanges, seqinfo and genomeInfoDb
-
-Some things gets tiring, like
-
-- Adding `seqlengths` to your `GRanges`
-- Dealing with the fact that different annotation resources uses different naming conventions for chromosomes (like `chrM` vs `chrMT`).
-
-This is one reason the `GenomeInfoDb` package was created.  It contains information about the "standard" chromosomes from widely used organisms.
-
-FIXME: add section on GenomeInfoDb
-
 # GRanges, metadata
 
 `GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
@@ -165,6 +149,7 @@ Think of this as an expanded and more versatile class.
 
 ```{r findOverlaps_setup}
 gr
+genome(gr2) <- "hg19"
 gr2
 ```
 
@@ -174,15 +159,7 @@ Note how the `ranges` in the two `GRanges` object are the same coordinates, they
 findOverlaps(gr, gr2)
 ```
 
-FIXME: this section is wrong
-
-Notice how the first element of `gr` does not overlap with the first element of `gr2`.  This is because by default a strand of `*` does not overlap a strand of `+`.  This might be confusing.  One way of fixing this is by using the `ignore.strand` argument to `findOverlaps`:
-
-```{r findOverlaps_ignore}
-findOverlaps(gr, gr2, ignore.strand = TRUE)
-```
-
-Several other functions in `GenomicRanges` have an `ignore.strand` argument for this reason.
+Notice how the `*` strand overlaps both `+` and `-`.  There is an argument `ignore.strand` to `findOverlaps` which will ... ignore the strand information. Several other functions in `GenomicRanges` have an `ignore.strand` argument as well. 
 
 # Biology usecases
 

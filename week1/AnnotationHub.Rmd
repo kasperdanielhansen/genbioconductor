@@ -89,7 +89,7 @@ Another way of searching a hub is by using a browser.  Notice how we assign the 
 hist <- display(ah)
 ```
 
-(./ahub_display.png)
+![display(ah)](./ahub_display.png)
 
 # SessionInfo
 

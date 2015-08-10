@@ -1,0 +1,43 @@
+---
+title: R overview
+author: Kasper D. Hansen
+fontsize: 10pt
+bibliography: genbioconductor.bib
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+# Overview
+  
+Blah
+
+# Other Resources
+
+- The `r Biocpkg("GenomicRanges")` vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+
+
+# SessionInfo
+
+\scriptsize
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# References
