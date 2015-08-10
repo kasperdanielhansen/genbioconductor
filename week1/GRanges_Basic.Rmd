@@ -25,7 +25,7 @@ biocLite(c("GenomicRanges"))
 
 # Other Resources
 
-- The `r Biocpkg("GRanges")` vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The vignettes from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
 - The package is decribed in a paper in PLOS Computational Biology [@GenomicRanges].
 
 # GRanges

@@ -10,13 +10,33 @@ title: Materials for week 1
 
 ## Module 1: Getting started with R/Bioconductor.
 
-### Installing software
+### Pre-requisite: Installing software
 
-- Installing R.  Get video from
-[DSS](https://github.com/DataScienceSpecialization/courses/tree/master/01_DataScientistToolbox) (02_01_installingR)
-- Installing RStudio.  Get video from
-[DSS](https://github.com/DataScienceSpecialization/courses/tree/master/01_DataScientistToolbox) (02_02_installingRstudio)
-- Installing Bioconductor.
+In this class we are using the following software
+
+- R version 3.2.1.
+- RStudio version FIXME.
+- Bioconductor version 3.1.
+
+First we need to install these programs.
+
+#### Install R
+
+Grab R version 3.2.1 from [CRAN](https://cran.r-project.org/) and install it.  For more help, see these videos from Roger Peng
+
+- [Install R on Windows](https://youtu.be/Ohnk9hcxf9M)
+- [Install R on Mac](https://youtu.be/uxuuWXU-7UQ)
+
+#### Install RStudio
+
+Grab RStudio (the Desktop version) from [RStudio](https://www.rstudio.org).  For more help, see this video from Roger Peng
+
+- [Install RStudio on Mac](https://youtu.be/bM7Sfz-LADM)
+
+#### Install Bioconductor
+
+FIXME: script + video
+
 
 ### Online Resources
 
@@ -40,6 +60,7 @@ title: Materials for week 1
 - Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
 - Pointers to introduction to R.
 - The S4 system
+- **R Overview**: ([Script](R_Overview.html))
 
 ## Module 2: Basic usage of GRanges and AnnotationHub
 

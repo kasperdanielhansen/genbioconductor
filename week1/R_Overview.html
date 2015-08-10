@@ -11,7 +11,7 @@
 <meta name="author" content="Kasper D. Hansen" />
 
 
-<title>GRanges - Basic Usage</title>
+<title>R overview</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -40,7 +40,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 <div id="header">
-<h1 class="title">GRanges - Basic Usage</h1>
+<h1 class="title">R overview</h1>
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
@@ -53,236 +53,40 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
 </div>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+</div>
 <div id="other-resources" class="section level1">
 <h1>Other Resources</h1>
-<ul>
-<li>The vignettes from the <a href="http://bioconductor.org/packages/GenomicRanges">GenomicRanges webpage</a>.</li>
-<li>The package is decribed in a paper in PLOS Computational Biology <span class="citation">(Lawrence et al. 2013)</span>.</li>
-</ul>
 </div>
-<div id="granges" class="section level1">
-<h1>GRanges</h1>
-<p><code>GRanges</code> are like <code>IRanges</code> with strand and chromosome. Strand can be <code>+</code>, <code>-</code> and <code>*</code>. The value <code>*</code> indicates ‘unknown strand’ or ‘unstranded’. This value usually gets treated as a third strand, which is sometimes confusing to users (examples below).</p>
-<p>They get created with the <code>GRanges</code> constructor:</p>
-<pre class="r"><code>gr &lt;- GRanges(seqnames = &quot;chr1&quot;, strand = c(&quot;+&quot;, &quot;-&quot;, &quot;+&quot;),
-              ranges = IRanges(start = c(1,3,5), width = 3))</code></pre>
-<p>Natural accessor functions: <code>strand()</code>, <code>seqnmes()</code>, <code>ranges()</code>, <code>start()</code>, <code>end()</code>, <code>width()</code>.</p>
-<p>Because the have strand, we now have operations which are relative to the direction of transcription (<code>upstream()</code>, <code>downstream()</code>):</p>
-<pre class="r"><code>flank(gr, 2, start = FALSE)</code></pre>
-<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [4, 5]      +
-##   [2]     chr1    [1, 2]      -
-##   [3]     chr1    [8, 9]      +
-##   -------
-##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
+<div id="atomic-vectors" class="section level1">
+<h1>Atomic Vectors</h1>
+<p>The most basic object in R is an atomic vector. Examples includes <code>numeric</code>, <code>integer</code>, <code>logical</code>, <code>character</code> and <code>factor</code>. These objects have a single length and can have names, which can be used for indexing</p>
+<pre class="r"><code>x &lt;- 1:10
+names(x) &lt;- letters[1:10]
+class(x)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>x[1:3]</code></pre>
+<pre><code>## a b c 
+## 1 2 3</code></pre>
+<pre class="r"><code>x[c(&quot;a&quot;, &quot;b&quot;)]</code></pre>
+<pre><code>## a b 
+## 1 2</code></pre>
+<p>Note how the default in R is to represent numbers are <code>numeric</code>, NOT <code>integer</code>.</p>
 </div>
-<div id="granges-seqinfo" class="section level1">
-<h1>GRanges, seqinfo</h1>
-<p><code>GRanges</code> operate within a universe of sequences (chromosomes/contigs) and their lengths.</p>
-<p>This is described through <code>seqinfo</code>:</p>
-<pre class="r"><code>seqinfo(gr)</code></pre>
-<pre><code>## Seqinfo object with 1 sequence from an unspecified genome; no seqlengths:
-##   seqnames seqlengths isCircular genome
-##   chr1             NA         NA   &lt;NA&gt;</code></pre>
-<pre class="r"><code>seqlengths(gr) &lt;- c(&quot;chr1&quot; = 10)
-seqinfo(gr)</code></pre>
-<pre><code>## Seqinfo object with 1 sequence from an unspecified genome:
-##   seqnames seqlengths isCircular genome
-##   chr1             10         NA   &lt;NA&gt;</code></pre>
-<pre class="r"><code>seqlevels(gr)</code></pre>
-<pre><code>## [1] &quot;chr1&quot;</code></pre>
-<pre class="r"><code>seqlengths(gr)</code></pre>
-<pre><code>## chr1 
-##   10</code></pre>
-<p>Especially the length of the chromosomes are used by some functions. For example <code>gaps()</code> return the stretches of the genome not covered by the <code>GRanges</code>.</p>
-<pre class="r"><code>gaps(gr)</code></pre>
-<pre><code>## GRanges object with 5 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1   [4,  4]      +
-##   [2]     chr1   [8, 10]      +
-##   [3]     chr1   [1,  2]      -
-##   [4]     chr1   [6, 10]      -
-##   [5]     chr1   [1, 10]      *
-##   -------
-##   seqinfo: 1 sequence from an unspecified genome</code></pre>
-<p>In this example, we know that the last gap stops at 10, because that is the length of the chromosome. Note how a range on the <code>*</code> strand appears in the result.</p>
-<p>Let us expand the <code>GRanges</code> with another chromosome</p>
-<pre class="r"><code>gr2 &lt;- GRanges(seqnames = c(&quot;chr1&quot;, &quot;chr2&quot;, &quot;chr1&quot;), strand = &quot;*&quot;,
-               ranges = IRanges(start = c(1, 3, 5), width = 3))
-gr2</code></pre>
-<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr2    [3, 5]      *
-##   [3]     chr1    [5, 7]      *
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<pre class="r"><code>sort(gr2)</code></pre>
-<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr1    [5, 7]      *
-##   [3]     chr2    [3, 5]      *
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<pre class="r"><code>seqlevels(gr2)</code></pre>
-<pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot;</code></pre>
-<pre class="r"><code>seqlevels(gr2) &lt;- c(&quot;chr2&quot;, &quot;chr1&quot;)
-sort(gr2)</code></pre>
-<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr2    [3, 5]      *
-##   [2]     chr1    [1, 3]      *
-##   [3]     chr1    [5, 7]      *
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<p>Note how the order of <code>seqlevels</code> affects how the <code>GRanges</code> is sorted.</p>
-<p>An easy way to drop chromosomes is by</p>
-<pre class="r"><code>seqlevels(gr2, force = TRUE) &lt;- &quot;chr1&quot;
-gr2</code></pre>
-<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr1    [5, 7]      *
-##   -------
-##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
-<p>There is also <code>dropSeqlevels()</code>, <code>keepSeqlevels()</code>, <code>keepStandardChromosomes</code>.</p>
-<p>Finally, you can put a <code>genome()</code> on the differenct sequences, like</p>
-<pre class="r"><code>genome(gr) &lt;- &quot;hg19&quot;
-genome(gr2) &lt;- &quot;hg18&quot;</code></pre>
-<p>This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error, like</p>
-<pre class="r"><code>findOverlaps(gr, gr2)</code></pre>
-<pre><code>## Error in mergeNamedAtomicVectors(genome(x), genome(y), what = c(&quot;sequence&quot;, : sequence chr1 has incompatible genomes:
-##   - in 'x': hg19
-##   - in 'y': hg18</code></pre>
-<p>The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.</p>
+<div id="matrices" class="section level1">
+<h1>Matrices</h1>
 </div>
-<div id="granges-metadata" class="section level1">
-<h1>GRanges, metadata</h1>
-<p><code>GRanges</code> (unlike <code>IRanges</code>) may have associated metadata. This is immensely useful. The formal way to access and set this metadata is through <code>values</code> or <code>elementMetadata</code> or <code>mcols</code>, like</p>
-<pre class="r"><code>values(gr) &lt;- DataFrame(score = c(0.1, 0.5, 0.3))
-gr</code></pre>
-<pre><code>## GRanges object with 3 ranges and 1 metadata column:
-##       seqnames    ranges strand |     score
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
-##   [1]     chr1    [1, 3]      + |       0.1
-##   [2]     chr1    [3, 5]      - |       0.5
-##   [3]     chr1    [5, 7]      + |       0.3
-##   -------
-##   seqinfo: 1 sequence from hg19 genome</code></pre>
-<pre class="r"><code>values(gr)</code></pre>
-<pre><code>## DataFrame with 3 rows and 1 column
-##       score
-##   &lt;numeric&gt;
-## 1       0.1
-## 2       0.5
-## 3       0.3</code></pre>
-<p>(note the <code>DataFrame</code> … see next section.)</p>
-<p>A much easier way to set and access metadata is through the <code>$</code> operator</p>
-<pre class="r"><code>gr$score</code></pre>
-<pre><code>## [1] 0.1 0.5 0.3</code></pre>
-<pre class="r"><code>gr$score2 = gr$score * 0.2
-gr</code></pre>
-<pre><code>## GRanges object with 3 ranges and 2 metadata columns:
-##       seqnames    ranges strand |     score    score2
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;numeric&gt;
-##   [1]     chr1    [1, 3]      + |       0.1      0.02
-##   [2]     chr1    [3, 5]      - |       0.5       0.1
-##   [3]     chr1    [5, 7]      + |       0.3      0.06
-##   -------
-##   seqinfo: 1 sequence from hg19 genome</code></pre>
+<div id="lists" class="section level1">
+<h1>Lists</h1>
 </div>
-<div id="dataframe" class="section level1">
-<h1>DataFrame</h1>
-<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/S4Vectors.html">S4Vectors</a></em> package introduced the <code>DataFrame</code> class. This class is very similar to the base <code>data.frame</code> class from R, but it allows columns of any class, provided a number of required methods are supported. For example, <code>DataFrame</code> can have <code>IRanges</code> as columns, unlike <code>data.frame</code>:</p>
-<pre class="r"><code>ir &lt;- IRanges(start = 1:2, width = 3)
-df1 &lt;- DataFrame(iranges = ir)
-df1</code></pre>
-<pre><code>## DataFrame with 2 rows and 1 column
-##     iranges
-##   &lt;IRanges&gt;
-## 1    [1, 3]
-## 2    [2, 4]</code></pre>
-<pre class="r"><code>df1$iranges</code></pre>
-<pre><code>## IRanges of length 2
-##     start end width
-## [1]     1   3     3
-## [2]     2   4     3</code></pre>
-<pre class="r"><code>df2 &lt;- data.frame(iranges = ir)
-df2</code></pre>
-<pre><code>##   iranges.start iranges.end iranges.width
-## 1             1           3             3
-## 2             2           4             3</code></pre>
-<p>In the <code>data.frame</code> case, the <code>IRanges</code> gives rise to 4 columns, whereas it is a single column when a <code>DataFrame</code> is used.</p>
-<p>Think of this as an expanded and more versatile class.</p>
-</div>
-<div id="findoverlaps" class="section level1">
-<h1>findOverlaps</h1>
-<p><code>findOverlaps</code> works exactly as for <code>IRanges</code>. But the <code>strand</code> information can be confusing. Let us make an example</p>
-<pre class="r"><code>gr</code></pre>
-<pre><code>## GRanges object with 3 ranges and 2 metadata columns:
-##       seqnames    ranges strand |     score    score2
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;numeric&gt;
-##   [1]     chr1    [1, 3]      + |       0.1      0.02
-##   [2]     chr1    [3, 5]      - |       0.5       0.1
-##   [3]     chr1    [5, 7]      + |       0.3      0.06
-##   -------
-##   seqinfo: 1 sequence from hg19 genome</code></pre>
-<pre class="r"><code>genome(gr2) &lt;- &quot;hg19&quot;
-gr2</code></pre>
-<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr1    [5, 7]      *
-##   -------
-##   seqinfo: 1 sequence from hg19 genome; no seqlengths</code></pre>
-<p>Note how the <code>ranges</code> in the two <code>GRanges</code> object are the same coordinates, they just have different <code>seqnames</code> and <code>strand</code>. Let us try to do a standard <code>findOverlaps</code>:</p>
-<pre class="r"><code>findOverlaps(gr, gr2)</code></pre>
-<pre><code>## Hits object with 4 hits and 0 metadata columns:
-##       queryHits subjectHits
-##       &lt;integer&gt;   &lt;integer&gt;
-##   [1]         1           1
-##   [2]         2           1
-##   [3]         2           2
-##   [4]         3           2
-##   -------
-##   queryLength: 3
-##   subjectLength: 2</code></pre>
-<p>Notice how the <code>*</code> strand overlaps both <code>+</code> and <code>-</code>. There is an argument <code>ignore.strand</code> to <code>findOverlaps</code> which will … ignore the strand information. Several other functions in <code>GenomicRanges</code> have an <code>ignore.strand</code> argument as well.</p>
-</div>
-<div id="biology-usecases" class="section level1">
-<h1>Biology usecases</h1>
-<p>Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with <code>GRanges</code> objects and functionality.</p>
-<div id="biology-usecase-i" class="section level2">
-<h2>Biology usecase I</h2>
-<p>Suppose we want to identify TF binding sites that overlaps known SNPs.</p>
-<p>Input objects are<br />
-snps: a <code>GRanges</code> (of width 1)<br />
-TF: a <code>GRanges</code></p>
-<pre class="r"><code>findOverlaps(snps, TF)</code></pre>
-<p>(watch out for strand)</p>
-</div>
-</div>
-<div id="biology-usecase-ii" class="section level1">
-<h1>Biology usecase II</h1>
-<p>Suppose we have a set of DMRs (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.</p>
-<p>dmrs: a <code>GRanges</code><br />
-islands: a <code>GRanges</code></p>
-<pre class="r"><code>big_islands &lt;- resize(islands, width = 20000 + width(islands), fix = &quot;center&quot;)
-findOverlaps(dmrs, big_islands)</code></pre>
-<p>(watch out for strand)</p>
+<div id="data-frames" class="section level1">
+<h1>Data frames</h1>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1>SessionInfo</h1>
 <p></p>
+<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 3.2.1 Patched (2015-07-12 r68653)
 ## Platform: x86_64-apple-darwin14.4.0 (64-bit)
 ## Running under: OS X 10.10.4 (Yosemite)
@@ -306,9 +110,6 @@ findOverlaps(dmrs, big_islands)</code></pre>
 </div>
 <div id="references" class="section level1 references unnumbered">
 <h1>References</h1>
-<div id="ref-GenomicRanges">
-<p>Lawrence, Michael, Wolfgang Huber, Hervé Pagès, Patrick Aboyoun, Marc Carlson, Robert Gentleman, Martin T Morgan, and Vincent J Carey. 2013. “Software for computing and annotating genomic ranges.” <em>PLoS Computational Biology</em> 9 (8): e1003118. <a href="http://doi.org/10.1371/journal.pcbi.1003118">doi:10.1371/journal.pcbi.1003118</a>.</p>
-</div>
 </div>
 
 

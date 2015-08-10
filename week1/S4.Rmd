@@ -25,27 +25,11 @@ biocLite(c("GenomicRanges"))
 
 # Overview
   
+Blah
+
 # Other Resources
 
-# Atomic Vectors
-
-The most basic object in R is an atomic vector.  Examples includes `numeric`, `integer`, `logical`, `character` and `factor`.  These objects have a single length and can have names, which can be used for indexing
-
-```{r numeric}
-x <- 1:10
-names(x) <- letters[1:10]
-class(x)
-x[1:3]
-x[c("a", "b")]
-```
-Note how the default in R is to represent numbers are `numeric`, NOT `integer`.
-
-# Matrices
-
-# Lists
-
-# Data frames
-
+- The `r Biocpkg("GenomicRanges")` vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
 
 
 # SessionInfo

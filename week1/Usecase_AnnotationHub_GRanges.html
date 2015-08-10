@@ -177,7 +177,7 @@ gr2</code></pre>
 ##   [76188]     2.62206   2.00970   0.26790        52
 ##   -------
 ##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
-<p>(I use this code, where I use <code>title</code> to refer to the different resources, to make this script more robust over time).</p>
+<p>(Note: I use this code, where I use <code>title</code> to refer to the different resources, to make this script more robust over time).</p>
 <p>This gives us two <code>GRanges</code> objects. Let us look at the distribution of peak widths:</p>
 <pre class="r"><code>summary(width(gr1))</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -189,9 +189,9 @@ gr2</code></pre>
 <pre class="r"><code>summary(width(gr2))</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##     174     243     387     662     770   12340</code></pre>
-<p>Turns out that almost all peaks in <code>gr1</code> have a width of 150bp, whereas <code>gr2</code> is much more variable. This is likely a product of the data processing algorithm.</p>
-<p>At this time one can spend a lot of time thinking about which dataset is best. We talked about ENCODE data above, in the problem formulation, so let us stick with <code>gr1</code>.</p>
-<p>Now we need to get some promoter coordinates. There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub. RefSeq is a highly curated (aka conservative) collection of genes. Most genes in RefSeq has a single isoform, which shows how conservative they are.</p>
+<p>Turns out that almost all peaks in <code>gr1</code> have a width of 150bp, whereas <code>gr2</code> is much more variable. This is likely a product of the data processing algorithm; it can be very hard to figure out the details of this.</p>
+<p>At this time one can spend a lot of time thinking about which datasets is best. We will avoid this (important) discussion; since we referred to ENCODE data above (in the Overview section), we will stick with <code>gr1</code>.</p>
+<p>Now we need to get some promoter coordinates. There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub. RefSeq is a highly curated (aka conservative) collection of genes.</p>
 <p>Lets get started</p>
 <pre class="r"><code>qhs &lt;- query(ah, &quot;RefSeq&quot;)
 qhs</code></pre>
@@ -213,7 +213,7 @@ qhs</code></pre>
 ##   AH5307 | Other RefSeq
 ##   AH5431 | RefSeq Genes
 ##   AH5432 | Other RefSeq</code></pre>
-<p>This is a bit weird at first. We probably need the thing called <code>RefSeq Genes</code> and not <code>Other RefSeq</code> but why are there multiple resources with the same name?</p>
+<p>So this gives us multiple datasets, all with very similar names. We probably need the thing called <code>RefSeq Genes</code> and not <code>Other RefSeq</code> but why are there multiple resources with the same name?</p>
 <p>Turns out the answer makes sense:</p>
 <pre class="r"><code>qhs$genome</code></pre>
 <pre><code>## [1] &quot;hg19&quot; &quot;hg19&quot; &quot;hg18&quot; &quot;hg18&quot; &quot;hg17&quot; &quot;hg17&quot; &quot;hg16&quot; &quot;hg16&quot;</code></pre>
@@ -295,8 +295,8 @@ refseq</code></pre>
 ## 45178   568   102    27    74    52   171   129    13    19     1     1 
 ##    19 
 ##     5</code></pre>
-<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).</p>
-<p>Notice that each transcript is a separate range. Therefore, each transcript is represented as the “outer” coordinates of the gene; the ranges does not exclude introns. Because we got this from UCSC I know that the <code>$blocks</code> metadata really contains the coordinates of the different exons. In a later example we shall see an easier way to operate on genes, where we keep track of exons and introns through something known as a <code>TxDb</code> (transcript database) object.</p>
+<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name). This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.</p>
+<p>Notice that each transcript is a separate range. Therefore, each transcript is represented as the “outer” coordinates of the gene; the ranges does not exclude introns. Because we got this from UCSC I happen to know that the <code>$blocks</code> metadata really contains the coordinates of the different exons. In a later example we will introduce a gene representation where we keep track of exons, introns and transcripts from the same gene, through something known as a <code>TxDb</code> (transcript database) object.</p>
 <p>For now, we just need the promoters, so we don’t really care about introns. We need to keep track of which strand each transcript is on, to get the transcription start site.</p>
 <p>Or we could just use the convenience function <code>promoters()</code>:</p>
 <pre class="r"><code>promoters &lt;- promoters(refseq)
@@ -306,7 +306,7 @@ table(width(promoters))</code></pre>
 ## 50066</code></pre>
 <pre class="r"><code>args(promoters)</code></pre>
 <pre><code>## NULL</code></pre>
-<p>There are many definations of promoters based on transcription start site. The default here is to use 2kb upstream and 200bp downstream. Lets keep this.</p>
+<p>There are many definitions of promoters based on transcription start site. The default in this function is to use 2kb upstream and 200bp downstream of the start site. Let’s keep this.</p>
 <p>Now we compute which promoters have a H3K4me3 peak in them:</p>
 <pre class="r"><code>ov &lt;- findOverlaps(promoters, gr1)
 ov</code></pre>
@@ -327,23 +327,60 @@ ov</code></pre>
 ##   -------
 ##   queryLength: 50066
 ##   subjectLength: 74470</code></pre>
-<p>Let us compute how many percent of the peaks are in promoter</p>
+<p>Let us compute how many percent of the peaks are in a promoter</p>
 <pre class="r"><code>length(unique(queryHits(ov))) / length(gr1)</code></pre>
 <pre><code>## [1] 0.3333691</code></pre>
-<p>and how many percent of promoters have a peak</p>
+<p>and how many percent of promoters have a peak in them</p>
 <pre class="r"><code>length(unique(subjectHits(ov))) / length(promoters)</code></pre>
 <pre><code>## [1] 0.440878</code></pre>
-<p>My rule of thumb is that in any cell typearound 50% of genes are expressed, which fits pretty well with these numbers.</p>
-<p>Now, the overlap is non-empty, but is it interesting or “significant”. Providing a very good answer to this question is not easy, but one can use different back-of-the-envelope calculations to get a feel for it.</p>
+<p>My rule of thumb is that any cell type has at most 50% of genes expressed, which fits well with these numbers. We also see that there are many H3K4me3 peaks which do not lie in a genic promoter. This is actually expected.</p>
+<p>Now, the overlap is non-empty, but is it interesting or “significant”. Answering this question thorughly requires thinking deeply about background distributions etc. We will avoid a careful statistical approach to this question, and will instead do a few backk-of-the-envelope calculations to get a feel for it.</p>
 <p>First we notice that both promoters and peaks are small compared to the size of the human genome:</p>
 <pre class="r"><code>sum(width(reduce(gr1))) / 10^6</code></pre>
 <pre><code>## [1] 11.19044</code></pre>
 <pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
 <pre><code>## [1] 64.3005</code></pre>
-<p>(result is in megabases). Just this fact alone should convince you that the overlap is highly unlikely to be random. To take this thought to its logical conclusion, let us calculate the overlap in megabases:</p>
-<pre class="r"><code>sum(width(intersect(gr1, promoters)))</code></pre>
+<p>(result is in megabases; the humnan genome is 3000 megabase). Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:</p>
+<pre class="r"><code>sum(width(intersect(gr1, promoters))) / 10^6</code></pre>
 <pre><code>## [1] 0</code></pre>
-<p>FIXME: write a conclusion to this usecase.</p>
+<p>That’s weird; why is the overlap empty when we know (using <code>findOverlaps</code>) that there is plenty of overlap? Turns out the answer is strand. We need to ignore the strand when we do this calculation:</p>
+<pre class="r"><code>sum(width(intersect(gr1, promoters, ignore.strand = TRUE))) / 10^6</code></pre>
+<pre><code>## [1] 3.019608</code></pre>
+<p>This brings us back to the question of the size of the promoter set above; this is also affected by strand when there is a promoter on each strand which overlaps. Contrast</p>
+<pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
+<pre><code>## [1] 64.3005</code></pre>
+<pre class="r"><code>sum(width(reduce(promoters, ignore.strand = TRUE))) / 10^6</code></pre>
+<pre><code>## [1] 62.27957</code></pre>
+<p>Strand can be troublesome!</p>
+<p>Let us compute a small 2x2 matrix for which bases are in promoters and/or peaks:</p>
+<pre class="r"><code>prom &lt;- reduce(promoters, ignore.strand = TRUE)
+peaks &lt;- reduce(gr1)
+both &lt;- intersect(prom, peaks)
+only.prom &lt;- setdiff(prom, both)
+only.peaks &lt;- setdiff(peaks, both)
+overlapMat &lt;- matrix(0,, ncol = 2, nrow = 2)
+colnames(overlapMat) &lt;- c(&quot;in.peaks&quot;, &quot;out.peaks&quot;)
+rownames(overlapMat) &lt;- c(&quot;in.promoters&quot;, &quot;out.promoter&quot;)
+overlapMat[1,1] &lt;- sum(width(both))
+overlapMat[1,2] &lt;- sum(width(only.prom))
+overlapMat[2,1] &lt;- sum(width(only.peaks))
+overlapMat[2,2] &lt;- 3*10^9 - sum(overlapMat)
+round(overlapMat / 10^6, 2)</code></pre>
+<pre><code>##              in.peaks out.peaks
+## in.promoters     3.02     59.26
+## out.promoter     8.17   2929.55</code></pre>
+<p>Here we have just used the genome size of 3 billion bases. This is not correct. There are many of these bases which have not been sequenced and in addition, there are many bases which cannot be mapped using short reads. This will reduce the genome size.</p>
+<p>Nevertheless, let us compute an odds-ratio for this table:</p>
+<pre class="r"><code>oddsRatio &lt;- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio</code></pre>
+<pre><code>## [1] 18.26938</code></pre>
+<p>This odds-ratio shows an enrichment of peaks in promoters. We can get a feel for how much the genome size (which we use incorrectly) affects our result by using a lower bound on the genome size. Let us say 1.5 billion bases:</p>
+<pre class="r"><code>overlapMat[2,2] &lt;- 1.5*10^9
+oddsRatio &lt;- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio</code></pre>
+<pre><code>## [1] 9.354362</code></pre>
+<p>The odds-ratio got smaller, but it is still bigger than 1.</p>
+<p>Here we basically says that each base can be assigned to peaks or promoters independently, which is definately false. So there are many, many reasons why this calculation is not the “right” one. Nevertheless, it appears that we have some enrichment, as expected.</p>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1>SessionInfo</h1>

@@ -50,10 +50,12 @@ Biostrings? BSgenome?
 
 ## Week 2
 
-IRanges, GRanges
+Rle
 SummarizedExperiment
 AnnotationHub
 rtracklayer: reading in BigWig, bed files
+Biostrings
+Views
 
 ## Week 3
 

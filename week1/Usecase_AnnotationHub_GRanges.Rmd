@@ -70,7 +70,7 @@ gr1
 gr2 <- subset(qhs, title == "E116-H3K4me3.narrowPeak.gz")[[1]]
 gr2
 ```
-(I use this code, where I use `title` to refer to the different resources, to make this script more robust over time).
+(Note: I use this code, where I use `title` to refer to the different resources, to make this script more robust over time).
 
 This gives us two `GRanges` objects.  Let us look at the distribution of peak widths:
 ```{r ahub_summary}
@@ -78,18 +78,18 @@ summary(width(gr1))
 table(width(gr1))
 summary(width(gr2))
 ```
-Turns out that almost all peaks in `gr1` have a width of 150bp, whereas `gr2` is much more variable.  This is likely a product of the data processing algorithm.
+Turns out that almost all peaks in `gr1` have a width of 150bp, whereas `gr2` is much more variable.  This is likely a product of the data processing algorithm; it can be very hard to figure out the details of this.
 
-At this time one can spend a lot of time thinking about which dataset is best.  We talked about ENCODE data above, in the problem formulation, so let us stick with `gr1`.
+At this time one can spend a lot of time thinking about which datasets is best.  We will avoid this (important) discussion; since we referred to ENCODE data above (in the Overview section), we will stick with `gr1`.
 
-Now we need to get some promoter coordinates.  There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub.  RefSeq is a highly curated (aka conservative) collection of genes.  Most genes in RefSeq has a single isoform, which shows how conservative they are.
+Now we need to get some promoter coordinates.  There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub.  RefSeq is a highly curated (aka conservative) collection of genes.  
 
 Lets get started
 ```{r ahub_refseq}
 qhs <- query(ah, "RefSeq")
 qhs
 ```
-This is a bit weird at first.  We probably need the thing called `RefSeq Genes` and not `Other RefSeq` but why are there multiple resources with the same name?
+So this gives us multiple datasets, all with very similar names.  We probably need the thing called `RefSeq Genes` and not `Other RefSeq` but why are there multiple resources with the same name?
 
 Turns out the answer makes sense:
 ```{r ahub_refseq_genome}
@@ -99,6 +99,7 @@ This looks like the same resources, but in different genome builds.  We have
 ```{r ahub_histone_genome}
 genome(gr1)
 ```
+
 so we know which one to get:
 ```{r ahub_get_refseq}
 refseq <- qhs[qhs$genome == "hg19" & qhs$title == "RefSeq Genes"]
@@ -110,13 +111,15 @@ Lets have a look
 ```{r refseq}
 refseq
 ```
+
 Let us look at the number of isoforms per gene name:
 ```{r ahub_refseq_name}
 table(table(refseq$name))
 ```
-(the `table(table())` construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).
 
-Notice that each transcript is a separate range.  Therefore, each transcript is represented as the "outer" coordinates of the gene; the ranges does not exclude introns.  Because we got this from UCSC I know that the `$blocks` metadata really contains the coordinates of the different exons.  In a later example we shall see an easier way to operate on genes, where we keep track of exons and introns through something known as a `TxDb` (transcript database) object.
+(the `table(table())` construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).  This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.
+
+Notice that each transcript is a separate range.  Therefore, each transcript is represented as the "outer" coordinates of the gene; the ranges does not exclude introns.  Because we got this from UCSC I happen to know that the `$blocks` metadata really contains the coordinates of the different exons.  In a later example we will introduce a gene representation where we keep track of exons, introns and transcripts from the same gene, through something known as a `TxDb` (transcript database) object.
 
 For now, we just need the promoters, so we don't really care about introns.  We need to keep track of which strand each transcript is on, to get the transcription start site.
 
@@ -126,7 +129,8 @@ promoters <- promoters(refseq)
 table(width(promoters))
 args(promoters)
 ```
-There are many definations of promoters based on transcription start site.  The default here is to use 2kb upstream and 200bp downstream.  Lets keep this.
+
+There are many definitions of promoters based on transcription start site.  The default in this function is to use 2kb upstream and 200bp downstream of the start site.  Let's keep this.
 
 Now we compute which promoters have a H3K4me3 peak in them:
 ```{r findOverlaps}
@@ -134,29 +138,75 @@ ov <- findOverlaps(promoters, gr1)
 ov
 ```
 
-Let us compute how many percent of the peaks are in promoter
+Let us compute how many percent of the peaks are in a promoter
 ```{r queryHits}
 length(unique(queryHits(ov))) / length(gr1)
 ```
-and how many percent of promoters have a peak
+
+and how many percent of promoters have a peak in them
 ```{r subjectHits}
 length(unique(subjectHits(ov))) / length(promoters)
 ```
-My rule of thumb is that in any cell typearound 50% of genes are expressed, which fits pretty well with these numbers.
 
-Now, the overlap is non-empty, but is it interesting or "significant".  Providing a very good answer to this question is not easy, but one can use different back-of-the-envelope calculations to get a feel for it.
+My rule of thumb is that any cell type has at most 50% of genes expressed, which fits well with these numbers.  We also see that there are many H3K4me3 peaks which do not lie in a genic promoter.  This is actually expected.
+
+Now, the overlap is non-empty, but is it interesting or "significant".  Answering this question thorughly requires thinking deeply about background distributions etc.  We will avoid a careful statistical approach to this question, and will instead do a few backk-of-the-envelope calculations to get a feel for it.
 
 First we notice that both promoters and peaks are small compared to the size of the human genome:
 ```{r widthPercentage}
 sum(width(reduce(gr1))) / 10^6
 sum(width(reduce(promoters))) / 10^6
 ```
-(result is in megabases).  Just this fact alone should convince you that the overlap is highly unlikely to be random.  To take this thought to its logical conclusion, let us calculate the overlap in megabases:
+
+(result is in megabases; the humnan genome is 3000 megabase).  Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:
 ```{r size}
-sum(width(intersect(gr1, promoters)))
+sum(width(intersect(gr1, promoters))) / 10^6
+```
+That's weird; why is the overlap empty when we know (using `findOverlaps`) that there is plenty of overlap?  Turns out the answer is strand.  We need to ignore the strand when we do this calculation:
+```{r size2}
+sum(width(intersect(gr1, promoters, ignore.strand = TRUE))) / 10^6
 ```
 
-FIXME: write a conclusion to this usecase.
+This brings us back to the question of the size of the promoter set above; this is also affected by strand when there is a promoter on each strand which overlaps.  Contrast
+```{r widthPercentage2}
+sum(width(reduce(promoters))) / 10^6
+sum(width(reduce(promoters, ignore.strand = TRUE))) / 10^6
+```
+Strand can be troublesome!
+
+Let us compute a small 2x2 matrix for which bases are in promoters and/or peaks:
+```{r}
+prom <- reduce(promoters, ignore.strand = TRUE)
+peaks <- reduce(gr1)
+both <- intersect(prom, peaks)
+only.prom <- setdiff(prom, both)
+only.peaks <- setdiff(peaks, both)
+overlapMat <- matrix(0,, ncol = 2, nrow = 2)
+colnames(overlapMat) <- c("in.peaks", "out.peaks")
+rownames(overlapMat) <- c("in.promoters", "out.promoter")
+overlapMat[1,1] <- sum(width(both))
+overlapMat[1,2] <- sum(width(only.prom))
+overlapMat[2,1] <- sum(width(only.peaks))
+overlapMat[2,2] <- 3*10^9 - sum(overlapMat)
+round(overlapMat / 10^6, 2)
+```
+Here we have just used the genome size of 3 billion bases.  This is not correct.  There are many of these bases which have not been sequenced and in addition, there are many bases which cannot be mapped using short reads.  This will reduce the genome size.
+
+Nevertheless, let us compute an odds-ratio for this table:
+```{r oddsratio}
+oddsRatio <- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio
+```
+
+This odds-ratio shows an enrichment of peaks in promoters.  We can get a feel for how much the genome size (which we use incorrectly) affects our result by using a lower bound on the genome size.  Let us say 1.5 billion bases:
+```{r oddsRatio2}
+overlapMat[2,2] <- 1.5*10^9
+oddsRatio <- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio
+```
+The odds-ratio got smaller, but it is still bigger than 1.
+
+Here we basically says that each base can be assigned to peaks or promoters independently, which is definately false.  So there are many, many reasons why this calculation is not the "right" one.  Nevertheless, it appears that we have some enrichment, as expected.
 
 # SessionInfo
 
