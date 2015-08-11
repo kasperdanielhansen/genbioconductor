@@ -9,9 +9,9 @@ Materials_Week2 : Materials_Week2.md
 	pandoc -o Materials_Week2.html Materials_Week2.md
 	open Materials_Week2.html
 
-iranges-intermediate: iranges-intermediate.Rmd
-	$(RENDER) render("iranges-intermediate.Rmd" $(RENDER_END)
-	$(RENDER2) purl("iranges-intermediate.Rmd" $(RENDER2_END)
+GRanges_Intermediate: GRanges_Intermediate.Rmd
+	$(RENDER) render("GRanges_Intermediate.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GRanges_Intermediate.Rmd" $(RENDER2_END)
 
 fixme:
 	grep FIXME *.Rmd
