@@ -52,7 +52,6 @@ all.equal(ir1, ir2)
 
 An `IRange` consist of separate intervals; each interval is called a range.  So `ir1` above contains 3 ranges.
 
-
 Assessor methods: `start()`, `end()`, `width()` and also replacement methods.
 
 ```{r ir_width}
@@ -67,7 +66,7 @@ names(ir1) <- paste("A", 1:3, sep = "")
 ir1
 ```
 
-and they have a single dimension
+They have a single dimension
 ```{r ir_dim}
 dim(ir1)
 length(ir1)
@@ -77,6 +76,11 @@ Because of this, subsetting works like a vector
 ```{r ir_subset}
 ir1[1]
 ir1["A1"]
+```
+
+Like vectors, you can concatenate two `IRanges` with the `c()` function
+```{r concatenate}
+c(ir1, ir2)
 ```
 
 # Normal IRanges
@@ -127,11 +131,11 @@ Answers: "Give a set of overlapping exons, which bases belong to the same set of
 
 Examples of these are: `shift()`, `narrow()`, `flank()`, `resize()`, `restrict()`.
 
-For example, `resize()` can be extremely useful.  It has a `fix` argument controling where the resizing occurs from.
+For example, `resize()` can be extremely useful.  It has a `fix` argument controling where the resizing occurs from.  Use `fix="center"` to resize around the center of the ranges; I use this a lot.
 
 ```{r ir_resize}
 resize(ir, width = 1, fix = "start")
-resize(ir, width = 1, fix = "end")
+resize(ir, width = 1, fix = "center")
 ```
 
 The help page is `?"intra-range-methods"` (note that there is both a help page in `r Biocpkg("IRanges")` and `r Biocpkg("GenomicRanges")`).
@@ -149,9 +153,12 @@ union(ir1, ir2)
 intersect(ir1, ir2)
 ```
 
+Because they return normalized `IRanges`, an alternative to `union()` is
+```{r union2}
+reduce(c(ir1, ir2))
+```
+
 There is also an element-wise version of these: `punion()`, `pintersect()`, `psetdiff()`, `pgap()`; this is similar to say `pmax` from base R.   In my experience, these functions are seldom used.
-
-
 
 # Finding Overlaps
 
@@ -175,14 +182,14 @@ intersect(ir1[subjectHits(ov)[1]],
           ir2[queryHits(ov)[2]])
 ```
 
-The elements of `unique(subjectHits)` gives you the indices of the range which actually had an overlap.
+The elements of `unique(queryHits)` gives you the indices of the query ranges which actually had an overlap; you need `unique` because a query range may overlap multiple subject ranges.
 
 ```{r subjectHits}
-subjectHits(ov)
-unique(subjectHits(ov))
+queryHits(ov)
+unique(queryHits(ov))
 ```
 
-The list of arguments to `findOverlaps()` is long and takes a while to master.  For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.
+The list of arguments to `findOverlaps()` is long; there are a few hidden treasures here.  For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.
 
 ```{r, tidy=TRUE}
 args(findOverlaps)

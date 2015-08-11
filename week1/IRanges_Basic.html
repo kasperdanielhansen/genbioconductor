@@ -99,7 +99,7 @@ ir1</code></pre>
 ## [1]     1   3     3    A1
 ## [2]     3   5     3    A2
 ## [3]     5   7     3    A3</code></pre>
-<p>and they have a single dimension</p>
+<p>They have a single dimension</p>
 <pre class="r"><code>dim(ir1)</code></pre>
 <pre><code>## NULL</code></pre>
 <pre class="r"><code>length(ir1)</code></pre>
@@ -113,6 +113,16 @@ ir1</code></pre>
 <pre><code>## IRanges of length 1
 ##     start end width names
 ## [1]     1   3     3    A1</code></pre>
+<p>Like vectors, you can concatenate two <code>IRanges</code> with the <code>c()</code> function</p>
+<pre class="r"><code>c(ir1, ir2)</code></pre>
+<pre><code>## IRanges of length 6
+##     start end width names
+## [1]     1   3     3    A1
+## [2]     3   5     3    A2
+## [3]     5   7     3    A3
+## [4]     1   1     1      
+## [5]     3   3     1      
+## [6]     5   5     1</code></pre>
 </div>
 <div id="normal-iranges" class="section level1">
 <h1>Normal IRanges</h1>
@@ -145,7 +155,7 @@ ir1</code></pre>
 <h1>Manipulating IRanges, intra-range</h1>
 <p>“Intra-range” manipulations are manipulations where each original range gets mapped to a new range.</p>
 <p>Examples of these are: <code>shift()</code>, <code>narrow()</code>, <code>flank()</code>, <code>resize()</code>, <code>restrict()</code>.</p>
-<p>For example, <code>resize()</code> can be extremely useful. It has a <code>fix</code> argument controling where the resizing occurs from.</p>
+<p>For example, <code>resize()</code> can be extremely useful. It has a <code>fix</code> argument controling where the resizing occurs from. Use <code>fix=&quot;center&quot;</code> to resize around the center of the ranges; I use this a lot.</p>
 <pre class="r"><code>resize(ir, width = 1, fix = &quot;start&quot;)</code></pre>
 <pre><code>## IRanges of length 4
 ##     start end width
@@ -153,13 +163,13 @@ ir1</code></pre>
 ## [2]     3   3     1
 ## [3]     7   7     1
 ## [4]     9   9     1</code></pre>
-<pre class="r"><code>resize(ir, width = 1, fix = &quot;end&quot;)</code></pre>
+<pre class="r"><code>resize(ir, width = 1, fix = &quot;center&quot;)</code></pre>
 <pre><code>## IRanges of length 4
 ##     start end width
-## [1]     4   4     1
-## [2]     4   4     1
-## [3]     8   8     1
-## [4]    10  10     1</code></pre>
+## [1]     2   2     1
+## [2]     3   3     1
+## [3]     7   7     1
+## [4]     9   9     1</code></pre>
 <p>The help page is <code>?&quot;intra-range-methods&quot;</code> (note that there is both a help page in <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em>).</p>
 </div>
 <div id="manipulating-iranges-as-sets" class="section level1">
@@ -177,6 +187,12 @@ union(ir1, ir2)</code></pre>
 <pre><code>## IRanges of length 1
 ##     start end width
 ## [1]     5   5     1</code></pre>
+<p>Because they return normalized <code>IRanges</code>, an alternative to <code>union()</code> is</p>
+<pre class="r"><code>reduce(c(ir1, ir2))</code></pre>
+<pre><code>## IRanges of length 2
+##     start end width
+## [1]     1   1     1
+## [2]     3   6     4</code></pre>
 <p>There is also an element-wise version of these: <code>punion()</code>, <code>pintersect()</code>, <code>psetdiff()</code>, <code>pgap()</code>; this is similar to say <code>pmax</code> from base R. In my experience, these functions are seldom used.</p>
 </div>
 <div id="finding-overlaps" class="section level1">
@@ -201,12 +217,12 @@ ov</code></pre>
 <pre class="r"><code>intersect(ir1[subjectHits(ov)[1]],
           ir2[queryHits(ov)[2]])</code></pre>
 <pre><code>## IRanges of length 0</code></pre>
-<p>The elements of <code>unique(subjectHits)</code> gives you the indices of the range which actually had an overlap.</p>
-<pre class="r"><code>subjectHits(ov)</code></pre>
-<pre><code>## [1] 1 1 2</code></pre>
-<pre class="r"><code>unique(subjectHits(ov))</code></pre>
+<p>The elements of <code>unique(queryHits)</code> gives you the indices of the query ranges which actually had an overlap; you need <code>unique</code> because a query range may overlap multiple subject ranges.</p>
+<pre class="r"><code>queryHits(ov)</code></pre>
+<pre><code>## [1] 1 2 2</code></pre>
+<pre class="r"><code>unique(queryHits(ov))</code></pre>
 <pre><code>## [1] 1 2</code></pre>
-<p>The list of arguments to <code>findOverlaps()</code> is long and takes a while to master. For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.</p>
+<p>The list of arguments to <code>findOverlaps()</code> is long; there are a few hidden treasures here. For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.</p>
 <pre class="r"><code>args(findOverlaps)</code></pre>
 <pre><code>## function (query, subject, maxgap = 0L, minoverlap = 1L, type = c(&quot;any&quot;, 
 ##     &quot;start&quot;, &quot;end&quot;, &quot;within&quot;, &quot;equal&quot;), select = c(&quot;all&quot;, &quot;first&quot;, 

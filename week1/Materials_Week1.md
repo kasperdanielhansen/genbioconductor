@@ -15,7 +15,7 @@ title: Materials for week 1
 In this class we are using the following software
 
 - R version 3.2.1.
-- RStudio version FIXME.
+- RStudio version 0.99.467.
 - Bioconductor version 3.1.
 
 First we need to install these programs.

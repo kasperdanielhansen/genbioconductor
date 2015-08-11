@@ -57,6 +57,9 @@ length(ir1)
 ir1[1]
 ir1["A1"]
 
+## ----concatenate---------------------------------------------------------
+c(ir1, ir2)
+
 ## ---- echo=FALSE---------------------------------------------------------
 ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
 
@@ -81,13 +84,16 @@ plotRanges(disjoin(ir))
 
 ## ----ir_resize-----------------------------------------------------------
 resize(ir, width = 1, fix = "start")
-resize(ir, width = 1, fix = "end")
+resize(ir, width = 1, fix = "center")
 
 ## ----ir_sets-------------------------------------------------------------
 ir1 <- IRanges(start = c(1, 3, 5), width = 1)
 ir2 <- IRanges(start = c(4, 5, 6), width = 1)
 union(ir1, ir2)
 intersect(ir1, ir2)
+
+## ----union2--------------------------------------------------------------
+reduce(c(ir1, ir2))
 
 ## ----findOverlaps--------------------------------------------------------
 ir1 <- IRanges(start = c(1,4,8), end = c(3,7,10))
@@ -100,8 +106,8 @@ intersect(ir1[subjectHits(ov)[1]],
           ir2[queryHits(ov)[2]])
 
 ## ----subjectHits---------------------------------------------------------
-subjectHits(ov)
-unique(subjectHits(ov))
+queryHits(ov)
+unique(queryHits(ov))
 
 ## ---- tidy=TRUE----------------------------------------------------------
 args(findOverlaps)
