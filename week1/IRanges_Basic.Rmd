@@ -158,7 +158,7 @@ Because they return normalized `IRanges`, an alternative to `union()` is
 reduce(c(ir1, ir2))
 ```
 
-There is also an element-wise version of these: `punion()`, `pintersect()`, `psetdiff()`, `pgap()`; this is similar to say `pmax` from base R.   In my experience, these functions are seldom used.
+There is also an element-wise (pair-wise) version of these: `punion()`, `pintersect()`, `psetdiff()`, `pgap()`; this is similar to say `pmax` from base R.   In my experience, these functions are seldom used.
 
 # Finding Overlaps
 

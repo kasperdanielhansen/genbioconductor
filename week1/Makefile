@@ -35,5 +35,5 @@ fixme:
 all: Materials_Week1 IRanges_Basic GRanges_Basic AnnotationHub Usecase_AnnotationHub_GRanges R_Overview
 
 clean:
-	rm -f *.html *.pdf
+	rm -f *~ *.pdf
 
