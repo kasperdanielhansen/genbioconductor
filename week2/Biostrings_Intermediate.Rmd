@@ -1,0 +1,150 @@
+---
+author: Kasper D. Hansen
+title: Biostrings - Intermediate Usage
+fontsize: 10pt
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(Biostrings)
+library(BSgenome)
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
+library(AnnotationHub)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("Biostrings", "BSgenome",
+           "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
+```
+
+# Overview
+
+We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`
+
+# Other Resources
+
+
+# Pattern matching
+
+We often want to find patterns in (long) sequences.  `r Biocpkg("Biostrings")` have a number of functions for doing so
+
+- `matchPattern` and `vmatchPattern`: match a single sequence against one sequence (`matchPattern`) or more than one (`vmatchPattern`) sequences.
+- `matchPDict` and `vmatchPDict`: match a (possibly large) set of sequences against one sequence (`matchPDict`) or more than one (`vmatchPDict`) sequences.
+
+These functions allows a small set of mismatches and some small indels.  The `Dict` term is used because the function builds a "dictionary" over the sequences.
+
+There are also functions with similar naming using `count` instead of `match` (eg. `countPatterns`).  These functions returns the number of matches instead of precise information about where the matches occur.
+
+In many ways, these functions are similar to using short read aligners like Bowtie.  But these functions are designed to be comprehensive (return all matches satisfying certain criteria).  Having this functionality available in Bioconductor can sometimes be very useful.
+
+```{r mmatchPattern}
+dnaseq <- DNAString("ACGTACGT")
+matchPattern(dnaseq, Scerevisiae$chrI)
+countPattern(dnaseq, Scerevisiae$chrI)
+vmatchPattern(dnaseq, Scerevisiae)
+head(vcountPattern(dnaseq, Scerevisiae))
+```
+
+See how we use `vmatchPattern` to examine across all chromosomes.
+
+First, note how the return object of `vmatchPattern` is a `GRanges` given the exact information of where the string matches.  Note sequence we search for is its own reverse complement, so we get hits on both strands (which makes sense).  Obviously, not all sequences are like this
+```{r revCompCheck}
+dnaseq == reverseComplement(dnaseq)
+```
+
+Second, note how the return object of `matchPattern` looks like an `IRanges` but is really something called a `Views`.
+
+# Views
+
+`Views` are used when you have a single big object (think chromosome or other massive dataset) and you need to deal with (many) subsets of this object.
+
+Technically, a `Views` is like an `IRanges` couple with a pointer to the massive object.  The `IRanges` contains the indexes.  Let's look at `matchPattern` again:
+```{r views1}
+vi <- matchPattern(dnaseq)
+vi
+```
+We can get the `IRanges` component by
+```{r views2}
+ranges(vi)
+```
+The `IRanges` gives us indexes into the underlying subject (here chromosome I).  To be clear, compare these two:
+```{r views3}
+vi
+Scerevisiae$chrI[ start(vi):end(vi) ]
+```
+The `Views` object also look a bit like a `DNAStringSet`; we can do things like
+```{r views4}
+alphabetFrequency(vi)
+```
+The advantage of `Views` is that they don't duplicate the sequence information from the subject; all they keep track of are indexes into the subject (stored as `IRanges`).  This makes it very (1) fast, (2) low-memory and makes it possible to do things like
+```{r views5}
+shift(vi, 10)
+```
+where we now get the sequence 10 bases next to the original match.  This could not be done if all we had were the bases of the original subsequence.
+
+`Views` are especially powerful when there are many of them.  A usecase I often have are the set of all exons (or promoters) of all genes in the genome.  You can use `GRanges` as `Views` as well.  Lets take the hits from `vmatchPattern` above.
+
+```{r viewsVMatchPattern}
+gr <- vmatchPattern(dnaseq, Scerevisiae)
+vi2 <- Views(Scerevisiae, gr)
+```
+
+Now, let us do something with this.  First let us get gene coordinates from `r Biocpkg("AnnotationHub")`.
+
+```{r annotationHub}
+ahub <- AnnotationHub()
+qh <- query(ahub, c("sacCer2", "genes"))
+qh
+genes <- qh[[which(qh$title == "SGD Genes")]]
+genes
+```
+
+Let us compute the GC content of all promoters in the yeast genome.
+```{r promoterGCcontent}
+prom <- promoters(genes)
+```
+We get a `warning` that some of these promoters are out-of-band (see the the second and third element in the `genes` object).  We clean it up and continue
+```{r promoterGCcontent2}
+prom <- trim(prom)
+promViews <- Views(Scerevisiae, prom)
+gcProm <- letterFrequency(promViews, "GC", as.prob = TRUE)
+head(gcProm)
+```
+In the previos `r Biocpkg("Biostrings")` session we computed the GC content of the yeast genome.  Let us do it again, briefly
+```{r genomeGC}
+params <- new("BSParams", X = Scerevisiae, FUN = letterFrequency, simplify = TRUE)
+gccontent <- bsapply(params, letters = "GC")
+gcPercentage <- sum(gccontent) / sum(seqlengths(Scerevisiae))
+gcPercentage
+```
+Let us compare this genome percentage to the distribution of GC content for promoters
+```{r plotGC, fig=TRUE}
+plot(density(gcProm))
+abline(v = gcPercentage, col = "red")
+```
+At first glance, the GC content of the promoters is not very different from the genomewide GC content (perhaps shifted a bit to the right).
+
+# Specialized alignments
+
+
+
+
+# SessionInfo
+
+\scriptsize
+
+```{r, echo=FALSE}
+sessionInfo()
+```
+
+# References
+
