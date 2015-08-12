@@ -1,7 +1,6 @@
 ---
 author: Kasper D. Hansen
-title: IRanges and GenomicRanges
-subtitle: An introduction
+title: GenomicRanges - Intermediate Usage
 fontsize: 10pt
 ---
 
@@ -130,4 +129,14 @@ nCoverage / nBases
 ``` 
 
 (watch out for strand)
+
+# SessionInfo
+
+\scriptsize
+
+```{r, echo=FALSE}
+sessionInfo()
+```
+
+# References
 

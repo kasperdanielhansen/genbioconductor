@@ -8,8 +8,6 @@ title: Materials for week 2
 - **Basic Data Types** ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Basic_Data_Types.mp) | [Slides]())
 - **Annotation Overview** ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Annotation_Overview.mp4) | [Slides]())
 
-## R: S4 classes and methods
-
 ## Data containers
 
 - **Overview of ExpressionSet** ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\ExpressionSet_Overview.mp4) | [Slides]())
@@ -21,12 +19,7 @@ title: Materials for week 2
 
 - structure of GEO; supplementary data
 
-## GRanges - Intermediate use
-
-- Rle
-- GenomeInfoDb
-- Views
-- GRangesList
+## R: S4 classes and methods
 
 ## Biostrings / Genomes
 
@@ -37,26 +30,47 @@ title: Materials for week 2
 - pairwiseAlignment
 - available.genomes()
 
-## TxDb objects
+## GRanges - Intermediate use
 
-Basic usage; whatever that is
+- Rle
+- GenomeInfoDb
+- Views
+- GRangesList
 
 ## rtracklayer
 
 - Reading BED, GFF, BigWig, BigBed
 - Lay a track on a browser
 
+## TxDb objects
+
+- GenomicFeatures
+- Basic usage; whatever that is
+
+
 
 # Other stuff
 
 - biomaRt
 - Rsamtools
+- GenomicAlignments
+- Rsubread / Rbowtie
 - VariantAnnotation
 - GenomicFiles
 - BiocParallel
 - limma
 - GenomicFiles
 - DEseq / edgeR
+- RBGL / graph / Rgraphviz
+- genefilter
+- preprocessCore
+- oligo
+- Gviz
+- ggbio
+- GOstats
+- DNAcopy
+- sva
+- EBImage
 
 
 gene expression analysis with microarrays

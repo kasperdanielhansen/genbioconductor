@@ -13,6 +13,14 @@ GRanges_Intermediate: GRanges_Intermediate.Rmd
 	$(RENDER) render("GRanges_Intermediate.Rmd" $(RENDER_END)
 	$(RENDER2) purl("GRanges_Intermediate.Rmd" $(RENDER2_END)
 
+Biostrings_Intermediate: Biostrings_Intermediate.Rmd
+	$(RENDER) render("Biostrings_Intermediate.Rmd" $(RENDER_END)
+	$(RENDER2) purl("Biostrings_Intermediate.Rmd" $(RENDER2_END)
+
+Biostrings_Basic: Biostrings_Basic.Rmd
+	$(RENDER) render("Biostrings_Basic.Rmd" $(RENDER_END)
+	$(RENDER2) purl("Biostrings_Basic.Rmd" $(RENDER2_END)
+
 fixme:
 	grep FIXME *.Rmd
 
