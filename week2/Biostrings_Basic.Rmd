@@ -1,6 +1,7 @@
 ---
 author: Kasper D. Hansen
 title: Biostrings - Basic Usage
+bibliography: genbioconductor.bib
 fontsize: 10pt
 ---
 
@@ -26,7 +27,7 @@ biocLite(c("Biostrings", "BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 
 # Overview
 
-The `r Biocpakg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in sequencing alignment.  There are also functions for reading and writing output such as FASTA files.
+The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classis sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
 
 The `r Biocpkg("BSgenome")` package contains infrastructure for representing genome sequences in Bioconductor.
 
@@ -37,7 +38,7 @@ The `r Biocpkg("BSgenome")` package contains infrastructure for representing gen
 
 There are two basic types of containers for representing strings.  One container represents a single string (say a chromosome or a single short read) and the other container represents a set of strings (say a set of short reads).  There are different classes intended to represent different types of sequences such as DNA or RNA sequences.
 
-```{r DNAString}
+```{r DNAString, error=TRUE}
 dna1 <- DNAString("ACGT-N")
 dna1
 DNAStringSet("ADE")
@@ -51,13 +52,17 @@ Note that the alphabet of a `DNAString` is an extended alphabet: `-` (for insert
 IUPAC_CODE_MAP
 ```
 
-Indexing into a `DNAString` retrives a subsequence (similar to the standard R function `substr`), whereas indexing into a `DNAStringSet` gives you a subset of sequences.  Note that `[[` allows you to get a single element of a `DNAStringSet` as a `DNAString`.  This is very similar to `[` and `[[` for lists.
+Indexing into a `DNAString` retrives a subsequence (similar to the standard R function `substr`), whereas indexing into a `DNAStringSet` gives you a subset of sequences.  
 
 ```{r DNAStringSubset}
 dna1[2:4]
 dna2[2:3]
+```
+Note that `[[` allows you to get a single element of a `DNAStringSet` as a `DNAString`.  This is very similar to `[` and `[[` for lists.
+```{r DNAStringSubset2}
 dna2[[2]]
 ```
+
 
 `DNAStringSet` objects can have names, like ordinary vectors
 ```{r DNAStringSetNames}
@@ -148,7 +153,7 @@ The `available.genomes()` function lists which genomes are currently available p
 Let us load the latest yeast genome
 ```{r BSgenome}
 available.genomes()
-library("BSgenome.Scerevisiae.UCSC.sacCer3")
+library("BSgenome.Scerevisiae.UCSC.sacCer2")
 Scerevisiae
 ```
 

@@ -1,6 +1,7 @@
 ---
 author: Kasper D. Hansen
 title: Biostrings - Intermediate Usage
+bibliography: genbioconductor.bib
 fontsize: 10pt
 ---
 
@@ -65,11 +66,11 @@ Second, note how the return object of `matchPattern` looks like an `IRanges` but
 
 # Views
 
-`Views` are used when you have a single big object (think chromosome or other massive dataset) and you need to deal with (many) subsets of this object.
+`Views` are used when you have a single big object (think chromosome or other massive dataset) and you need to deal with (many) subsets of this object.  `Views` are not restricted to genome sequences; we will discuss `Views` on other types of objects in a different session.
 
 Technically, a `Views` is like an `IRanges` couple with a pointer to the massive object.  The `IRanges` contains the indexes.  Let's look at `matchPattern` again:
 ```{r views1}
-vi <- matchPattern(dnaseq)
+vi <- matchPattern(dnaseq, Scerevisiae$chrI)
 vi
 ```
 We can get the `IRanges` component by
@@ -111,8 +112,9 @@ genes
 Let us compute the GC content of all promoters in the yeast genome.
 ```{r promoterGCcontent}
 prom <- promoters(genes)
+head(prom, n = 3)
 ```
-We get a `warning` that some of these promoters are out-of-band (see the the second and third element in the `genes` object).  We clean it up and continue
+We get a `warning` that some of these promoters are out-of-band (see the the second and third element in the `prom` object; they have negative values for their ranges).  We clean it up and continue
 ```{r promoterGCcontent2}
 prom <- trim(prom)
 promViews <- Views(Scerevisiae, prom)
@@ -135,8 +137,15 @@ At first glance, the GC content of the promoters is not very different from the 
 
 # Specialized alignments
 
+There are a number of other, specialized, alignment functions in `r Biocpkg("Biostrings")`.  They include
 
+- `matchPWM`: a position weight matrix is a common way to represent for example a transcription factor binding motif (think sequence logos).  This function allows you to search for such motifs in the genome.
+- `pairwiseAlignment`: This function implements pairwise alignments using dynamic programming; providing an interface to both the Smith-Waterman local alignment problem and the Needleman-Wunsch global alignment problems, see a thourough description in [@Durbin:1998].
+- `trimLRpattern` (trim left-right pattern): Takes a set of sequences and looks for whether they start or end with a given (other sequence), for example a sequencing adapter.  Used for trimming reads based on adapter sequences.
 
+For now, we will avoid further discussion of these functions.
+
+One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read dat, because the algorithms scale badly with the length of the sequence (ie.\ the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
 
 # SessionInfo
 
