@@ -1,0 +1,44 @@
+---
+title: ExpressionSet
+author: Kasper D. Hansen
+fontsize: 10pt
+bibliography: genbioconductor.bib
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+# Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(Biobase)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("Biobase"))
+```
+
+# Overview
+  
+We will examine how to use and manipulate the `ExpressionSet` class; a fundamental data container in Bioconductor.  The class is defined in the `r Biocpkg("Biobase")` package.
+
+# Other Resources
+
+- The vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase).
+
+# Start
+  
+# SessionInfo
+
+\scriptsize
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# References
