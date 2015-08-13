@@ -1,7 +1,7 @@
 R_SCRIPT=/usr/bin/Rscript
 OUTPUT_FORMAT="BiocStyle::html_document"
 RENDER=$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);
-RENDER_END=, output_format = $(OUTPUT_FORMAT))}'
+RENDER_END=, output_format = $(OUTPUT_FORMAT), output_options = list(toc=TRUE))}'
 RENDER2=$(R_SCRIPT) -e '{library(knitr);
 RENDER2_END=)}'
 

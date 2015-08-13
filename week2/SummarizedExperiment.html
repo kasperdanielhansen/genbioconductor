@@ -11,7 +11,7 @@
 <meta name="author" content="Kasper D. Hansen" />
 
 
-<title>ExpressionSet</title>
+<title>SummarizedExperiment</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -40,7 +40,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 <div id="header">
-<h1 class="title">ExpressionSet</h1>
+<h1 class="title">SummarizedExperiment</h1>
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
@@ -50,10 +50,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#overview">Overview</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
 <li><a href="#start">Start</a></li>
-<li><a href="#subsetting">Subsetting</a></li>
-<li><a href="#featuredata-and-annotation">featureData and annotation</a></li>
-<li><a href="#note-phenodata-and-pdata">Note: phenoData and pData</a></li>
-<li><a href="#the-eset-class">The eSet class</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 </ul>
 </div>
@@ -61,234 +57,180 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <p>This document has the following dependecies:</p>
-<pre class="r"><code>library(Biobase)
-library(ALL)
-library(hgu95av2.db)</code></pre>
+<pre class="r"><code>library(GenomicRanges)
+library(airway)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
-biocLite(c(&quot;Biobase&quot;, &quot;ALL&quot;, &quot;hgu95av2.db&quot;))</code></pre>
+biocLite(c(&quot;GenomicRanges&quot;, &quot;airway&quot;))</code></pre>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>We will examine how to use and manipulate the <code>ExpressionSet</code> class; a fundamental data container in Bioconductor. The class is defined in the <em><a href="http://bioconductor.org/packages/release/bioc/html/Biobase.html">Biobase</a></em> package.</p>
-<p>This class has inspired many other data containers in Bioconductor and can be considered a great success in programming with data.</p>
+<p>We will preent the <code>SummarizedExperiment</code> class from <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> package; an extension of the <code>ExpressionSet</code> class to include <code>GRanges</code>.</p>
+<p>This class is suitable for storing processed data particularly from high-throughout sequencing assays.</p>
 </div>
 <div id="other-resources" class="section level2">
 <h2>Other Resources</h2>
-<ul>
-<li>The “An Introduction to Bioconductor’s ExpressionSet Class” vignette from the <a href="http://bioconductor.org/packages/Biobase">Biobase webpage</a>.</li>
-<li>The “Notes for eSet Developers” vignette from the <a href="http://bioconductor.org/packages/Biobase">Biobase webpage</a> contains advanced information.</li>
-</ul>
 </div>
 <div id="start" class="section level2">
 <h2>Start</h2>
-<p>An example dataset, stored as an <code>ExpressionSet</code> is available in the <em><a href="http://bioconductor.org/packages/release/bioc/html/ALL.html">ALL</a></em> package. This package is an example of an “experimental data” package“; a bundling of a full experiment inside an R package. These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.</p>
-<pre class="r"><code>library(ALL)
-data(ALL)
-ALL</code></pre>
-<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
-## assayData: 12625 features, 128 samples 
-##   element names: exprs 
-## protocolData: none
-## phenoData
-##   sampleNames: 01005 01010 ... LAL4 (128 total)
-##   varLabels: cod diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription
-## featureData: none
-## experimentData: use 'experimentData(object)'
-##   pubMedIds: 14684422 16243790 
-## Annotation: hgu95av2</code></pre>
-<p>(you don’t always have to explicitly call <code>data()</code> on all datasets in R; that depends on the choice of the package author).</p>
-<p>This is an experiment done on an Affymetrix HGU 95av2 gene expression microarray; the authors profiled 128 samples.</p>
-<p>Because this is data from an experiment package, there is documentation in the help page for the dataset, see</p>
-<pre class="r"><code>?ALL</code></pre>
-<p>From the printed description of <code>ALL</code> you can see that 12625 features (in this case genes) were measured on 128 samples. The object contains information about the experiment; look at</p>
-<pre class="r"><code>experimentData(ALL)</code></pre>
-<pre><code>## Experiment data
-##   Experimenter name: Chiaretti et al. 
-##   Laboratory: Department of Medical Oncology, Dana-Farber Cancer Institute, Department of Medicine, Brigham and Women's Hospital, Harvard Medical School, Boston, MA 02115, USA. 
-##   Contact information:  
-##   Title: Gene expression profile of adult T-cell acute lymphocytic leukemia identifies distinct subsets of patients with different response to therapy and survival. 
-##   URL:  
-##   PMIDs: 14684422 16243790 
+<p>An example dataset, stored as a <code>SummarizedExperiment</code> is available in the <em><a href="http://bioconductor.org/packages/release/bioc/html/airway.html">airway</a></em> package. This data represents an RNA sequencing experiment, but we will use it only for illustrating the class.</p>
+<pre class="r"><code>library(airway)
+data(airway)
+airway</code></pre>
+<pre><code>## class: SummarizedExperiment 
+## dim: 64102 8 
+## exptData(1): ''
+## assays(1): counts
+## rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
+## rowRanges metadata column names(0):
+## colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+## colData names(9): SampleName cell ... Sample BioSample</code></pre>
+<p>This looks similar to - and yet different from - the <code>ExpressionSet</code>. Things now have different names, representing that these classes were designed about 10 years apart.</p>
+<p>We have 8 samples and 64102 features (genes).</p>
+<p>Some aspects of the object are very similar to <code>ExpressionSet</code>, although with slightly different names and types:</p>
+<p><code>colData</code> contains phenotype (sample) information, like <code>pData</code> for <code>ExpressionSet</code>. It returns a <code>DataFrame</code> instead of a <code>data.frame</code>:</p>
+<pre class="r"><code>colData(airway)</code></pre>
+<pre><code>## DataFrame with 8 rows and 9 columns
+##            SampleName     cell      dex    albut        Run avgLength
+##              &lt;factor&gt; &lt;factor&gt; &lt;factor&gt; &lt;factor&gt;   &lt;factor&gt; &lt;integer&gt;
+## SRR1039508 GSM1275862   N61311    untrt    untrt SRR1039508       126
+## SRR1039509 GSM1275863   N61311      trt    untrt SRR1039509       126
+## SRR1039512 GSM1275866  N052611    untrt    untrt SRR1039512       126
+## SRR1039513 GSM1275867  N052611      trt    untrt SRR1039513        87
+## SRR1039516 GSM1275870  N080611    untrt    untrt SRR1039516       120
+## SRR1039517 GSM1275871  N080611      trt    untrt SRR1039517       126
+## SRR1039520 GSM1275874  N061011    untrt    untrt SRR1039520       101
+## SRR1039521 GSM1275875  N061011      trt    untrt SRR1039521        98
+##            Experiment    Sample    BioSample
+##              &lt;factor&gt;  &lt;factor&gt;     &lt;factor&gt;
+## SRR1039508  SRX384345 SRS508568 SAMN02422669
+## SRR1039509  SRX384346 SRS508567 SAMN02422675
+## SRR1039512  SRX384349 SRS508571 SAMN02422678
+## SRR1039513  SRX384350 SRS508572 SAMN02422670
+## SRR1039516  SRX384353 SRS508575 SAMN02422682
+## SRR1039517  SRX384354 SRS508576 SAMN02422673
+## SRR1039520  SRX384357 SRS508579 SAMN02422683
+## SRR1039521  SRX384358 SRS508580 SAMN02422677</code></pre>
+<p>You can still use <code>$</code> to get a particular column:</p>
+<pre class="r"><code>airway$cell</code></pre>
+<pre><code>## [1] N61311  N61311  N052611 N052611 N080611 N080611 N061011 N061011
+## Levels: N052611 N061011 N080611 N61311</code></pre>
+<p><code>exptData</code> is like <code>experimentData</code> from <code>ExpressionSet</code>. This slot is often un-used; this is the case for this object:</p>
+<pre class="r"><code>exptData(airway)</code></pre>
+<pre><code>## List of length 1</code></pre>
+<p><code>colnames</code> are like <code>samplesNames</code> from <code>ExpressionSet</code>; <code>rownames</code> are like <code>featureNames</code>.</p>
+<pre class="r"><code>colnames(airway)</code></pre>
+<pre><code>## [1] &quot;SRR1039508&quot; &quot;SRR1039509&quot; &quot;SRR1039512&quot; &quot;SRR1039513&quot; &quot;SRR1039516&quot;
+## [6] &quot;SRR1039517&quot; &quot;SRR1039520&quot; &quot;SRR1039521&quot;</code></pre>
+<pre class="r"><code>head(rownames(airway))</code></pre>
+<pre><code>## [1] &quot;ENSG00000000003&quot; &quot;ENSG00000000005&quot; &quot;ENSG00000000419&quot; &quot;ENSG00000000457&quot;
+## [5] &quot;ENSG00000000460&quot; &quot;ENSG00000000938&quot;</code></pre>
+<p>The measurement data are accessed by <code>assay</code> and <code>assays</code>. A <code>SummarizedExperiment</code> can contain multiple measurement matrices (all of the same dimension). You get all of them by <code>assays</code> and you select a particular one by <code>assay(OBJECT, NAME)</code> where you can see the names when you print the object or by using <code>assayNames</code>. In this case there is a single matrix called <code>counts</code>:</p>
+<pre class="r"><code>airway</code></pre>
+<pre><code>## class: SummarizedExperiment 
+## dim: 64102 8 
+## exptData(1): ''
+## assays(1): counts
+## rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
+## rowRanges metadata column names(0):
+## colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+## colData names(9): SampleName cell ... Sample BioSample</code></pre>
+<pre class="r"><code>assayNames(airway)</code></pre>
+<pre><code>## [1] &quot;counts&quot;</code></pre>
+<pre class="r"><code>assays(airway)</code></pre>
+<pre><code>## List of length 1
+## names(1): counts</code></pre>
+<pre class="r"><code>head(assay(airway, &quot;counts&quot;))</code></pre>
+<pre><code>##                 SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516
+## ENSG00000000003        679        448        873        408       1138
+## ENSG00000000005          0          0          0          0          0
+## ENSG00000000419        467        515        621        365        587
+## ENSG00000000457        260        211        263        164        245
+## ENSG00000000460         60         55         40         35         78
+## ENSG00000000938          0          0          2          0          1
+##                 SRR1039517 SRR1039520 SRR1039521
+## ENSG00000000003       1047        770        572
+## ENSG00000000005          0          0          0
+## ENSG00000000419        799        417        508
+## ENSG00000000457        331        233        229
+## ENSG00000000460         63         76         60
+## ENSG00000000938          0          0          0</code></pre>
+<p>So far, this is all information which could be stored in an <code>ExpressionSet</code>. The new thing is that <code>SummarizedExperiment</code> allows for a <code>rowRanges</code> (or <code>granges</code>) data representing the different features. The idea is that these <code>GRanges</code> tells us which part of the genome is summarized for a particular feature. Let us take a look</p>
+<pre class="r"><code>length(rowRanges(airway))</code></pre>
+<pre><code>## [1] 64102</code></pre>
+<pre class="r"><code>dim(airway)</code></pre>
+<pre><code>## [1] 64102     8</code></pre>
+<pre class="r"><code>rowRanges(airway)</code></pre>
+<pre><code>## GRangesList object of length 64102:
+## $ENSG00000000003 
+## GRanges object with 17 ranges and 2 metadata columns:
+##        seqnames               ranges strand   |   exon_id       exon_name
+##           &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;integer&gt;     &lt;character&gt;
+##    [1]        X [99883667, 99884983]      -   |    667145 ENSE00001459322
+##    [2]        X [99885756, 99885863]      -   |    667146 ENSE00000868868
+##    [3]        X [99887482, 99887565]      -   |    667147 ENSE00000401072
+##    [4]        X [99887538, 99887565]      -   |    667148 ENSE00001849132
+##    [5]        X [99888402, 99888536]      -   |    667149 ENSE00003554016
+##    ...      ...                  ...    ... ...       ...             ...
+##   [13]        X [99890555, 99890743]      -   |    667156 ENSE00003512331
+##   [14]        X [99891188, 99891686]      -   |    667158 ENSE00001886883
+##   [15]        X [99891605, 99891803]      -   |    667159 ENSE00001855382
+##   [16]        X [99891790, 99892101]      -   |    667160 ENSE00001863395
+##   [17]        X [99894942, 99894988]      -   |    667161 ENSE00001828996
 ## 
-##   Abstract: A 187 word abstract is available. Use 'abstract' method.</code></pre>
-<p>Two papers (pubmed IDs or PMIDs) are associated with the data.</p>
-<p>There is no <code>protocolData</code> in the object (this is intended to describe the experimental protocol); this is typical in my experience (although it would be great to have this information easily available to the end user).</p>
-<p>The core of the object are two matrices</p>
-<ul>
-<li>the <code>exprs</code> matrix containing the 12625 gene expression measurements on the 128 samples (a 12625 by 128 numeric matrix).</li>
-<li>the <code>pData</code> <code>data.frame</code> containing phenotype data on the samples.</li>
-</ul>
-<p>You get the expression data by</p>
-<pre class="r"><code>exprs(ALL)[1:4, 1:4]</code></pre>
-<pre><code>##              01005    01010    03002    04006
-## 1000_at   7.597323 7.479445 7.567593 7.384684
-## 1001_at   5.046194 4.932537 4.799294 4.922627
-## 1002_f_at 3.900466 4.208155 3.886169 4.206798
-## 1003_s_at 5.903856 6.169024 5.860459 6.116890</code></pre>
-<p>Note how this matrix has column and rownames. These are <code>sampleNames</code> and <code>featureNames</code>. Get them by</p>
-<pre class="r"><code>head(sampleNames(ALL))</code></pre>
-<pre><code>## [1] &quot;01005&quot; &quot;01010&quot; &quot;03002&quot; &quot;04006&quot; &quot;04007&quot; &quot;04008&quot;</code></pre>
-<pre class="r"><code>head(featureNames(ALL))</code></pre>
-<pre><code>## [1] &quot;1000_at&quot;   &quot;1001_at&quot;   &quot;1002_f_at&quot; &quot;1003_s_at&quot; &quot;1004_at&quot;   &quot;1005_at&quot;</code></pre>
-<p>To get at the <code>pData</code> information, using the <code>pData</code> accessor.</p>
-<pre class="r"><code>head(pData(ALL))</code></pre>
-<pre><code>##        cod diagnosis sex age BT remission CR   date.cr t(4;11) t(9;22)
-## 01005 1005 5/21/1997   M  53 B2        CR CR  8/6/1997   FALSE    TRUE
-## 01010 1010 3/29/2000   M  19 B2        CR CR 6/27/2000   FALSE   FALSE
-## 03002 3002 6/24/1998   F  52 B4        CR CR 8/17/1998      NA      NA
-## 04006 4006 7/17/1997   M  38 B1        CR CR  9/8/1997    TRUE   FALSE
-## 04007 4007 7/22/1997   M  57 B2        CR CR 9/17/1997   FALSE   FALSE
-## 04008 4008 7/30/1997   M  17 B1        CR CR 9/27/1997   FALSE   FALSE
-##       cyto.normal        citog mol.biol fusion protein mdr   kinet   ccr
-## 01005       FALSE      t(9;22)  BCR/ABL           p210 NEG dyploid FALSE
-## 01010       FALSE  simple alt.      NEG           &lt;NA&gt; POS dyploid FALSE
-## 03002          NA         &lt;NA&gt;  BCR/ABL           p190 NEG dyploid FALSE
-## 04006       FALSE      t(4;11) ALL1/AF4           &lt;NA&gt; NEG dyploid FALSE
-## 04007       FALSE      del(6q)      NEG           &lt;NA&gt; NEG dyploid FALSE
-## 04008       FALSE complex alt.      NEG           &lt;NA&gt; NEG hyperd. FALSE
-##       relapse transplant               f.u date last seen
-## 01005   FALSE       TRUE BMT / DEATH IN CR           &lt;NA&gt;
-## 01010    TRUE      FALSE               REL      8/28/2000
-## 03002    TRUE      FALSE               REL     10/15/1999
-## 04006    TRUE      FALSE               REL      1/23/1998
-## 04007    TRUE      FALSE               REL      11/4/1997
-## 04008    TRUE      FALSE               REL     12/15/1997</code></pre>
-<p>You can access individual columns of this <code>data.frame</code> by using the <code>$</code> operator:</p>
-<pre class="r"><code>head(pData(ALL)$sex)</code></pre>
-<pre><code>## [1] M M F M M M
-## Levels: F M</code></pre>
-<pre class="r"><code>head(ALL$sex)</code></pre>
-<pre><code>## [1] M M F M M M
-## Levels: F M</code></pre>
-</div>
-<div id="subsetting" class="section level2">
-<h2>Subsetting</h2>
-<p>Subsetting of this object is an important operation. The subsetting has two dimensions; the first dimension is genes and the second is samples. It keeps track of how the expression measures are matched to the pheno data.</p>
-<pre class="r"><code>ALL[,1:5]</code></pre>
-<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
-## assayData: 12625 features, 5 samples 
-##   element names: exprs 
-## protocolData: none
-## phenoData
-##   sampleNames: 01005 01010 ... 04007 (5 total)
-##   varLabels: cod diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription
-## featureData: none
-## experimentData: use 'experimentData(object)'
-##   pubMedIds: 14684422 16243790 
-## Annotation: hgu95av2</code></pre>
-<pre class="r"><code>ALL[1:10,]</code></pre>
-<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
-## assayData: 10 features, 128 samples 
-##   element names: exprs 
-## protocolData: none
-## phenoData
-##   sampleNames: 01005 01010 ... LAL4 (128 total)
-##   varLabels: cod diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription
-## featureData: none
-## experimentData: use 'experimentData(object)'
-##   pubMedIds: 14684422 16243790 
-## Annotation: hgu95av2</code></pre>
-<pre class="r"><code>ALL[1:10,1:5]</code></pre>
-<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
-## assayData: 10 features, 5 samples 
-##   element names: exprs 
-## protocolData: none
-## phenoData
-##   sampleNames: 01005 01010 ... 04007 (5 total)
-##   varLabels: cod diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription
-## featureData: none
-## experimentData: use 'experimentData(object)'
-##   pubMedIds: 14684422 16243790 
-## Annotation: hgu95av2</code></pre>
-<p>We can even change the order of the samples</p>
-<pre class="r"><code>ALL[, c(3,2,1)]</code></pre>
-<pre><code>## ExpressionSet (storageMode: lockedEnvironment)
-## assayData: 12625 features, 3 samples 
-##   element names: exprs 
-## protocolData: none
-## phenoData
-##   sampleNames: 03002 01010 01005
-##   varLabels: cod diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription
-## featureData: none
-## experimentData: use 'experimentData(object)'
-##   pubMedIds: 14684422 16243790 
-## Annotation: hgu95av2</code></pre>
-<pre class="r"><code>ALL$sex[c(1,2,3)]</code></pre>
-<pre><code>## [1] M M F
-## Levels: F M</code></pre>
-<pre class="r"><code>ALL[, c(3,2,1)]$sex</code></pre>
-<pre><code>## [1] F M M
-## Levels: F M</code></pre>
-<p>This gives us a lot of confidence that the data is properly matched to the phenotypes.</p>
-</div>
-<div id="featuredata-and-annotation" class="section level2">
-<h2>featureData and annotation</h2>
-<p>You can think of <code>pData</code> as providing information on the columns (samples) of the measurement matrix. Similar to <code>pData</code>, we have <code>featureData</code> which is meant to provide information on the features (genes) of the array.</p>
-<p>However, while this slot has existed for many years, it often goes unused:</p>
-<pre class="r"><code>featureData(ALL)</code></pre>
-<pre><code>## An object of class 'AnnotatedDataFrame': none</code></pre>
-<p>So this leaves us with a key question: so far the <code>ALL</code> object has some useful description of the type of experiment and which samples were profiled. But how do we get information on which genes were profiled?</p>
-<p>For commercially available microarrays, the approach in Bioconductor has been to make so-called annotation packages which links <code>featureNames</code> to actual useful information. Conceptually, this information could have been stored in <code>featureData</code>, but isn’t.</p>
-<p>Example</p>
-<pre class="r"><code>ids &lt;- featureNames(ALL)[1:5]
-ids</code></pre>
-<pre><code>## [1] &quot;1000_at&quot;   &quot;1001_at&quot;   &quot;1002_f_at&quot; &quot;1003_s_at&quot; &quot;1004_at&quot;</code></pre>
-<p>these are ids named by Affymetrix, the microarray vendor. We can look them up in the annotation package by</p>
-<pre class="r"><code>library(hgu95av2.db)
-as.list(hgu95av2ENTREZID[ids])</code></pre>
-<pre><code>## $`1000_at`
-## [1] &quot;5595&quot;
-## 
-## $`1001_at`
-## [1] &quot;7075&quot;
-## 
-## $`1002_f_at`
-## [1] &quot;1557&quot;
-## 
-## $`1003_s_at`
-## [1] &quot;643&quot;
-## 
-## $`1004_at`
-## [1] &quot;643&quot;</code></pre>
-<p>This gives us the Entrez ID associated with the different measurements. There are a number of so-called “maps” like <code>hgu95av2XX</code> with <code>XX</code> having multiple values. This approach is very specific to Affymetrix chips. An alternative to using annotation packages is to use the <em><a href="http://bioconductor.org/packages/release/bioc/html/Biomart.html">Biomart</a></em> package to get the microarry annotation from Ensembl (an online database). This will be discussed elsewhere.</p>
-<p>We will leave the annotation subject for now.</p>
-</div>
-<div id="note-phenodata-and-pdata" class="section level2">
-<h2>Note: phenoData and pData</h2>
-<p>For this type of object, there is a difference between <code>phenoData</code> (an object of class <code>AnnotatedDataFrame</code>) and <code>pData</code> (an object of class <code>data.frame</code>).</p>
-<p>The idea behind <code>AnnotatedDataFrame</code> was to include additional information on what a <code>data.frame</code> contains, by having a list of descriptions called <code>varLabels</code>.</p>
-<pre class="r"><code>pD &lt;- phenoData(ALL)
-varLabels(pD)</code></pre>
-<pre><code>##  [1] &quot;cod&quot;            &quot;diagnosis&quot;      &quot;sex&quot;            &quot;age&quot;           
-##  [5] &quot;BT&quot;             &quot;remission&quot;      &quot;CR&quot;             &quot;date.cr&quot;       
-##  [9] &quot;t(4;11)&quot;        &quot;t(9;22)&quot;        &quot;cyto.normal&quot;    &quot;citog&quot;         
-## [13] &quot;mol.biol&quot;       &quot;fusion protein&quot; &quot;mdr&quot;            &quot;kinet&quot;         
-## [17] &quot;ccr&quot;            &quot;relapse&quot;        &quot;transplant&quot;     &quot;f.u&quot;           
-## [21] &quot;date last seen&quot;</code></pre>
-<p>But these days, it seems that <code>varLabels</code> are constrained to be equal to the column names of the <code>data.frame</code> making the entire <code>AnnotatedDataFrame</code> construction unnecessary:</p>
-<pre class="r"><code>varLabels(pD)[2] &lt;- &quot;Age at diagnosis&quot;
-pD</code></pre>
-<pre><code>## An object of class 'AnnotatedDataFrame'
-##   sampleNames: 01005 01010 ... LAL4 (128 total)
-##   varLabels: cod Age at diagnosis ... date last seen (21 total)
-##   varMetadata: labelDescription</code></pre>
-<pre class="r"><code>colnames(pD)[1:3]</code></pre>
-<pre><code>## [1] &quot;cod&quot;              &quot;Age at diagnosis&quot; &quot;sex&quot;</code></pre>
-<pre class="r"><code>varLabels(pD)[1:3]</code></pre>
-<pre><code>## [1] &quot;cod&quot;              &quot;Age at diagnosis&quot; &quot;sex&quot;</code></pre>
-<p>So now we have exposed what is arguably a bug, together with some un-used abstraction. This happens.</p>
-</div>
-<div id="the-eset-class" class="section level2">
-<h2>The eSet class</h2>
-<p>The <code>ExpressionSet</code> class is an example of an <code>eSet</code>. The <code>ExpressionSet</code> class has a single measurement matrix which we access by <code>exprs</code>. In contrast to this, the <code>eSet</code> class can have any number of measurement matrices with arbitrary names, although all matrices needs to have the same dimension.</p>
-<p>An example of another <code>eSet</code> derived class is <code>NChannelSet</code> which is meant to store multichannel microarray measurements; an example is a two-color array where the microarray has been imaged in two different colors.</p>
-<p>Another example of classes are from the <em><a href="http://bioconductor.org/packages/release/bioc/html/minfi.html">minfi</a></em> package for DNA methylation arrays; here there are classes such as <code>RGChannelSet</code> for a two color microarray and <code>MethylSet</code> for methylation measurements.</p>
+## ...
+## &lt;64101 more elements&gt;
+## -------
+## seqinfo: 722 sequences (1 circular) from an unspecified genome</code></pre>
+<p>See how <code>rowRanges</code> is a <code>GRangesList</code> (it could also be a single <code>GRanges</code>). Each element of the list represents a feature and the <code>GRanges</code> of the feature tells us the coordinates of the exons in the gene (or transcript). Because these are genes, for each <code>GRanges</code>, all the ranges should have the same <code>strand</code> and <code>seqnames</code>, but that is not enforced.</p>
+<p>In total we have around 64k “genes” or “transcripts” and around 745k different exons.</p>
+<pre class="r"><code>length(rowRanges(airway))</code></pre>
+<pre><code>## [1] 64102</code></pre>
+<pre class="r"><code>sum(elementLengths(rowRanges(airway)))</code></pre>
+<pre><code>## [1] 745593</code></pre>
+<p>For some operations, you don’t need to use <code>rowRanges</code> first, you can use the operation directly on the object. Here is an example with <code>start()</code>:</p>
+<pre class="r"><code>start(rowRanges(airway))</code></pre>
+<pre><code>## IntegerList of length 64102
+## [[&quot;ENSG00000000003&quot;]] 99883667 99885756 99887482 ... 99891790 99894942
+## [[&quot;ENSG00000000005&quot;]] 99839799 99840228 99848621 ... 99854013 99854505
+## [[&quot;ENSG00000000419&quot;]] 49551404 49551404 49551433 ... 49574900 49574900
+## [[&quot;ENSG00000000457&quot;]] 169818772 169821804 ... 169862929 169863148
+## [[&quot;ENSG00000000460&quot;]] 169631245 169652610 ... 169821931 169821931
+## [[&quot;ENSG00000000938&quot;]] 27938575 27938803 27938811 ... 27961576 27961576
+## [[&quot;ENSG00000000971&quot;]] 196621008 196621186 ... 196716241 196716241
+## [[&quot;ENSG00000001036&quot;]] 143815948 143817763 ... 143832548 143832548
+## [[&quot;ENSG00000001084&quot;]] 53362139 53362139 53362940 ... 53429548 53481684
+## [[&quot;ENSG00000001167&quot;]] 41040684 41040722 41046768 ... 41065096 41065096
+## ...
+## &lt;64092 more elements&gt;</code></pre>
+<pre class="r"><code>start(airway)</code></pre>
+<pre><code>## IntegerList of length 64102
+## [[&quot;ENSG00000000003&quot;]] 99883667 99885756 99887482 ... 99891790 99894942
+## [[&quot;ENSG00000000005&quot;]] 99839799 99840228 99848621 ... 99854013 99854505
+## [[&quot;ENSG00000000419&quot;]] 49551404 49551404 49551433 ... 49574900 49574900
+## [[&quot;ENSG00000000457&quot;]] 169818772 169821804 ... 169862929 169863148
+## [[&quot;ENSG00000000460&quot;]] 169631245 169652610 ... 169821931 169821931
+## [[&quot;ENSG00000000938&quot;]] 27938575 27938803 27938811 ... 27961576 27961576
+## [[&quot;ENSG00000000971&quot;]] 196621008 196621186 ... 196716241 196716241
+## [[&quot;ENSG00000001036&quot;]] 143815948 143817763 ... 143832548 143832548
+## [[&quot;ENSG00000001084&quot;]] 53362139 53362139 53362940 ... 53429548 53481684
+## [[&quot;ENSG00000001167&quot;]] 41040684 41040722 41046768 ... 41065096 41065096
+## ...
+## &lt;64092 more elements&gt;</code></pre>
+<p>You can use <code>granges</code> as synonymous for <code>rowRanges</code>.</p>
+<p>Subsetting works like <code>ExpressionSet</code>: there are two dimensions, the first dimension is features (genes) and the second dimension is samples.</p>
+<p>Because the <code>SummarizedExperiment</code> contains a <code>GRanges[List]</code> you can also use <code>subsetByOverlaps</code>, like</p>
+<pre class="r"><code>gr &lt;- GRanges(seqnames = &quot;1&quot;, ranges = IRanges(start = 1, end = 10^7))
+subsetByOverlaps(airway, gr)</code></pre>
+<pre><code>## class: SummarizedExperiment 
+## dim: 329 8 
+## exptData(1): ''
+## assays(1): counts
+## rownames(329): ENSG00000007923 ENSG00000008128 ... ENSG00000272512
+##   ENSG00000273443
+## rowRanges metadata column names(0):
+## colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+## colData names(9): SampleName cell ... Sample BioSample</code></pre>
 </div>
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>
@@ -305,16 +247,14 @@ pD</code></pre>
 ## [8] datasets  base     
 ## 
 ## other attached packages:
-##  [1] hgu95av2.db_3.1.3    org.Hs.eg.db_3.1.2   RSQLite_1.0.0       
-##  [4] DBI_0.3.1            AnnotationDbi_1.30.1 GenomeInfoDb_1.4.1  
-##  [7] IRanges_2.2.7        S4Vectors_0.6.3      ALL_1.10.0          
-## [10] Biobase_2.28.0       BiocGenerics_0.14.0  BiocStyle_1.6.0     
-## [13] rmarkdown_0.7       
+## [1] airway_0.102.0       GenomicRanges_1.20.5 GenomeInfoDb_1.4.1  
+## [4] IRanges_2.2.7        S4Vectors_0.6.3      BiocGenerics_0.14.0 
+## [7] BiocStyle_1.6.0      rmarkdown_0.7       
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7   
-##  [5] stringi_0.5-5   tools_3.2.1     stringr_1.0.0   yaml_2.1.13    
-##  [9] htmltools_0.2.6 knitr_1.10.5</code></pre>
+##  [5] stringi_0.5-5   XVector_0.8.0   tools_3.2.1     stringr_1.0.0  
+##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.10.5</code></pre>
 <div class="references">
 
 </div>

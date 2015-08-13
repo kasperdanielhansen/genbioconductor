@@ -1,14 +1,13 @@
 ---
-title: R overview
-author: Kasper D. Hansen
-fontsize: 10pt
+title: "R overview"
+author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
 ```{r child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
 This document has the following dependecies:
 
@@ -23,11 +22,11 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-# Overview
+## Overview
   
-# Other Resources
+## Other Resources
 
-# Atomic Vectors
+## Atomic Vectors
 
 The most basic object in R is an atomic vector.  Examples includes `numeric`, `integer`, `logical`, `character` and `factor`.  These objects have a single length and can have names, which can be used for indexing
 
@@ -38,17 +37,73 @@ class(x)
 x[1:3]
 x[c("a", "b")]
 ```
-Note how the default in R is to represent numbers are `numeric`, NOT `integer`.
 
-# Matrices
+The following types of atomic vectors are used frequently
 
-# Lists
+- `numeric` - for numeric values.
+- `integer` - for integer values.
+- `character` - for characters (strings).
+- `factor` - for factors.
+- `logical` - for logical values.
 
-# Data frames
+All vectors can have missing values.
+
+The default in R is to represent numbers as `numeric`, NOT `integer`.  This is something that can usually be ignored, but you might run into some issues in Bioconductor with this.  Note that even constructions that looks like `integer` are really `numeric`:
+```{r intNum}
+x <- 1
+class(x)
+x <- 1:3
+class(x)
+```
+The way to make sure to get an `integer` in R is to append `L` to the numbers
+```{r intNum2}
+x <- 1L
+class(x)
+```
+
+So why the distinguishing? Internally, the way computers represents and calculates numbers are different between `integer` and `numeric`.
+
+- `integer` mathematics are different.
+- `numeric` can hold much larger values than `integer`.
+- `numeric` takes up slightly more RAM (but nothing to worry about).
+
+Point 2 is something you can sometimes run into, in Bioconductor.  The maximum `integer` is
+```{r machine}
+.Machine$integer.max
+2^31 -1 == .Machine$integer.max
+round(.Machine$integer.max / 10^6, 1)
+```
+This number is smaller than the number of bases in the human genome.  So we sometimes (accidentally) add up numbers which exceeds this.  The fix is to use `as.numeric` to convert the `integer` to `numeric`.
+
+This number is also the limit for how long an atomic vector can be.  So you cannot have a single vector which is as long as the human genome.  In R we are beginning to get support for something called "long vectors" which basically are ... long vectors.  But the support for long vectors is not yet pervasive.
+
+Note: names of vectors does not need to be unique.  This can lead to subsetting problems:
+```{r uNames}
+x <- 1:3
+names(x) <- c("A", "A", "B")
+x
+x["A"]
+```
+watch out for non-unique names!  You can check for unique names by using the functions `unique`, `duplicated` or (easiest) `anyDuplicated`.
+```{r uNames2}
+anyDuplicated(names(x))
+names(x) <- c("A", "B", "C")
+anyDuplicated(names(x))
+```
+`anyDuplicated` returns the index of the first duplicated name, so `0` indicates nothing is duplicated.
+
+
+## Matrices
+
+`matrix` is a two-dimensional object.
+
+## Lists
+
+## Data frames
 
 
 
-# SessionInfo
+## SessionInfo
 
 \scriptsize
 
@@ -56,4 +111,4 @@ Note how the default in R is to represent numbers are `numeric`, NOT `integer`.
 sessionInfo()
 ```
 
-# References
+## References

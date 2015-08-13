@@ -1,14 +1,13 @@
 ---
-title: ExpressionSet
-author: Kasper D. Hansen
-fontsize: 10pt
+title: "ExpressionSet"
+author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
 ```{r child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
 This document has the following dependecies:
 
@@ -25,19 +24,18 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("Biobase", "ALL", "hgu95av2.db"))
 ```
 
-# Overview
+## Overview
   
 We will examine how to use and manipulate the `ExpressionSet` class; a fundamental data container in Bioconductor.  The class is defined in the `r Biocpkg("Biobase")` package.
 
 This class has inspired many other data containers in Bioconductor and can be considered a great success in programming with data.
 
-# Other Resources
+## Other Resources
 
 - The "An Introduction to Bioconductor's ExpressionSet Class" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase).
 - The "Notes for eSet Developers" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase) contains advanced information.
 
-
-# Start
+## Start
 
 An example dataset, stored as an `ExpressionSet` is available in the `r Biocpkg("ALL")` package.  This package is an example of an "experimental data" package"; a bundling of a full experiment inside an R package.  These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.
 
@@ -87,7 +85,7 @@ head(pData(ALL)$sex)
 head(ALL$sex)
 ```
 
-# Subsetting
+## Subsetting
 
 Subsetting of this object is an important operation.  The subsetting has two dimensions; the first dimension is genes and the second is samples.  It keeps track of how the expression measures are matched to the pheno data.
 
@@ -104,7 +102,7 @@ ALL[, c(3,2,1)]$sex
 ```
 This gives us a lot of confidence that the data is properly matched to the phenotypes.
 
-# featureData and annotation
+## featureData and annotation
 
 You can think of `pData` as providing information on the columns (samples) of the measurement matrix.  Similar to `pData`, we have `featureData` which is meant to provide information on the features (genes) of the array.
 
@@ -131,7 +129,7 @@ This gives us the Entrez ID associated with the different measurements.  There a
 
 We will leave the annotation subject for now.
 
-# Note: phenoData and pData
+## Note: phenoData and pData
 
 For this type of object, there is a difference between `phenoData` (an object of class `AnnotatedDataFrame`) and `pData` (an object of class `data.frame`).
 
@@ -153,7 +151,7 @@ varLabels(pD)[1:3]
 
 So now we have exposed what is arguably a bug, together with some un-used abstraction.  This happens.
 
-# The eSet class
+## The eSet class
 
 The `ExpressionSet` class is an example of an `eSet`.  The `ExpressionSet` class has a single measurement matrix which we access by `exprs`.  In contrast to this, the `eSet` class can have any number of measurement matrices with arbitrary names, although all matrices needs to have the same dimension.
 
@@ -161,12 +159,10 @@ An example of another `eSet` derived class is `NChannelSet` which is meant to st
 
 Another example of classes are from the `r Biocpkg("minfi")` package for DNA methylation arrays; here there are classes such as `RGChannelSet` for a two color microarray and `MethylSet` for methylation measurements.
 
-# SessionInfo
+## SessionInfo
 
 \scriptsize
 
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
-
-# References

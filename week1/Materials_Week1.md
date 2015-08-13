@@ -35,7 +35,7 @@ Grab RStudio (the Desktop version) from [RStudio](https://www.rstudio.org).  For
 
 #### Install Bioconductor
 
-FIXME: script + video
+FIXME: make video on Bioc installation
 
 
 ### Online Resources
@@ -48,6 +48,7 @@ FIXME: script + video
 - [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r)
 - [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor)
 
+FIXME: make 1-2 video on online resources
 
 ### Useful skills
 
@@ -61,6 +62,8 @@ FIXME: script + video
 - Pointers to introduction to R.
 - The S4 system
 - **R Overview**: ([Script](R_Overview.html))
+
+FIXME: make script + video for R overview
 
 ## Module 2: Basic usage of GRanges and AnnotationHub
 
@@ -77,3 +80,6 @@ FIXME: script + video
 ([Script](Usecase_AnnotationHub_GRanges.html))
 
 
+FIXME: make video for GRanges basic
+FIXME: make video for AnnotationHub
+FIXME: make video for Usecase: AnnotationHub and GRanges

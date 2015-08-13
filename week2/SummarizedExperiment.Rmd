@@ -1,45 +1,111 @@
 ---
-title: SummarizedExperiment
-author: Kasper D. Hansen
-fontsize: 10pt
+title: "SummarizedExperiment"
+author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
 ```{r child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
 This document has the following dependecies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
+library(airway)
 ```
 
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges"))
+biocLite(c("GenomicRanges", "airway"))
 ```
 
-# Overview
-  
-  We will preent the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges")` package; an extension of the `ExpressionSet` class to include `GRanges`.
-  
-  This class is suitable for storing processed data particularly from high-throughout sequencing assays.
-  
-# Other Resources
+## Overview
 
-# Start
+We will preent the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges")` package; an extension of the `ExpressionSet` class to include `GRanges`.
+  
+This class is suitable for storing processed data particularly from high-throughout sequencing assays.
+  
+## Other Resources
 
+## Start
 
-# SessionInfo
+An example dataset, stored as a `SummarizedExperiment` is available in the `r Biocpkg("airway")` package.  This data represents an RNA sequencing experiment, but we will use it only for illustrating the class.
+
+```{r airway}
+library(airway)
+data(airway)
+airway
+```
+
+This looks similar to - and yet different from - the `ExpressionSet`.  Things now have different names, representing that these classes were designed about 10 years apart.
+
+We have 8 samples and 64102 features (genes).
+
+Some aspects of the object are very similar to `ExpressionSet`, although with slightly different names and types:
+
+`colData` contains phenotype (sample) information, like `pData` for `ExpressionSet`. It returns a `DataFrame` instead of a `data.frame`:
+```{r colData}
+colData(airway)
+```
+You can still use `$` to get a particular column:
+```{r getColumn}
+airway$cell
+```
+`exptData` is like `experimentData` from `ExpressionSet`.  This slot is often un-used; this is the case for this object:
+```{r exptData}
+exptData(airway)
+```
+`colnames` are like `samplesNames` from `ExpressionSet`; `rownames` are like `featureNames`.
+```{r names}
+colnames(airway)
+head(rownames(airway))
+```
+
+The measurement data are accessed by `assay` and `assays`.  A `SummarizedExperiment` can contain multiple measurement matrices (all of the same dimension).  You get all of them by `assays` and you select a particular one by `assay(OBJECT, NAME)` where you can see the names when you print the object or by using `assayNames`. In this case there is a single matrix called `counts`:
+```{r assay}
+airway
+assayNames(airway)
+assays(airway)
+head(assay(airway, "counts"))
+```
+
+So far, this is all information which could be stored in an `ExpressionSet`.  The new thing is that `SummarizedExperiment` allows for a `rowRanges` (or `granges`) data representing the different features.  The idea is that these `GRanges` tells us which part of the genome is summarized for a particular feature.  Let us take a look
+```{r rowRanges}
+length(rowRanges(airway))
+dim(airway)
+rowRanges(airway)
+```
+See how `rowRanges` is a `GRangesList` (it could also be a single `GRanges`).  Each element of the list represents a feature and the `GRanges` of the feature tells us the coordinates of the exons in the gene (or transcript).  Because these are genes, for each `GRanges`, all the ranges should have the same `strand` and `seqnames`, but that is not enforced.
+
+In total we have around 64k "genes" or "transcripts" and around 745k different exons.
+```{r numberOfExons}
+length(rowRanges(airway))
+sum(elementLengths(rowRanges(airway)))
+```
+
+For some operations, you don't need to use `rowRanges` first, you can use the operation directly on the object.  Here is an example with `start()`:
+```{r start}
+start(rowRanges(airway))
+start(airway)
+```
+You can use `granges` as synonymous for `rowRanges`.
+
+Subsetting works like `ExpressionSet`: there are two dimensions, the first dimension is features (genes) and the second dimension is samples.
+
+Because the `SummarizedExperiment` contains a `GRanges[List]` you can also use `subsetByOverlaps`, like
+```{r subsetByOverlaps}
+gr <- GRanges(seqnames = "1", ranges = IRanges(start = 1, end = 10^7))
+subsetByOverlaps(airway, gr)
+```
+
+## SessionInfo
 
 \scriptsize
 
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
-
-# References

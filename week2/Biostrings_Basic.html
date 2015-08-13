@@ -44,9 +44,23 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#other-resources">Other Resources</a></li>
+<li><a href="#representing-sequences">Representing sequences</a></li>
+<li><a href="#basic-functionality">Basic functionality</a></li>
+<li><a href="#biological-functionality">Biological functionality</a></li>
+<li><a href="#counting-letters">Counting letters</a></li>
+<li><a href="#genomes">Genomes</a></li>
+<li><a href="#sessioninfo">SessionInfo</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
 
-<div id="dependencies" class="section level1">
-<h1>Dependencies</h1>
+<div id="dependencies" class="section level2">
+<h2>Dependencies</h2>
 <p>This document has the following dependecies:</p>
 <pre class="r"><code>library(Biostrings)
 library(BSgenome)
@@ -55,16 +69,16 @@ library(BSgenome.Scerevisiae.UCSC.sacCer2)</code></pre>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;Biostrings&quot;, &quot;BSgenome&quot;, &quot;BSgenome.Scerevisiae.UCSC.sacCer2&quot;))</code></pre>
 </div>
-<div id="overview" class="section level1">
-<h1>Overview</h1>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/Biostrings.html">Biostrings</a></em> package contains classes and functions for representing biological strings such as DNA, RNA and amino acids. In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classis sequence alignment (see <span class="citation">(Durbin et al. 1998)</span> for a description of these algorithms). There are also functions for reading and writing output such as FASTA files.</p>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/BSgenome.html">BSgenome</a></em> package contains infrastructure for representing genome sequences in Bioconductor.</p>
 </div>
-<div id="other-resources" class="section level1">
-<h1>Other Resources</h1>
+<div id="other-resources" class="section level2">
+<h2>Other Resources</h2>
 </div>
-<div id="representing-sequences" class="section level1">
-<h1>Representing sequences</h1>
+<div id="representing-sequences" class="section level2">
+<h2>Representing sequences</h2>
 <p>There are two basic types of containers for representing strings. One container represents a single string (say a chromosome or a single short read) and the other container represents a set of strings (say a set of short reads). There are different classes intended to represent different types of sequences such as DNA or RNA sequences.</p>
 <pre class="r"><code>dna1 &lt;- DNAString(&quot;ACGT-N&quot;)
 dna1</code></pre>
@@ -116,8 +130,8 @@ dna2</code></pre>
 <p>In addition you will often see references to <code>XString[Set]</code> in the documentation. An <code>XString[Set]</code> is basically any of the above classes.</p>
 <p>These classes seem very similar to standard <code>characters()</code> from base R, but there are important differences. The differences are mostly about efficiencies when you deal with either (a) many sequences or (b) very long strings (think whole chromosomes).</p>
 </div>
-<div id="basic-functionality" class="section level1">
-<h1>Basic functionality</h1>
+<div id="basic-functionality" class="section level2">
+<h2>Basic functionality</h2>
 <p>Basic character functionality is supported, like</p>
 <ul>
 <li><code>length</code>, <code>names</code>.</li>
@@ -150,8 +164,8 @@ dna2</code></pre>
 ## seq: N-TGCA</code></pre>
 <p>Note that <code>rev</code> on a <code>DNAStringSet</code> just reverse the order of the elements, whereas <code>rev</code> on a <code>DNAString</code> actually reverse the string.</p>
 </div>
-<div id="biological-functionality" class="section level1">
-<h1>Biological functionality</h1>
+<div id="biological-functionality" class="section level2">
+<h2>Biological functionality</h2>
 <p>There are also functions which are related to the biological interpretation of the sequences, including</p>
 <ul>
 <li><code>reverse</code>: reverse the sequence.</li>
@@ -168,8 +182,8 @@ dna2</code></pre>
 <pre><code>##   6-letter &quot;DNAString&quot; instance
 ## seq: N-ACGT</code></pre>
 </div>
-<div id="counting-letters" class="section level1">
-<h1>Counting letters</h1>
+<div id="counting-letters" class="section level2">
+<h2>Counting letters</h2>
 <p>We very often want to count sequences in various ways. Examples include:</p>
 <ul>
 <li>Compute the GC content of a set of sequences.</li>
@@ -219,8 +233,8 @@ dna2</code></pre>
 ## . 0.0000000 0.0000000 0.0000000 0.0000000</code></pre>
 <p>(most functions allows the return of probabilities with <code>as.prob = TRUE</code>).</p>
 </div>
-<div id="genomes" class="section level1">
-<h1>Genomes</h1>
+<div id="genomes" class="section level2">
+<h2>Genomes</h2>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/BSgenome.html">BSgenome</a></em> package provides support for genomes. In Bioconductor, we have special classes for genomes, because the chromosomes can get really big. For example, the human genome takes up several GB of memory.</p>
 <p>The <code>available.genomes()</code> function lists which genomes are currently available pre-packages from Bioconductor. Note that there are several so-called “masked” genomes, where some parts of the genome are masked. We will avoid this subject for now.</p>
 <p>Let us load the latest yeast genome</p>
@@ -372,8 +386,8 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 <pre class="r"><code>sum(bsapply(param, letters = &quot;GC&quot;)) / sum(seqlengths(Scerevisiae))</code></pre>
 <pre><code>## [1] 0.3814872</code></pre>
 </div>
-<div id="sessioninfo" class="section level1">
-<h1>SessionInfo</h1>
+<div id="sessioninfo" class="section level2">
+<h2>SessionInfo</h2>
 <p></p>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
@@ -392,7 +406,7 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 ##  [3] rtracklayer_1.28.7                     
 ##  [4] GenomicRanges_1.20.5                   
 ##  [5] GenomeInfoDb_1.4.1                     
-##  [6] Biostrings_2.36.2                      
+##  [6] Biostrings_2.36.3                      
 ##  [7] XVector_0.8.0                          
 ##  [8] IRanges_2.2.7                          
 ##  [9] S4Vectors_0.6.3                        
@@ -413,8 +427,8 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 ## [19] BiocInstaller_1.18.4    Rsamtools_1.20.4       
 ## [21] XML_3.98-1.3</code></pre>
 </div>
-<div id="references" class="section level1 references unnumbered">
-<h1>References</h1>
+<div id="references" class="section level2 references unnumbered">
+<h2>References</h2>
 <div id="ref-Durbin:1998">
 <p>Durbin, Richard M, Sean R Eddy, Anders Krogh, Graeme Mitchison, and Sean R Eddy. 1998. <em>Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids</em>. Cambridge University Press.</p>
 </div>

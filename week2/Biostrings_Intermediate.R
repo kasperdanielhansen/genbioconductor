@@ -78,6 +78,7 @@ genes
 
 ## ----promoterGCcontent---------------------------------------------------
 prom <- promoters(genes)
+head(prom, n = 3)
 
 ## ----promoterGCcontent2--------------------------------------------------
 prom <- trim(prom)
