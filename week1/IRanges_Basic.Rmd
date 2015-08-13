@@ -217,6 +217,6 @@ nearest(ir1, ir2)
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```

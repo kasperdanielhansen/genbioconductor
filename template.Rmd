@@ -29,7 +29,7 @@ Blah
 
 # Other Resources
 
-- The `r Biocpkg("GenomicRanges")` vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
 
 # Section 2
   
@@ -56,7 +56,7 @@ plotRanges(ir)
 
 \scriptsize
 
-```{r sessionInfo}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 
