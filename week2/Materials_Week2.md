@@ -11,9 +11,8 @@ title: Materials for week 2
 ## Data containers
 
 - **Overview of ExpressionSet** ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\ExpressionSet_Overview.mp4) | [Slides]())
-- ExpressionSet
-- eSet
-- SummarizedExperiment
+- **ExpressionSet** [HTML](ExpressionSet.html)
+- **SummarizedExperiment** [HTML](SummarizedExperiment.html)
 
 ## GEO query
 
@@ -23,14 +22,14 @@ title: Materials for week 2
 
 ## Biostrings / Genomes
 
-- Views on Genomes
-- matchPDict
-- matchPWM
-- Compute GC content and k-mers
-- pairwiseAlignment
-- available.genomes()
+- **Biostrings, Basic Usage** [Rmd](Biostrings_Basic.html)
+- **Biostrings, Intermediate Usage** [Rmd](Biostrings_Intermediate.html)
 
-## GRanges - Intermediate use
+
+## GenomicRanges - Intermediate use
+
+- **GenomicRanges, Intermediate Usage** [Rmd](GenomicRanges_Intermediate.html)
+
 
 - Rle
 - GenomeInfoDb

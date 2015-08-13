@@ -46,11 +46,16 @@ library(ALL)
 data(ALL)
 ALL
 ```
-(you don't always have to explicitely call `data()` on all datasets in R; that depends on the choice of the package author).
+(you don't always have to explicitly call `data()` on all datasets in R; that depends on the choice of the package author).
 
 This is an experiment done on an Affymetrix HGU 95av2 gene expression microarray; the authors profiled 128 samples.
 
-From the rpinted description of `ALL` you can see that 12625 features (in this case genes) were measured on 128 samples.  The object contains information about the experiment; look at
+Because this is data from an experiment package, there is documentation in the help page for the dataset, see
+```{r eval=FALSE}
+?ALL
+```
+
+From the printed description of `ALL` you can see that 12625 features (in this case genes) were measured on 128 samples.  The object contains information about the experiment; look at
 ```{r experimentData}
 experimentData(ALL)
 ```

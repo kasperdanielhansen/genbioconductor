@@ -13,9 +13,9 @@ ExpressionSet: ExpressionSet.Rmd
 	$(RENDER) render("ExpressionSet.Rmd" $(RENDER_END)
 	$(RENDER2) purl("ExpressionSet.Rmd" $(RENDER2_END)
 
-GRanges_Intermediate: GRanges_Intermediate.Rmd
-	$(RENDER) render("GRanges_Intermediate.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GRanges_Intermediate.Rmd" $(RENDER2_END)
+SummarizedExperiment: SummarizedExperiment.Rmd
+	$(RENDER) render("SummarizedExperiment.Rmd" $(RENDER_END)
+	$(RENDER2) purl("SummarizedExperiment.Rmd" $(RENDER2_END)
 
 Biostrings_Intermediate: Biostrings_Intermediate.Rmd
 	$(RENDER) render("Biostrings_Intermediate.Rmd" $(RENDER_END)
@@ -25,10 +25,14 @@ Biostrings_Basic: Biostrings_Basic.Rmd
 	$(RENDER) render("Biostrings_Basic.Rmd" $(RENDER_END)
 	$(RENDER2) purl("Biostrings_Basic.Rmd" $(RENDER2_END)
 
+GenomicRanges_Intermediate: GenomicRanges_Intermediate.Rmd
+	$(RENDER) render("GenomicRanges_Intermediate.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GenomicRanges_Intermediate.Rmd" $(RENDER2_END)
+
 fixme:
 	grep FIXME *.Rmd
 
-all: Materials_Week2 
+all: Materials_Week2 ExpressionSet SummarizedExperiment Biostrings_Basic Biostrings_Intermediate GenomicRanges_Intermediate 
 
 clean:
 	rm -f *~ *.pdf
