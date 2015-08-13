@@ -25,9 +25,9 @@ Biostrings_Basic: Biostrings_Basic.Rmd
 	$(RENDER) render("Biostrings_Basic.Rmd" $(RENDER_END)
 	$(RENDER2) purl("Biostrings_Basic.Rmd" $(RENDER2_END)
 
-GenomicRanges_Intermediate: GenomicRanges_Intermediate.Rmd
-	$(RENDER) render("GenomicRanges_Intermediate.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GenomicRanges_Intermediate.Rmd" $(RENDER2_END)
+GenomicRanges_Rle: GenomicRanges_Rle.Rmd
+	$(RENDER) render("GenomicRanges_Rle.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GenomicRanges_Rle.Rmd" $(RENDER2_END)
 
 fixme:
 	grep FIXME *.Rmd

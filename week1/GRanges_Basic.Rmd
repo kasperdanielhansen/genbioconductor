@@ -170,10 +170,11 @@ Here are some simple usecases with pseudo-code showing how we can accomplish var
 Suppose we want to identify TF binding sites that overlaps known SNPs.
 
 Input objects are  
-snps: a `GRanges` (of width 1)  
-TF: a `GRanges`
+**snps**: a `GRanges` (of width 1)  
+**TF**: a `GRanges`
 
-```{r, eval=FALSE}
+pseudocode:
+```{r usecaseI, eval=FALSE}
 findOverlaps(snps, TF)
 ``` 
 
@@ -184,10 +185,12 @@ findOverlaps(snps, TF)
 Suppose we have a set of DMRs (think genomic regions) and a set of
 CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
 
-dmrs: a `GRanges`  
-islands: a `GRanges`
+Input objects are  
+**dmrs**: a `GRanges`  
+**islands**: a `GRanges`
 
-```{r, eval=FALSE}
+pseudocode:
+```{r usecaseII, eval=FALSE}
 big_islands <- resize(islands, width = 20000 + width(islands), fix = "center")
 findOverlaps(dmrs, big_islands)
 ``` 
@@ -199,7 +202,7 @@ findOverlaps(dmrs, big_islands)
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

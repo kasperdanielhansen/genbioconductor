@@ -28,8 +28,6 @@ title: Materials for week 2
 
 ## GenomicRanges - Intermediate use
 
-- **GenomicRanges, Intermediate Usage** [Rmd](GenomicRanges_Intermediate.html)
-
 - Rle
 - GenomeInfoDb
 - Views
