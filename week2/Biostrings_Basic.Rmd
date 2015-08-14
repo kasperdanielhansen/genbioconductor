@@ -9,7 +9,7 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(Biostrings)
@@ -26,7 +26,7 @@ biocLite(c("Biostrings", "BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 
 ## Overview
 
-The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classis sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
+The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
 
 The `r Biocpkg("BSgenome")` package contains infrastructure for representing genome sequences in Bioconductor.
 
@@ -45,23 +45,23 @@ dna2 <- DNAStringSet(c("ACGT", "GTCA", "GCTA"))
 dna2
 ```
 
-Note that the alphabet of a `DNAString` is an extended alphabet: `-` (for insertion) and `N` are allowed.  In fact, IUPAC codes are allowed (these codes represets different characters, for example the code "M" represents either and "A" or a "C").  A list of IUPAC codes can be obtained by
+Note that the alphabet of a `DNAString` is an extended alphabet: `-` (for insertion) and `N` are allowed.  In fact, IUPAC codes are allowed (these codes represent different characters, for example the code "M" represents either and "A" or a "C").  A list of IUPAC codes can be obtained by
 
 ```{r IUPAC}
 IUPAC_CODE_MAP
 ```
 
-Indexing into a `DNAString` retrives a subsequence (similar to the standard R function `substr`), whereas indexing into a `DNAStringSet` gives you a subset of sequences.  
+Indexing into a `DNAString` retrieves a subsequence (similar to the standard R function `substr`), whereas indexing into a `DNAStringSet` gives you a subset of sequences.  
 
 ```{r DNAStringSubset}
 dna1[2:4]
 dna2[2:3]
 ```
+
 Note that `[[` allows you to get a single element of a `DNAStringSet` as a `DNAString`.  This is very similar to `[` and `[[` for lists.
 ```{r DNAStringSubset2}
-dna2[[2]]
+dna2[[2]] 
 ```
-
 
 `DNAStringSet` objects can have names, like ordinary vectors
 ```{r DNAStringSetNames}
@@ -147,7 +147,7 @@ consensusMatrix(dna2, as.prob = TRUE)
 
 The `r Biocpkg("BSgenome")` package provides support for genomes.  In Bioconductor, we have special classes for genomes, because the chromosomes can get really big.  For example, the human genome takes up several GB of memory.
 
-The `available.genomes()` function lists which genomes are currently available pre-packages from Bioconductor.  Note that there are several so-called "masked" genomes, where some parts of the genome are masked.  We will avoid this subject for now.
+The `available.genomes()` function lists which genomes are currently available from from Bioconductor (it is possible to make your own genome package).  Note that there are several so-called "masked" genomes, where some parts of the genome are masked.  We will avoid this subject for now.
 
 Let us load the latest yeast genome
 ```{r BSgenome}

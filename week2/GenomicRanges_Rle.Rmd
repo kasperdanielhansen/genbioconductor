@@ -9,7 +9,7 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
@@ -32,7 +32,7 @@ In this session we will discuss a data representation class called `Rle` (run le
 
 In high-throughput sequencing, coverage is the number of reads overlapping each base.  In other words, it associates a number (the number of reads) to every base in the genome.
 
-This is a fundamental quantitiy for many high-throughout sequencing analyses.  For variant calling (DNA sequencing) it tells you how much power (information) you have to call a variant at a given location.  For ChIP sequencing it is the primary signal; areas with high coverage are thought to be enriched for a given protein.
+This is a fundamental quantity for many high-throughout sequencing analyses.  For variant calling (DNA sequencing) it tells you how much power (information) you have to call a variant at a given location.  For ChIP sequencing it is the primary signal; areas with high coverage are thought to be enriched for a given protein.
 
 A file format which is often used to represent coverage data is `Wig` or the modern version `BigWig`.
 
@@ -53,11 +53,11 @@ Note the accessor functions `runLength()` and `runValue()`.
 This is a very efficient representation if
 
 - the vector is very long
-- there are a lot of consective elements with the same value
+- there are a lot of consecutive elements with the same value
 
 This is especially useful for genomic data which is either piecewise constant, or where most of the genome is not covered (eg. RNA sequencing in mammals).
 
-In many ways `Rle`s function as normal vectors, you can do arithmetic with them, tranform them etc. using standard R functions like `+` and `log2`.
+In many ways `Rle`s function as normal vectors, you can do arithmetic with them, transform them etc. using standard R functions like `+` and `log2`.
 
 There are also `RleList` which is a list of `Rle`s.  This class is used to represent a genome wide coverage track where each element of the list is a different chromosome.
 

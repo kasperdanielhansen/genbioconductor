@@ -9,7 +9,7 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
@@ -25,7 +25,7 @@ biocLite(c("GenomicRanges", "airway"))
 
 ## Overview
 
-We will preent the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges")` package; an extension of the `ExpressionSet` class to include `GRanges`.
+We will present the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges")` package; an extension of the `ExpressionSet` class to include `GRanges`.
   
 This class is suitable for storing processed data particularly from high-throughout sequencing assays.
   
@@ -59,7 +59,7 @@ airway$cell
 ```{r exptData}
 exptData(airway)
 ```
-`colnames` are like `samplesNames` from `ExpressionSet`; `rownames` are like `featureNames`.
+`colnames` are like `sampleNames` from `ExpressionSet`; `rownames` are like `featureNames`.
 ```{r names}
 colnames(airway)
 head(rownames(airway))

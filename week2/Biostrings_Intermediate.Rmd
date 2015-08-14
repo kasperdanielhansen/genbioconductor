@@ -9,7 +9,7 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(Biostrings)
@@ -120,7 +120,7 @@ promViews <- Views(Scerevisiae, prom)
 gcProm <- letterFrequency(promViews, "GC", as.prob = TRUE)
 head(gcProm)
 ```
-In the previos `r Biocpkg("Biostrings")` session we computed the GC content of the yeast genome.  Let us do it again, briefly
+In the previous `r Biocpkg("Biostrings")` session we computed the GC content of the yeast genome.  Let us do it again, briefly
 ```{r genomeGC}
 params <- new("BSParams", X = Scerevisiae, FUN = letterFrequency, simplify = TRUE)
 gccontent <- bsapply(params, letters = "GC")
@@ -132,19 +132,19 @@ Let us compare this genome percentage to the distribution of GC content for prom
 plot(density(gcProm))
 abline(v = gcPercentage, col = "red")
 ```
-At first glance, the GC content of the promoters is not very different from the genomewide GC content (perhaps shifted a bit to the right).
+At first glance, the GC content of the promoters is not very different from the genome-wide GC content (perhaps shifted a bit to the right).
 
 ## Specialized alignments
 
 There are a number of other, specialized, alignment functions in `r Biocpkg("Biostrings")`.  They include
 
 - `matchPWM`: a position weight matrix is a common way to represent for example a transcription factor binding motif (think sequence logos).  This function allows you to search for such motifs in the genome.
-- `pairwiseAlignment`: This function implements pairwise alignments using dynamic programming; providing an interface to both the Smith-Waterman local alignment problem and the Needleman-Wunsch global alignment problems, see a thourough description in [@Durbin:1998].
+- `pairwiseAlignment`: This function implements pairwise alignments using dynamic programming; providing an interface to both the Smith-Waterman local alignment problem and the Needleman-Wunsch global alignment problems, see a thorough description in [@Durbin:1998].
 - `trimLRpattern` (trim left-right pattern): Takes a set of sequences and looks for whether they start or end with a given (other sequence), for example a sequencing adapter.  Used for trimming reads based on adapter sequences.
 
 For now, we will avoid further discussion of these functions.
 
-One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read dat, because the algorithms scale badly with the length of the sequence (ie.\ the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
+One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read data, because the algorithms scale badly with the length of the sequence (ie. the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
 
 ## SessionInfo
 

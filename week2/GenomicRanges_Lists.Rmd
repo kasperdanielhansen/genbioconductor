@@ -9,7 +9,7 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
@@ -30,7 +30,7 @@ In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa
 
 ### Why
 
-The `r Biocpkg("IRanges")` and `r Biocpkg("GRanges")` packages introduced a number of classes I'll call `XXLists`; an example is `GRangesLists`.
+The `r Biocpkg("IRanges")` and `r Biocpkg("GRanges")` packages introduced a number of classes I'll call `XXList`; an example is `GRangesList`.
 
 These looks like standard `list`s from base R, but they require that every element of the list is of the same class.  This is convenient from a data structure perspective; we know exactly what is in the list.
 
@@ -73,7 +73,7 @@ This is actually a feature if we think of the `GRangesList` as a set of transcri
 
 ## Other Lists
 
-There are many other types of `XXLists`, including
+There are many other types of `XXList`, including
 
 - `RleList`
 - `IRangesList`
