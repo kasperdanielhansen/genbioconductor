@@ -48,6 +48,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <ul>
 <li><a href="#dependencies">Dependencies</a><ul>
 <li><a href="#overview">Overview</a></li>
+</ul></li>
+<li><a href="#other-resources">Other Resources</a><ul>
 <li><a href="#coverage">Coverage</a></li>
 <li><a href="#rle">Rle</a></li>
 <li><a href="#useful-functions-for-rle">Useful functions for Rle</a></li>
@@ -55,31 +57,34 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#rlelist">RleList</a></li>
 <li><a href="#rles-and-granges">Rles and GRanges</a></li>
 </ul></li>
-<li><a href="#a-biology-usecase">A Biology Usecase</a></li>
+<li><a href="#biology-usecase">Biology Usecase</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
 
-<div id="dependencies" class="section level1">
-<h1>Dependencies</h1>
-<p>This document has the following dependecies:</p>
+<div id="dependencies" class="section level2">
+<h2>Dependencies</h2>
+<p>This document has the following dependencies:</p>
 <pre class="r"><code>library(GenomicRanges)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
-<div id="overview" class="section level2">
-<h2>Overview</h2>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
 <p>In this session we will discuss a data representation class called <code>Rle</code> (run length encoding). This class is great for representation genome-wide sequence coverage.</p>
 </div>
-<div id="coverage" class="section level2">
-<h2>Coverage</h2>
+</div>
+<div id="other-resources" class="section level2">
+<h2>Other Resources</h2>
+<div id="coverage" class="section level3">
+<h3>Coverage</h3>
 <p>In high-throughput sequencing, coverage is the number of reads overlapping each base. In other words, it associates a number (the number of reads) to every base in the genome.</p>
-<p>This is a fundamental quantitiy for many high-throughout sequencing analyses. For variant calling (DNA sequencing) it tells you how much power (information) you have to call a variant at a given location. For ChIP sequencing it is the primary signal; areas with high coverage are thought to be enriched for a given protein.</p>
+<p>This is a fundamental quantity for many high-throughout sequencing analyses. For variant calling (DNA sequencing) it tells you how much power (information) you have to call a variant at a given location. For ChIP sequencing it is the primary signal; areas with high coverage are thought to be enriched for a given protein.</p>
 <p>A file format which is often used to represent coverage data is <code>Wig</code> or the modern version <code>BigWig</code>.</p>
 </div>
-<div id="rle" class="section level2">
-<h2>Rle</h2>
+<div id="rle" class="section level3">
+<h3>Rle</h3>
 <p>An <code>Rle</code> (run-length-encoded) vector is a specific representation of a vector. The <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> package implements support for this class. Watch out: there is also a base R class called <code>rle</code> which has much less functionality.</p>
 <p>The run-length-encoded representation of a vector, represents the vector as a set of distinct runs with their own value. Let us take an example</p>
 <pre class="r"><code>rl &lt;- Rle(c(1,1,1,1,2,2,3,3,2,2))
@@ -97,14 +102,14 @@ rl</code></pre>
 <p>This is a very efficient representation if</p>
 <ul>
 <li>the vector is very long</li>
-<li>there are a lot of consective elements with the same value</li>
+<li>there are a lot of consecutive elements with the same value</li>
 </ul>
 <p>This is especially useful for genomic data which is either piecewise constant, or where most of the genome is not covered (eg. RNA sequencing in mammals).</p>
-<p>In many ways <code>Rle</code>s function as normal vectors, you can do arithmetic with them, tranform them etc. using standard R functions like <code>+</code> and <code>log2</code>.</p>
+<p>In many ways <code>Rle</code>s function as normal vectors, you can do arithmetic with them, transform them etc. using standard R functions like <code>+</code> and <code>log2</code>.</p>
 <p>There are also <code>RleList</code> which is a list of <code>Rle</code>s. This class is used to represent a genome wide coverage track where each element of the list is a different chromosome.</p>
 </div>
-<div id="useful-functions-for-rle" class="section level2">
-<h2>Useful functions for Rle</h2>
+<div id="useful-functions-for-rle" class="section level3">
+<h3>Useful functions for Rle</h3>
 <p>A standard usecase is that you have a number of regions (say <code>IRanges</code>) and you want to do something to your <code>Rle</code> over each of these regions. Enter <code>aggregate()</code>.</p>
 <pre class="r"><code>ir &lt;- IRanges(start = c(2,6), width = 2)
 aggregate(rl, ir, FUN = mean)</code></pre>
@@ -125,8 +130,8 @@ rl</code></pre>
 ## [1]     2  11    10 [2 3 3 3 3 3 3 3 3 2]</code></pre>
 <p>This outputs a <code>Views</code> object, see next section.</p>
 </div>
-<div id="views-and-rles" class="section level2">
-<h2>Views and Rles</h2>
+<div id="views-and-rles" class="section level3">
+<h3>Views and Rles</h3>
 <p>In the sessions on the <em><a href="http://bioconductor.org/packages/release/bioc/html/Biostrings.html">Biostrings</a></em> package we learned about <code>Views</code> on genomes. <code>Views</code> can also be instantiated on <code>Rle</code>s.</p>
 <pre class="r"><code>vi &lt;- Views(rl, start = c(3,7), width = 3)
 vi</code></pre>
@@ -141,12 +146,12 @@ vi</code></pre>
 <pre><code>## [1] 3 3</code></pre>
 <p>This is very similar to using <code>aggregate()</code> described above.</p>
 </div>
-<div id="rlelist" class="section level2">
-<h2>RleList</h2>
+<div id="rlelist" class="section level3">
+<h3>RleList</h3>
 <p>An <code>RleList</code> is simply a list of <code>Rle</code>. It is similar to a <code>GRangesList</code> in concept.</p>
 </div>
-<div id="rles-and-granges" class="section level2">
-<h2>Rles and GRanges</h2>
+<div id="rles-and-granges" class="section level3">
+<h3>Rles and GRanges</h3>
 <p><code>Rle</code>’s can also be constructed from <code>GRanges</code>.</p>
 <p>This often involves <code>RleList</code> where each element of the list is a chromosome. Surprisingly, we do not yet have an <code>RleList</code> type structure which also contains information about say the length of the different chromosomes.</p>
 <p>Let us see some examples</p>
@@ -175,8 +180,8 @@ vi</code></pre>
 ## [1]     2   7     6 [2 3 3 3 3 3]</code></pre>
 </div>
 </div>
-<div id="a-biology-usecase" class="section level1">
-<h1>A Biology Usecase</h1>
+<div id="biology-usecase" class="section level2">
+<h2>Biology Usecase</h2>
 <p>Suppose we want to compute the average coverage of bases belonging to (known) exons.</p>
 <p>Input objects are<br />
 <strong>reads</strong>: a <code>GRanges</code>.<br />
@@ -188,8 +193,8 @@ nCoverage &lt;- sum(Views(coverage(reads), bases))
 nCoverage / nBases</code></pre>
 <p>(watch out for strand)</p>
 </div>
-<div id="sessioninfo" class="section level1">
-<h1>SessionInfo</h1>
+<div id="sessioninfo" class="section level2">
+<h2>SessionInfo</h2>
 <p></p>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
@@ -212,8 +217,8 @@ nCoverage / nBases</code></pre>
 ##  [5] stringi_0.5-5   XVector_0.8.0   tools_3.2.1     stringr_1.0.0  
 ##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.10.5</code></pre>
 </div>
-<div id="references" class="section level1">
-<h1>References</h1>
+<div id="references" class="section level2 references unnumbered">
+<h2>References</h2>
 </div>
 
 

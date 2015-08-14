@@ -11,7 +11,7 @@
 <meta name="author" content="Kasper D. Hansen" />
 
 
-<title>R overview</title>
+<title>GenomicRanges - Lists</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -40,19 +40,20 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 <div id="header">
-<h1 class="title">R overview</h1>
+<h1 class="title">GenomicRanges - Lists</h1>
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#dependencies">Dependencies</a><ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#other-resources">Other Resources</a></li>
-<li><a href="#atomic-vectors">Atomic Vectors</a></li>
-<li><a href="#matrices">Matrices</a></li>
-<li><a href="#lists">Lists</a></li>
-<li><a href="#data-frames">Data frames</a></li>
+</ul></li>
+<li><a href="#other-resources">Other Resources</a><ul>
+<li><a href="#why">Why</a></li>
+<li><a href="#grangeslist">GrangesList</a></li>
+</ul></li>
+<li><a href="#other-lists">Other Lists</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 <li><a href="#references">References</a></li>
 </ul>
@@ -65,92 +66,122 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>In this session we will discuss <code>GRangesList</code> which is a list of <code>GRanges</code> (whoa; blinded by the insight here …).</p>
 </div>
-<div id="overview" class="section level2">
-<h2>Overview</h2>
 </div>
 <div id="other-resources" class="section level2">
 <h2>Other Resources</h2>
+<div id="why" class="section level3">
+<h3>Why</h3>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GRanges.html">GRanges</a></em> packages introduced a number of classes I’ll call <code>XXList</code>; an example is <code>GRangesList</code>.</p>
+<p>These looks like standard <code>list</code>s from base R, but they require that every element of the list is of the same class. This is convenient from a data structure perspective; we know exactly what is in the list.</p>
+<p>But things are also happening behind the scenes. These types of lists often have additional compression build into them. Because of this, it is best to use specific methods/functions on them, as opposed to the standard toolbox of <code>sapply</code>/<code>lapply</code> that we use for normal lists. This will be clearer below.</p>
+<p>An important usecase specifically for <code>GRangesList</code> is the representation of a set of <strong>transcripts</strong>. Each transcript is an element in the list and the <strong>exons</strong> of the transcript is represented as a <code>GRanges</code>.</p>
 </div>
-<div id="atomic-vectors" class="section level2">
-<h2>Atomic Vectors</h2>
-<p>The most basic object in R is an atomic vector. Examples includes <code>numeric</code>, <code>integer</code>, <code>logical</code>, <code>character</code> and <code>factor</code>. These objects have a single length and can have names, which can be used for indexing</p>
-<pre class="r"><code>x &lt;- 1:10
-names(x) &lt;- letters[1:10]
-class(x)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre class="r"><code>x[1:3]</code></pre>
-<pre><code>## a b c 
-## 1 2 3</code></pre>
-<pre class="r"><code>x[c(&quot;a&quot;, &quot;b&quot;)]</code></pre>
-<pre><code>## a b 
-## 1 2</code></pre>
-<p>The following types of atomic vectors are used frequently</p>
+<div id="grangeslist" class="section level3">
+<h3>GrangesList</h3>
+<p>Let us make a <code>GRangesList</code>:</p>
+<pre class="r"><code>gr1 &lt;- GRanges(seqnames = &quot;chr1&quot;, ranges = IRanges(start = 1:4, width = 3))
+gr2 &lt;- GRanges(seqnames = &quot;chr2&quot;, ranges = IRanges(start = 1:4, width = 3))
+gL &lt;- GRangesList(gr1 = gr1, gr2 = gr2)
+gL</code></pre>
+<pre><code>## GRangesList object of length 2:
+## $gr1 
+## GRanges object with 4 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    [1, 3]      *
+##   [2]     chr1    [2, 4]      *
+##   [3]     chr1    [3, 5]      *
+##   [4]     chr1    [4, 6]      *
+## 
+## $gr2 
+## GRanges object with 4 ranges and 0 metadata columns:
+##       seqnames ranges strand
+##   [1]     chr2 [1, 3]      *
+##   [2]     chr2 [2, 4]      *
+##   [3]     chr2 [3, 5]      *
+##   [4]     chr2 [4, 6]      *
+## 
+## -------
+## seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>A number of standard <code>GRanges</code> functions work, but returns (for example) <code>IntegerList</code>s</p>
+<pre class="r"><code>start(gL)</code></pre>
+<pre><code>## IntegerList of length 2
+## [[&quot;gr1&quot;]] 1 2 3 4
+## [[&quot;gr2&quot;]] 1 2 3 4</code></pre>
+<pre class="r"><code>seqnames(gL)</code></pre>
+<pre><code>## RleList of length 2
+## $gr1
+## factor-Rle of length 4 with 1 run
+##   Lengths:    4
+##   Values : chr1
+## Levels(2): chr1 chr2
+## 
+## $gr2
+## factor-Rle of length 4 with 1 run
+##   Lengths:    4
+##   Values : chr2
+## Levels(2): chr1 chr2</code></pre>
+<p>I very often want to get the length of each of the elements. Surprisingly it is very slow to get this using <code>sapply(gL, length)</code> (or at least it used to be very slow). There is a dedicated function for this:</p>
+<pre class="r"><code>elementLengths(gL)</code></pre>
+<pre><code>## gr1 gr2 
+##   4   4</code></pre>
+<p>We have a new <code>XXapply</code> function with the fancy name <code>endoapply</code>. This is used when you want to apply a function which maps a <code>GRanges</code> into a <code>GRanges</code>, say a <code>shift</code> or <code>resize</code>.</p>
+<pre class="r"><code>shift(gL, 10)</code></pre>
+<pre><code>## GRangesList object of length 2:
+## $gr1 
+## GRanges object with 4 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [11, 13]      *
+##   [2]     chr1  [12, 14]      *
+##   [3]     chr1  [13, 15]      *
+##   [4]     chr1  [14, 16]      *
+## 
+## $gr2 
+## GRanges object with 4 ranges and 0 metadata columns:
+##       seqnames   ranges strand
+##   [1]     chr2 [11, 13]      *
+##   [2]     chr2 [12, 14]      *
+##   [3]     chr2 [13, 15]      *
+##   [4]     chr2 [14, 16]      *
+## 
+## -------
+## seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<p><code>findOverlaps</code> works slightly different. For <code>GRangesList</code>s, we think of each element is a union of ranges. So we get an overlap if any range overlaps. Lets us see</p>
+<pre class="r"><code>findOverlaps(gL, gr2)</code></pre>
+<pre><code>## Hits object with 4 hits and 0 metadata columns:
+##       queryHits subjectHits
+##       &lt;integer&gt;   &lt;integer&gt;
+##   [1]         2           1
+##   [2]         2           2
+##   [3]         2           3
+##   [4]         2           4
+##   -------
+##   queryLength: 2
+##   subjectLength: 4</code></pre>
+<p>Note how the <code>queryLength</code> is 2 and not 20. What we know from the first row of this output is that some range in <code>gL[[2]]</code> overlaps the range <code>gr[1]</code>.</p>
+<p>This is actually a feature if we think of the <code>GRangesList</code> as a set of transcript, where each <code>GRanges</code> gives you the exon of the transcript. With this interpretation, <code>findOverlaps</code> tells you whether or not the <strong>transcript</strong> overlaps some region of interest, and this is true if any of the <strong>exons</strong> of the transcript overlaps the region.</p>
+</div>
+</div>
+<div id="other-lists" class="section level2">
+<h2>Other Lists</h2>
+<p>There are many other types of <code>XXList</code>, including</p>
 <ul>
-<li><code>numeric</code> - for numeric values.</li>
-<li><code>integer</code> - for integer values.</li>
-<li><code>character</code> - for characters (strings).</li>
-<li><code>factor</code> - for factors.</li>
-<li><code>logical</code> - for logical values.</li>
+<li><code>RleList</code></li>
+<li><code>IRangesList</code></li>
+<li><code>IntegerList</code></li>
+<li><code>CharacterList</code></li>
+<li><code>LogicalList</code></li>
 </ul>
-<p>All vectors can have missing values.</p>
-<p>The default in R is to represent numbers as <code>numeric</code>, NOT <code>integer</code>. This is something that can usually be ignored, but you might run into some issues in Bioconductor with this. Note that even constructions that looks like <code>integer</code> are really <code>numeric</code>:</p>
-<pre class="r"><code>x &lt;- 1
-class(x)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>x &lt;- 1:3
-class(x)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<p>The way to make sure to get an <code>integer</code> in R is to append <code>L</code> to the numbers</p>
-<pre class="r"><code>x &lt;- 1L
-class(x)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<p>So why the distinguishing? Internally, the way computers represents and calculates numbers are different between <code>integer</code> and <code>numeric</code>.</p>
-<ul>
-<li><code>integer</code> mathematics are different.</li>
-<li><code>numeric</code> can hold much larger values than <code>integer</code>.</li>
-<li><code>numeric</code> takes up slightly more RAM (but nothing to worry about).</li>
-</ul>
-<p>Point 2 is something you can sometimes run into, in Bioconductor. The maximum <code>integer</code> is</p>
-<pre class="r"><code>.Machine$integer.max</code></pre>
-<pre><code>## [1] 2147483647</code></pre>
-<pre class="r"><code>2^31 -1 == .Machine$integer.max</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>round(.Machine$integer.max / 10^6, 1)</code></pre>
-<pre><code>## [1] 2147.5</code></pre>
-<p>This number is smaller than the number of bases in the human genome. So we sometimes (accidentally) add up numbers which exceeds this. The fix is to use <code>as.numeric</code> to convert the <code>integer</code> to <code>numeric</code>.</p>
-<p>This number is also the limit for how long an atomic vector can be. So you cannot have a single vector which is as long as the human genome. In R we are beginning to get support for something called “long vectors” which basically are … long vectors. But the support for long vectors is not yet pervasive.</p>
-<p>Note: names of vectors does not need to be unique. This can lead to subsetting problems:</p>
-<pre class="r"><code>x &lt;- 1:3
-names(x) &lt;- c(&quot;A&quot;, &quot;A&quot;, &quot;B&quot;)
-x</code></pre>
-<pre><code>## A A B 
-## 1 2 3</code></pre>
-<pre class="r"><code>x[&quot;A&quot;]</code></pre>
-<pre><code>## A 
-## 1</code></pre>
-<p>watch out for non-unique names! You can check for unique names by using the functions <code>unique</code>, <code>duplicated</code> or (easiest) <code>anyDuplicated</code>.</p>
-<pre class="r"><code>anyDuplicated(names(x))</code></pre>
-<pre><code>## [1] 2</code></pre>
-<pre class="r"><code>names(x) &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
-anyDuplicated(names(x))</code></pre>
-<pre><code>## [1] 0</code></pre>
-<p><code>anyDuplicated</code> returns the index of the first duplicated name, so <code>0</code> indicates nothing is duplicated.</p>
-</div>
-<div id="matrices" class="section level2">
-<h2>Matrices</h2>
-<p><code>matrix</code> is a two-dimensional object.</p>
-</div>
-<div id="lists" class="section level2">
-<h2>Lists</h2>
-</div>
-<div id="data-frames" class="section level2">
-<h2>Data frames</h2>
+<p>and many others.</p>
 </div>
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>
 <p></p>
-<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
 ## Running under: OS X 10.10.4 (Yosemite)

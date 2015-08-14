@@ -32,7 +32,10 @@ R_Overview : R_Overview.Rmd
 fixme:
 	grep FIXME *.Rmd
 
-all: Materials_Week1 IRanges_Basic GRanges_Basic AnnotationHub Usecase_AnnotationHub_GRanges R_Overview
+all: Materials_Week1\
+     IRanges_Basic GRanges_Basic\
+     AnnotationHub Usecase_AnnotationHub_GRanges\
+     R_Overview
 
 clean:
 	rm -f *~ *.pdf

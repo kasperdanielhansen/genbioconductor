@@ -44,10 +44,18 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#getting-the-data">Getting the data</a></li>
+<li><a href="#sessioninfo">SessionInfo</a></li>
+</ul>
+</div>
 
-<div id="dependencies" class="section level1">
-<h1>Dependencies</h1>
-<p>This document has the following dependecies:</p>
+<div id="dependencies" class="section level2">
+<h2>Dependencies</h2>
+<p>This document has the following dependencies:</p>
 <pre class="r"><code>library(GenomicRanges)
 library(rtracklayer)
 library(AnnotationHub)</code></pre>
@@ -55,8 +63,8 @@ library(AnnotationHub)</code></pre>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomicRanges&quot;, &quot;rtracklayer&quot;, &quot;AnnotationHub&quot;))</code></pre>
 </div>
-<div id="overview" class="section level1">
-<h1>Overview</h1>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
 <p>We are going to use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> to access ENCODE data on the H3K4me3 histone modification in a specific cell line. This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement. This involves</p>
 <ol style="list-style-type: decimal">
 <li>Getting the ENCODE histone data using <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em>.</li>
@@ -64,8 +72,8 @@ biocLite(c(&quot;GenomicRanges&quot;, &quot;rtracklayer&quot;, &quot;AnnotationH
 <li>Comparing the histone data and promoters using <code>findOverlaps</code> in <em><a href="http://bioconductor.org/packages/release/bioc/html/GRanges.html">GRanges</a></em>.</li>
 </ol>
 </div>
-<div id="getting-the-data" class="section level1">
-<h1>Getting the data</h1>
+<div id="getting-the-data" class="section level2">
+<h2>Getting the data</h2>
 <p>First we use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> to get data on homo sapiens.</p>
 <pre class="r"><code>ah &lt;- AnnotationHub()
 ah &lt;- subset(ah, species == &quot;Homo sapiens&quot;)</code></pre>
@@ -76,7 +84,7 @@ qhs &lt;- query(qhs, &quot;Gm12878&quot;)</code></pre>
 <p>Lets have a look</p>
 <pre class="r"><code>qhs</code></pre>
 <pre><code>## AnnotationHub with 11 records
-## # snapshotDate(): 2015-07-31 
+## # snapshotDate(): 2015-08-10 
 ## # $dataprovider: BroadInstitute, UCSC
 ## # $species: Homo sapiens
 ## # $rdataclass: GRanges, BigWigFile
@@ -197,7 +205,7 @@ gr2</code></pre>
 <pre class="r"><code>qhs &lt;- query(ah, &quot;RefSeq&quot;)
 qhs</code></pre>
 <pre><code>## AnnotationHub with 8 records
-## # snapshotDate(): 2015-07-31 
+## # snapshotDate(): 2015-08-10 
 ## # $dataprovider: UCSC
 ## # $species: Homo sapiens
 ## # $rdataclass: GRanges
@@ -228,7 +236,7 @@ qhs</code></pre>
 <pre class="r"><code>refseq &lt;- qhs[qhs$genome == &quot;hg19&quot; &amp; qhs$title == &quot;RefSeq Genes&quot;]
 refseq</code></pre>
 <pre><code>## AnnotationHub with 1 record
-## # snapshotDate(): 2015-07-31 
+## # snapshotDate(): 2015-08-10 
 ## # names(): AH5040
 ## # $dataprovider: UCSC
 ## # $species: Homo sapiens
@@ -243,7 +251,7 @@ refseq</code></pre>
 ## # $sourcesize: NA
 ## # $tags: refGene, UCSC, track, Gene, Transcript, Annotation 
 ## # retrieve record with 'object[[&quot;AH5040&quot;]]'</code></pre>
-<pre class="r"><code>refseq &lt;- refseq[[1]] # Downloads</code></pre>
+<pre class="r"><code>refseq &lt;- refseq[[1]] ## Downloads</code></pre>
 <p>Lets have a look</p>
 <pre class="r"><code>refseq</code></pre>
 <pre><code>## UCSC track 'refGene'
@@ -296,7 +304,7 @@ refseq</code></pre>
 ## 45178   568   102    27    74    52   171   129    13    19     1     1 
 ##    19 
 ##     5</code></pre>
-<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name). This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.</p>
+<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurrences with the same name). This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.</p>
 <p>Notice that each transcript is a separate range. Therefore, each transcript is represented as the “outer” coordinates of the gene; the ranges does not exclude introns. Because we got this from UCSC I happen to know that the <code>$blocks</code> metadata really contains the coordinates of the different exons. In a later example we will introduce a gene representation where we keep track of exons, introns and transcripts from the same gene, through something known as a <code>TxDb</code> (transcript database) object.</p>
 <p>For now, we just need the promoters, so we don’t really care about introns. We need to keep track of which strand each transcript is on, to get the transcription start site.</p>
 <p>Or we could just use the convenience function <code>promoters()</code>:</p>
@@ -335,13 +343,13 @@ ov</code></pre>
 <pre class="r"><code>length(unique(subjectHits(ov))) / length(promoters)</code></pre>
 <pre><code>## [1] 0.440878</code></pre>
 <p>My rule of thumb is that any cell type has at most 50% of genes expressed, which fits well with these numbers. We also see that there are many H3K4me3 peaks which do not lie in a genic promoter. This is actually expected.</p>
-<p>Now, the overlap is non-empty, but is it interesting or “significant”. Answering this question thorughly requires thinking deeply about background distributions etc. We will avoid a careful statistical approach to this question, and will instead do a few backk-of-the-envelope calculations to get a feel for it.</p>
+<p>Now, the overlap is non-empty, but is it interesting or “significant”. Answering this question thoroughly requires thinking deeply about background distributions etc. We will avoid a careful statistical approach to this question, and will instead do a few back-of-the-envelope calculations to get a feel for it.</p>
 <p>First we notice that both promoters and peaks are small compared to the size of the human genome:</p>
 <pre class="r"><code>sum(width(reduce(gr1))) / 10^6</code></pre>
 <pre><code>## [1] 11.19044</code></pre>
 <pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
 <pre><code>## [1] 64.3005</code></pre>
-<p>(result is in megabases; the humnan genome is 3000 megabase). Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:</p>
+<p>(result is in megabases; the human genome is 3000 megabases). Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:</p>
 <pre class="r"><code>sum(width(intersect(gr1, promoters))) / 10^6</code></pre>
 <pre><code>## [1] 0</code></pre>
 <p>That’s weird; why is the overlap empty when we know (using <code>findOverlaps</code>) that there is plenty of overlap? Turns out the answer is strand. We need to ignore the strand when we do this calculation:</p>
@@ -381,10 +389,10 @@ oddsRatio &lt;- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMa
 oddsRatio</code></pre>
 <pre><code>## [1] 9.354362</code></pre>
 <p>The odds-ratio got smaller, but it is still bigger than 1.</p>
-<p>Here we basically says that each base can be assigned to peaks or promoters independently, which is definately false. So there are many, many reasons why this calculation is not the “right” one. Nevertheless, it appears that we have some enrichment, as expected.</p>
+<p>Here we basically says that each base can be assigned to peaks or promoters independently, which is definitely false. So there are many, many reasons why this calculation is not the “right” one. Nevertheless, it appears that we have some enrichment, as expected.</p>
 </div>
-<div id="sessioninfo" class="section level1">
-<h1>SessionInfo</h1>
+<div id="sessioninfo" class="section level2">
+<h2>SessionInfo</h2>
 <p></p>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 3.2.1 (2015-06-18)
@@ -413,7 +421,7 @@ oddsRatio</code></pre>
 ## [13] shiny_0.12.2                 DBI_0.3.1                   
 ## [15] curl_0.9.2                   yaml_2.1.13                 
 ## [17] stringr_1.0.0                httr_1.0.0                  
-## [19] knitr_1.10.5                 Biostrings_2.36.2           
+## [19] knitr_1.10.5                 Biostrings_2.36.3           
 ## [21] Biobase_2.28.0               R6_2.1.0                    
 ## [23] AnnotationDbi_1.30.1         XML_3.98-1.3                
 ## [25] BiocParallel_1.2.20          lambda.r_1.1.7              

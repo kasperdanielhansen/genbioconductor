@@ -56,7 +56,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
-<p>This document has the following dependecies:</p>
+<p>This document has the following dependencies:</p>
 <pre class="r"><code>library(GenomicRanges)
 library(airway)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
@@ -65,7 +65,7 @@ biocLite(c(&quot;GenomicRanges&quot;, &quot;airway&quot;))</code></pre>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>We will preent the <code>SummarizedExperiment</code> class from <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> package; an extension of the <code>ExpressionSet</code> class to include <code>GRanges</code>.</p>
+<p>We will present the <code>SummarizedExperiment</code> class from <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> package; an extension of the <code>ExpressionSet</code> class to include <code>GRanges</code>.</p>
 <p>This class is suitable for storing processed data particularly from high-throughout sequencing assays.</p>
 </div>
 <div id="other-resources" class="section level2">
@@ -118,7 +118,7 @@ airway</code></pre>
 <p><code>exptData</code> is like <code>experimentData</code> from <code>ExpressionSet</code>. This slot is often un-used; this is the case for this object:</p>
 <pre class="r"><code>exptData(airway)</code></pre>
 <pre><code>## List of length 1</code></pre>
-<p><code>colnames</code> are like <code>samplesNames</code> from <code>ExpressionSet</code>; <code>rownames</code> are like <code>featureNames</code>.</p>
+<p><code>colnames</code> are like <code>sampleNames</code> from <code>ExpressionSet</code>; <code>rownames</code> are like <code>featureNames</code>.</p>
 <pre class="r"><code>colnames(airway)</code></pre>
 <pre><code>## [1] &quot;SRR1039508&quot; &quot;SRR1039509&quot; &quot;SRR1039512&quot; &quot;SRR1039513&quot; &quot;SRR1039516&quot;
 ## [6] &quot;SRR1039517&quot; &quot;SRR1039520&quot; &quot;SRR1039521&quot;</code></pre>

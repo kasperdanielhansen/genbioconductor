@@ -29,10 +29,17 @@ GenomicRanges_Rle: GenomicRanges_Rle.Rmd
 	$(RENDER) render("GenomicRanges_Rle.Rmd" $(RENDER_END)
 	$(RENDER2) purl("GenomicRanges_Rle.Rmd" $(RENDER2_END)
 
+GenomicRanges_Lists: GenomicRanges_Lists.Rmd
+	$(RENDER) render("GenomicRanges_Lists.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GenomicRanges_Lists.Rmd" $(RENDER2_END)
+
 fixme:
 	grep FIXME *.Rmd
 
-all: Materials_Week2 ExpressionSet SummarizedExperiment Biostrings_Basic Biostrings_Intermediate GenomicRanges_Intermediate 
+all: Materials_Week2\
+     ExpressionSet SummarizedExperiment\
+     Biostrings_Basic Biostrings_Intermediate\
+     GenomicRanges_Rle GenomicRanges_Lists
 
 clean:
 	rm -f *~ *.pdf

@@ -43,8 +43,8 @@ An important usecase specifically for `GRangesList` is the representation of a s
 Let us make a `GRangesList`:
 
 ```{r CreateGrangesList}
-gr1 <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:10, width = 3))
-gr2 <- GRanges(seqnames = "chr2", ranges = IRanges(start = 1:10, width = 3))
+gr1 <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:4, width = 3))
+gr2 <- GRanges(seqnames = "chr2", ranges = IRanges(start = 1:4, width = 3))
 gL <- GRangesList(gr1 = gr1, gr2 = gr2)
 gL
 ```
@@ -60,7 +60,7 @@ elementLengths(gL)
 ```
 We have a new `XXapply` function with the fancy name `endoapply`.  This is used when you want to apply a function which maps a `GRanges` into a `GRanges`, say a `shift` or `resize`.
 ```{r endoapply}
-promoters(gL)
+shift(gL, 10)
 ```
 
 `findOverlaps` works slightly different.  For `GRangesList`s, we think of each element is a union of ranges.  So we get an overlap if any range overlaps.  Lets us see

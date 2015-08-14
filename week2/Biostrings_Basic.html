@@ -61,7 +61,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
-<p>This document has the following dependecies:</p>
+<p>This document has the following dependencies:</p>
 <pre class="r"><code>library(Biostrings)
 library(BSgenome)
 library(BSgenome.Scerevisiae.UCSC.sacCer2)</code></pre>
@@ -71,7 +71,7 @@ biocLite(c(&quot;Biostrings&quot;, &quot;BSgenome&quot;, &quot;BSgenome.Scerevis
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/Biostrings.html">Biostrings</a></em> package contains classes and functions for representing biological strings such as DNA, RNA and amino acids. In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classis sequence alignment (see <span class="citation">(Durbin et al. 1998)</span> for a description of these algorithms). There are also functions for reading and writing output such as FASTA files.</p>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/Biostrings.html">Biostrings</a></em> package contains classes and functions for representing biological strings such as DNA, RNA and amino acids. In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see <span class="citation">(Durbin et al. 1998)</span> for a description of these algorithms). There are also functions for reading and writing output such as FASTA files.</p>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/BSgenome.html">BSgenome</a></em> package contains infrastructure for representing genome sequences in Bioconductor.</p>
 </div>
 <div id="other-resources" class="section level2">
@@ -93,13 +93,13 @@ dna2</code></pre>
 ## [1]     4 ACGT
 ## [2]     4 GTCA
 ## [3]     4 GCTA</code></pre>
-<p>Note that the alphabet of a <code>DNAString</code> is an extended alphabet: <code>-</code> (for insertion) and <code>N</code> are allowed. In fact, IUPAC codes are allowed (these codes represets different characters, for example the code “M” represents either and “A” or a “C”). A list of IUPAC codes can be obtained by</p>
+<p>Note that the alphabet of a <code>DNAString</code> is an extended alphabet: <code>-</code> (for insertion) and <code>N</code> are allowed. In fact, IUPAC codes are allowed (these codes represent different characters, for example the code “M” represents either and “A” or a “C”). A list of IUPAC codes can be obtained by</p>
 <pre class="r"><code>IUPAC_CODE_MAP</code></pre>
 <pre><code>##      A      C      G      T      M      R      W      S      Y      K 
 ##    &quot;A&quot;    &quot;C&quot;    &quot;G&quot;    &quot;T&quot;   &quot;AC&quot;   &quot;AG&quot;   &quot;AT&quot;   &quot;CG&quot;   &quot;CT&quot;   &quot;GT&quot; 
 ##      V      H      D      B      N 
 ##  &quot;ACG&quot;  &quot;ACT&quot;  &quot;AGT&quot;  &quot;CGT&quot; &quot;ACGT&quot;</code></pre>
-<p>Indexing into a <code>DNAString</code> retrives a subsequence (similar to the standard R function <code>substr</code>), whereas indexing into a <code>DNAStringSet</code> gives you a subset of sequences.</p>
+<p>Indexing into a <code>DNAString</code> retrieves a subsequence (similar to the standard R function <code>substr</code>), whereas indexing into a <code>DNAStringSet</code> gives you a subset of sequences.</p>
 <pre class="r"><code>dna1[2:4]</code></pre>
 <pre><code>##   3-letter &quot;DNAString&quot; instance
 ## seq: CGT</code></pre>
@@ -109,7 +109,7 @@ dna2</code></pre>
 ## [1]     4 GTCA
 ## [2]     4 GCTA</code></pre>
 <p>Note that <code>[[</code> allows you to get a single element of a <code>DNAStringSet</code> as a <code>DNAString</code>. This is very similar to <code>[</code> and <code>[[</code> for lists.</p>
-<pre class="r"><code>dna2[[2]]</code></pre>
+<pre class="r"><code>dna2[[2]] </code></pre>
 <pre><code>##   4-letter &quot;DNAString&quot; instance
 ## seq: GTCA</code></pre>
 <p><code>DNAStringSet</code> objects can have names, like ordinary vectors</p>
@@ -236,7 +236,7 @@ dna2</code></pre>
 <div id="genomes" class="section level2">
 <h2>Genomes</h2>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/BSgenome.html">BSgenome</a></em> package provides support for genomes. In Bioconductor, we have special classes for genomes, because the chromosomes can get really big. For example, the human genome takes up several GB of memory.</p>
-<p>The <code>available.genomes()</code> function lists which genomes are currently available pre-packages from Bioconductor. Note that there are several so-called “masked” genomes, where some parts of the genome are masked. We will avoid this subject for now.</p>
+<p>The <code>available.genomes()</code> function lists which genomes are currently available from from Bioconductor (it is possible to make your own genome package). Note that there are several so-called “masked” genomes, where some parts of the genome are masked. We will avoid this subject for now.</p>
 <p>Let us load the latest yeast genome</p>
 <pre class="r"><code>available.genomes()</code></pre>
 <pre><code>##  [1] &quot;BSgenome.Alyrata.JGI.v1&quot;                  
