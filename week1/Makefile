@@ -30,7 +30,7 @@ R_Overview : R_Overview.Rmd
 	$(RENDER2) purl("R_Overview.Rmd" $(RENDER2_END)
 
 fixme:
-	grep FIXME *.Rmd
+	grep FIXME *.Rmd *.md
 
 all: Materials_Week1\
      IRanges_Basic GRanges_Basic\

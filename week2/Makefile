@@ -34,7 +34,7 @@ GenomicRanges_Lists: GenomicRanges_Lists.Rmd
 	$(RENDER2) purl("GenomicRanges_Lists.Rmd" $(RENDER2_END)
 
 fixme:
-	grep FIXME *.Rmd
+	grep FIXME *.Rmd *.md
 
 all: Materials_Week2\
      ExpressionSet SummarizedExperiment\

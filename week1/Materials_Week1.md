@@ -5,10 +5,13 @@ title: Materials for week 1
 
 # Materials for Week 1
 
+## Overview of the class
+
 - **What is Bioconductor**: ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\What_is_Bioconductor.mp4) |
 [Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing))
+FIXME: make video discussing the content of the class
 
-## Module 1: Getting started with R/Bioconductor.
+## Getting started with R/Bioconductor.
 
 ### Pre-requisite: Installing software
 
@@ -60,7 +63,6 @@ FIXME: make 1-2 video on online resources
 
 - Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
 - Pointers to introduction to R.
-- The S4 system
 - **R Overview**: ([Script](R_Overview.html))
 
 FIXME: make script + video for R overview
