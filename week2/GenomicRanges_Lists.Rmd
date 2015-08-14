@@ -1,0 +1,95 @@
+---
+author: Kasper D. Hansen
+title: GenomicRanges - Lists
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependecies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+### Overview
+
+In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa; blinded by the insight here ...).
+
+## Other Resources
+
+### Why
+
+The `r Biocpkg("IRanges")` and `r Biocpkg("GRanges")` packages introduced a number of classes I'll call `XXLists`; an example is `GRangesLists`.
+
+These looks like standard `list`s from base R, but they require that every element of the list is of the same class.  This is convenient from a data structure perspective; we know exactly what is in the list.
+
+But things are also happening behind the scenes.  These types of lists often have additional compression build into them.  Because of this, it is best to use specific methods/functions on them, as opposed to the standard toolbox of `sapply`/`lapply` that we use for normal lists.  This will be clearer below.
+
+An important usecase specifically for `GRangesList` is the representation of a set of **transcripts**.  Each transcript is an element in the list and the **exons** of the transcript is represented as a `GRanges`.
+
+### GrangesList
+
+Let us make a `GRangesList`:
+
+```{r CreateGrangesList}
+gr1 <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:10, width = 3))
+gr2 <- GRanges(seqnames = "chr2", ranges = IRanges(start = 1:10, width = 3))
+gL <- GRangesList(gr1 = gr1, gr2 = gr2)
+gL
+```
+
+A number of standard `GRanges` functions work, but returns (for example) `IntegerList`s
+```{r GRangesAccess}
+start(gL)
+seqnames(gL)
+```
+I very often want to get the length of each of the elements.  Surprisingly it is very slow to get this using `sapply(gL, length)` (or at least it used to be very slow).  There is a dedicated function for this:
+```{r elementLengths}
+elementLengths(gL)
+```
+We have a new `XXapply` function with the fancy name `endoapply`.  This is used when you want to apply a function which maps a `GRanges` into a `GRanges`, say a `shift` or `resize`.
+```{r endoapply}
+promoters(gL)
+```
+
+`findOverlaps` works slightly different.  For `GRangesList`s, we think of each element is a union of ranges.  So we get an overlap if any range overlaps.  Lets us see
+```{r findOverlaps}
+findOverlaps(gL, gr2)
+```
+Note how the `queryLength` is 2 and not 20.  What we know from the first row of this output is that some range in `gL[[2]]` overlaps the range `gr[1]`.
+
+This is actually a feature if we think of the `GRangesList` as a set of transcript, where each `GRanges` gives you the exon of the transcript.  With this interpretation, `findOverlaps` tells you whether or not the **transcript** overlaps some region of interest, and this is true if any of the **exons** of the transcript overlaps the region.
+
+## Other Lists
+
+There are many other types of `XXLists`, including
+
+- `RleList`
+- `IRangesList`
+- `IntegerList`
+- `CharacterList`
+- `LogicalList`
+
+and many others.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
+
