@@ -8,9 +8,9 @@ bibliography: genbioconductor.bib
 ```{r child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(AnnotationHub)
@@ -23,7 +23,7 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("AnnotationHub"))
 ```
 
-# Overview
+## Overview
 
 Annotation information is extremely important for putting your data into context.  There are many online resources for doing this, and many different databases organizes different information suing different approaches.
 
@@ -33,13 +33,13 @@ Here we discuss a new way of doing so, through the package `r Biocpkg("Annotatio
 
 In a recent paper I was involved in [@Hansen:EBV], I used `r Biocpkg("AnnotationHub")` to interrogate my data against all transcription factor data available through the ENCODE project.  I managed to write the code and conduct the analysis in the matter of a single evening, which I think is pretty awesome.
 
-# Other Resources
+## Other Resources
 
 - The `r Biocpkg("AnnotationHub")` vignette from the [AnnotationHub webpage](http://bioconductor.org/packages/AnnotationHub).
 - The [Annotation Resources](http://www.bioconductor.org/help/workflows/annotation/Annotation_Resources/) workflow on Bioconductor contains material on `r Biocpkg("AnnotationHub")`.
 - The BioC 2015 conference had a tutorial on `r Biocpkg("AnnotationHub")`; material is available through the [course materials](http://www.bioconductor.org/help/course-materials/) site.
 
-# Usage
+## Usage
 
 First we create an `AnnotationHub` instance.  The first time you do this, it will create a local cache on your system, so that repeat queries for the same information (even in different R sessions) will be very fast.
   
@@ -91,7 +91,7 @@ hist <- display(ah)
 
 ![display(ah)](./ahub_display.png)
 
-# SessionInfo
+## SessionInfo
 
 \scriptsize
 
@@ -99,4 +99,4 @@ hist <- display(ah)
 sessionInfo()
 ```
 
-# References
+## References

@@ -8,9 +8,9 @@ bibliography: genbioconductor.bib
 ```{r child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
@@ -25,7 +25,7 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges", "rtracklayer", "AnnotationHub"))
 ```
 
-# Overview
+## Overview
 
 We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.  This involves
 
@@ -33,7 +33,7 @@ We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")
 2. Getting promoters using `r Biocpkg("AnnotationHub")`.
 3. Comparing the histone data and promoters using `findOverlaps` in `r Biocpkg("GRanges")`.
 
-# Getting the data
+## Getting the data
 
 First we use `r Biocpkg("AnnotationHub")` to get data on homo sapiens.
 
@@ -105,7 +105,7 @@ so we know which one to get:
 ```{r ahub_get_refseq}
 refseq <- qhs[qhs$genome == "hg19" & qhs$title == "RefSeq Genes"]
 refseq
-refseq <- refseq[[1]] # Downloads
+refseq <- refseq[[1]] ## Downloads
 ```
 
 Lets have a look
@@ -118,7 +118,7 @@ Let us look at the number of isoforms per gene name:
 table(table(refseq$name))
 ```
 
-(the `table(table())` construction may seems weird at first, but its a great way to get a quick tabular summary of occurences with the same name).  This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.
+(the `table(table())` construction may seems weird at first, but its a great way to get a quick tabular summary of occurrences with the same name).  This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.
 
 Notice that each transcript is a separate range.  Therefore, each transcript is represented as the "outer" coordinates of the gene; the ranges does not exclude introns.  Because we got this from UCSC I happen to know that the `$blocks` metadata really contains the coordinates of the different exons.  In a later example we will introduce a gene representation where we keep track of exons, introns and transcripts from the same gene, through something known as a `TxDb` (transcript database) object.
 
@@ -151,7 +151,7 @@ length(unique(subjectHits(ov))) / length(promoters)
 
 My rule of thumb is that any cell type has at most 50% of genes expressed, which fits well with these numbers.  We also see that there are many H3K4me3 peaks which do not lie in a genic promoter.  This is actually expected.
 
-Now, the overlap is non-empty, but is it interesting or "significant".  Answering this question thorughly requires thinking deeply about background distributions etc.  We will avoid a careful statistical approach to this question, and will instead do a few backk-of-the-envelope calculations to get a feel for it.
+Now, the overlap is non-empty, but is it interesting or "significant".  Answering this question thoroughly requires thinking deeply about background distributions etc.  We will avoid a careful statistical approach to this question, and will instead do a few back-of-the-envelope calculations to get a feel for it.
 
 First we notice that both promoters and peaks are small compared to the size of the human genome:
 ```{r widthPercentage}
@@ -159,7 +159,7 @@ sum(width(reduce(gr1))) / 10^6
 sum(width(reduce(promoters))) / 10^6
 ```
 
-(result is in megabases; the humnan genome is 3000 megabase).  Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:
+(result is in megabases; the human genome is 3000 megabases).  Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:
 ```{r size}
 sum(width(intersect(gr1, promoters))) / 10^6
 ```
@@ -207,9 +207,9 @@ oddsRatio
 ```
 The odds-ratio got smaller, but it is still bigger than 1.
 
-Here we basically says that each base can be assigned to peaks or promoters independently, which is definately false.  So there are many, many reasons why this calculation is not the "right" one.  Nevertheless, it appears that we have some enrichment, as expected.
+Here we basically says that each base can be assigned to peaks or promoters independently, which is definitely false.  So there are many, many reasons why this calculation is not the "right" one.  Nevertheless, it appears that we have some enrichment, as expected.
 
-# SessionInfo
+## SessionInfo
 
 \scriptsize
 

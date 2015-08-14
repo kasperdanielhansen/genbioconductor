@@ -8,9 +8,9 @@ bibliography: genbioconductor.bib
 ```{r front, child="front.Rmd", echo=FALSE}
 ```
 
-# Dependencies
+## Dependencies
 
-This document has the following dependecies:
+This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(GenomicRanges)
@@ -23,12 +23,12 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-# Other Resources
+## Other Resources
 
 - The vignettes from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
-- The package is decribed in a paper in PLOS Computational Biology [@GenomicRanges].
+- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
 
-# GRanges
+## GRanges
 
 `GRanges` are like `IRanges` with strand and chromosome.  Strand can be `+`, `-` and `*`. The value `*` indicates 'unknown strand' or 'unstranded'.  This value usually gets treated as a third strand, which is sometimes confusing to users (examples below).
 
@@ -40,7 +40,7 @@ gr <- GRanges(seqnames = "chr1", strand = c("+", "-", "+"),
               
 ``` 
 
-Natural accessor functions: `strand()`, `seqnmes()`, `ranges()`, `start()`, `end()`, `width()`.
+Natural accessor functions: `strand()`, `seqnames()`, `ranges()`, `start()`, `end()`, `width()`.
 
 Because the have strand, we now have operations which are relative to the direction of transcription (`upstream()`, `downstream()`):
 
@@ -49,7 +49,7 @@ flank(gr, 2, start = FALSE)
 ``` 
 
 
-# GRanges, seqinfo
+## GRanges, seqinfo
 
 `GRanges` operate within a universe of sequences (chromosomes/contigs) and their lengths.
 
@@ -92,7 +92,7 @@ gr2
 ```
 There is also `dropSeqlevels()`, `keepSeqlevels()`, `keepStandardChromosomes`.
 
-Finally, you can put a `genome()` on the differenct sequences, like
+Finally, you can put a `genome()` on the different sequences, like
 ```{r genome}
 genome(gr) <- "hg19"
 genome(gr2) <- "hg18"
@@ -106,7 +106,7 @@ findOverlaps(gr, gr2)
 
 The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.
 
-# GRanges, metadata
+## GRanges, metadata
 
 `GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
 
@@ -126,7 +126,7 @@ gr$score2 = gr$score * 0.2
 gr
 ```
 
-# DataFrame
+## DataFrame
 
 The `r Biocpkg("S4Vectors")` package introduced the `DataFrame` class.  This class is very similar to the base `data.frame` class from R, but it allows columns of any class, provided a number of required methods are supported.  For example, `DataFrame` can have `IRanges` as columns, unlike `data.frame`:
 
@@ -143,7 +143,7 @@ In the `data.frame` case, the `IRanges` gives rise to 4 columns, whereas it is a
 
 Think of this as an expanded and more versatile class.
 
-# findOverlaps
+## findOverlaps
 
 `findOverlaps` works exactly as for `IRanges`.  But the `strand` information can be confusing.  Let us make an example
 
@@ -161,13 +161,13 @@ findOverlaps(gr, gr2)
 
 Notice how the `*` strand overlaps both `+` and `-`.  There is an argument `ignore.strand` to `findOverlaps` which will ... ignore the strand information. Several other functions in `GenomicRanges` have an `ignore.strand` argument as well. 
 
-# Biology usecases
+## Biology usecases
 
 Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
 
-## Biology usecase I
+### Biology usecase I
 
-Suppose we want to identify TF binding sites that overlaps known SNPs.
+Suppose we want to identify transcription factor (TF) binding sites that overlaps known SNPs.
 
 Input objects are  
 **snps**: a `GRanges` (of width 1)  
@@ -180,10 +180,9 @@ findOverlaps(snps, TF)
 
 (watch out for strand)
 
-# Biology usecase II
+## Biology usecase II
 
-Suppose we have a set of DMRs (think genomic regions) and a set of
-CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
+Suppose we have a set of differentially methylation regions (DMRs) (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
 
 Input objects are  
 **dmrs**: a `GRanges`  
@@ -198,7 +197,12 @@ findOverlaps(dmrs, big_islands)
 (watch out for strand)
 
 
-# SessionInfo
+FIXME: subsetByOverlaps
+FIXME: more seqinfo
+FIXME: split
+
+
+## SessionInfo
 
 \scriptsize
 
@@ -206,5 +210,5 @@ findOverlaps(dmrs, big_islands)
 sessionInfo()
 ```
 
-# References
+## References
 
