@@ -43,6 +43,9 @@ FIXME: make video on Bioc installation
 
 ### Online Resources
 
+- **The Bioconductor website** ([Video](../../../Dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
+- **Useful online help** ([Video](../../../Dropbox/genbioconductor/week1/OnlineResources.mp4))
+
 - The Bioconductor website (packages / workflows / howtos / vignettes / NEWS). 
 - The Bioconductor support site.
 - An Introduction to R.
@@ -51,7 +54,6 @@ FIXME: make video on Bioc installation
 - [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r)
 - [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor)
 
-FIXME: make 1-2 video on online resources
 
 ### Useful skills
 
@@ -63,25 +65,38 @@ FIXME: make 1-2 video on online resources
 
 - Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
 - Pointers to introduction to R.
-- **R Overview**: ([Script](R_Overview.html))
+- **R Overview**: ([HTML](R_Overview.html))
 
 FIXME: make script + video for R overview
 
 ## Module 2: Basic usage of GRanges and AnnotationHub
 
-- **GRanges - Overview**:
+- **GRanges - Overview Lecture**  
 ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Granges_Overview.mp4). |
 [Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing))
-- **IRanges - Basic Usage**:
-([Script](IRanges_Basic.html))
-- **GRanges - Basic**:
-[Script](GRanges_Basic.html)
-- **AnnotationHub - Basic Usage**
-([Script](AnnotationHub.html))
-- **Usecase - AnnotationHub and GRanges**:
-([Script](Usecase_AnnotationHub_GRanges.html))
+- **IRanges - Basic Usage**  
+([Video](../../../Dropbox/genbioconductor/week1/IRanges_Basic.mp4) |
+[HTML](IRanges_Basic.html) |
+[R code](IRanges_Basic.R) |
+[Source](IRanges_Basic.Rmd))
+- **GenomicRanges - GRanges**  
+([Video](../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges.mp4) |
+[HTML](GenomicRanges_GRanges.html) |
+[R code](GenomicRanges_GRanges.R) |
+[Source](GenomicRanges_GRanges.Rmd))
+- **GenomicRanges - Basic GRanges Usage**  
+([Video](../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges_Usage.mp4) |
+[HTML](GenomicRanges_GRanges_Usage.html) |
+[R code](GenomicRanges_GRanges_Usage.R) |
+[Source](GenomicRanges_GRanges_Usage.Rmd))
+- **AnnotationHub - Basic Usage**  
+([Video](../../../Dropbox/genbioconductor/week1/AnnotationHub.mp4) |
+[HTML](AnnotationHub.html) |
+[R code](AnnotationHub.R) |
+[Source](AnnotationHub.Rmd))
+- **Usecase - AnnotationHub and GRanges**  
+([HTML](Usecase_AnnotationHub_GRanges.html) |
+[R code](Usecase_AnnotationHub_GRanges.R) |
+[Source](Usecase_AnnotationHub_GRanges.Rmd))
 
-
-FIXME: make video for GRanges basic
-FIXME: make video for AnnotationHub
 FIXME: make video for Usecase: AnnotationHub and GRanges
