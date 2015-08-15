@@ -1,7 +1,6 @@
 ---
 author: Kasper D. Hansen
-title: GRanges - Basic Usage
-fontsize: 10pt
+title: GenomicRanges - GRanges
 bibliography: genbioconductor.bib
 ---
 
@@ -34,7 +33,7 @@ biocLite(c("GenomicRanges"))
 
 They get created with the `GRanges` constructor:
 
-```{r}
+```{r GRanges}
 gr <- GRanges(seqnames = "chr1", strand = c("+", "-", "+"),
               ranges = IRanges(start = c(1,3,5), width = 3))
               
@@ -44,7 +43,7 @@ Natural accessor functions: `strand()`, `seqnames()`, `ranges()`, `start()`, `en
 
 Because the have strand, we now have operations which are relative to the direction of transcription (`upstream()`, `downstream()`):
 
-```{r}
+```{r flank}
 flank(gr, 2, start = FALSE)
 ``` 
 
@@ -77,130 +76,29 @@ Let us expand the `GRanges` with another chromosome
 gr2 <- GRanges(seqnames = c("chr1", "chr2", "chr1"), strand = "*",
                ranges = IRanges(start = c(1, 3, 5), width = 3))
 gr2
-sort(gr2)
+```
+
+When you `sort()` a `GRanges`, the sorting order of the chromosomes is determined by their order in `seqlevel`.  This is nice if you want the sorting "chr1", "chr2", ..., "chr10", ...
+
+```{r sort}
 seqlevels(gr2)
+sort(gr2)
 seqlevels(gr2) <- c("chr2", "chr1")
 sort(gr2)
 ```
-
-Note how the order of `seqlevels` affects how the `GRanges` is sorted.
-
-An easy way to drop chromosomes is by
-```{r seqlevelsForce}
-seqlevels(gr2, force = TRUE) <- "chr1"
-gr2
-```
-There is also `dropSeqlevels()`, `keepSeqlevels()`, `keepStandardChromosomes`.
-
-Finally, you can put a `genome()` on the different sequences, like
+You can associate a genome with a `GRanges`. 
 ```{r genome}
 genome(gr) <- "hg19"
 genome(gr2) <- "hg18"
 ```
 
-This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error, like
+This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error when you compare two `GRanges` from different genomes, like
 
 ```{r gr-error, error=TRUE}
 findOverlaps(gr, gr2)
 ```
 
 The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.
-
-## GRanges, metadata
-
-`GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
-
-```{r}
-values(gr) <- DataFrame(score = c(0.1, 0.5, 0.3))
-gr
-values(gr)
-``` 
-
-(note the `DataFrame` ... see next section.)
-
-A much easier way to set and access metadata is through the `$` operator
-
-```{r grdollar}
-gr$score
-gr$score2 = gr$score * 0.2
-gr
-```
-
-## DataFrame
-
-The `r Biocpkg("S4Vectors")` package introduced the `DataFrame` class.  This class is very similar to the base `data.frame` class from R, but it allows columns of any class, provided a number of required methods are supported.  For example, `DataFrame` can have `IRanges` as columns, unlike `data.frame`:
-
-```{r DataFrame}
-ir <- IRanges(start = 1:2, width = 3)
-df1 <- DataFrame(iranges = ir)
-df1
-df1$iranges
-df2 <- data.frame(iranges = ir)
-df2
-```
-
-In the `data.frame` case, the `IRanges` gives rise to 4 columns, whereas it is a single column when a `DataFrame` is used.
-
-Think of this as an expanded and more versatile class.
-
-## findOverlaps
-
-`findOverlaps` works exactly as for `IRanges`.  But the `strand` information can be confusing.  Let us make an example
-
-```{r findOverlaps_setup}
-gr
-genome(gr2) <- "hg19"
-gr2
-```
-
-Note how the `ranges` in the two `GRanges` object are the same coordinates, they just have different `seqnames` and `strand`.  Let us try to do a standard `findOverlaps`:
-
-```{r findOverlaps}
-findOverlaps(gr, gr2)
-```
-
-Notice how the `*` strand overlaps both `+` and `-`.  There is an argument `ignore.strand` to `findOverlaps` which will ... ignore the strand information. Several other functions in `GenomicRanges` have an `ignore.strand` argument as well. 
-
-## Biology usecases
-
-Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
-
-### Biology usecase I
-
-Suppose we want to identify transcription factor (TF) binding sites that overlaps known SNPs.
-
-Input objects are  
-**snps**: a `GRanges` (of width 1)  
-**TF**: a `GRanges`
-
-pseudocode:
-```{r usecaseI, eval=FALSE}
-findOverlaps(snps, TF)
-``` 
-
-(watch out for strand)
-
-## Biology usecase II
-
-Suppose we have a set of differentially methylation regions (DMRs) (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
-
-Input objects are  
-**dmrs**: a `GRanges`  
-**islands**: a `GRanges`
-
-pseudocode:
-```{r usecaseII, eval=FALSE}
-big_islands <- resize(islands, width = 20000 + width(islands), fix = "center")
-findOverlaps(dmrs, big_islands)
-``` 
-
-(watch out for strand)
-
-
-FIXME: subsetByOverlaps
-FIXME: more seqinfo
-FIXME: split
-
 
 ## SessionInfo
 

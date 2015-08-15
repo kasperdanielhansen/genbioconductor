@@ -13,9 +13,13 @@ IRanges_Basic : IRanges_Basic.Rmd
 	$(RENDER) render("IRanges_Basic.Rmd" $(RENDER_END)
 	$(RENDER2) purl("IRanges_Basic.Rmd" $(RENDER2_END)
 
-GRanges_Basic : GRanges_Basic.Rmd
-	$(RENDER) render("GRanges_Basic.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GRanges_Basic.Rmd" $(RENDER2_END)
+GenomicRanges_GRanges : GenomicRanges_GRanges.Rmd
+	$(RENDER) render("GenomicRanges_GRanges.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GenomicRanges_GRanges.Rmd" $(RENDER2_END)
+
+GenomicRanges_GRanges_Usage : GenomicRanges_GRanges_Usage.Rmd
+	$(RENDER) render("GenomicRanges_GRanges_Usage.Rmd" $(RENDER_END)
+	$(RENDER2) purl("GenomicRanges_GRanges_Usage.Rmd" $(RENDER2_END)
 
 AnnotationHub : AnnotationHub.Rmd
 	$(RENDER) render("AnnotationHub.Rmd" $(RENDER_END)
@@ -33,7 +37,8 @@ fixme:
 	grep FIXME *.Rmd *.md
 
 all: Materials_Week1\
-     IRanges_Basic GRanges_Basic\
+     IRanges_Basic\
+     GenomicRanges_GRanges GenomicRanges_GRanges_Usage\
      AnnotationHub Usecase_AnnotationHub_GRanges\
      R_Overview
 
