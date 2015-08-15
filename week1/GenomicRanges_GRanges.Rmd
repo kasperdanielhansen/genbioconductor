@@ -73,28 +73,28 @@ In this example, we know that the last gap stops at 10, because that is the leng
 Let us expand the `GRanges` with another chromosome
 
 ```{r gr2}
-gr2 <- GRanges(seqnames = c("chr1", "chr2", "chr1"), strand = "*",
-               ranges = IRanges(start = c(1, 3, 5), width = 3))
-gr2
+seqlevels(gr) <- c("chr1", "chr2")
+seqnames(gr) <- c("chr1", "chr2", "chr1")
 ```
 
 When you `sort()` a `GRanges`, the sorting order of the chromosomes is determined by their order in `seqlevel`.  This is nice if you want the sorting "chr1", "chr2", ..., "chr10", ...
 
 ```{r sort}
-seqlevels(gr2)
-sort(gr2)
-seqlevels(gr2) <- c("chr2", "chr1")
-sort(gr2)
+sort(gr)
+seqlevels(gr) <- c("chr2", "chr1")
+sort(gr)
 ```
 You can associate a genome with a `GRanges`. 
 ```{r genome}
 genome(gr) <- "hg19"
-genome(gr2) <- "hg18"
+gr
 ```
 
 This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error when you compare two `GRanges` from different genomes, like
 
 ```{r gr-error, error=TRUE}
+gr2 <- gr
+genome(gr2) <- "hg18"
 findOverlaps(gr, gr2)
 ```
 

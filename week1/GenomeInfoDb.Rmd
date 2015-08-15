@@ -1,5 +1,5 @@
 ---
-title: "Test"
+title: "GenomeInfoDb"
 author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
@@ -12,6 +12,7 @@ bibliography: genbioconductor.bib
 This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomeInfoDb)
 library(GenomicRanges)
 ```
 
@@ -19,16 +20,16 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges"))
+biocLite(c("GenomeInfoDb", "GenomicRanges"))
 ```
 
 ## Overview
   
-Blah
+
 
 ## Other Resources
 
-- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The vignette from the [GenomeInfoDb webpage](http://bioconductor.org/packages/GenomeInfoDb).
 
 ## Section 2
 An easy way to drop chromosomes is by

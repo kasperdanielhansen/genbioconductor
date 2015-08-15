@@ -53,21 +53,21 @@ seqlengths(gr)
 gaps(gr)
 
 ## ----gr2-----------------------------------------------------------------
-gr2 <- GRanges(seqnames = c("chr1", "chr2", "chr1"), strand = "*",
-               ranges = IRanges(start = c(1, 3, 5), width = 3))
-gr2
+seqlevels(gr) <- c("chr1", "chr2")
+seqnames(gr) <- c("chr1", "chr2", "chr1")
 
 ## ----sort----------------------------------------------------------------
-seqlevels(gr2)
-sort(gr2)
-seqlevels(gr2) <- c("chr2", "chr1")
-sort(gr2)
+sort(gr)
+seqlevels(gr) <- c("chr2", "chr1")
+sort(gr)
 
 ## ----genome--------------------------------------------------------------
 genome(gr) <- "hg19"
-genome(gr2) <- "hg18"
+gr
 
 ## ----gr-error, error=TRUE------------------------------------------------
+gr2 <- gr
+genome(gr2) <- "hg18"
 findOverlaps(gr, gr2)
 
 ## ----sessionInfo, echo=FALSE---------------------------------------------

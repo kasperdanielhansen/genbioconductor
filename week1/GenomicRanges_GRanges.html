@@ -120,47 +120,46 @@ seqinfo(gr)</code></pre>
 ##   seqinfo: 1 sequence from an unspecified genome</code></pre>
 <p>In this example, we know that the last gap stops at 10, because that is the length of the chromosome. Note how a range on the <code>*</code> strand appears in the result.</p>
 <p>Let us expand the <code>GRanges</code> with another chromosome</p>
-<pre class="r"><code>gr2 &lt;- GRanges(seqnames = c(&quot;chr1&quot;, &quot;chr2&quot;, &quot;chr1&quot;), strand = &quot;*&quot;,
-               ranges = IRanges(start = c(1, 3, 5), width = 3))
-gr2</code></pre>
-<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
-##       seqnames    ranges strand
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr2    [3, 5]      *
-##   [3]     chr1    [5, 7]      *
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="r"><code>seqlevels(gr) &lt;- c(&quot;chr1&quot;, &quot;chr2&quot;)
+seqnames(gr) &lt;- c(&quot;chr1&quot;, &quot;chr2&quot;, &quot;chr1&quot;)</code></pre>
 <p>When you <code>sort()</code> a <code>GRanges</code>, the sorting order of the chromosomes is determined by their order in <code>seqlevel</code>. This is nice if you want the sorting “chr1”, “chr2”, …, “chr10”, …</p>
-<pre class="r"><code>seqlevels(gr2)</code></pre>
-<pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot;</code></pre>
-<pre class="r"><code>sort(gr2)</code></pre>
+<pre class="r"><code>sort(gr)</code></pre>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr1    [1, 3]      *
-##   [2]     chr1    [5, 7]      *
-##   [3]     chr2    [3, 5]      *
+##   [1]     chr1    [1, 3]      +
+##   [2]     chr1    [5, 7]      +
+##   [3]     chr2    [3, 5]      -
 ##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<pre class="r"><code>seqlevels(gr2) &lt;- c(&quot;chr2&quot;, &quot;chr1&quot;)
-sort(gr2)</code></pre>
+##   seqinfo: 2 sequences from an unspecified genome</code></pre>
+<pre class="r"><code>seqlevels(gr) &lt;- c(&quot;chr2&quot;, &quot;chr1&quot;)
+sort(gr)</code></pre>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
-##   [1]     chr2    [3, 5]      *
-##   [2]     chr1    [1, 3]      *
-##   [3]     chr1    [5, 7]      *
+##   [1]     chr2    [3, 5]      -
+##   [2]     chr1    [1, 3]      +
+##   [3]     chr1    [5, 7]      +
 ##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+##   seqinfo: 2 sequences from an unspecified genome</code></pre>
 <p>You can associate a genome with a <code>GRanges</code>.</p>
 <pre class="r"><code>genome(gr) &lt;- &quot;hg19&quot;
-genome(gr2) &lt;- &quot;hg18&quot;</code></pre>
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    [1, 3]      +
+##   [2]     chr2    [3, 5]      -
+##   [3]     chr1    [5, 7]      +
+##   -------
+##   seqinfo: 2 sequences from hg19 genome</code></pre>
 <p>This becomes valuable when you deal with data from different genome versions (as we all do), because it allows R to throw an error when you compare two <code>GRanges</code> from different genomes, like</p>
-<pre class="r"><code>findOverlaps(gr, gr2)</code></pre>
-<pre><code>## Error in mergeNamedAtomicVectors(genome(x), genome(y), what = c(&quot;sequence&quot;, : sequence chr1 has incompatible genomes:
-##   - in 'x': hg19
-##   - in 'y': hg18</code></pre>
+<pre class="r"><code>gr2 &lt;- gr
+genome(gr2) &lt;- &quot;hg18&quot;
+findOverlaps(gr, gr2)</code></pre>
+<pre><code>## Error in mergeNamedAtomicVectors(genome(x), genome(y), what = c(&quot;sequence&quot;, : sequences chr2, chr1 have incompatible genomes:
+##   - in 'x': hg19, hg19
+##   - in 'y': hg18, hg18</code></pre>
 <p>The fact that each sequence may have its own genome is more esoteric. One usecase is for experiments where the experimenter have spiked in sequences exogenous to the original organism.</p>
 </div>
 <div id="sessioninfo" class="section level2">
