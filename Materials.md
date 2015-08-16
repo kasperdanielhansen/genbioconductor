@@ -8,7 +8,7 @@ author: Kasper D. Hansen
 ## Overview of the class
 
 - **What is Bioconductor**  
-([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\What_is_Bioconductor.mp4) |
+([Video](gdrive\Preview\What_is_Bioconductor.mp4) |
 [Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing))
 - FIXME: make video discussing the content of the class
 
@@ -29,115 +29,104 @@ For help installing R and RStudio, see these videos from Roger Peng
 - **Install R on Mac**  
 ([Youtube](https://youtu.be/uxuuWXU-7UQ))
 - **Install RStudio on Mac**  
-[Youtube](https://youtu.be/bM7Sfz-LADM)
+([Youtube](https://youtu.be/bM7Sfz-LADM))
 
 Installing Bioconductor
 
-- FIXME: make video and script on Bioc installation
+- **Installing Bioconductor** FIXME: Edit video  
+([HTML](week1/Install_Bioconductor.html) |
+[Source](week1/Install_Bioconductor.Rmd))
 
 
 ### Online Resources
 
 - **The Bioconductor website**  
-([Video](../../../Dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
+([Video](dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
 - **Useful online help**  
-([Video](../../../Dropbox/genbioconductor/week1/OnlineResources.mp4))
-
-
-
-
-
-
-- The Bioconductor website (packages / workflows / howtos / vignettes / NEWS). 
-- The Bioconductor support site.
-- An Introduction to R.
-- [R Documentation](http://www.rdocumentation.org/)
-- [R Seek](http://rseek.org)
-- [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r)
-- [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor)
-
-FIXME: make cheat sheet with online resources
-
+([Video](dropbox/genbioconductor/week1/OnlineResources.mp4))
+- **Some links** (from the two videos above)  
+([HTML](week1/Online_Resources.html) |
+[Source](week1/Online_Resources.Rmd))
 
 ### R essentials
 
 - Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
 - Pointers to introduction to R.
 - **R Overview** FIXME: make video and script  
-([HTML](R_Overview.html) |
-[R code](R_Overview.R) |
-[Source](R_Overview.Rmd))
+([HTML](week1/R_Overview.html) |
+[R code](week1/R_Overview.R) |
+[Source](week1/R_Overview.Rmd))
 
 ## Module 2: Basic usage of GRanges and AnnotationHub
 
 - **GRanges - Overview Lecture**  
-([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Granges_Overview.mp4). |
+([Video](gdrive\Preview\Granges_Overview.mp4). |
 [Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing))
 - **IRanges - Basic Usage**  
-([Video](../../../Dropbox/genbioconductor/week1/IRanges_Basic.mp4) |
-[HTML](IRanges_Basic.html) |
-[R code](IRanges_Basic.R) |
-[Source](IRanges_Basic.Rmd))
+([Video](dropbox/genbioconductor/week1/IRanges_Basic.mp4) |
+[HTML](week1/IRanges_Basic.html) |
+[R code](week1/IRanges_Basic.R) |
+[Source](week1/IRanges_Basic.Rmd))
 - **GenomicRanges - GRanges**  
-([Video](../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges.mp4) |
-[HTML](GenomicRanges_GRanges.html) |
-[R code](GenomicRanges_GRanges.R) |
-[Source](GenomicRanges_GRanges.Rmd))
+([Video](dDropbox/genbioconductor/week1/GenomicRanges_GRanges.mp4) |
+[HTML](week1/GenomicRanges_GRanges.html) |
+[R code](week1/GenomicRanges_GRanges.R) |
+[Source](week1/GenomicRanges_GRanges.Rmd))
 - **GenomicRanges - Basic GRanges Usage**  
-([Video](../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges_Usage.mp4) |
-[HTML](GenomicRanges_GRanges_Usage.html) |
-[R code](GenomicRanges_GRanges_Usage.R) |
-[Source](GenomicRanges_GRanges_Usage.Rmd))
+([Video](dropbox/genbioconductor/week1/GenomicRanges_GRanges_Usage.mp4) |
+[HTML](week1/GenomicRanges_GRanges_Usage.html) |
+[R code](week1/GenomicRanges_GRanges_Usage.R) |
+[Source](week1/GenomicRanges_GRanges_Usage.Rmd))
 - **AnnotationHub - Basic Usage**  
-([Video](../../../Dropbox/genbioconductor/week1/AnnotationHub.mp4) |
-[HTML](AnnotationHub.html) |
-[R code](AnnotationHub.R) |
-[Source](AnnotationHub.Rmd))
+([Video](dropbox/genbioconductor/week1/AnnotationHub.mp4) |
+[HTML](week1/AnnotationHub.html) |
+[R code](week1/AnnotationHub.R) |
+[Source](week1/AnnotationHub.Rmd))
 - **Usecase - AnnotationHub and GRanges** FIXME: make video  
-([HTML](Usecase_AnnotationHub_GRanges.html) |
-[R code](Usecase_AnnotationHub_GRanges.R) |
-[Source](Usecase_AnnotationHub_GRanges.Rmd))
+([HTML](week1/Usecase_AnnotationHub_GRanges.html) |
+[R code](week1/Usecase_AnnotationHub_GRanges.R) |
+[Source](week1/Usecase_AnnotationHub_GRanges.Rmd))
 - FIXME: make video and script for GenomeInfoDb
 
 ## Data containers
 
 - **Basic Data Types**  
-([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Basic_Data_Types.mp) |
+([Video](gdrive\Preview\Basic_Data_Types.mp) |
 [Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing))
 - **Overview of ExpressionSet**  
-([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\ExpressionSet_Overview.mp4) |
+([Video](gdrive\Preview\ExpressionSet_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing))
 - **Annotation Overview**  
-([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\Annotation_Overview.mp4) |
+([Video](gdrive\Preview\Annotation_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing))
-- **ExpressionSet**  
-([HTML](ExpressionSet.html) |
-[R code](ExpressionSet.R) |
-[Source](ExpressionSet.Rmd))
-- **SummarizedExperiment**  
-([HTML](SummarizedExperiment.html) |
-[R code](SummarizedExperiment.R) |
-[Source](SummarizedExperiment.Rmd))
+- **ExpressionSet** FIXME: make video  
+([HTML](week2/ExpressionSet.html) |
+[R code](week2/ExpressionSet.R) |
+[Source](week2/ExpressionSet.Rmd))
+- **SummarizedExperiment** FIXME: make video  
+([HTML](week2/SummarizedExperiment.html) |
+[R code](week2/SummarizedExperiment.R) |
+[Source](week2/SummarizedExperiment.Rmd))
 - FIXME: make Rmd file for GEOquery
 
 ## Core Bioconductor packages
 
-- **Biostrings, Basic Usage**  
-([HTML](Biostrings_Basic.html) |
-[R code](Biostrings_Basic.R) |
-[Source](Biostrings_Basic.Rmd))
-- **Biostrings, Intermediate Usage**  
-([HTML](Biostrings_Intermediate.html) |
-[R code](Biostrings_Intermediate.R) |
-[Source](Biostrings_Intermediate.Rmd))
-- **GenomicRanges, Rle**  
-([HTML](GenomicRanges_Rle.html) |
-[R code](GenomicRanges_Rle.R) |
-[Source](GenomicRanges_Rle.Rmd))
-- **GenomicRanges,Lists**  
-([HTML](GenomicRanges_Lists.html) |
-[R code](GenomicRanges_Lists.R) |
-[Source](GenomicRanges_Lists.Rmd))
+- **Biostrings, Basic Usage** FIXME: make video  
+([HTML](week2/Biostrings_Basic.html) |
+[R code](week2/Biostrings_Basic.R) |
+[Source](week2/Biostrings_Basic.Rmd))
+- **Biostrings, Intermediate Usage** FIXME: make video  
+([HTML](week2/Biostrings_Intermediate.html) |
+[R code](week2/Biostrings_Intermediate.R) |
+[Source](week2/Biostrings_Intermediate.Rmd))
+- **GenomicRanges, Rle** FIXME: make video  
+([HTML](week2/GenomicRanges_Rle.html) |
+[R code](week2/GenomicRanges_Rle.R) |
+[Source](week2/GenomicRanges_Rle.Rmd))
+- **GenomicRanges,Lists** FIXME: make video  
+([HTML](week2/GenomicRanges_Lists.html) |
+[R code](week2/GenomicRanges_Lists.R) |
+[Source](week2/GenomicRanges_Lists.Rmd))
 - FIXME: make Rmd file for rtracklayer: import data  
 - FIXME: make Rmd file for rtracklayer: interface with browser  
 - FIXME: make Rmd file for GenomicFeatures
