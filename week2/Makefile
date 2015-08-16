@@ -4,7 +4,7 @@ RMDS=SummarizedExperiment ExpressionSet\
      Biostrings_Basic Biostrings_Intermediate\
      GenomicRanges_Rle GenomicRanges_Lists
 
-%.html: 
+%.html: %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
                        render("$*.Rmd", \
                               output_format="BiocStyle::html_document",\
@@ -14,12 +14,9 @@ RMDS=SummarizedExperiment ExpressionSet\
 	sed -i.bak -nEe '/## ----dependencies/, $$p' $*.R
 	rm $*.R.bak
 
-Materials_Week2 : Materials_Week2.md
-	pandoc -o Materials_Week2.html Materials_Week2.md
-	open Materials_Week2.html
+.PHONY: fixme all clean $(RMDS)
 
-.PHONY: fixme all clean\
-        Materials_Week2 $(RMDS)
+.FORCE :
 
 ExpressionSet: ExpressionSet.html
 
@@ -33,7 +30,7 @@ GenomicRanges_Rle: GenomicRanges_Rle.html
 
 GenomicRanges_Lists: GenomicRanges_Lists.html
 
-all: Materials_Week2 $(RMDS)
+all: $(RMDS)
 
 fixme:
 	grep FIXME *.Rmd *.md

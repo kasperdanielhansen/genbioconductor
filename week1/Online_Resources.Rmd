@@ -1,0 +1,27 @@
+---
+title: "Online Resources for Bioconductor"
+author: "Kasper D. Hansen"
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+## The Bioconductor site
+
+The [Bioconductor site](http://www.bioconductor.org) has a wealth of great information.  Here are some pointers
+
+- Package vignettes are a very important source of information for Bioconductor packages.  You can access package vignettes from the help menu in RStudio or from the package page on Bioconductor.
+- [Workflows](http://bioconductor.org/help/workflows/).  This is a new addition to Bioconductor; the intention is to provide across-package description of useful functionality.
+- [Software packages](http://bioconductor.org/packages/release/BiocViews.html#___Software); note the use of `biocViews` to the left of the page, this might be useful if you are searching for specific functionality.
+
+FIXME: add browseVignettes(); test in RStudio
+
+## Other resources
+
+- The [Bioconductor support site](https://support.bioconductor.org); this is a great place to ask questions.
+- The [posting guide](http://bioconductor.org/help/support/posting-guide/) for the Bioconductor support site.  Read this before asking questions; it will maximize your chance of getting a useful answer.
+- [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r); this is a popular help site for computer programming.
+- [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor); this is a popular help site for computer programming.
+- [R Documentation](http://www.rdocumentation.org/); a search engine for all documentation from all packages from CRAN and Bioconductor.
+- [R Seek](http://rseek.org); like 'R Documentation" but it also search a few other sites and is based on a different search engine.
+

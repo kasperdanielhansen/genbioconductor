@@ -1,46 +1,46 @@
 R_SCRIPT=/usr/bin/Rscript
-OUTPUT_FORMAT="BiocStyle::html_document"
-RENDER=$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);
-RENDER_END=, output_format = $(OUTPUT_FORMAT), output_options = list(toc=TRUE))}'
-RENDER2=$(R_SCRIPT) -e '{library(knitr);
-RENDER2_END=)}'
 
-Materials_Week1 : Materials_Week1.md
-	pandoc -o Materials_Week1.html Materials_Week1.md
-	open Materials_Week1.html
+RMDS=R_Overview IRanges_Basic\
+     GenomicRanges_GRanges GenomicRanges_GRanges_Usage\
+     AnnotationHub Usecase_AnnotationHub_GRanges\
+     Install_Bioconductor Online_Resources
 
-IRanges_Basic : IRanges_Basic.Rmd
-	$(RENDER) render("IRanges_Basic.Rmd" $(RENDER_END)
-	$(RENDER2) purl("IRanges_Basic.Rmd" $(RENDER2_END)
+%.html: %.Rmd .FORCE
+	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
+                       render("$*.Rmd", \
+                              output_format="BiocStyle::html_document",\
+                              output_options=list(toc=TRUE))}'
+	$(R_SCRIPT) -e '{library(knitr);\
+                        purl("$*.Rmd")}'
+	sed -i.bak -nEe '/## ----dependencies/, $$p' $*.R
+	rm $*.R.bak
 
-GenomicRanges_GRanges : GenomicRanges_GRanges.Rmd
-	$(RENDER) render("GenomicRanges_GRanges.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GenomicRanges_GRanges.Rmd" $(RENDER2_END)
+.PHONY: fixme all clean $(RMDS)
 
-GenomicRanges_GRanges_Usage : GenomicRanges_GRanges_Usage.Rmd
-	$(RENDER) render("GenomicRanges_GRanges_Usage.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GenomicRanges_GRanges_Usage.Rmd" $(RENDER2_END)
+.FORCE :
 
-AnnotationHub : AnnotationHub.Rmd
-	$(RENDER) render("AnnotationHub.Rmd" $(RENDER_END)
-	$(RENDER2) purl("AnnotationHub.Rmd" $(RENDER2_END)
+Install_Bioconductor : Install_Bioconductor.html
+	rm Install_Bioconductor.R
 
-Usecase_AnnotationHub_GRanges : Usecase_AnnotationHub_GRanges.Rmd
-	$(RENDER) render("Usecase_AnnotationHub_GRanges.Rmd" $(RENDER_END)
-	$(RENDER2) purl("Usecase_AnnotationHub_GRanges.Rmd" $(RENDER2_END)
+Online_Resources : Online_Resources.html
+	rm Online_Resources.R
 
-R_Overview : R_Overview.Rmd
-	$(RENDER) render("R_Overview.Rmd" $(RENDER_END)
-	$(RENDER2) purl("R_Overview.Rmd" $(RENDER2_END)
+IRanges_Basic : IRanges_Basic.html
+
+GenomicRanges_GRanges : GenomicRanges_GRanges.html
+
+GenomicRanges_GRanges_Usage : GenomicRanges_GRanges_Usage.html
+
+AnnotationHub : AnnotationHub.html
+
+Usecase_AnnotationHub_GRanges : Usecase_AnnotationHub_GRanges.html
+
+R_Overview : R_Overview.html
+
+all: $(RMDS)
 
 fixme:
 	grep FIXME *.Rmd *.md
-
-all: Materials_Week1\
-     IRanges_Basic\
-     GenomicRanges_GRanges GenomicRanges_GRanges_Usage\
-     AnnotationHub Usecase_AnnotationHub_GRanges\
-     R_Overview
 
 clean:
 	rm -f *~ *.pdf
