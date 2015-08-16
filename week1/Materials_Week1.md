@@ -7,9 +7,10 @@ title: Materials for week 1
 
 ## Overview of the class
 
-- **What is Bioconductor**: ([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\What_is_Bioconductor.mp4) |
+- **What is Bioconductor**  
+([Video](../../../Google\ Drive\Kasper\'s\ Videos\Preview\What_is_Bioconductor.mp4) |
 [Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing))
-FIXME: make video discussing the content of the class
+- FIXME: make video discussing the content of the class
 
 ## Getting started with R/Bioconductor.
 
@@ -17,34 +18,27 @@ FIXME: make video discussing the content of the class
 
 In this class we are using the following software
 
-- R version 3.2.1.
-- RStudio version 0.99.467.
+- R version 3.2.1 (available from [CRAN](https://cran.r-project.org/)).
+- RStudio version 0.99.467 (available from [RStudio](https://www.rstudio.org)).
 - Bioconductor version 3.1.
 
-First we need to install these programs.
+For help installing R and RStudio, see these videos from Roger Peng
 
-#### Install R
-
-Grab R version 3.2.1 from [CRAN](https://cran.r-project.org/) and install it.  For more help, see these videos from Roger Peng
-
-- [Install R on Windows](https://youtu.be/Ohnk9hcxf9M)
-- [Install R on Mac](https://youtu.be/uxuuWXU-7UQ)
-
-#### Install RStudio
-
-Grab RStudio (the Desktop version) from [RStudio](https://www.rstudio.org).  For more help, see this video from Roger Peng
-
-- [Install RStudio on Mac](https://youtu.be/bM7Sfz-LADM)
-
-#### Install Bioconductor
-
-FIXME: make video on Bioc installation
+- **Install R on Windows**  
+([Youtube](https://youtu.be/Ohnk9hcxf9M))
+- **Install R on Mac**  
+([Youtube](https://youtu.be/uxuuWXU-7UQ))
+- **Install RStudio on Mac**  
+[Youtube](https://youtu.be/bM7Sfz-LADM)
+- FIXME: make video on Bioc installation
 
 
 ### Online Resources
 
-- **The Bioconductor website** ([Video](../../../Dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
-- **Useful online help** ([Video](../../../Dropbox/genbioconductor/week1/OnlineResources.mp4))
+- **The Bioconductor website**  
+([Video](../../../Dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
+- **Useful online help**  
+([Video](../../../Dropbox/genbioconductor/week1/OnlineResources.mp4))
 
 - The Bioconductor website (packages / workflows / howtos / vignettes / NEWS). 
 - The Bioconductor support site.
@@ -54,20 +48,18 @@ FIXME: make video on Bioc installation
 - [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r)
 - [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor)
 
+FIXME: make cheat sheet with online resources
 
-### Useful skills
-
-- Writing R scripts
-- Quick introduction to RMarkdown and reproducible research.
-- Some mention of version control system.
 
 ### R essentials
 
 - Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
 - Pointers to introduction to R.
-- **R Overview**: ([HTML](R_Overview.html))
-
-FIXME: make script + video for R overview
+- **R Overview**
+([HTML](R_Overview.html) |
+[R code](R_Overview.R) |
+[Source](R_Overview.Rmd))
+- FIXME: make script + video for R overview
 
 ## Module 2: Basic usage of GRanges and AnnotationHub
 
@@ -98,5 +90,6 @@ FIXME: make script + video for R overview
 ([HTML](Usecase_AnnotationHub_GRanges.html) |
 [R code](Usecase_AnnotationHub_GRanges.R) |
 [Source](Usecase_AnnotationHub_GRanges.Rmd))
+- FIXME: make video for Usecase: AnnotationHub and GRanges
+- FIXME: make video and script for GenomeInfoDb
 
-FIXME: make video for Usecase: AnnotationHub and GRanges

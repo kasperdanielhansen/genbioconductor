@@ -1,45 +1,42 @@
 R_SCRIPT=/usr/bin/Rscript
-OUTPUT_FORMAT="BiocStyle::html_document"
-RENDER=$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);
-RENDER_END=, output_format = $(OUTPUT_FORMAT), output_options = list(toc=TRUE))}'
-RENDER2=$(R_SCRIPT) -e '{library(knitr);
-RENDER2_END=)}'
+
+RMDS=SummarizedExperiment ExpressionSet\
+     Biostrings_Basic Biostrings_Intermediate\
+     GenomicRanges_Rle GenomicRanges_Lists
+
+%.html: 
+	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
+                       render("$*.Rmd", \
+                              output_format="BiocStyle::html_document",\
+                              output_options=list(toc=TRUE))}'
+	$(R_SCRIPT) -e '{library(knitr);\
+                        purl("$*.Rmd")}'
+	sed -i.bak -nEe '/## ----dependencies/, $$p' $*.R
+	rm $*.R.bak
 
 Materials_Week2 : Materials_Week2.md
 	pandoc -o Materials_Week2.html Materials_Week2.md
 	open Materials_Week2.html
 
-ExpressionSet: ExpressionSet.Rmd
-	$(RENDER) render("ExpressionSet.Rmd" $(RENDER_END)
-	$(RENDER2) purl("ExpressionSet.Rmd" $(RENDER2_END)
+.PHONY: fixme all clean\
+        Materials_Week2 $(RMDS)
 
-SummarizedExperiment: SummarizedExperiment.Rmd
-	$(RENDER) render("SummarizedExperiment.Rmd" $(RENDER_END)
-	$(RENDER2) purl("SummarizedExperiment.Rmd" $(RENDER2_END)
+ExpressionSet: ExpressionSet.html
 
-Biostrings_Intermediate: Biostrings_Intermediate.Rmd
-	$(RENDER) render("Biostrings_Intermediate.Rmd" $(RENDER_END)
-	$(RENDER2) purl("Biostrings_Intermediate.Rmd" $(RENDER2_END)
+SummarizedExperiment: SummarizedExperiment.html
 
-Biostrings_Basic: Biostrings_Basic.Rmd
-	$(RENDER) render("Biostrings_Basic.Rmd" $(RENDER_END)
-	$(RENDER2) purl("Biostrings_Basic.Rmd" $(RENDER2_END)
+Biostrings_Intermediate: Biostrings_Intermediate.html
 
-GenomicRanges_Rle: GenomicRanges_Rle.Rmd
-	$(RENDER) render("GenomicRanges_Rle.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GenomicRanges_Rle.Rmd" $(RENDER2_END)
+Biostrings_Basic: Biostrings_Basic.html
 
-GenomicRanges_Lists: GenomicRanges_Lists.Rmd
-	$(RENDER) render("GenomicRanges_Lists.Rmd" $(RENDER_END)
-	$(RENDER2) purl("GenomicRanges_Lists.Rmd" $(RENDER2_END)
+GenomicRanges_Rle: GenomicRanges_Rle.html
+
+GenomicRanges_Lists: GenomicRanges_Lists.html
+
+all: Materials_Week2 $(RMDS)
 
 fixme:
 	grep FIXME *.Rmd *.md
-
-all: Materials_Week2\
-     ExpressionSet SummarizedExperiment\
-     Biostrings_Basic Biostrings_Intermediate\
-     GenomicRanges_Rle GenomicRanges_Lists
 
 clean:
 	rm -f *~ *.pdf

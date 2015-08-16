@@ -25,42 +25,43 @@ biocLite(c("GenomeInfoDb", "GenomicRanges"))
 
 ## Overview
   
-
+The `r Biocpkg("GenomeInfoDb")` package addresses a seemingly small, but consistent problem: different online resources uses different naming conventions for chromosomes.  In more technical jargon, this package helps keeping your `seqinfo` and `seqlevels` harmonized.
 
 ## Other Resources
 
 - The vignette from the [GenomeInfoDb webpage](http://bioconductor.org/packages/GenomeInfoDb).
 
-## Section 2
+## Changing style
+
+It is an inconvenient truth that different online resources uses different naming convention for chromosomes.  This can even be different from organism to organism. For example, for the fruitfly (Drosophila Melanogaster) NCBI and Ensembl uses "2L" and UCSC uses "chr2L".  But NCBI and Ensembl differs on some contigs: NCBI uses "Un" and Ensembl used "U".
+
+```{r GRanges}
+gr <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:2, width = 2))
+```
+
+Let us remap
+```{r seqStyle}
+newStyle <- mapSeqlevels(seqlevels(gr), "NCBI")
+gr <- renameSeqlevels(gr, newStyle)
+```
+This can in principle go wrong, if the original set of `seqlevels` are inconsistent (not a single style).
+
+Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` as well.
+
+The `r Biocpkg("GenomeInfoDb")` also contains information for dropping / keeping various classes of chromosomes:
+
+- `dropSeqlevels`
+- `keepSeqlevels`
+- `keepStandardChromosomes`
+
+
 An easy way to drop chromosomes is by
 ```{r seqlevelsForce}
 seqlevels(gr2, force = TRUE) <- "chr1"
 gr2
 ```
-There is also `dropSeqlevels()`, `keepSeqlevels()`, `keepStandardChromosomes()`.
 
-
-
-
-
-Specify IRanges by 2 of start, end, width (SEW).
-  
-```{r}
-ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
-ir1
-``` 
-
-## Section 3
-
-Some plots
-
-```{r, echo=FALSE}
-ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
-``` 
-
-```{r, echo=FALSE, fig.width=7, fig.height=2, small.mar=TRUE}
-plotRanges(ir)
-``` 
+FIXME: need to test and 
 
 ## SessionInfo
 
