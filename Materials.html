@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Kasper D. Hansen" />
+  <title>Introduction to Bioconductor</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Introduction to Bioconductor</h1>
+<h2 class="author">Kasper D. Hansen</h2>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#materials">Materials</a><ul>
+<li><a href="#overview-of-the-class">Overview of the class</a></li>
+<li><a href="#getting-started-with-rbioconductor.">Getting started with R/Bioconductor.</a><ul>
+<li><a href="#pre-requisite-installing-software">Pre-requisite: Installing software</a></li>
+<li><a href="#online-resources">Online Resources</a></li>
+<li><a href="#r-essentials">R essentials</a></li>
+</ul></li>
+<li><a href="#module-2-basic-usage-of-granges-and-annotationhub">Module 2: Basic usage of GRanges and AnnotationHub</a></li>
+<li><a href="#data-containers">Data containers</a></li>
+<li><a href="#core-bioconductor-packages">Core Bioconductor packages</a></li>
+<li><a href="#r-programming">R programming</a></li>
+<li><a href="#useful-skills">Useful skills</a></li>
+</ul></li>
+<li><a href="#notes">Notes</a><ul>
+<li><a href="#other-stuff">Other stuff</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="materials">Materials</h1>
+<h2 id="overview-of-the-class">Overview of the class</h2>
+<ul>
+<li><strong>What is Bioconductor</strong><br />
+(<a href="../../../Google%20Drive\Kasper&#39;s%20Videos\Preview\What_is_Bioconductor.mp4">Video</a> | <a href="https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing">Slides</a>)</li>
+<li>FIXME: make video discussing the content of the class</li>
+</ul>
+<h2 id="getting-started-with-rbioconductor.">Getting started with R/Bioconductor.</h2>
+<h3 id="pre-requisite-installing-software">Pre-requisite: Installing software</h3>
+<p>In this class we are using the following software</p>
+<ul>
+<li>R version 3.2.1 (available from <a href="https://cran.r-project.org/">CRAN</a>).</li>
+<li>RStudio version 0.99.467 (available from <a href="https://www.rstudio.org">RStudio</a>).</li>
+<li>Bioconductor version 3.1.</li>
+</ul>
+<p>For help installing R and RStudio, see these videos from Roger Peng</p>
+<ul>
+<li><strong>Install R on Windows</strong><br />
+(<a href="https://youtu.be/Ohnk9hcxf9M">Youtube</a>)</li>
+<li><strong>Install R on Mac</strong><br />
+(<a href="https://youtu.be/uxuuWXU-7UQ">Youtube</a>)</li>
+<li><strong>Install RStudio on Mac</strong><br />
+<a href="https://youtu.be/bM7Sfz-LADM">Youtube</a></li>
+</ul>
+<p>Installing Bioconductor</p>
+<ul>
+<li>FIXME: make video and script on Bioc installation</li>
+</ul>
+<h3 id="online-resources">Online Resources</h3>
+<ul>
+<li><strong>The Bioconductor website</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/Bioconductor_Website.mp4">Video</a> | )</li>
+<li><p><strong>Useful online help</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/OnlineResources.mp4">Video</a>)</p></li>
+<li>The Bioconductor website (packages / workflows / howtos / vignettes / NEWS).</li>
+<li>The Bioconductor support site.</li>
+<li>An Introduction to R.</li>
+<li><a href="http://www.rdocumentation.org/">R Documentation</a></li>
+<li><a href="http://rseek.org">R Seek</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/r">Stack Overflow (R)</a></li>
+<li><p><a href="http://stackoverflow.com/questions/tagged/bioconductor">Stack Overflow (Bioconductor)</a></p></li>
+</ul>
+<p>FIXME: make cheat sheet with online resources</p>
+<h3 id="r-essentials">R essentials</h3>
+<ul>
+<li>Basics of R data structures: vectors, lists, matrices, data.frame. Subsetting.</li>
+<li>Pointers to introduction to R.</li>
+<li><strong>R Overview</strong> FIXME: make video and script<br />
+(<a href="R_Overview.html">HTML</a> | <a href="R_Overview.R">R code</a> | <a href="R_Overview.Rmd">Source</a>)</li>
+</ul>
+<h2 id="module-2-basic-usage-of-granges-and-annotationhub">Module 2: Basic usage of GRanges and AnnotationHub</h2>
+<ul>
+<li><strong>GRanges - Overview Lecture</strong><br />
+(<a href="../../../Google%20Drive\Kasper&#39;s%20Videos\Preview\Granges_Overview.mp4">Video</a>. | <a href="https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing">Slides</a>)</li>
+<li><strong>IRanges - Basic Usage</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/IRanges_Basic.mp4">Video</a> | <a href="IRanges_Basic.html">HTML</a> | <a href="IRanges_Basic.R">R code</a> | <a href="IRanges_Basic.Rmd">Source</a>)</li>
+<li><strong>GenomicRanges - GRanges</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges.mp4">Video</a> | <a href="GenomicRanges_GRanges.html">HTML</a> | <a href="GenomicRanges_GRanges.R">R code</a> | <a href="GenomicRanges_GRanges.Rmd">Source</a>)</li>
+<li><strong>GenomicRanges - Basic GRanges Usage</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/GenomicRanges_GRanges_Usage.mp4">Video</a> | <a href="GenomicRanges_GRanges_Usage.html">HTML</a> | <a href="GenomicRanges_GRanges_Usage.R">R code</a> | <a href="GenomicRanges_GRanges_Usage.Rmd">Source</a>)</li>
+<li><strong>AnnotationHub - Basic Usage</strong><br />
+(<a href="../../../Dropbox/genbioconductor/week1/AnnotationHub.mp4">Video</a> | <a href="AnnotationHub.html">HTML</a> | <a href="AnnotationHub.R">R code</a> | <a href="AnnotationHub.Rmd">Source</a>)</li>
+<li><strong>Usecase - AnnotationHub and GRanges</strong> FIXME: make video<br />
+(<a href="Usecase_AnnotationHub_GRanges.html">HTML</a> | <a href="Usecase_AnnotationHub_GRanges.R">R code</a> | <a href="Usecase_AnnotationHub_GRanges.Rmd">Source</a>)</li>
+<li>FIXME: make video and script for GenomeInfoDb</li>
+</ul>
+<h2 id="data-containers">Data containers</h2>
+<ul>
+<li><strong>Basic Data Types</strong><br />
+(<a href="../../../Google%20Drive\Kasper&#39;s%20Videos\Preview\Basic_Data_Types.mp">Video</a> | <a href="https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing">Slides</a>)</li>
+<li><strong>Overview of ExpressionSet</strong><br />
+(<a href="../../../Google%20Drive\Kasper&#39;s%20Videos\Preview\ExpressionSet_Overview.mp4">Video</a> | <a href="https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing">Slides</a>)</li>
+<li><strong>Annotation Overview</strong><br />
+(<a href="../../../Google%20Drive\Kasper&#39;s%20Videos\Preview\Annotation_Overview.mp4">Video</a> | <a href="https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing">Slides</a>)</li>
+<li><strong>ExpressionSet</strong><br />
+(<a href="ExpressionSet.html">HTML</a> | <a href="ExpressionSet.R">R code</a> | <a href="ExpressionSet.Rmd">Source</a>)</li>
+<li><strong>SummarizedExperiment</strong><br />
+(<a href="SummarizedExperiment.html">HTML</a> | <a href="SummarizedExperiment.R">R code</a> | <a href="SummarizedExperiment.Rmd">Source</a>)</li>
+<li>FIXME: make Rmd file for GEOquery</li>
+</ul>
+<h2 id="core-bioconductor-packages">Core Bioconductor packages</h2>
+<ul>
+<li><strong>Biostrings, Basic Usage</strong><br />
+(<a href="Biostrings_Basic.html">HTML</a> | <a href="Biostrings_Basic.R">R code</a> | <a href="Biostrings_Basic.Rmd">Source</a>)</li>
+<li><strong>Biostrings, Intermediate Usage</strong><br />
+(<a href="Biostrings_Intermediate.html">HTML</a> | <a href="Biostrings_Intermediate.R">R code</a> | <a href="Biostrings_Intermediate.Rmd">Source</a>)</li>
+<li><strong>GenomicRanges, Rle</strong><br />
+(<a href="GenomicRanges_Rle.html">HTML</a> | <a href="GenomicRanges_Rle.R">R code</a> | <a href="GenomicRanges_Rle.Rmd">Source</a>)</li>
+<li><strong>GenomicRanges,Lists</strong><br />
+(<a href="GenomicRanges_Lists.html">HTML</a> | <a href="GenomicRanges_Lists.R">R code</a> | <a href="GenomicRanges_Lists.Rmd">Source</a>)</li>
+<li>FIXME: make Rmd file for rtracklayer: import data<br />
+</li>
+<li>FIXME: make Rmd file for rtracklayer: interface with browser<br />
+</li>
+<li>FIXME: make Rmd file for GenomicFeatures</li>
+</ul>
+<h2 id="r-programming">R programming</h2>
+<ul>
+<li>FIXME: make Rmd file for S4 classes and methods</li>
+</ul>
+<h2 id="useful-skills">Useful skills</h2>
+<ul>
+<li>Writing R scripts</li>
+<li>Quick introduction to RMarkdown and reproducible research.</li>
+<li>Some mention of version control system.</li>
+</ul>
+<p>FIXME: video and/or text presenting useful skills. Perhaps move to week 2</p>
+<h1 id="notes">Notes</h1>
+<h2 id="other-stuff">Other stuff</h2>
+<p>Core</p>
+<ul>
+<li>Rsamtools / ShortRead</li>
+<li>GenomicAlignments</li>
+<li>GenomicFiles</li>
+<li>BiocParallel</li>
+<li>VariantAnnotation</li>
+</ul>
+<p>Annotation</p>
+<ul>
+<li>biomaRt</li>
+<li>SNP pckages</li>
+<li>GWAS package</li>
+</ul>
+<p>Visualization</p>
+<ul>
+<li>Gviz</li>
+<li>ggbio</li>
+</ul>
+<p>Analysis</p>
+<ul>
+<li>limma</li>
+<li>DEseq / edgeR</li>
+<li>genefilter</li>
+<li>DNAcopy</li>
+<li>sva</li>
+</ul>
+<p>Other</p>
+<ul>
+<li>Rsubread / Rbowtie</li>
+<li>RBGL / graph / Rgraphviz</li>
+<li>preprocessCore</li>
+<li>oligo</li>
+<li>GOstats</li>
+<li>EBImage</li>
+</ul>
+<p>Application areas</p>
+<ul>
+<li>gene expression analysis with microarrays</li>
+<li>gene expression analysis with sequencing</li>
+<li>microarray annotation packages</li>
+</ul>
+</body>
+</html>
