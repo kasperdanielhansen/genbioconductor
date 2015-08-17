@@ -50,14 +50,15 @@ Installing Bioconductor
 
 ### R essentials
 
-- Basics of R data structures: vectors, lists, matrices, data.frame.  Subsetting.
-- Pointers to introduction to R.
+- **An Introduction to R** (ships with R)  
+([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) |
+[PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf))
 - **R Overview** FIXME: make video and script  
 ([HTML](week1/R_Overview.html) |
 [R code](week1/R_Overview.R) |
 [Source](week1/R_Overview.Rmd))
 
-## Module 2: Basic usage of GRanges and AnnotationHub
+## Basic usage of GRanges and AnnotationHub
 
 - **GRanges - Overview Lecture**  
 ([Video](gdrive\Preview\Granges_Overview.mp4). |
