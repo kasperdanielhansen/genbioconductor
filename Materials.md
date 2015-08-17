@@ -53,7 +53,7 @@ Installing Bioconductor
 - **An Introduction to R** (ships with R)  
 ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) |
 [PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf))
-- **R Overview** FIXME: make video and script  
+- **R Overview** FIXME: make video  
 ([HTML](week1/R_Overview.html) |
 [R code](week1/R_Overview.R) |
 [Source](week1/R_Overview.Rmd))
@@ -143,6 +143,31 @@ Installing Bioconductor
 - Some mention of version control system.
 
 FIXME: video and/or text presenting useful skills. Perhaps move to week 2
+
+
+## Annotation
+
+- **biomaRt**
+- **GWAS package**
+
+
+## Analysis packages
+
+- **limma**
+- **edgeR**
+- **DEseq**
+- **sva**
+- **DNAcopy**
+- **oligo** ? Should we include this?
+
+
+## Visualization
+
+- **GViz**
+- **ggbio**
+
+Both?  
+
 
 
 
