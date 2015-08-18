@@ -33,7 +33,7 @@ This class is suitable for storing processed data particularly from high-through
 
 ## Start
 
-An example dataset, stored as a `SummarizedExperiment` is available in the `r Biocpkg("airway")` package.  This data represents an RNA sequencing experiment, but we will use it only for illustrating the class.
+An example dataset, stored as a `SummarizedExperiment` is available in the `r Biocexptpkg("airway")` package.  This data represents an RNA sequencing experiment, but we will use it only for illustrating the class.
 
 ```{r airway}
 library(airway)

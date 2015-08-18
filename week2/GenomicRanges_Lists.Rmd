@@ -30,7 +30,7 @@ In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa
 
 ### Why
 
-The `r Biocpkg("IRanges")` and `r Biocpkg("GRanges")` packages introduced a number of classes I'll call `XXList`; an example is `GRangesList`.
+The `r Biocpkg("IRanges")` and `r Biocpkg("GenomicRanges")` packages introduced a number of classes I'll call `XXList`; an example is `GRangesList`.
 
 These looks like standard `list`s from base R, but they require that every element of the list is of the same class.  This is convenient from a data structure perspective; we know exactly what is in the list.
 

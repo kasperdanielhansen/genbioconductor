@@ -7,8 +7,8 @@ author: Kasper D. Hansen
 
 ## Overview of the class
 
-- **What is Bioconductor**  
-([Video](gdrive\Preview\What_is_Bioconductor.mp4) |
+- **What is Bioconductor** (7:18)  
+([Video](gdrive/Preview/What_is_Bioconductor.mp4) |
 [Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing))
 - FIXME: make video discussing the content of the class
 
@@ -33,17 +33,18 @@ For help installing R and RStudio, see these videos from Roger Peng
 
 Installing Bioconductor
 
-- **Installing Bioconductor** FIXME: Edit video  
-([HTML](week1/Install_Bioconductor.html) |
+- **Installing Bioconductor** (3:39)  
+([Video](dropbox/Videos/Installing_Bioconductor.mp4) |
+[HTML](week1/Install_Bioconductor.html) |
 [Source](week1/Install_Bioconductor.Rmd))
 
 
 ### Online Resources
 
-- **The Bioconductor website**  
-([Video](dropbox/genbioconductor/week1/Bioconductor_Website.mp4))
-- **Useful online help**  
-([Video](dropbox/genbioconductor/week1/OnlineResources.mp4))
+- **The Bioconductor website** (9:56)  
+([Video](dropbox/Videos/Bioconductor_Website.mp4))
+- **Useful online help** (5:08)  
+([Video](dropbox/Videos/OnlineResources.mp4))
 - **Some links** (from the two videos above)  
 ([HTML](week1/Online_Resources.html) |
 [Source](week1/Online_Resources.Rmd))
@@ -58,28 +59,31 @@ Installing Bioconductor
 [R code](week1/R_Overview.R) |
 [Source](week1/R_Overview.Rmd))
 
+
+(26 minutes + R Overview)
+
 ## Basic usage of GRanges and AnnotationHub
 
-- **GRanges - Overview Lecture**  
+- **GRanges - Overview Lecture** (4:42)  
 ([Video](gdrive\Preview\Granges_Overview.mp4). |
 [Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing))
-- **IRanges - Basic Usage**  
-([Video](dropbox/genbioconductor/week1/IRanges_Basic.mp4) |
+- **IRanges - Basic Usage** (12:12)  
+([Video](dropbox/Videos/IRanges_Basic.mp4) |
 [HTML](week1/IRanges_Basic.html) |
 [R code](week1/IRanges_Basic.R) |
 [Source](week1/IRanges_Basic.Rmd))
-- **GenomicRanges - GRanges**  
-([Video](dDropbox/genbioconductor/week1/GenomicRanges_GRanges.mp4) |
+- **GenomicRanges - GRanges** (8:44)  
+([Video](dropbox/Videos/GenomicRanges_GRanges.mp4) |
 [HTML](week1/GenomicRanges_GRanges.html) |
 [R code](week1/GenomicRanges_GRanges.R) |
 [Source](week1/GenomicRanges_GRanges.Rmd))
-- **GenomicRanges - Basic GRanges Usage**  
-([Video](dropbox/genbioconductor/week1/GenomicRanges_GRanges_Usage.mp4) |
+- **GenomicRanges - Basic GRanges Usage** (8:14)  
+([Video](dropbox/Videos/GenomicRanges_GRanges_Usage.mp4) |
 [HTML](week1/GenomicRanges_GRanges_Usage.html) |
 [R code](week1/GenomicRanges_GRanges_Usage.R) |
 [Source](week1/GenomicRanges_GRanges_Usage.Rmd))
-- **AnnotationHub - Basic Usage**  
-([Video](dropbox/genbioconductor/week1/AnnotationHub.mp4) |
+- **AnnotationHub - Basic Usage** (8:23)  
+([Video](dropbox/Videos/AnnotationHub.mp4) |
 [HTML](week1/AnnotationHub.html) |
 [R code](week1/AnnotationHub.R) |
 [Source](week1/AnnotationHub.Rmd))
@@ -89,40 +93,59 @@ Installing Bioconductor
 [Source](week1/Usecase_AnnotationHub_GRanges.Rmd))
 - FIXME: make video and script for GenomeInfoDb
 
+(42 minutes + FIXME)
+
 ## Data containers
 
-- **Basic Data Types**  
+- **Basic Data Types** (4:59)  
 ([Video](gdrive\Preview\Basic_Data_Types.mp) |
 [Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing))
-- **Overview of ExpressionSet**  
+- **Overview of ExpressionSet** (4:19)  
 ([Video](gdrive\Preview\ExpressionSet_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing))
-- **Annotation Overview**  
+- **Annotation Overview** (4:33)  
 ([Video](gdrive\Preview\Annotation_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing))
-- **ExpressionSet** FIXME: make video  
-([HTML](week2/ExpressionSet.html) |
+- **ExpressionSet** (9:50)  
+([Video](dropbox/Videos/ExpressionSet.mp4) |
+[HTML](week2/ExpressionSet.html) |
 [R code](week2/ExpressionSet.R) |
 [Source](week2/ExpressionSet.Rmd))
-- **SummarizedExperiment** FIXME: make video  
-([HTML](week2/SummarizedExperiment.html) |
+- **SummarizedExperiment** (7:44)  
+([Video](dropbox/Videos/SummarizedExperiment.mp4) |
+[HTML](week2/SummarizedExperiment.html) |
 [R code](week2/SummarizedExperiment.R) |
 [Source](week2/SummarizedExperiment.Rmd))
-- **GEOquery** FIXME: make video  
-([HTML](week2/GEOquery.html) |
+- **GEOquery** (6:34)  
+([Video](dropbox/Videos/GEOquery.mp4) |
+[HTML](week2/GEOquery.html) |
 [R code](week2/GEOquery.R) |
 [Source](week2/GEOquery.Rmd))
 
+(38 minutes)
+
 ## Core Bioconductor packages
 
-- **Biostrings - Basic Usage** FIXME: make video  
-([HTML](week2/Biostrings_Basic.html) |
-[R code](week2/Biostrings_Basic.R) |
-[Source](week2/Biostrings_Basic.Rmd))
-- **Biostrings - Intermediate Usage** FIXME: make video  
-([HTML](week2/Biostrings_Intermediate.html) |
-[R code](week2/Biostrings_Intermediate.R) |
-[Source](week2/Biostrings_Intermediate.Rmd))
+- **Biostrings** (7:04)  
+([Video](dropbox/Videos/Biostrings.mp4) |
+[HTML](week2/Biostrings.html) |
+[R code](week2/Biostrings.R) |
+[Source](week2/Biostrings.Rmd))
+- **BSgenome** (6:35)  
+([Video](dropbox/Videos/BSgenome.mp4) |
+[HTML](week2/BSgenome.html) |
+[R code](week2/BSgenome.R) |
+[Source](week2/BSgenome.Rmd))
+- **Biostrings - Matching** (6:18)  
+([Video](dropbox/Videos/Biostrings_Matching.mp4) |
+[HTML](week2/Biostrings_Matching.html) |
+[R code](week2/Biostrings_Matching.R) |
+[Source](week2/Biostrings_Matching.Rmd))
+- **BSgenome - Views** (9:21)  
+([Video](dropbox/Videos/BSgenome_Views.mp4) |
+[HTML](week2/BSgenome_Views.html) |
+[R code](week2/BSgenome_Views.R) |
+[Source](week2/BSgenome_Views.Rmd))
 - **GenomicRanges - Rle** FIXME: make video  
 ([HTML](week2/GenomicRanges_Rle.html) |
 [R code](week2/GenomicRanges_Rle.R) |
@@ -131,9 +154,14 @@ Installing Bioconductor
 ([HTML](week2/GenomicRanges_Lists.html) |
 [R code](week2/GenomicRanges_Lists.R) |
 [Source](week2/GenomicRanges_Lists.Rmd))
-- FIXME: make Rmd file for rtracklayer: import data  
-- FIXME: make Rmd file for rtracklayer: interface with browser  
-- FIXME: make Rmd file for GenomicFeatures
+- **GenomicFeatures** FIXME: make video  
+([HTML](week2/GenomicFeatures.html) |
+[R code](week2/GenomicFeatures.R) |
+[Source](week2/GenomicFeatures.Rmd))
+- FIXME: make Rmd file for rtracklayer: import data
+- FIXME: make Rmd file for rtracklayer: interface with browser
+
+(29 minutes + 5*FIXME)
 
 ## R programming
 
@@ -148,9 +176,10 @@ Installing Bioconductor
 FIXME: video and/or text presenting useful skills. Perhaps move to week 2
 
 
-## Annotation
+## More Annotation
 
-- **biomaRt**
+- **biomaRt** FIXME: make Rmd file
+- **SNPpackages** FIXME: make Rmd file
 - **GWAS package**
 
 
@@ -169,9 +198,7 @@ FIXME: video and/or text presenting useful skills. Perhaps move to week 2
 - **GViz**
 - **ggbio**
 
-Both?  
-
-
+Both?
 
 
 # Notes

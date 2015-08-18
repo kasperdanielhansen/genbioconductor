@@ -1,9 +1,11 @@
 R_SCRIPT=/usr/bin/Rscript
 
 RMDS=SummarizedExperiment ExpressionSet\
+     GEOquery\
      Biostrings BSgenome\
      Biostrings_Matching BSgenome_Views\
-     GenomicRanges_Rle GenomicRanges_Lists
+     GenomicRanges_Rle GenomicRanges_Lists\
+     GenomicFeatures
 
 %.html : %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
@@ -36,6 +38,8 @@ GenomicRanges_Rle : GenomicRanges_Rle.html
 GenomicRanges_Lists : GenomicRanges_Lists.html
 
 GEOquery : GEOquery.html
+
+GenomicFeatures : GenomicFeatures.html
 
 all : $(RMDS)
 

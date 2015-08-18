@@ -1,7 +1,6 @@
 ---
 title: Usecase - Basic GRanges and AnnotationHub
 author: Kasper D. Hansen
-fontsize: 10pt
 bibliography: genbioconductor.bib
 ---
 
@@ -31,7 +30,7 @@ We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")
 
 1. Getting the ENCODE histone data using `r Biocpkg("AnnotationHub")`.
 2. Getting promoters using `r Biocpkg("AnnotationHub")`.
-3. Comparing the histone data and promoters using `findOverlaps` in `r Biocpkg("GRanges")`.
+3. Comparing the histone data and promoters using `findOverlaps` in `r Biocpkg("GenomicRanges")`.
 
 ## Getting the data
 

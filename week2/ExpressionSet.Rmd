@@ -37,7 +37,7 @@ This class has inspired many other data containers in Bioconductor and can be co
 
 ## Start
 
-An example dataset, stored as an `ExpressionSet` is available in the `r Biocpkg("ALL")` package.  This package is an example of an "experimental data" package"; a bundling of a full experiment inside an R package.  These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.
+An example dataset, stored as an `ExpressionSet` is available in the `r Biocexptpkg("ALL")` package.  This package is an example of an "experimental data" package"; a bundling of a full experiment inside an R package.  These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.
 
 ```{r ALL}
 library(ALL)
@@ -125,7 +125,7 @@ these are ids named by Affymetrix, the microarray vendor.  We can look them up i
 library(hgu95av2.db)
 as.list(hgu95av2ENTREZID[ids])
 ```
-This gives us the Entrez ID associated with the different measurements.  There are a number of so-called "maps" like `hgu95av2XX` with `XX` having multiple values.  This approach is very specific to Affymetrix chips.  An alternative to using annotation packages is to use the `r Biocpkg("Biomart")` package to get the microarray annotation from Ensembl (an online database).  This will be discussed elsewhere.
+This gives us the Entrez ID associated with the different measurements.  There are a number of so-called "maps" like `hgu95av2XX` with `XX` having multiple values.  This approach is very specific to Affymetrix chips.  An alternative to using annotation packages is to use the `r Biocpkg("biomaRt")` package to get the microarray annotation from Ensembl (an online database).  This will be discussed elsewhere.
 
 We will leave the annotation subject for now.
 
