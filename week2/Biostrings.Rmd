@@ -13,22 +13,18 @@ This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(Biostrings)
-library(BSgenome)
-library(BSgenome.Scerevisiae.UCSC.sacCer2)
 ```
 
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("Biostrings", "BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
+biocLite(c("Biostrings"))
 ```
 
 ## Overview
 
 The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
-
-The `r Biocpkg("BSgenome")` package contains infrastructure for representing genome sequences in Bioconductor.
 
 ## Other Resources
 
@@ -142,51 +138,6 @@ letterFrequency(dna2, "GC")
 consensusMatrix(dna2, as.prob = TRUE)
 ```
 (most functions allows the return of probabilities with `as.prob = TRUE`).
-
-## Genomes
-
-The `r Biocpkg("BSgenome")` package provides support for genomes.  In Bioconductor, we have special classes for genomes, because the chromosomes can get really big.  For example, the human genome takes up several GB of memory.
-
-The `available.genomes()` function lists which genomes are currently available from from Bioconductor (it is possible to make your own genome package).  Note that there are several so-called "masked" genomes, where some parts of the genome are masked.  We will avoid this subject for now.
-
-Let us load the latest yeast genome
-```{r BSgenome}
-available.genomes()
-library("BSgenome.Scerevisiae.UCSC.sacCer2")
-Scerevisiae
-```
-
-A `r Biocpkg("BSgenome")` package contains a single object which is the second component of the name.  At first, nothing is loaded into memory, which makes it very fast.  You can get the length and names of the chromosomes without actually loading them.
-
-```{r BSgenomeLength}
-seqlengths(Scerevisiae)
-seqnames(Scerevisiae)
-```
-
-We load a chromosome by using the `[[` or `$` operators:
-```{r BSgenomeLoad}
-Scerevisiae$chrI
-```
-
-We can now do things like compute the GC content of the first chromosome
-```{r gcChrI}
-letterFrequency(Scerevisiae$chrI, "CG", as.prob = TRUE)
-```
-
-To iterate over chromosomes seems straightforward with `lapply`.  However, this function may end up using a lot of memory because the entire genome is loaded.  Instead there is the `bsapply` function which handles loading and unloading of different chromosomes.  The interface to `bsapply` is weird at first; you set up a `BSparams` object which contains which function you are using and which genome you are using it on (and a bit more information).  This paradigm is being used in other packages these days, for example `r Biocpkg("BiocParallel")`.  An example will make this clear:
-```{r gcGenome}
-param <- new("BSParams", X = Scerevisiae, FUN = letterFrequency)
-head(bsapply(param, letters = "GC"))
-```
-note how the additional argument `letters` to the `letterFrequency` function is given as an argument to `bsapply`, not to the `BSParams` object.  This gives us a list; you can simplify the output (like the difference between `lapply` and `sapply`) by
-```{r gcGenome2}
-param <- new("BSParams", X = Scerevisiae, FUN = letterFrequency, simplify = TRUE)
-bsapply(param, letters = "GC")
-```
-Note how the mitochondria chromosome is very different.  To conclude, the GC percentage of the genome is
-```{r gcGenome3}
-sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
-```
 
 ## SessionInfo
 

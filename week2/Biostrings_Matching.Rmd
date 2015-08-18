@@ -15,7 +15,7 @@ This document has the following dependencies:
 library(Biostrings)
 library(BSgenome)
 library(BSgenome.Scerevisiae.UCSC.sacCer2)
-library(AnnotationHub)
+
 ```
 
 Use the following commands to install these packages in R.
@@ -61,78 +61,7 @@ First, note how the return object of `vmatchPattern` is a `GRanges` given the ex
 dnaseq == reverseComplement(dnaseq)
 ```
 
-Second, note how the return object of `matchPattern` looks like an `IRanges` but is really something called a `Views`.
-
-## Views
-
-`Views` are used when you have a single big object (think chromosome or other massive dataset) and you need to deal with (many) subsets of this object.  `Views` are not restricted to genome sequences; we will discuss `Views` on other types of objects in a different session.
-
-Technically, a `Views` is like an `IRanges` couple with a pointer to the massive object.  The `IRanges` contains the indexes.  Let's look at `matchPattern` again:
-```{r views1}
-vi <- matchPattern(dnaseq, Scerevisiae$chrI)
-vi
-```
-We can get the `IRanges` component by
-```{r views2}
-ranges(vi)
-```
-The `IRanges` gives us indexes into the underlying subject (here chromosome I).  To be clear, compare these two:
-```{r views3}
-vi
-Scerevisiae$chrI[ start(vi):end(vi) ]
-```
-The `Views` object also look a bit like a `DNAStringSet`; we can do things like
-```{r views4}
-alphabetFrequency(vi)
-```
-The advantage of `Views` is that they don't duplicate the sequence information from the subject; all they keep track of are indexes into the subject (stored as `IRanges`).  This makes it very (1) fast, (2) low-memory and makes it possible to do things like
-```{r views5}
-shift(vi, 10)
-```
-where we now get the sequence 10 bases next to the original match.  This could not be done if all we had were the bases of the original subsequence.
-
-`Views` are especially powerful when there are many of them.  A usecase I often have are the set of all exons (or promoters) of all genes in the genome.  You can use `GRanges` as `Views` as well.  Lets take the hits from `vmatchPattern` above.
-
-```{r viewsVMatchPattern}
-gr <- vmatchPattern(dnaseq, Scerevisiae)
-vi2 <- Views(Scerevisiae, gr)
-```
-
-Now, let us do something with this.  First let us get gene coordinates from `r Biocpkg("AnnotationHub")`.
-
-```{r annotationHub}
-ahub <- AnnotationHub()
-qh <- query(ahub, c("sacCer2", "genes"))
-qh
-genes <- qh[[which(qh$title == "SGD Genes")]]
-genes
-```
-
-Let us compute the GC content of all promoters in the yeast genome.
-```{r promoterGCcontent}
-prom <- promoters(genes)
-head(prom, n = 3)
-```
-We get a `warning` that some of these promoters are out-of-band (see the the second and third element in the `prom` object; they have negative values for their ranges).  We clean it up and continue
-```{r promoterGCcontent2}
-prom <- trim(prom)
-promViews <- Views(Scerevisiae, prom)
-gcProm <- letterFrequency(promViews, "GC", as.prob = TRUE)
-head(gcProm)
-```
-In the previous `r Biocpkg("Biostrings")` session we computed the GC content of the yeast genome.  Let us do it again, briefly
-```{r genomeGC}
-params <- new("BSParams", X = Scerevisiae, FUN = letterFrequency, simplify = TRUE)
-gccontent <- bsapply(params, letters = "GC")
-gcPercentage <- sum(gccontent) / sum(seqlengths(Scerevisiae))
-gcPercentage
-```
-Let us compare this genome percentage to the distribution of GC content for promoters
-```{r plotGC, fig=TRUE}
-plot(density(gcProm))
-abline(v = gcPercentage, col = "red")
-```
-At first glance, the GC content of the promoters is not very different from the genome-wide GC content (perhaps shifted a bit to the right).
+Second, note how the return object of `matchPattern` looks like an `IRanges` but is really something called a `Views` (see another session).
 
 ## Specialized alignments
 
@@ -150,7 +79,7 @@ One note: `pairwiseAlignment` allows you to do pairwise alignments of millions o
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

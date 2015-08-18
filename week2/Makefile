@@ -1,7 +1,8 @@
 R_SCRIPT=/usr/bin/Rscript
 
 RMDS=SummarizedExperiment ExpressionSet\
-     Biostrings_Basic Biostrings_Intermediate\
+     Biostrings BSgenome\
+     Biostrings_Matching BSgenome_Views\
      GenomicRanges_Rle GenomicRanges_Lists
 
 %.html : %.Rmd .FORCE
@@ -22,9 +23,13 @@ ExpressionSet : ExpressionSet.html
 
 SummarizedExperiment : SummarizedExperiment.html
 
-Biostrings_Intermediate : Biostrings_Intermediate.html
+Biostrings : Biostrings.html
 
-Biostrings_Basic : Biostrings_Basic.html
+BSgenome : BSgenome.html
+
+Biostrings_Matching : Biostrings_Matching.html
+
+BSgenome_Views : BSgenome_Views.html
 
 GenomicRanges_Rle : GenomicRanges_Rle.html
 

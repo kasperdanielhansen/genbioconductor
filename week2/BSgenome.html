@@ -49,10 +49,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
-<li><a href="#representing-sequences">Representing sequences</a></li>
-<li><a href="#basic-functionality">Basic functionality</a></li>
-<li><a href="#biological-functionality">Biological functionality</a></li>
-<li><a href="#counting-letters">Counting letters</a></li>
 <li><a href="#genomes">Genomes</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 <li><a href="#references">References</a></li>
@@ -62,176 +58,18 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <p>This document has the following dependencies:</p>
-<pre class="r"><code>library(Biostrings)
-library(BSgenome)
+<pre class="r"><code>library(BSgenome)
 library(BSgenome.Scerevisiae.UCSC.sacCer2)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
-biocLite(c(&quot;Biostrings&quot;, &quot;BSgenome&quot;, &quot;BSgenome.Scerevisiae.UCSC.sacCer2&quot;))</code></pre>
+biocLite(c(&quot;BSgenome&quot;, &quot;BSgenome.Scerevisiae.UCSC.sacCer2&quot;))</code></pre>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/Biostrings.html">Biostrings</a></em> package contains classes and functions for representing biological strings such as DNA, RNA and amino acids. In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see <span class="citation">(Durbin et al. 1998)</span> for a description of these algorithms). There are also functions for reading and writing output such as FASTA files.</p>
 <p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/BSgenome.html">BSgenome</a></em> package contains infrastructure for representing genome sequences in Bioconductor.</p>
 </div>
 <div id="other-resources" class="section level2">
 <h2>Other Resources</h2>
-</div>
-<div id="representing-sequences" class="section level2">
-<h2>Representing sequences</h2>
-<p>There are two basic types of containers for representing strings. One container represents a single string (say a chromosome or a single short read) and the other container represents a set of strings (say a set of short reads). There are different classes intended to represent different types of sequences such as DNA or RNA sequences.</p>
-<pre class="r"><code>dna1 &lt;- DNAString(&quot;ACGT-N&quot;)
-dna1</code></pre>
-<pre><code>##   6-letter &quot;DNAString&quot; instance
-## seq: ACGT-N</code></pre>
-<pre class="r"><code>DNAStringSet(&quot;ADE&quot;)</code></pre>
-<pre><code>## Error in .Call2(&quot;new_XString_from_CHARACTER&quot;, classname, x, start(solved_SEW), : key 69 (char 'E') not in lookup table</code></pre>
-<pre class="r"><code>dna2 &lt;- DNAStringSet(c(&quot;ACGT&quot;, &quot;GTCA&quot;, &quot;GCTA&quot;))
-dna2</code></pre>
-<pre><code>##   A DNAStringSet instance of length 3
-##     width seq
-## [1]     4 ACGT
-## [2]     4 GTCA
-## [3]     4 GCTA</code></pre>
-<p>Note that the alphabet of a <code>DNAString</code> is an extended alphabet: <code>-</code> (for insertion) and <code>N</code> are allowed. In fact, IUPAC codes are allowed (these codes represent different characters, for example the code “M” represents either and “A” or a “C”). A list of IUPAC codes can be obtained by</p>
-<pre class="r"><code>IUPAC_CODE_MAP</code></pre>
-<pre><code>##      A      C      G      T      M      R      W      S      Y      K 
-##    &quot;A&quot;    &quot;C&quot;    &quot;G&quot;    &quot;T&quot;   &quot;AC&quot;   &quot;AG&quot;   &quot;AT&quot;   &quot;CG&quot;   &quot;CT&quot;   &quot;GT&quot; 
-##      V      H      D      B      N 
-##  &quot;ACG&quot;  &quot;ACT&quot;  &quot;AGT&quot;  &quot;CGT&quot; &quot;ACGT&quot;</code></pre>
-<p>Indexing into a <code>DNAString</code> retrieves a subsequence (similar to the standard R function <code>substr</code>), whereas indexing into a <code>DNAStringSet</code> gives you a subset of sequences.</p>
-<pre class="r"><code>dna1[2:4]</code></pre>
-<pre><code>##   3-letter &quot;DNAString&quot; instance
-## seq: CGT</code></pre>
-<pre class="r"><code>dna2[2:3]</code></pre>
-<pre><code>##   A DNAStringSet instance of length 2
-##     width seq
-## [1]     4 GTCA
-## [2]     4 GCTA</code></pre>
-<p>Note that <code>[[</code> allows you to get a single element of a <code>DNAStringSet</code> as a <code>DNAString</code>. This is very similar to <code>[</code> and <code>[[</code> for lists.</p>
-<pre class="r"><code>dna2[[2]] </code></pre>
-<pre><code>##   4-letter &quot;DNAString&quot; instance
-## seq: GTCA</code></pre>
-<p><code>DNAStringSet</code> objects can have names, like ordinary vectors</p>
-<pre class="r"><code>names(dna2) &lt;- paste0(&quot;seq&quot;, 1:3)
-dna2</code></pre>
-<pre><code>##   A DNAStringSet instance of length 3
-##     width seq                                          names               
-## [1]     4 ACGT                                         seq1
-## [2]     4 GTCA                                         seq2
-## [3]     4 GCTA                                         seq3</code></pre>
-<p>The full set of string classes are</p>
-<ul>
-<li><code>DNAString[Set]</code>: DNA sequences.</li>
-<li><code>RNAString[Set]</code>: RNA sequences.</li>
-<li><code>AAString[Set]</code>: Amino Acids sequences (protein).</li>
-<li><code>BString[Set]</code>: “Big” sequences, using any kind of letter.</li>
-</ul>
-<p>In addition you will often see references to <code>XString[Set]</code> in the documentation. An <code>XString[Set]</code> is basically any of the above classes.</p>
-<p>These classes seem very similar to standard <code>characters()</code> from base R, but there are important differences. The differences are mostly about efficiencies when you deal with either (a) many sequences or (b) very long strings (think whole chromosomes).</p>
-</div>
-<div id="basic-functionality" class="section level2">
-<h2>Basic functionality</h2>
-<p>Basic character functionality is supported, like</p>
-<ul>
-<li><code>length</code>, <code>names</code>.</li>
-<li><code>c</code> and <code>rev</code> (reverse the sequence).</li>
-<li><code>width</code>, <code>nchar</code> (number of characters in each sequence).</li>
-<li><code>==</code>, <code>duplicated</code>, <code>unique</code>.</li>
-<li><code>as.charcater</code> or <code>toString</code>: converts to a base <code>character()</code> vector.</li>
-<li><code>sort</code>, <code>order</code>.</li>
-<li><code>chartr</code>: convert some letters into other letters.</li>
-<li><code>subseq</code>, <code>subseq&lt;-</code>, <code>extractAt</code>, <code>replaceAt</code>.</li>
-<li><code>replaceLetterAt</code>.</li>
-</ul>
-<p>Examples</p>
-<pre class="r"><code>width(dna2)</code></pre>
-<pre><code>## [1] 4 4 4</code></pre>
-<pre class="r"><code>sort(dna2)</code></pre>
-<pre><code>##   A DNAStringSet instance of length 3
-##     width seq                                          names               
-## [1]     4 ACGT                                         seq1
-## [2]     4 GCTA                                         seq3
-## [3]     4 GTCA                                         seq2</code></pre>
-<pre class="r"><code>rev(dna2)</code></pre>
-<pre><code>##   A DNAStringSet instance of length 3
-##     width seq                                          names               
-## [1]     4 GCTA                                         seq3
-## [2]     4 GTCA                                         seq2
-## [3]     4 ACGT                                         seq1</code></pre>
-<pre class="r"><code>rev(dna1)</code></pre>
-<pre><code>##   6-letter &quot;DNAString&quot; instance
-## seq: N-TGCA</code></pre>
-<p>Note that <code>rev</code> on a <code>DNAStringSet</code> just reverse the order of the elements, whereas <code>rev</code> on a <code>DNAString</code> actually reverse the string.</p>
-</div>
-<div id="biological-functionality" class="section level2">
-<h2>Biological functionality</h2>
-<p>There are also functions which are related to the biological interpretation of the sequences, including</p>
-<ul>
-<li><code>reverse</code>: reverse the sequence.</li>
-<li><code>complement</code>, <code>reverseComplement</code>: (reverse) complement the sequence.</li>
-<li><code>translate</code>: translate the DNA or RNA sequence into amino acids.</li>
-</ul>
-<pre class="r"><code>translate(dna2)</code></pre>
-<pre><code>##   A AAStringSet instance of length 3
-##     width seq                                          names               
-## [1]     1 T                                            seq1
-## [2]     1 V                                            seq2
-## [3]     1 A                                            seq3</code></pre>
-<pre class="r"><code>reverseComplement(dna1)</code></pre>
-<pre><code>##   6-letter &quot;DNAString&quot; instance
-## seq: N-ACGT</code></pre>
-</div>
-<div id="counting-letters" class="section level2">
-<h2>Counting letters</h2>
-<p>We very often want to count sequences in various ways. Examples include:</p>
-<ul>
-<li>Compute the GC content of a set of sequences.</li>
-<li>Compute the frequencies of dinucleotides in a set of sequences.</li>
-<li>Compute a position weight matrix from a set of aligned sequences.</li>
-</ul>
-<p>There is a rich set of functions for doing this quickly.</p>
-<ul>
-<li><code>alphabetFrequency</code>, <code>letterFrequency</code>: Compute the frequency of all characters (<code>alphabetFrequency</code>) or only specific letters (<code>letterFrequency</code>).</li>
-<li><code>dinucleotideFrequency</code>, <code>trinucleotideFrequency</code>, <code>oligonucleotideFrequeny</code>: compute frequencies of dinucleotides (2 bases), trinucleotides (3 bases) and oligonucleotides (general number of bases).</li>
-<li><code>letterFrequencyInSlidingView</code>: letter frequencies, but in sliding views along the string.</li>
-<li><code>consensusMatrix</code>: consensus matrix; almost a position weight matrix.</li>
-</ul>
-<p>Let’s look at some examples, note how the output expands to a matrix when you use the functions on a <code>DNAStringSet</code>:</p>
-<pre class="r"><code>alphabetFrequency(dna1)</code></pre>
-<pre><code>## A C G T M R W S Y K V H D B N - + . 
-## 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 0 0</code></pre>
-<pre class="r"><code>alphabetFrequency(dna2)</code></pre>
-<pre><code>##      A C G T M R W S Y K V H D B N - + .
-## [1,] 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [2,] 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [3,] 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
-<pre class="r"><code>letterFrequency(dna2, &quot;GC&quot;)</code></pre>
-<pre><code>##      G|C
-## [1,]   2
-## [2,]   2
-## [3,]   2</code></pre>
-<pre class="r"><code>consensusMatrix(dna2, as.prob = TRUE)</code></pre>
-<pre><code>##        [,1]      [,2]      [,3]      [,4]
-## A 0.3333333 0.0000000 0.0000000 0.6666667
-## C 0.0000000 0.6666667 0.3333333 0.0000000
-## G 0.6666667 0.0000000 0.3333333 0.0000000
-## T 0.0000000 0.3333333 0.3333333 0.3333333
-## M 0.0000000 0.0000000 0.0000000 0.0000000
-## R 0.0000000 0.0000000 0.0000000 0.0000000
-## W 0.0000000 0.0000000 0.0000000 0.0000000
-## S 0.0000000 0.0000000 0.0000000 0.0000000
-## Y 0.0000000 0.0000000 0.0000000 0.0000000
-## K 0.0000000 0.0000000 0.0000000 0.0000000
-## V 0.0000000 0.0000000 0.0000000 0.0000000
-## H 0.0000000 0.0000000 0.0000000 0.0000000
-## D 0.0000000 0.0000000 0.0000000 0.0000000
-## B 0.0000000 0.0000000 0.0000000 0.0000000
-## N 0.0000000 0.0000000 0.0000000 0.0000000
-## - 0.0000000 0.0000000 0.0000000 0.0000000
-## + 0.0000000 0.0000000 0.0000000 0.0000000
-## . 0.0000000 0.0000000 0.0000000 0.0000000</code></pre>
-<p>(most functions allows the return of probabilities with <code>as.prob = TRUE</code>).</p>
 </div>
 <div id="genomes" class="section level2">
 <h2>Genomes</h2>
@@ -391,7 +229,7 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 <p></p>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X 10.10.4 (Yosemite)
+## Running under: OS X 10.10.5 (Yosemite)
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -403,11 +241,11 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 ## other attached packages:
 ##  [1] BSgenome.Scerevisiae.UCSC.sacCer2_1.4.0
 ##  [2] BSgenome_1.36.3                        
-##  [3] rtracklayer_1.28.7                     
-##  [4] GenomicRanges_1.20.5                   
-##  [5] GenomeInfoDb_1.4.1                     
-##  [6] Biostrings_2.36.3                      
-##  [7] XVector_0.8.0                          
+##  [3] rtracklayer_1.28.8                     
+##  [4] Biostrings_2.36.3                      
+##  [5] XVector_0.8.0                          
+##  [6] GenomicRanges_1.20.5                   
+##  [7] GenomeInfoDb_1.4.2                     
 ##  [8] IRanges_2.2.7                          
 ##  [9] S4Vectors_0.6.3                        
 ## [10] BiocGenerics_0.14.0                    
@@ -415,7 +253,7 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 ## [12] rmarkdown_0.7                          
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] knitr_1.10.5            magrittr_1.5           
+##  [1] knitr_1.11              magrittr_1.5           
 ##  [3] zlibbioc_1.14.0         GenomicAlignments_1.4.1
 ##  [5] BiocParallel_1.2.20     stringr_1.0.0          
 ##  [7] tools_3.2.1             lambda.r_1.1.7         
@@ -423,15 +261,12 @@ bsapply(param, letters = &quot;GC&quot;)</code></pre>
 ## [11] yaml_2.1.13             digest_0.6.8           
 ## [13] formatR_1.2             futile.options_1.0.0   
 ## [15] bitops_1.0-6            RCurl_1.95-4.7         
-## [17] evaluate_0.7            stringi_0.5-5          
+## [17] evaluate_0.7.2          stringi_0.5-5          
 ## [19] BiocInstaller_1.18.4    Rsamtools_1.20.4       
 ## [21] XML_3.98-1.3</code></pre>
 </div>
 <div id="references" class="section level2 references unnumbered">
 <h2>References</h2>
-<div id="ref-Durbin:1998">
-<p>Durbin, Richard M, Sean R Eddy, Anders Krogh, Graeme Mitchison, and Sean R Eddy. 1998. <em>Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids</em>. Cambridge University Press.</p>
-</div>
 </div>
 
 
