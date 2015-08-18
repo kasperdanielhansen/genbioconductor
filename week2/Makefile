@@ -5,7 +5,8 @@ RMDS=SummarizedExperiment ExpressionSet\
      Biostrings BSgenome\
      Biostrings_Matching BSgenome_Views\
      GenomicRanges_Rle GenomicRanges_Lists\
-     GenomicFeatures
+     GenomicFeatures\
+     rtracklayer_Import
 
 %.html : %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
@@ -40,6 +41,8 @@ GenomicRanges_Lists : GenomicRanges_Lists.html
 GEOquery : GEOquery.html
 
 GenomicFeatures : GenomicFeatures.html
+
+rtracklayer_Import : rtracklayer_Import.html
 
 all : $(RMDS)
 

@@ -158,7 +158,10 @@ Installing Bioconductor
 ([HTML](week2/GenomicFeatures.html) |
 [R code](week2/GenomicFeatures.R) |
 [Source](week2/GenomicFeatures.Rmd))
-- FIXME: make Rmd file for rtracklayer: import data
+- **rtracklayer - Data Import** FIXME: make video  
+([HTML](week2/rtracklayer_Import.html) |
+[R code](week2/rtracklayer_Import.R) |
+[Source](week2/rtracklayer_Import.Rmd))
 - FIXME: make Rmd file for rtracklayer: interface with browser
 
 (29 minutes + 5*FIXME)

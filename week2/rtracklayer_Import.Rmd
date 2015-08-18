@@ -1,0 +1,168 @@
+---
+title: "rtracklayer - Data Import"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(rtracklayer)
+library(AnnotationHub)
+library(Rsamtools)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("rtracklayer", "AnnotationHub", "Rsamtools"))
+```
+
+## Overview
+
+The `r Biocpkg("rtracklayer")` package interfaces to (UCSC) Genome Browser.  It contains functions for importing and exporting data to this browser.
+
+This includes functionality for parsing file formats associated the UCSC Genome Browser such as BED, Wig, BigBed and BigWig.
+
+## Other Resources
+
+- The vignette from the [rtracklayer webpage](http://bioconductor.org/packages/rtracklayer).
+
+## The import function
+
+The function to parse data formats is `import()`.  This function has a `format` argument taking values such as `BED` or `BigWig`.
+
+Note that there is a help page for the general `import()` function, but there are also file format specific help pages.  The easiest way to get to these help pages is to look for `XXFile` with `XX` being the format.
+
+```{r help, eval=FALSE}
+?import
+?BigWigFile
+```
+
+There are often format specific arguments.
+
+## BED files
+
+Most BED files are small and can be read as a single object.  The output of `import(format = "BED")` is a `GRanges`.
+
+You can specify `genome` (for example `hg19`) and the function will try to make an effort to populated the `seqinfo` of the `GRanges`.
+
+You can also use the `which` argument to selectively parse a subset of the file which overlaps a `GRanges`.  This becomes much more efficient if the file has been tabix-indexed (see below).
+
+## BigWig files
+
+BigWig files typically store whole-genome coverage vectors (or at least whole-genome data).  For this reason, the R representation of a BigWig file is usually quite big, so it might be necessary to read it into R in small chunks.
+
+As for BED files, `import(format="BigWig")` supports a `which` argument which is a `GRanges`.  It output data type is a `GRanges` per default, but using the `as` agurment you can have `as="Rle"` and a few other options.
+
+The `import(format="BigWig")` does not support a `genome` argument.
+
+## Other file formats
+
+- GFF
+- TwoBit
+- Wig
+- bedGRaph
+
+## Extensive example
+
+Let us start an `AnnotationHub`:
+
+```{r ahub}
+library(AnnotationHub)
+ahub <- AnnotationHub()
+table(ahub$rdataclass)
+```
+
+At this point, you should have seen several of these file formats mentioned.  The `GRanges` are usually directly constructed from BED file, and the `seqinfo` information is fully populated:
+```{r granges}
+ahub.gr <- subset(ahub, rdataclass == "GRanges" & species == "Homo sapiens")
+gr <- ahub.gr[[1]]
+gr
+seqinfo(gr)
+```
+
+Perhaps more interesting is the data in form of BigWig files.
+```{r BigWig}
+ahub.bw <- subset(ahub, rdataclass == "BigWigFile" & species == "Homo sapiens")
+ahub.bw
+bw <- ahub.bw[[1]]
+bw
+```
+This returns us a file name, ready for use by `import`.
+```{r importBigWig}
+gr1 <- gr[1:3]
+out.gr <- import(bw, which = gr1)
+out.gr
+```
+This gives us the content in the form of a `GRanges`.  Often, an `Rle` might be appropriate:
+```{r importBigWig2}
+out.rle <- import(bw, which = gr1, as = "Rle")
+out.rle
+```
+You can get all of `chr22` by
+```{r importBigWig3}
+gr.chr22 <- GRanges(seqnames = "chr22",
+                    ranges = IRanges(start = 1, end = seqlengths(gr)["chr22"]))
+out.chr22 <- import(bw, which = gr.chr22, as = "Rle")
+out.chr22[["chr22"]]
+```
+
+
+## LiftOver
+
+LiftOver is a popular tool from the UCSC Genome Browser for converting between different genome versions.  The `r Biocpkg("rtracklayer")` package also exposes this function through the `liftOver`.  To use `liftOver` you need a so-called "chain" file describing how to convert from one genome to another.  This can be obtained by hand from UCSC, or directly from `r Biocpkg("AnnotationHub")`.
+
+We can re-use our `AnnotationHub`:
+
+```{r liftOver}
+ahub.chain <- subset(ahub, rdataclass == "ChainFile" & species == "Homo sapiens")
+query(ahub.chain, c("hg18", "hg19"))
+chain <- ahub.chain[ahub.chain$title == "hg19ToHg18.over.chain.gz"]
+chain <- chain[[1]]
+gr.hg18 <- liftOver(gr, chain)
+gr.hg18
+```
+This converts a `GRanges` into a `GRangesList`, why?  This is because a single range (interval) may be split into multiple intervals in the other genome.  So each element in the output correspond to a single range in the input.  If the ranges are small, most ranges should be mapped to a single range.  Let us look at the number of elements in output:
+```{r liftOver2}
+table(elementLengths(gr.hg18))
+```
+Only a few ranges were not mapped and only a few were split.
+
+## Importing directly from UCSC
+
+Using `r Biocpkg("rtracklayer")` you can import tables and tracks directly from the UCSC Genome Browser.  However, it is now possible to get a lot (all?) of this data from `r Biocpkg("AnnotationHub")` and this later package seems friendlier.
+
+It is possible that not all tracks / tables and/or all information from the different track / tables from UCSC are exposed in `r Biocpkg("AnnotationHub")`.
+
+See a detailed exposition in the package vignette.
+
+## Tabix indexing
+
+Tabix indexing is a way to index a text file with chromosomal positions for random access.  This will greatly speed up any querying of such a file.  The [tabix](http://www.htslib.org/doc/tabix.html) functionality was introduced in the SAMtools library; this library was later renamed to htslib.
+
+Tabix indexing is usually something you do at the command line, but there is also the convenient possibility of doing it from inside Bioconductor using `indexTabix` from the `r Biocpkg("Rsamtools")` package.  First however, the file needs to be bgzip2 compressed, which you can do using the `bgzip2` function.  A full pipeline, using an example SAM file from `r Biocpkg("Rsamtools")` is
+```{r tabixIndex}
+library(Rsamtools)
+from <- system.file("extdata", "ex1.sam", package="Rsamtools",
+                    mustWork=TRUE)
+from
+to <- tempfile()
+zipped <- bgzip(from, to)
+idx <- indexTabix(zipped, "sam")
+```
+see also the help page for `indexTabix`.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
