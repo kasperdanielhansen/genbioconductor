@@ -4,7 +4,7 @@ RMDS=SummarizedExperiment ExpressionSet\
      Biostrings_Basic Biostrings_Intermediate\
      GenomicRanges_Rle GenomicRanges_Lists
 
-%.html: %.Rmd .FORCE
+%.html : %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
                        render("$*.Rmd", \
                               output_format="BiocStyle::html_document",\
@@ -14,27 +14,29 @@ RMDS=SummarizedExperiment ExpressionSet\
 	sed -i.bak -nEe '/## ----dependencies/, $$p' $*.R
 	rm $*.R.bak
 
-.PHONY: fixme all clean $(RMDS)
+.PHONY : fixme all clean $(RMDS)
 
 .FORCE :
 
-ExpressionSet: ExpressionSet.html
+ExpressionSet : ExpressionSet.html
 
-SummarizedExperiment: SummarizedExperiment.html
+SummarizedExperiment : SummarizedExperiment.html
 
-Biostrings_Intermediate: Biostrings_Intermediate.html
+Biostrings_Intermediate : Biostrings_Intermediate.html
 
-Biostrings_Basic: Biostrings_Basic.html
+Biostrings_Basic : Biostrings_Basic.html
 
-GenomicRanges_Rle: GenomicRanges_Rle.html
+GenomicRanges_Rle : GenomicRanges_Rle.html
 
-GenomicRanges_Lists: GenomicRanges_Lists.html
+GenomicRanges_Lists : GenomicRanges_Lists.html
 
-all: $(RMDS)
+GEOquery : GEOquery.html
 
-fixme:
+all : $(RMDS)
+
+fixme :
 	grep FIXME *.Rmd *.md
 
-clean:
+clean :
 	rm -f *~ *.pdf
 

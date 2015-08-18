@@ -108,23 +108,26 @@ Installing Bioconductor
 ([HTML](week2/SummarizedExperiment.html) |
 [R code](week2/SummarizedExperiment.R) |
 [Source](week2/SummarizedExperiment.Rmd))
-- FIXME: make Rmd file for GEOquery
+- **GEOquery** FIXME: make video  
+([HTML](week2/GEOquery.html) |
+[R code](week2/GEOquery.R) |
+[Source](week2/GEOquery.Rmd))
 
 ## Core Bioconductor packages
 
-- **Biostrings, Basic Usage** FIXME: make video  
+- **Biostrings - Basic Usage** FIXME: make video  
 ([HTML](week2/Biostrings_Basic.html) |
 [R code](week2/Biostrings_Basic.R) |
 [Source](week2/Biostrings_Basic.Rmd))
-- **Biostrings, Intermediate Usage** FIXME: make video  
+- **Biostrings - Intermediate Usage** FIXME: make video  
 ([HTML](week2/Biostrings_Intermediate.html) |
 [R code](week2/Biostrings_Intermediate.R) |
 [Source](week2/Biostrings_Intermediate.Rmd))
-- **GenomicRanges, Rle** FIXME: make video  
+- **GenomicRanges - Rle** FIXME: make video  
 ([HTML](week2/GenomicRanges_Rle.html) |
 [R code](week2/GenomicRanges_Rle.R) |
 [Source](week2/GenomicRanges_Rle.Rmd))
-- **GenomicRanges,Lists** FIXME: make video  
+- **GenomicRanges - Lists** FIXME: make video  
 ([HTML](week2/GenomicRanges_Lists.html) |
 [R code](week2/GenomicRanges_Lists.R) |
 [Source](week2/GenomicRanges_Lists.Rmd))
