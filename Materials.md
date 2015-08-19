@@ -54,10 +54,10 @@ Installing Bioconductor
 - **An Introduction to R** (ships with R)  
 ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) |
 [PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf))
-- **R Overview** FIXME: make video  
-([HTML](week1/R_Overview.html) |
-[R code](week1/R_Overview.R) |
-[Source](week1/R_Overview.Rmd))
+- **R Base Types** FIXME: make video  
+([HTML](week1/R_Base_Types.html) |
+[R code](week1/R_base_Types.R) |
+[Source](week1/R_Base_Types.Rmd))
 
 
 (26 minutes + R Overview)
@@ -82,6 +82,10 @@ Installing Bioconductor
 [HTML](week1/GenomicRanges_GRanges_Usage.html) |
 [R code](week1/GenomicRanges_GRanges_Usage.R) |
 [Source](week1/GenomicRanges_GRanges_Usage.Rmd))
+- **GenomicRanges - seqinfo** FIXME: make video  
+([HTML](week1/GenomicRanges_seqinfo.html) |
+[R code](week1/GenomicRanges_seqinfo.R) |
+[Source](week1/GenomicRanges_seqinfo.Rmd))
 - **AnnotationHub - Basic Usage** (8:23)  
 ([Video](dropbox/Videos/AnnotationHub.mp4) |
 [HTML](week1/AnnotationHub.html) |
@@ -91,7 +95,6 @@ Installing Bioconductor
 ([HTML](week1/Usecase_AnnotationHub_GRanges.html) |
 [R code](week1/Usecase_AnnotationHub_GRanges.R) |
 [Source](week1/Usecase_AnnotationHub_GRanges.Rmd))
-- FIXME: make video and script for GenomeInfoDb
 
 (42 minutes + FIXME)
 
@@ -162,13 +165,12 @@ Installing Bioconductor
 ([HTML](week2/rtracklayer_Import.html) |
 [R code](week2/rtracklayer_Import.R) |
 [Source](week2/rtracklayer_Import.Rmd))
-- FIXME: make Rmd file for rtracklayer: interface with browser
 
 (29 minutes + 5*FIXME)
 
 ## R programming
 
-- FIXME: make Rmd file for S4 classes and methods
+- **S4 objects and methods** FIXME: make Rmd file
 
 ## Useful skills
 
@@ -200,6 +202,7 @@ FIXME: video and/or text presenting useful skills. Perhaps move to week 2
 
 - **GViz**
 - **ggbio**
+- FIXME: make Rmd file for rtracklayer: interface with browser
 
 Both?
 
