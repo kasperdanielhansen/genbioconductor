@@ -48,7 +48,6 @@ Think of this as an expanded and more versatile class.
 
 `GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
 
-```{r}
 ```{r GRanges}
 gr <- GRanges(seqnames = "chr1", strand = c("+", "-", "+"),
               ranges = IRanges(start = c(1,3,5), width = 3))
@@ -134,9 +133,6 @@ findOverlaps(dmrs, big_islands)
 ``` 
 
 (watch out for strand)
-
-
-FIXME: makeGRangesFromDataFrame
 
 ## SessionInfo
 

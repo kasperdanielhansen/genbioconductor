@@ -3,7 +3,7 @@ title: "Installing Bioconductor"
 author: "Kasper D. Hansen"
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Installing Bioconductor

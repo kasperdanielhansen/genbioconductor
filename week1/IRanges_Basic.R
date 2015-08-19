@@ -31,26 +31,26 @@ ir1["A1"]
 ## ----concatenate---------------------------------------------------------
 c(ir1, ir2)
 
-## ---- echo=FALSE---------------------------------------------------------
+## ----irNormal1, echo=FALSE-----------------------------------------------
 ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
 
-## ---- echo=FALSE, fig.height=2, small.mar=TRUE---------------------------
+## ----irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE-----------------
 plotRanges(ir)
 
-## ---- echo=FALSE, fig.height=1.75, small.mar=TRUE------------------------
+## ----irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE--------------
 plotRanges(reduce(ir))
 
-## ------------------------------------------------------------------------
+## ----irNormal4-----------------------------------------------------------
 ir
 reduce(ir)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ----irDisjoin1, eval=FALSE----------------------------------------------
 ## disjoin(ir1)
 
-## ---- echo=FALSE, fig.height=2, small.mar=TRUE---------------------------
+## ----irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE----------------
 plotRanges(ir)
 
-## ---- echo=FALSE, fig.height=1.75, small.mar=TRUE------------------------
+## ----irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE-------------
 plotRanges(disjoin(ir))
 
 ## ----ir_resize-----------------------------------------------------------
@@ -80,13 +80,13 @@ intersect(ir1[subjectHits(ov)[1]],
 queryHits(ov)
 unique(queryHits(ov))
 
-## ---- tidy=TRUE----------------------------------------------------------
+## ----argsFindOverlaps, tidy=TRUE-----------------------------------------
 args(findOverlaps)
 
 ## ----countOverlaps-------------------------------------------------------
 countOverlaps(ir1, ir2)
 
-## ------------------------------------------------------------------------
+## ----nearest-------------------------------------------------------------
 ir1
 ir2
 nearest(ir1, ir2)

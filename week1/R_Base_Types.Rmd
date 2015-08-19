@@ -1,10 +1,10 @@
 ---
-title: "R overview"
+title: "R - Base Types"
 author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies
@@ -205,7 +205,7 @@ This is how you convert most Bioconductor objects.
 
 \scriptsize
 
-```{r sessionInfo}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

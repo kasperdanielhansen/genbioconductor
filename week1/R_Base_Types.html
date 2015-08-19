@@ -11,7 +11,7 @@
 <meta name="author" content="Kasper D. Hansen" />
 
 
-<title>R overview</title>
+<title>R - Base Types</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -40,7 +40,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 <div id="header">
-<h1 class="title">R overview</h1>
+<h1 class="title">R - Base Types</h1>
 <h4 class="author"><em>Kasper D. Hansen</em></h4>
 </div>
 
@@ -245,14 +245,14 @@ x[1:2]</code></pre>
 <pre class="r"><code>x &lt;- list(a = rnorm(3), b = rnorm(3))
 lapply(x, mean)</code></pre>
 <pre><code>## $a
-## [1] 0.5905532
+## [1] 0.6002881
 ## 
 ## $b
-## [1] 0.2196875</code></pre>
+## [1] 0.215511</code></pre>
 <p>If the output of the function is of the same kind, you can simplify the output using <code>sapply</code> (simplify apply). This is particularly useful if the function in question returns a single number.</p>
 <pre class="r"><code>sapply(x, mean)</code></pre>
 <pre><code>##         a         b 
-## 0.5905532 0.2196875</code></pre>
+## 0.6002881 0.2155110</code></pre>
 </div>
 </div>
 <div id="data-frames" class="section level2">
@@ -312,7 +312,6 @@ as(x, &quot;matrix&quot;)</code></pre>
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>
 <p></p>
-<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
 ## Running under: OS X 10.10.5 (Yosemite)

@@ -4,7 +4,7 @@ author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies

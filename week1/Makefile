@@ -1,9 +1,11 @@
 R_SCRIPT=/usr/bin/Rscript
 
-RMDS=R_Overview IRanges_Basic\
+RMDS=Install_Bioconductor Online_Resources\
+     R_Base_Types\
+     IRanges_Basic\
      GenomicRanges_GRanges GenomicRanges_GRanges_Usage\
-     AnnotationHub Usecase_AnnotationHub_GRanges\
-     Install_Bioconductor Online_Resources
+     AnnotationHub Usecase_AnnotationHub_GRanges
+
 
 %.html: %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
@@ -25,6 +27,8 @@ Install_Bioconductor : Install_Bioconductor.html
 Online_Resources : Online_Resources.html
 	rm Online_Resources.R
 
+R_Base_Types : R_Base_Types.html
+
 IRanges_Basic : IRanges_Basic.html
 
 GenomicRanges_GRanges : GenomicRanges_GRanges.html
@@ -34,8 +38,6 @@ GenomicRanges_GRanges_Usage : GenomicRanges_GRanges_Usage.html
 AnnotationHub : AnnotationHub.html
 
 Usecase_AnnotationHub_GRanges : Usecase_AnnotationHub_GRanges.html
-
-R_Overview : R_Overview.html
 
 all: $(RMDS)
 

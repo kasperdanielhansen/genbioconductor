@@ -4,7 +4,7 @@ author: Kasper D. Hansen
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies
@@ -175,7 +175,7 @@ sum(width(reduce(promoters, ignore.strand = TRUE))) / 10^6
 Strand can be troublesome!
 
 Let us compute a small 2x2 matrix for which bases are in promoters and/or peaks:
-```{r}
+```{r promInOut}
 prom <- reduce(promoters, ignore.strand = TRUE)
 peaks <- reduce(gr1)
 both <- intersect(prom, peaks)
@@ -212,7 +212,7 @@ Here we basically says that each base can be assigned to peaks or promoters inde
 
 \scriptsize
 
-```{r sessionInfo}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

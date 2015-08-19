@@ -1,11 +1,10 @@
 ---
 title: AnnotationHub
 author: Kasper D. Hansen
-fontsize: 10pt
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies
@@ -95,7 +94,7 @@ hist <- display(ah)
 
 \scriptsize
 
-```{r sessionInfo}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

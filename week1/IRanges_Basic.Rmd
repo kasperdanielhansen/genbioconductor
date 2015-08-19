@@ -1,7 +1,6 @@
 ---
 author: Kasper D. Hansen
 title: IRanges - Basic Usage
-fontsize: 10pt
 bibliography: genbioconductor.bib
 ---
 
@@ -87,19 +86,19 @@ c(ir1, ir2)
 
 A normal IRanges is a minimal representation of the IRanges viewed as a set.  Each integer only occur in a single range and there are as few ranges as possible.  In addition, it is ordered.  Many functions produce a normal `IRanges`.  Created by `reduce()`.
 
-```{r, echo=FALSE}
+```{r irNormal1, echo=FALSE}
 ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
 ``` 
 
-```{r, echo=FALSE, fig.height=2, small.mar=TRUE}
+```{r irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE}
 plotRanges(ir)
 ``` 
 
-```{r, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+```{r irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
 plotRanges(reduce(ir))
 ``` 
 
-```{r}
+```{r irNormal4}
 ir
 reduce(ir)
 ``` 
@@ -111,15 +110,15 @@ Answers: "Given a set of overlapping exons, which bases belong to an exon?"
 
 From some perspective, `disjoin()` is the opposite of `reduce()`.  An example explains better:
 
-```{r, eval=FALSE}
+```{r irDisjoin1, eval=FALSE}
 disjoin(ir1)
 ```
 
-```{r, echo=FALSE, fig.height=2, small.mar=TRUE}
+```{r irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE}
 plotRanges(ir)
 ``` 
 
-```{r, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+```{r irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
 plotRanges(disjoin(ir))
 ``` 
 
@@ -191,7 +190,7 @@ unique(queryHits(ov))
 
 The list of arguments to `findOverlaps()` is long; there are a few hidden treasures here.  For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.
 
-```{r, tidy=TRUE}
+```{r argsFindOverlaps, tidy=TRUE}
 args(findOverlaps)
 ``` 
 
@@ -207,7 +206,7 @@ countOverlaps(ir1, ir2)
 
 Sometimes you have two sets of `IRanges` and you need to know which ones are closest to each other.  Functions for this include `nearest()`, `precede()`, `follow()`.  Watch out for ties!
 
-```{r}
+```{r nearest}
 ir1
 ir2
 nearest(ir1, ir2)
