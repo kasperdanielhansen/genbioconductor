@@ -3,7 +3,8 @@ R_SCRIPT=/usr/bin/Rscript
 RMDS=Install_Bioconductor Online_Resources\
      R_Base_Types\
      IRanges_Basic\
-     GenomicRanges_GRanges GenomicRanges_GRanges_Usage\
+     GenomicRanges_GRanges GenomicRanges_seqinfo\
+     GenomicRanges_GRanges_Usage\
      AnnotationHub Usecase_AnnotationHub_GRanges
 
 
@@ -32,6 +33,8 @@ R_Base_Types : R_Base_Types.html
 IRanges_Basic : IRanges_Basic.html
 
 GenomicRanges_GRanges : GenomicRanges_GRanges.html
+
+GenomicRanges_seqinfo : GenomicRanges_seqinfo.html
 
 GenomicRanges_GRanges_Usage : GenomicRanges_GRanges_Usage.html
 

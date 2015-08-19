@@ -1,10 +1,10 @@
 ---
-title: "GenomeInfoDb"
+title: "GenomicRanges - seqinfo"
 author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies
@@ -24,12 +24,41 @@ biocLite(c("GenomeInfoDb", "GenomicRanges"))
 ```
 
 ## Overview
-  
+
+The `GRanges` class contains `seqinfo` information about the length and the names of the chromosomes.  Here we will briefly discuss strategies for harmonizing this information.
+
 The `r Biocpkg("GenomeInfoDb")` package addresses a seemingly small, but consistent problem: different online resources uses different naming conventions for chromosomes.  In more technical jargon, this package helps keeping your `seqinfo` and `seqlevels` harmonized.
 
 ## Other Resources
 
 - The vignette from the [GenomeInfoDb webpage](http://bioconductor.org/packages/GenomeInfoDb).
+
+## Drop and keep seqlevels
+
+It is common to want to remove `seqlevels` from a `GRanges` object.  Here are some equivalent methods
+
+```{r seqlevelsForce}
+gr <- GRanges(seqnames = c("chr1", "chr2"),
+              ranges = IRanges(start = 1:2, end = 4:5))
+seqlevels(gr, force=TRUE) <- "chr1"
+gr
+```
+
+In `r Biocpkg("GenomeInfoDb")` (loaded when you load `r Biocpkg("GenomicRanges")`) you find `dropSeqlevels()` and `keepSeqlevels()`. 
+
+```{r dropSeqlevels}
+gr <- GRanges(seqnames = c("chr1", "chr2"),
+              ranges = IRanges(start = 1:2, end = 4:5))
+dropSeqlevels(gr, "chr1")
+keepSeqlevels(gr, "chr2")
+```
+
+You can also just get rid of weird looking chromosome names with `keepStandardChromosomes()`.
+```{r keepStandard}
+gr <- GRanges(seqnames = c("chr1", "chrU345"),
+              ranges = IRanges(start = 1:2, end = 4:5))
+keepStandardChromosomes(gr)
+```
 
 ## Changing style
 
@@ -46,22 +75,13 @@ gr <- renameSeqlevels(gr, newStyle)
 ```
 This can in principle go wrong, if the original set of `seqlevels` are inconsistent (not a single style).
 
-Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` as well.
-
 The `r Biocpkg("GenomeInfoDb")` also contains information for dropping / keeping various classes of chromosomes:
 
-- `dropSeqlevels`
-- `keepSeqlevels`
-- `keepStandardChromosomes`
+## Using information from BSgenome packages
 
+`BSgenome` packages contains `seqinfo` on their genome objects.  This contains `seqlengths` and other information.  An easy trick is to use these packages to correct your `seqinfo` information.
 
-An easy way to drop chromosomes is by
-```{r seqlevelsForce}
-seqlevels(gr2, force = TRUE) <- "chr1"
-gr2
-```
-
-FIXME: need to test and 
+Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` in `r Biocpkg("GenomeInfoDb")` so we can avoid using the big genome packages.
 
 ## SessionInfo
 
