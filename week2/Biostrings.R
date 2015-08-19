@@ -42,6 +42,6 @@ alphabetFrequency(dna2)
 letterFrequency(dna2, "GC")
 consensusMatrix(dna2, as.prob = TRUE)
 
-## ---- echo=FALSE---------------------------------------------------------
+## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
 

@@ -4,7 +4,7 @@ author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
 
-```{r child="front.Rmd", echo=FALSE}
+```{r front, child="front.Rmd", echo=FALSE}
 ```
 
 ## Dependencies
@@ -49,7 +49,7 @@ ALL
 This is an experiment done on an Affymetrix HGU 95av2 gene expression microarray; the authors profiled 128 samples.
 
 Because this is data from an experiment package, there is documentation in the help page for the dataset, see
-```{r eval=FALSE}
+```{r help, eval=FALSE}
 ?ALL
 ```
 

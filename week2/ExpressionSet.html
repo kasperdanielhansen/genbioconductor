@@ -82,7 +82,7 @@ biocLite(c(&quot;Biobase&quot;, &quot;ALL&quot;, &quot;hgu95av2.db&quot;))</code
 </div>
 <div id="start" class="section level2">
 <h2>Start</h2>
-<p>An example dataset, stored as an <code>ExpressionSet</code> is available in the <em><a href="http://bioconductor.org/packages/release/bioc/html/ALL.html">ALL</a></em> package. This package is an example of an “experimental data” package“; a bundling of a full experiment inside an R package. These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.</p>
+<p>An example dataset, stored as an <code>ExpressionSet</code> is available in the <em><a href="http://bioconductor.org/packages/release/data/experiment/html/ALL.html">ALL</a></em> package. This package is an example of an “experimental data” package“; a bundling of a full experiment inside an R package. These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.</p>
 <pre class="r"><code>library(ALL)
 data(ALL)
 ALL</code></pre>
@@ -256,7 +256,7 @@ as.list(hgu95av2ENTREZID[ids])</code></pre>
 ## 
 ## $`1004_at`
 ## [1] &quot;643&quot;</code></pre>
-<p>This gives us the Entrez ID associated with the different measurements. There are a number of so-called “maps” like <code>hgu95av2XX</code> with <code>XX</code> having multiple values. This approach is very specific to Affymetrix chips. An alternative to using annotation packages is to use the <em><a href="http://bioconductor.org/packages/release/bioc/html/Biomart.html">Biomart</a></em> package to get the microarray annotation from Ensembl (an online database). This will be discussed elsewhere.</p>
+<p>This gives us the Entrez ID associated with the different measurements. There are a number of so-called “maps” like <code>hgu95av2XX</code> with <code>XX</code> having multiple values. This approach is very specific to Affymetrix chips. An alternative to using annotation packages is to use the <em><a href="http://bioconductor.org/packages/release/bioc/html/biomaRt.html">biomaRt</a></em> package to get the microarray annotation from Ensembl (an online database). This will be discussed elsewhere.</p>
 <p>We will leave the annotation subject for now.</p>
 </div>
 <div id="note-phenodata-and-pdata" class="section level2">
@@ -306,15 +306,15 @@ pD</code></pre>
 ## 
 ## other attached packages:
 ##  [1] hgu95av2.db_3.1.3    org.Hs.eg.db_3.1.2   RSQLite_1.0.0       
-##  [4] DBI_0.3.1            AnnotationDbi_1.30.1 GenomeInfoDb_1.4.1  
+##  [4] DBI_0.3.1            AnnotationDbi_1.30.1 GenomeInfoDb_1.4.2  
 ##  [7] IRanges_2.2.7        S4Vectors_0.6.3      ALL_1.10.0          
 ## [10] Biobase_2.28.0       BiocGenerics_0.14.0  BiocStyle_1.6.0     
 ## [13] rmarkdown_0.7       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7   
+##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7.2 
 ##  [5] stringi_0.5-5   tools_3.2.1     stringr_1.0.0   yaml_2.1.13    
-##  [9] htmltools_0.2.6 knitr_1.10.5</code></pre>
+##  [9] htmltools_0.2.6 knitr_1.11</code></pre>
 <div class="references">
 
 </div>

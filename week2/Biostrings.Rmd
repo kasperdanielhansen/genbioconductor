@@ -143,7 +143,7 @@ consensusMatrix(dna2, as.prob = TRUE)
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

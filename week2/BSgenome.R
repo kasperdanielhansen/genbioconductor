@@ -32,6 +32,6 @@ bsapply(param, letters = "GC")
 ## ----gcGenome3-----------------------------------------------------------
 sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
 
-## ---- echo=FALSE---------------------------------------------------------
+## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
 

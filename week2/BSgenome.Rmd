@@ -78,7 +78,7 @@ sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
 
 \scriptsize
 
-```{r, echo=FALSE}
+```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
 

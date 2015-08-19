@@ -75,7 +75,7 @@ biocLite(c(&quot;GenomicRanges&quot;))</code></pre>
 <h2>Other Resources</h2>
 <div id="why" class="section level3">
 <h3>Why</h3>
-<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GRanges.html">GRanges</a></em> packages introduced a number of classes I’ll call <code>XXList</code>; an example is <code>GRangesList</code>.</p>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> packages introduced a number of classes I’ll call <code>XXList</code>; an example is <code>GRangesList</code>.</p>
 <p>These looks like standard <code>list</code>s from base R, but they require that every element of the list is of the same class. This is convenient from a data structure perspective; we know exactly what is in the list.</p>
 <p>But things are also happening behind the scenes. These types of lists often have additional compression build into them. Because of this, it is best to use specific methods/functions on them, as opposed to the standard toolbox of <code>sapply</code>/<code>lapply</code> that we use for normal lists. This will be clearer below.</p>
 <p>An important usecase specifically for <code>GRangesList</code> is the representation of a set of <strong>transcripts</strong>. Each transcript is an element in the list and the <strong>exons</strong> of the transcript is represented as a <code>GRanges</code>.</p>
@@ -184,7 +184,7 @@ gL</code></pre>
 <p></p>
 <pre><code>## R version 3.2.1 (2015-06-18)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X 10.10.4 (Yosemite)
+## Running under: OS X 10.10.5 (Yosemite)
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -194,14 +194,14 @@ gL</code></pre>
 ## [8] datasets  base     
 ## 
 ## other attached packages:
-## [1] GenomicRanges_1.20.5 GenomeInfoDb_1.4.1   IRanges_2.2.7       
+## [1] GenomicRanges_1.20.5 GenomeInfoDb_1.4.2   IRanges_2.2.7       
 ## [4] S4Vectors_0.6.3      BiocGenerics_0.14.0  BiocStyle_1.6.0     
 ## [7] rmarkdown_0.7       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7   
+##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7.2 
 ##  [5] stringi_0.5-5   XVector_0.8.0   tools_3.2.1     stringr_1.0.0  
-##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.10.5</code></pre>
+##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.11</code></pre>
 </div>
 <div id="references" class="section level2 references unnumbered">
 <h2>References</h2>
