@@ -54,13 +54,14 @@ Installing Bioconductor
 - **An Introduction to R** (ships with R)  
 ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) |
 [PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf))
-- **R Base Types** FIXME: make video  
-([HTML](week1/R_Base_Types.html) |
+- **R Base Types** (18:11)  
+([Video](dropbox/Videos/R_Base_Types.mp4) |
+[HTML](week1/R_Base_Types.html) |
 [R code](week1/R_base_Types.R) |
 [Source](week1/R_Base_Types.Rmd))
 
 
-(26 minutes + R Overview)
+(44 minutes)
 
 ## Basic usage of GRanges and AnnotationHub
 
@@ -82,8 +83,9 @@ Installing Bioconductor
 [HTML](week1/GenomicRanges_GRanges_Usage.html) |
 [R code](week1/GenomicRanges_GRanges_Usage.R) |
 [Source](week1/GenomicRanges_GRanges_Usage.Rmd))
-- **GenomicRanges - seqinfo** FIXME: make video  
-([HTML](week1/GenomicRanges_seqinfo.html) |
+- **GenomicRanges - seqinfo** (6:13)  
+([Video](dropbox/Videos/GenomicRanges_seqinfo.mp4) |
+[HTML](week1/GenomicRanges_seqinfo.html) |
 [R code](week1/GenomicRanges_seqinfo.R) |
 [Source](week1/GenomicRanges_seqinfo.Rmd))
 - **AnnotationHub - Basic Usage** (8:23)  
@@ -91,12 +93,14 @@ Installing Bioconductor
 [HTML](week1/AnnotationHub.html) |
 [R code](week1/AnnotationHub.R) |
 [Source](week1/AnnotationHub.Rmd))
-- **Usecase - AnnotationHub and GRanges** FIXME: make video  
-([HTML](week1/Usecase_AnnotationHub_GRanges.html) |
+- **Usecase - AnnotationHub and GRanges** (12:56) + (13:46)  
+([Video (part 1)](dropbox/Videos/Usecase_AnnotationHub_GRanges_Part1.mp4) |
+[Video (part 2)](dropbox/Videos/Usecase_AnnotationHub_GRanges_Part2.mp4) |
+[HTML](week1/Usecase_AnnotationHub_GRanges.html) |
 [R code](week1/Usecase_AnnotationHub_GRanges.R) |
 [Source](week1/Usecase_AnnotationHub_GRanges.Rmd))
 
-(42 minutes + FIXME)
+(75 minutes)
 
 ## Data containers
 
@@ -149,24 +153,27 @@ Installing Bioconductor
 [HTML](week2/BSgenome_Views.html) |
 [R code](week2/BSgenome_Views.R) |
 [Source](week2/BSgenome_Views.Rmd))
-- **GenomicRanges - Rle** FIXME: make video  
-([HTML](week2/GenomicRanges_Rle.html) |
+- **GenomicRanges - Rle** (12:01)  
+([Video](dropbox/Videos/GenomicRanges_Rle.mp4) |
+[HTML](week2/GenomicRanges_Rle.html) |
 [R code](week2/GenomicRanges_Rle.R) |
 [Source](week2/GenomicRanges_Rle.Rmd))
-- **GenomicRanges - Lists** FIXME: make video  
-([HTML](week2/GenomicRanges_Lists.html) |
+- **GenomicRanges - Lists** (8:02)  
+([Video](dropbox/Videos/GenomicRanges_Lists.mp4) |
+[HTML](week2/GenomicRanges_Lists.html) |
 [R code](week2/GenomicRanges_Lists.R) |
 [Source](week2/GenomicRanges_Lists.Rmd))
 - **GenomicFeatures** FIXME: make video  
 ([HTML](week2/GenomicFeatures.html) |
 [R code](week2/GenomicFeatures.R) |
 [Source](week2/GenomicFeatures.Rmd))
-- **rtracklayer - Data Import** FIXME: make video  
-([HTML](week2/rtracklayer_Import.html) |
+- **rtracklayer - Data Import** (14:44)  
+([Video](dropbox/Videos/rtracklayer_Import.mp4) |
+[HTML](week2/rtracklayer_Import.html) |
 [R code](week2/rtracklayer_Import.R) |
 [Source](week2/rtracklayer_Import.Rmd))
 
-(29 minutes + 5*FIXME)
+(64 minutes)
 
 ## R programming
 
