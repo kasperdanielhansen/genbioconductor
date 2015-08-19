@@ -11,6 +11,9 @@ bibliography: genbioconductor.bib
 
 This document has no dependencies.
 
+```{r dependencies, warning=FALSE, message=FALSE}
+```
+
 ## Overview
 
 A very brief overview of core R object types and how to subset them.

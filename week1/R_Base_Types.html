@@ -245,14 +245,14 @@ x[1:2]</code></pre>
 <pre class="r"><code>x &lt;- list(a = rnorm(3), b = rnorm(3))
 lapply(x, mean)</code></pre>
 <pre><code>## $a
-## [1] 0.6002881
+## [1] 0.02722578
 ## 
 ## $b
-## [1] 0.215511</code></pre>
+## [1] 0.3145009</code></pre>
 <p>If the output of the function is of the same kind, you can simplify the output using <code>sapply</code> (simplify apply). This is particularly useful if the function in question returns a single number.</p>
 <pre class="r"><code>sapply(x, mean)</code></pre>
-<pre><code>##         a         b 
-## 0.6002881 0.2155110</code></pre>
+<pre><code>##          a          b 
+## 0.02722578 0.31450086</code></pre>
 </div>
 </div>
 <div id="data-frames" class="section level2">
