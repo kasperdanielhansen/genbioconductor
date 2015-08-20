@@ -164,7 +164,8 @@ Installing Bioconductor
 [R code](week2/GenomicRanges_Lists.R) |
 [Source](week2/GenomicRanges_Lists.Rmd))
 - **GenomicFeatures** (18:30)  
-([HTML](week2/GenomicFeatures.html) |
+([Video](dropbox/Videos/GenomicFeatures.mp4) |
+[HTML](week2/GenomicFeatures.html) |
 [R code](week2/GenomicFeatures.R) |
 [Source](week2/GenomicFeatures.Rmd))
 - **rtracklayer - Data Import** (14:44)  
