@@ -51,6 +51,7 @@ Installing Bioconductor
 
 ### R essentials
 
+- Link to Roger's R course
 - **An Introduction to R** (ships with R)  
 ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) |
 [PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf))
@@ -176,6 +177,13 @@ Installing Bioconductor
 
 (82 minutes)
 
+## ToDo
+
+- **S4 objects and methods**
+- **Analysis of 450k array data with minfi and limma**
+
+
+
 ## R programming
 
 - **S4 objects and methods** FIXME: make Rmd file
@@ -213,6 +221,14 @@ FIXME: video and/or text presenting useful skills. Perhaps move to week 2
 - FIXME: make Rmd file for rtracklayer: interface with browser
 
 Both?
+
+
+
+# Recording mistakes
+
+- IRanges Basic has a different RStudio theme
+- The following videos have mono sound - was it not captured using the good microphone? (`GenomicRanges_seqinfo`, `Usecase_AnnotationHub_GRanges_part2`, `rtracklayer_Import`).
+
 
 
 # Notes
