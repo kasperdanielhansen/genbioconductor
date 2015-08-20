@@ -177,16 +177,18 @@ Installing Bioconductor
 
 (82 minutes)
 
-## ToDo
-
-- **S4 objects and methods**
-- **Analysis of 450k array data with minfi and limma**
-
-
-
 ## R programming
 
-- **S4 objects and methods** FIXME: make Rmd file
+- **S4 objects and methods** FIXME: make video  
+([HTML](week2/R_S4.html) |
+[R code](week2/R_S.R) |
+[Source](week2/R_S.Rmd))
+
+## ToDo
+
+- **S4 classes and methods**
+- **Analysis of 450k array data with minfi and limma**
+
 
 ## Useful skills
 
