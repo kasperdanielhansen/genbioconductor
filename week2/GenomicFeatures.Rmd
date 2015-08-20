@@ -68,7 +68,7 @@ A `TxDb` object is really an interface to a `SQLite` database.  You can query th
 **Other functions**
 
 - `transcriptLengths()` (optionally include CDS length etc).
-- `XXByOverlaps()` (select features based on overlaps).
+- `XXByOverlaps()` (select features based on overlaps with `XX` being `transcript`, `cds` or `exon`).
 
 **Mapping between genome and transcript coordinates**
 

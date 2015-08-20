@@ -8,7 +8,7 @@ author: Kasper D. Hansen
 ## Overview of the class
 
 - **What is Bioconductor** (7:18)  
-([Video](gdrive/Preview/What_is_Bioconductor.mp4) |
+([Video](dropbox/Drive/What_is_Bioconductor.mp4) |
 [Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing))
 - FIXME: make video discussing the content of the class
 
@@ -66,7 +66,7 @@ Installing Bioconductor
 ## Basic usage of GRanges and AnnotationHub
 
 - **GRanges - Overview Lecture** (4:42)  
-([Video](gdrive\Preview\Granges_Overview.mp4). |
+([Video](dropbox/Drive/Granges_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing))
 - **IRanges - Basic Usage** (12:12)  
 ([Video](dropbox/Videos/IRanges_Basic.mp4) |
@@ -105,13 +105,13 @@ Installing Bioconductor
 ## Data containers
 
 - **Basic Data Types** (4:59)  
-([Video](gdrive\Preview\Basic_Data_Types.mp) |
+([Video](dropbox/Drive/Basic_Data_Types.mp) |
 [Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing))
 - **Overview of ExpressionSet** (4:19)  
-([Video](gdrive\Preview\ExpressionSet_Overview.mp4) |
+([Video](dropbox/Drive/ExpressionSet_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing))
 - **Annotation Overview** (4:33)  
-([Video](gdrive\Preview\Annotation_Overview.mp4) |
+([Video](dropbox/Drive/Annotation_Overview.mp4) |
 [Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing))
 - **ExpressionSet** (9:50)  
 ([Video](dropbox/Videos/ExpressionSet.mp4) |
@@ -163,7 +163,7 @@ Installing Bioconductor
 [HTML](week2/GenomicRanges_Lists.html) |
 [R code](week2/GenomicRanges_Lists.R) |
 [Source](week2/GenomicRanges_Lists.Rmd))
-- **GenomicFeatures** FIXME: make video  
+- **GenomicFeatures** (18:30)  
 ([HTML](week2/GenomicFeatures.html) |
 [R code](week2/GenomicFeatures.R) |
 [Source](week2/GenomicFeatures.Rmd))
@@ -173,7 +173,7 @@ Installing Bioconductor
 [R code](week2/rtracklayer_Import.R) |
 [Source](week2/rtracklayer_Import.Rmd))
 
-(64 minutes)
+(82 minutes)
 
 ## R programming
 
