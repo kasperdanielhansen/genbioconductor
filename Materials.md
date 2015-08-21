@@ -181,13 +181,20 @@ Installing Bioconductor
 
 - **S4 objects and methods** FIXME: make video  
 ([HTML](week2/R_S4.html) |
-[R code](week2/R_S.R) |
-[Source](week2/R_S.Rmd))
+[R code](week2/R_S4.R) |
+[Source](week2/R_S4.Rmd))
+
+## Annotation
+
+- **biomaRt** FIXME: make video  
+([HTML](week2/biomaRt.html) |
+[R code](week2/biomaRt.R) |
+[Source](week2/biomaRt.Rmd))
+
 
 ## ToDo
 
-- **S4 classes and methods**
-- **Analysis of 450k array data with minfi and limma**
+- **Analysis of 450k array data with minfi and limma** FIXME: make Rmd file
 
 
 ## Useful skills

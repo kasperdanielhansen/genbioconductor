@@ -1,0 +1,119 @@
+---
+title: "biomaRt"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(biomaRt)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("biomaRt"))
+```
+
+## Overview
+  
+We use a large number of different databases in computational biology. "Biomart" is a flexible interface to a biological database.  The idea is that any kind of resource can setup a Biomart and then users can access the data using a single set of tools to access multiple databases.
+
+The `r Biocpkg("biomaRt")` package implements such an interface.
+
+Databases supporting the Biomart interface includes Ensembl (from EBI), HapMap and UniProt.
+
+## Other Resources
+
+- The vignette from the [biomaRt webpage](http://bioconductor.org/packages/biomaRt).
+
+## Specifiying a mart and a dataset
+
+To use `r Biocpkg("biomaRt")` you need a mart (database) and a dataset inside the database.  This is somewhat similar to `r Biocpkg("AnnotationHub")`.
+
+```{r listMarts}
+head(listMarts())
+mart <- useMart("ensembl")
+mart
+head(listDatasets(mart))
+ensembl <- useDataset("hsapiens_gene_ensembl", mart)
+ensembl
+```
+You can see that the different datasets are organized by species; we have select *Homo sapiens*.
+
+You access this database over the internet.  Sometimes you need to specify a proxy server for this to work; details are in the `r Biocpkg("biomaRt")` vignette; I have never encountered this.
+
+## Building a query
+
+There is one main function in `r Biocpkg("biomaRt")`: `getBM()` (get Biomart).  This function retrives data from a Biomart based on a query.  So it is important to understand how to build queries.
+
+A Biomart query consists of 3 things: "attributes", "filters" and "values".  Let us do an example.  Let us say we want to annotate an Affymetrix gene expression microarray. We have Affymetrix probe ids in R and we want to retrieve gene names.  In this case gene names is an "attribute" and Affymetrix probe ids is a "Filter".  Finally, the "values" are the actual values of the "filter", ie. the ids.
+
+An example might be (not run)
+```{r getBMex}
+values <- c("202763_at","209310_s_at","207500_at")
+getBM(attributes = c("ensembl_gene_id", "affy_hg_u133_plus_2"),
+      filters = "affy_hg_u133_plus_2", values = values, mart = ensembl)
+```
+Note that I list `affy_hg_133_plus_2` under both `attributes` and `filters`.  It is listed under `attributes` because otherwise it would not appear in the return value of the function.  If I don't have the `aafy_hg_133_plus_2` column in my `data.frame` I wouldn't know where genes are mapped to which probe ids.  I would just have a list of which genes were measured on the array.
+
+An example of a filter that might not appear in the `attributes` is if you want to only select autosomal genes.  You may not care about which chromosomes the different genes appear on, just that they are on autosomal chromosomes.
+
+Important note: Biomart (at least Ensembl) logs how often you query.  If you query to many times, it disable access for a while. So the trick is to make a single vectorized query using a long list of `values` and not call `getBM()` for each individual value (doing this is also much, much slower).
+
+A major part of using `r Biocpkg("biomaRt")` is figuring out which `attributes` and which `filters` to use.  You can get a description of this using `listAttributes()` and `listFilters()`; taht returns a very long `data.frame`.
+
+```{r listAttributes}
+attributes <- listAttributes(ensembl)
+head(attributes)
+nrow(attributes)
+filters <- listFilters(ensembl)
+head(filters)
+nrow(filters)
+```
+
+A lot of the `attributes` are gene names for the corresponding gene in a different organism. All these entries makes it a bit hard to get a good idea of what is there.
+
+In Biomart, data is organized into pages (if you know about databases, this is a non-standard design).  Each page contains a subset of attributes.  You can get a more understandable set of attributes by using pages.
+```{r listPages}
+attributePages(ensembl)
+attributes <- listAttributes(ensembl, page = "feature_page")
+head(attributes)
+nrow(attributes)
+```
+All the homologs I complain about above are part of the ... `homologs` page.
+
+An `attribute` can be part of multiple pages.  It turns out that `getBM()` can only return a query which uses `attributes` from a single page.  If you want to combine `attributes` from multiple pages you need to do multiple queries and then merge them.
+
+Another aspect of working with `getBM()` is that sometimes the return `data.frame` contains duplicated rows.  This is a consequence of the internal structure of the database and how queries are interpreted.
+
+The `r Biocpkg("biomaRt")` vignette is very useful and readable and contains a lot of example tasks, which can inspire future use.  As a help, I have listed some of them here:
+
+1. Annotate a set of Affymetrix identifiers with HUGO symbol and chromosomal locations of corresponding genes.
+2. Annotate a set of EntrezGene identifiers with GO annotation.
+3. Retrieve all HUGO gene symbols of genes that are located on chromosomes 17, 20 or Y, and are associated with one the following GO terms: "GO:0051330", "GO:0000080", "GO:0000114", "GO:0000082".
+4. Annotate set of idenfiers with INTERPRO pro- tein domain identifiers.
+5. Select all Affymetrix identifiers on the hgu133plus2 chip and Ensembl gene identifiers for genes located on chromosome 16 between basepair 1100000 and 1250000.
+6. Retrieve all entrezgene identifiers and HUGO gene symbols of genes which have a "MAP kinase activity" GO term associated with it.
+7. Given a set of EntrezGene identifiers, retrieve 100bp upstream promoter sequences. 
+8. Retrieve all 5’ UTR sequences of all genes that are located on chromosome 3 between the positions 185514033 and 185535839
+9. Retrieve protein sequences for a given list of EntrezGene identifiers.
+10. Retrieve known SNPs located on the human chromosome 8 between positions 148350 and 148612.
+11. Given the human gene TP53, retrieve the human chromosomal location of this gene and also retrieve the chromosomal location and RefSeq id of it’s homolog in mouse.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
