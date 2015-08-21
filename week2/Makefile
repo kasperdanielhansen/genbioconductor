@@ -8,7 +8,8 @@ RMDS=SummarizedExperiment ExpressionSet\
      GenomicFeatures\
      rtracklayer_Import\
      R_S4\
-     biomaRt
+     biomaRt\
+     DNA_Methylation_450k
 
 %.html : %.Rmd .FORCE
 	$(R_SCRIPT) -e '{library(rmarkdown); library(BiocStyle);\
@@ -49,6 +50,8 @@ rtracklayer_Import : rtracklayer_Import.html
 R_S4 : R_S4.html
 
 biomaRt : biomaRt.html
+
+DNA_Methylation_450k : DNA_Methylation_450k.html
 
 all : $(RMDS)
 
