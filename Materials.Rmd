@@ -25,7 +25,7 @@
 | Week  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
 | 0 | What is Bioconductor | (7:18) | [Video](dropbox/Drive/BiocIntro_What_is_Bioconductor_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing) |
-| 0 | Installing Bioconductor | (3:39) | [Video](dropbox/Videos/BiocIntro_Installing_Bioconductor_version1.mp4) | [HTML](week1/Install_Bioconductor.html) | [R markdown](week1/Install_Bioconductor.Rmd) |
+| 0 | Installing Bioconductor | (3:39) | [Video](dropbox/Videos/BiocIntro_Installing_Bioconductor_version1.mp4) | [HTML](week1/Install_Bioconductor.html) | NA | [R markdown](week1/Install_Bioconductor.Rmd) |
 | 0 | The Bioconductor Website | (9:56) | [Video](dropbox/Videos/BiocIntro_Bioconductor_Website_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
 | 0 | Useful online help | (5:08) | [Video](dropbox/Videos/BiocIntro_OnlineResources_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
 | 0 | R Base Types | (18:11) | [Video](dropbox/Videos/BiocIntro_R_Base_Types_version1.mp4) | [HTML](week1/R_Base_Types.html) | [R code](week1/R_base_Types.R) | [R markdown](week1/R_Base_Types.Rmd) |
