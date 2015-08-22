@@ -11,34 +11,43 @@
 
 **Resources:**
 
-* [Installing R for Windows](https://www.youtube.com/watch?v=LII6of-5Odw)
-* [Installing R for Mac](https://www.youtube.com/watch?v=xokJUwn0mis)
-* [Installing RStudio Mac](https://www.youtube.com/watch?v=JbTMvQ-SbvQ)
+Videos and material were prepared using the following software
 
-* [Rstudio](http://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
-* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
-* [PH525x Statistics for Genomics Book](http://genomicsclass.github.io/book/)
+- R version 3.2.1 (available from [CRAN](https://cran.r-project.org/)).
+- RStudio version 0.99.467 (available from [RStudio](https://www.rstudio.org)).
+- Bioconductor version 3.1.
 
+Installation help
+
+- Installing R for Windows ([Youtube](https://youtu.be/Ohnk9hcxf9M))
+- Installing R for Mac ([Youtube](https://youtu.be/uxuuWXU-7UQ))
+- Installing RStudio Mac([Youtube](https://youtu.be/bM7Sfz-LADM))
+
+Other sources of help
+
+- [Rstudio](http://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
+- [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
+- [PH525x Statistics for Genomics Book](http://genomicsclass.github.io/book/)
 
 **Course Materials**
 
 | Week  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
-| 0 | What is Bioconductor | (7:18) | [Video](dropbox/Drive/BiocIntro_What_is_Bioconductor_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing) |
-| 0 | Installing Bioconductor | (3:39) | [Video](dropbox/Videos/BiocIntro_Installing_Bioconductor_version1.mp4) | [HTML](week1/Install_Bioconductor.html) | NA | [R markdown](week1/Install_Bioconductor.Rmd) |
-| 0 | The Bioconductor Website | (9:56) | [Video](dropbox/Videos/BiocIntro_Bioconductor_Website_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
-| 0 | Useful online help | (5:08) | [Video](dropbox/Videos/BiocIntro_OnlineResources_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
-| 0 | R Base Types | (18:11) | [Video](dropbox/Videos/BiocIntro_R_Base_Types_version1.mp4) | [HTML](week1/R_Base_Types.html) | [R code](week1/R_base_Types.R) | [R markdown](week1/R_Base_Types.Rmd) |
-| 0 | GRanges - Overview Lecture | (4:42) | [Video](dropbox/Drive/BiocIntro_Granges_Overview_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing) |
-| 0 | IRanges - Basic Usage | (12:12) | [Video](dropbox/Videos/BiocIntro_IRanges_Basic_version1.mp4) | [HTML](week1/IRanges_Basic.html) | [R code](week1/IRanges_Basic.R) | [R markdown](week1/IRanges_Basic.Rmd) |
-| 0 | GenomicRanges - GRanges | (8:44) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_version1.mp4) | [HTML](week1/GenomicRanges_GRanges.html) | [R code](week1/GenomicRanges_GRanges.R) | [R markdown](week1/GenomicRanges_GRanges.Rmd) |
-| 0 | GenomicRanges - Basic GRanges Usage | (8:14) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_Usage_version1.mp4) | [HTML](week1/GenomicRanges_GRanges_Usage.html) | [R code](week1/GenomicRanges_GRanges_Usage.R) | [R markdown](week1/GenomicRanges_GRanges_Usage.Rmd) |
-| 0 | GenomicRanges - seqinfo | (6:13) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_seqinfo_version1.mp4) | [HTML](week1/GenomicRanges_seqinfo.html) | [R code](week1/GenomicRanges_seqinfo.R) | [R markdown](week1/GenomicRanges_seqinfo.Rmd) |
-| 0 | AnnotationHub - Basic Usage | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](week1/AnnotationHub.html) | [R code](week1/AnnotationHub.R) | [R markdown](week1/AnnotationHub.Rmd) |
-| 0 | Usecase - AnnotationHub and GRanges, part 1 | (12:56) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part1_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
-| 0 | Usecase - AnnotationHub and GRanges, part 2 | (13:46) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part2_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
+| 1 | What is Bioconductor | (7:18) | [Video](dropbox/Drive/BiocIntro_What_is_Bioconductor_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1rPKLk9tTfoLkRl-PyaboJ4wHTsLhmm2ukBRxOmJg4Kk/edit?usp=sharing) |
+| 1 | Installing Bioconductor | (3:39) | [Video](dropbox/Videos/BiocIntro_Installing_Bioconductor_version1.mp4) | [H1ML](week1/Install_Bioconductor.html) | NA | [R markdown](week1/Install_Bioconductor.Rmd) |
+| 1 | The Bioconductor Website | (9:56) | [Video](dropbox/Videos/BiocIntro_Bioconductor_Website_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
+| 1 | Useful Online Resources | (5:08) | [Video](dropbox/Videos/BiocIntro_OnlineResources_version1.mp4) | [HTML](week1/Online_Resources.html) | NA | [R markdown](week1/Online_Resources.Rmd) |
+| 1 | R Base Types | (18:11) | [Video](dropbox/Videos/BiocIntro_R_Base_Types_version1.mp4) | [HTML](week1/R_Base_Types.html) | [R code](week1/R_base_Types.R) | [R markdown](week1/R_Base_Types.Rmd) |
+| 1 | GRanges - Overview | (4:42) | [Video](dropbox/Drive/BiocIntro_Granges_Overview_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1ETjUipnle-Ps7k8gFGvJIXJ85D_Vjs9qNxNk2KeeaAI/edit?usp=sharing) |
+| 1 | IRanges - Basic Usage | (12:12) | [Video](dropbox/Videos/BiocIntro_IRanges_Basic_version1.mp4) | [HTML](week1/IRanges_Basic.html) | [R code](week1/IRanges_Basic.R) | [R markdown](week1/IRanges_Basic.Rmd) |
+| 1 | GenomicRanges - GRanges | (8:44) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_version1.mp4) | [HTML](week1/GenomicRanges_GRanges.html) | [R code](week1/GenomicRanges_GRanges.R) | [R markdown](week1/GenomicRanges_GRanges.Rmd) |
+| 1 | GenomicRanges - Basic GRanges Usage | (8:14) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_Usage_version1.mp4) | [HTML](week1/GenomicRanges_GRanges_Usage.html) | [R code](week1/GenomicRanges_GRanges_Usage.R) | [R markdown](week1/GenomicRanges_GRanges_Usage.Rmd) |
+| 1 | GenomicRanges - seqinfo | (6:13) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_seqinfo_version1.mp4) | [HTML](week1/GenomicRanges_seqinfo.html) | [R code](week1/GenomicRanges_seqinfo.R) | [R markdown](week1/GenomicRanges_seqinfo.Rmd) |
+| 1 | AnnotationHub - Basic Usage | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](week1/AnnotationHub.html) | [R code](week1/AnnotationHub.R) | [R markdown](week1/AnnotationHub.Rmd) |
+| 1 | Usecase - AnnotationHub and GRanges, part 1 | (12:56) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part1_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
+| 1 | Usecase - AnnotationHub and GRanges, part 2 | (13:46) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part2_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
 | 0 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types.mp) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
-| 0 | Overview of ExpressionSet | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | FIXME | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
+| 0 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | FIXME | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
 | 0 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | FIXME | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
 | 0 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](week2/ExpressionSet.html) | [R code](week2/ExpressionSet.R) | [R markdown](week2/ExpressionSet.Rmd) |
 | 0 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](week2/SummarizedExperiment.html) | [R code](week2/SummarizedExperiment.R) | [R markdown](week2/SummarizedExperiment.Rmd) |
@@ -51,7 +60,7 @@
 | 0 | GenomicRanges - Lists | (8:02) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Lists_version1.mp4) | [HTML](week2/GenomicRanges_Lists.html) | [R code](week2/GenomicRanges_Lists.R) | [R markdown](week2/GenomicRanges_Lists.Rmd) |
 | 0 | GenomicFeatures | (18:30) | [Video](dropbox/Videos/BiocIntro_GenomicFeatures_version1.mp4) | [HTML](week2/GenomicFeatures.html) | [R code](week2/GenomicFeatures.R) | [R markdown](week2/GenomicFeatures.Rmd) |
 | 0 | rtracklayer - Data Import | (14:44) | [Video](dropbox/Videos/BiocIntro_rtracklayer_Import_version1.mp4) | [HTML](week2/rtracklayer_Import.html) | [R code](week2/rtracklayer_Import.R) | [R markdown](week2/rtracklayer_Import.Rmd) |
-| 0 | S4 objects and methods | FIXME | FIXME | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
+| 0 | S4 Classes and Methods | FIXME | FIXME | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
 | 0 | biomaRt | FIXME | FIXME | [HTML](week2/biomaRt.html) | [R code](week2/biomaRt.R) | [R markdown](week2/biomaRt.Rmd) |
 
 
