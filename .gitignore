@@ -5,7 +5,8 @@ auto/
 week[1234]/_output.yaml
 week[1234]/front.Rmd
 week[1234]/genbioconductor.bib
+Rmd/front.Rmd
+Rmd/genbioconductor.bib
 dropbox
-gdrive
 
 
