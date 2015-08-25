@@ -2,7 +2,7 @@ R_SCRIPT=/usr/bin/Rscript
 
 index : index.Rmd
 	$(R_SCRIPT) -e '{library(rmarkdown);\
-                         render("Materials.Rmd",\
+                         render("index.Rmd",\
                                 output_format="html_document",\
                                 output_options=list(theme="cosmo"))}'
 
