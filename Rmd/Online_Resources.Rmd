@@ -14,8 +14,6 @@ The [Bioconductor site](http://www.bioconductor.org) has a wealth of great infor
 - [Workflows](http://bioconductor.org/help/workflows/).  This is a new addition to Bioconductor; the intention is to provide across-package description of useful functionality.
 - [Software packages](http://bioconductor.org/packages/release/BiocViews.html#___Software); note the use of `biocViews` to the left of the page, this might be useful if you are searching for specific functionality.
 
-FIXME: add browseVignettes(); test in RStudio
-
 ## Other resources
 
 - The [Bioconductor support site](https://support.bioconductor.org); this is a great place to ask questions.
@@ -24,4 +22,12 @@ FIXME: add browseVignettes(); test in RStudio
 - [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor); this is a popular help site for computer programming.
 - [R Documentation](http://www.rdocumentation.org/); a search engine for all documentation from all packages from CRAN and Bioconductor.
 - [R Seek](http://rseek.org); like 'R Documentation" but it also search a few other sites and is based on a different search engine.
+
+## Getting Vignettes in R
+
+Package vignettes are installed inside of R.  You can access vignettes in the following ways
+
+1. Through the online help (for example in RStudio).
+2. Through the `vignettes()` function in R, but that requires you know the name of the vignette.
+3. Through the `browseVignettes()` function in `r Biocpkg("Biobase")` which shows a list of installed vignettes in a browser (this is a different interface to the RStudio help interface).
 

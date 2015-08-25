@@ -25,6 +25,14 @@ RMDS=SummarizedExperiment ExpressionSet\
 
 .FORCE :
 
+deploy:
+	mkdir -p ../html
+	cp *.html ../html
+	mkdir -p ../rmd
+	cp *.Rmd ../rmd
+	mkdir -p ../r
+	cp *.R ../rmd
+
 ExpressionSet : ExpressionSet.html
 
 SummarizedExperiment : SummarizedExperiment.html

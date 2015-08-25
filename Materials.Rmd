@@ -48,12 +48,24 @@ Other sources of help
 | 1 | AnnotationHub - Basic Usage | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](week1/AnnotationHub.html) | [R code](week1/AnnotationHub.R) | [R markdown](week1/AnnotationHub.Rmd) |
 | 1 | Usecase - AnnotationHub and GRanges, part 1 | (12:56) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part1_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
 | 1 | Usecase - AnnotationHub and GRanges, part 2 | (13:46) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part2_version1.mp4) | [HTML](week1/Usecase_AnnotationHub_GRanges.html) | [R code](week1/Usecase_AnnotationHub_GRanges.R) | [R markdown](week1/Usecase_AnnotationHub_GRanges.Rmd) |
+
+Total: (119:22)
+
+
+| Week  | Lecture |  Time | Video | Material | Code | Source |
+|---|---|---|---|---|--|--|
 | 0 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types.mp4) | [PDF](pdf/BiocIntro_Basic_Data_Types.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
 | 0 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | [PDF](pdf/BiocIntro_ExpressionSet_Overview.pdf) | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
 | 0 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | [PDF](pdf/BiocIntro_Annotation_Overview.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
 | 0 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](week2/ExpressionSet.html) | [R code](week2/ExpressionSet.R) | [R markdown](week2/ExpressionSet.Rmd) |
 | 0 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](week2/SummarizedExperiment.html) | [R code](week2/SummarizedExperiment.R) | [R markdown](week2/SummarizedExperiment.Rmd) |
 | 0 | GEOquery | (6:34) | [Video](dropbox/Videos/BiocIntro_GEOquery_version1.mp4) | [HTML](week2/GEOquery.html) | [R code](week2/GEOquery.R) | [R markdown](week2/GEOquery.Rmd) |
+
+
+Total: (37:59)
+
+| Week  | Lecture |  Time | Video | Material | Code | Source |
+|---|---|---|---|---|--|--|
 | 0 | Biostrings | (7:04) | [Video](dropbox/Videos/BiocIntro_Biostrings_version1.mp4) | [HTML](week2/Biostrings.html) | [R code](week2/Biostrings.R) | [R markdown](week2/Biostrings.Rmd) |
 | 0 | BSgenome | (6:35) | [Video](dropbox/Videos/BiocIntro_BSgenome_version1.mp4) | [HTML](week2/BSgenome.html) | [R code](week2/BSgenome.R) | [R markdown](week2/BSgenome.Rmd) |
 | 0 | Biostrings - Matching | (6:18) | [Video](dropbox/Videos/BiocIntro_Biostrings_Matching_version1.mp4) | [HTML](week2/Biostrings_Matching.html) | [R code](week2/Biostrings_Matching.R) | [R markdown](week2/Biostrings_Matching.Rmd) |
@@ -62,10 +74,16 @@ Other sources of help
 | 0 | GenomicRanges - Lists | (8:02) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Lists_version1.mp4) | [HTML](week2/GenomicRanges_Lists.html) | [R code](week2/GenomicRanges_Lists.R) | [R markdown](week2/GenomicRanges_Lists.Rmd) |
 | 0 | GenomicFeatures | (18:30) | [Video](dropbox/Videos/BiocIntro_GenomicFeatures_version1.mp4) | [HTML](week2/GenomicFeatures.html) | [R code](week2/GenomicFeatures.R) | [R markdown](week2/GenomicFeatures.Rmd) |
 | 0 | rtracklayer - Data Import | (14:44) | [Video](dropbox/Videos/BiocIntro_rtracklayer_Import_version1.mp4) | [HTML](week2/rtracklayer_Import.html) | [R code](week2/rtracklayer_Import.R) | [R markdown](week2/rtracklayer_Import.Rmd) |
-| 0 | S4 Classes | (16:56) | [Video](dropbox/Videos/BiocIntro_R_S4_Classes_version1.mp4) | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
-| 0 | S4 Methods | (10:15) | [Video](dropbox/Videos/BiocIntro_R_S4_Methods_version1.mp4) | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
 | 0 | biomaRt | (13:48) | [Video](dropbox/Videos/BiocIntro_biomaRt_version1.mp4) | [HTML](week2/biomaRt.html) | [R code](week2/biomaRt.R) | [R markdown](week2/biomaRt.Rmd) |
 
+Total (96:23)
+
+| Week  | Lecture |  Time | Video | Material | Code | Source |
+|---|---|---|---|---|--|--|
+| 0 | S4 Classes | (16:56) | [Video](dropbox/Videos/BiocIntro_R_S4_Classes_version1.mp4) | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
+| 0 | S4 Methods | (10:15) | [Video](dropbox/Videos/BiocIntro_R_S4_Methods_version1.mp4) | [HTML](week2/R_S4.html) | [R code](week2/R_S4.R) | [R markdown](week2/R_S4.Rmd) |
+
+Total (27:11)
 
 
 This page was last updated on `r Sys.time()` Eastern Time.

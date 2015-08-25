@@ -22,6 +22,14 @@ RMDS=Install_Bioconductor Online_Resources\
 
 .FORCE :
 
+deploy:
+	mkdir -p ../html
+	cp *.html ../html
+	mkdir -p ../rmd
+	cp *.Rmd ../rmd
+	mkdir -p ../r
+	cp *.R ../rmd
+
 Install_Bioconductor : Install_Bioconductor.html
 	rm Install_Bioconductor.R
 
