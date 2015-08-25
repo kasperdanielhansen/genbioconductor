@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kasper D. Hansen" />
+
+
+<title>Usecase - Basic GRanges and AnnotationHub</title>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<link href="data:text/css;charset=utf-8,pre%20%2Eoperator%2C%0Apre%20%2Eparen%20%7B%0Acolor%3A%20rgb%28104%2C%20118%2C%20135%29%0A%7D%0Apre%20%2Eliteral%20%7B%0Acolor%3A%20%23990073%0A%7D%0Apre%20%2Enumber%20%7B%0Acolor%3A%20%23099%3B%0A%7D%0Apre%20%2Ecomment%20%7B%0Acolor%3A%20%23998%3B%0Afont%2Dstyle%3A%20italic%0A%7D%0Apre%20%2Ekeyword%20%7B%0Acolor%3A%20%23900%3B%0Afont%2Dweight%3A%20bold%0A%7D%0Apre%20%2Eidentifier%20%7B%0Acolor%3A%20rgb%280%2C%200%2C%200%29%3B%0A%7D%0Apre%20%2Estring%20%7B%0Acolor%3A%20%23d14%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
+<script src="data:application/x-javascript;base64,CnZhciBobGpzPW5ldyBmdW5jdGlvbigpe2Z1bmN0aW9uIG0ocCl7cmV0dXJuIHAucmVwbGFjZSgvJi9nbSwiJmFtcDsiKS5yZXBsYWNlKC88L2dtLCImbHQ7Iil9ZnVuY3Rpb24gZihyLHEscCl7cmV0dXJuIFJlZ0V4cChxLCJtIisoci5jST8iaSI6IiIpKyhwPyJnIjoiIikpfWZ1bmN0aW9uIGIocil7Zm9yKHZhciBwPTA7cDxyLmNoaWxkTm9kZXMubGVuZ3RoO3ArKyl7dmFyIHE9ci5jaGlsZE5vZGVzW3BdO2lmKHEubm9kZU5hbWU9PSJDT0RFIil7cmV0dXJuIHF9aWYoIShxLm5vZGVUeXBlPT0zJiZxLm5vZGVWYWx1ZS5tYXRjaCgvXHMrLykpKXticmVha319fWZ1bmN0aW9uIGgodCxzKXt2YXIgcD0iIjtmb3IodmFyIHI9MDtyPHQuY2hpbGROb2Rlcy5sZW5ndGg7cisrKXtpZih0LmNoaWxkTm9kZXNbcl0ubm9kZVR5cGU9PTMpe3ZhciBxPXQuY2hpbGROb2Rlc1tyXS5ub2RlVmFsdWU7aWYocyl7cT1xLnJlcGxhY2UoL1xuL2csIiIpfXArPXF9ZWxzZXtpZih0LmNoaWxkTm9kZXNbcl0ubm9kZU5hbWU9PSJCUiIpe3ArPSJcbiJ9ZWxzZXtwKz1oKHQuY2hpbGROb2Rlc1tyXSl9fX1pZigvTVNJRSBbNjc4XS8udGVzdChuYXZpZ2F0b3IudXNlckFnZW50KSl7cD1wLnJlcGxhY2UoL1xyL2csIlxuIil9cmV0dXJuIHB9ZnVuY3Rpb24gYShzKXt2YXIgcj1zLmNsYXNzTmFtZS5zcGxpdCgvXHMrLyk7cj1yLmNvbmNhdChzLnBhcmVudE5vZGUuY2xhc3NOYW1lLnNwbGl0KC9ccysvKSk7Zm9yKHZhciBxPTA7cTxyLmxlbmd0aDtxKyspe3ZhciBwPXJbcV0ucmVwbGFjZSgvXmxhbmd1YWdlLS8sIiIpO2lmKGVbcF0pe3JldHVybiBwfX19ZnVuY3Rpb24gYyhxKXt2YXIgcD1bXTsoZnVuY3Rpb24ocyx0KXtmb3IodmFyIHI9MDtyPHMuY2hpbGROb2Rlcy5sZW5ndGg7cisrKXtpZihzLmNoaWxkTm9kZXNbcl0ubm9kZVR5cGU9PTMpe3QrPXMuY2hpbGROb2Rlc1tyXS5ub2RlVmFsdWUubGVuZ3RofWVsc2V7aWYocy5jaGlsZE5vZGVzW3JdLm5vZGVOYW1lPT0iQlIiKXt0Kz0xfWVsc2V7aWYocy5jaGlsZE5vZGVzW3JdLm5vZGVUeXBlPT0xKXtwLnB1c2goe2V2ZW50OiJzdGFydCIsb2Zmc2V0OnQsbm9kZTpzLmNoaWxkTm9kZXNbcl19KTt0PWFyZ3VtZW50cy5jYWxsZWUocy5jaGlsZE5vZGVzW3JdLHQpO3AucHVzaCh7ZXZlbnQ6InN0b3AiLG9mZnNldDp0LG5vZGU6cy5jaGlsZE5vZGVzW3JdfSl9fX19cmV0dXJuIHR9KShxLDApO3JldHVybiBwfWZ1bmN0aW9uIGsoeSx3LHgpe3ZhciBxPTA7dmFyIHo9IiI7dmFyIHM9W107ZnVuY3Rpb24gdSgpe2lmKHkubGVuZ3RoJiZ3Lmxlbmd0aCl7aWYoeVswXS5vZmZzZXQhPXdbMF0ub2Zmc2V0KXtyZXR1cm4oeVswXS5vZmZzZXQ8d1swXS5vZmZzZXQpP3k6d31lbHNle3JldHVybiB3WzBdLmV2ZW50PT0ic3RhcnQiP3k6d319ZWxzZXtyZXR1cm4geS5sZW5ndGg/eTp3fX1mdW5jdGlvbiB0KEQpe3ZhciBBPSI8IitELm5vZGVOYW1lLnRvTG93ZXJDYXNlKCk7Zm9yKHZhciBCPTA7QjxELmF0dHJpYnV0ZXMubGVuZ3RoO0IrKyl7dmFyIEM9RC5hdHRyaWJ1dGVzW0JdO0ErPSIgIitDLm5vZGVOYW1lLnRvTG93ZXJDYXNlKCk7aWYoQy52YWx1ZSE9PXVuZGVmaW5lZCYmQy52YWx1ZSE9PWZhbHNlJiZDLnZhbHVlIT09bnVsbCl7QSs9Jz0iJyttKEMudmFsdWUpKyciJ319cmV0dXJuIEErIj4ifXdoaWxlKHkubGVuZ3RofHx3Lmxlbmd0aCl7dmFyIHY9dSgpLnNwbGljZSgwLDEpWzBdO3orPW0oeC5zdWJzdHIocSx2Lm9mZnNldC1xKSk7cT12Lm9mZnNldDtpZih2LmV2ZW50PT0ic3RhcnQiKXt6Kz10KHYubm9kZSk7cy5wdXNoKHYubm9kZSl9ZWxzZXtpZih2LmV2ZW50PT0ic3RvcCIpe3ZhciBwLHI9cy5sZW5ndGg7ZG97ci0tO3A9c1tyXTt6Kz0oIjwvIitwLm5vZGVOYW1lLnRvTG93ZXJDYXNlKCkrIj4iKX13aGlsZShwIT12Lm5vZGUpO3Muc3BsaWNlKHIsMSk7d2hpbGUocjxzLmxlbmd0aCl7eis9dChzW3JdKTtyKyt9fX19cmV0dXJuIHorbSh4LnN1YnN0cihxKSl9ZnVuY3Rpb24gaigpe2Z1bmN0aW9uIHEoeCx5LHYpe2lmKHguY29tcGlsZWQpe3JldHVybn12YXIgdTt2YXIgcz1bXTtpZih4Lmspe3gubFI9Zih5LHgubHx8aGxqcy5JUix0cnVlKTtmb3IodmFyIHcgaW4geC5rKXtpZigheC5rLmhhc093blByb3BlcnR5KHcpKXtjb250aW51ZX1pZih4Lmtbd10gaW5zdGFuY2VvZiBPYmplY3Qpe3U9eC5rW3ddfWVsc2V7dT14Lms7dz0ia2V5d29yZCJ9Zm9yKHZhciByIGluIHUpe2lmKCF1Lmhhc093blByb3BlcnR5KHIpKXtjb250aW51ZX14Lmtbcl09W3csdVtyXV07cy5wdXNoKHIpfX19aWYoIXYpe2lmKHguYldLKXt4LmI9IlxcYigiK3Muam9pbigifCIpKyIpXFxzIn14LmJSPWYoeSx4LmI/eC5iOiJcXEJ8XFxiIik7aWYoIXguZSYmIXguZVcpe3guZT0iXFxCfFxcYiJ9aWYoeC5lKXt4LmVSPWYoeSx4LmUpfX1pZih4Lmkpe3guaVI9Zih5LHguaSl9aWYoeC5yPT09dW5kZWZpbmVkKXt4LnI9MX1pZigheC5jKXt4LmM9W119eC5jb21waWxlZD10cnVlO2Zvcih2YXIgdD0wO3Q8eC5jLmxlbmd0aDt0Kyspe2lmKHguY1t0XT09InNlbGYiKXt4LmNbdF09eH1xKHguY1t0XSx5LGZhbHNlKX1pZih4LnN0YXJ0cyl7cSh4LnN0YXJ0cyx5LGZhbHNlKX19Zm9yKHZhciBwIGluIGUpe2lmKCFlLmhhc093blByb3BlcnR5KHApKXtjb250aW51ZX1xKGVbcF0uZE0sZVtwXSx0cnVlKX19ZnVuY3Rpb24gZChCLEMpe2lmKCFqLmNhbGxlZCl7aigpO2ouY2FsbGVkPXRydWV9ZnVuY3Rpb24gcShyLE0pe2Zvcih2YXIgTD0wO0w8TS5jLmxlbmd0aDtMKyspe2lmKChNLmNbTF0uYlIuZXhlYyhyKXx8W251bGxdKVswXT09cil7cmV0dXJuIE0uY1tMXX19fWZ1bmN0aW9uIHYoTCxyKXtpZihEW0xdLmUmJkRbTF0uZVIudGVzdChyKSl7cmV0dXJuIDF9aWYoRFtMXS5lVyl7dmFyIE09dihMLTEscik7cmV0dXJuIE0/TSsxOjB9cmV0dXJuIDB9ZnVuY3Rpb24gdyhyLEwpe3JldHVybiBMLmkmJkwuaVIudGVzdChyKX1mdW5jdGlvbiBLKE4sTyl7dmFyIE09W107Zm9yKHZhciBMPTA7TDxOLmMubGVuZ3RoO0wrKyl7TS5wdXNoKE4uY1tMXS5iKX12YXIgcj1ELmxlbmd0aC0xO2Rve2lmKERbcl0uZSl7TS5wdXNoKERbcl0uZSl9ci0tfXdoaWxlKERbcisxXS5lVyk7aWYoTi5pKXtNLnB1c2goTi5pKX1yZXR1cm4gZihPLE0uam9pbigifCIpLHRydWUpfWZ1bmN0aW9uIHAoTSxMKXt2YXIgTj1EW0QubGVuZ3RoLTFdO2lmKCFOLnQpe04udD1LKE4sRSl9Ti50Lmxhc3RJbmRleD1MO3ZhciByPU4udC5leGVjKE0pO3JldHVybiByP1tNLnN1YnN0cihMLHIuaW5kZXgtTCksclswXSxmYWxzZV06W00uc3Vic3RyKEwpLCIiLHRydWVdfWZ1bmN0aW9uIHooTixyKXt2YXIgTD1FLmNJP3JbMF0udG9Mb3dlckNhc2UoKTpyWzBdO3ZhciBNPU4ua1tMXTtpZihNJiZNIGluc3RhbmNlb2YgQXJyYXkpe3JldHVybiBNfXJldHVybiBmYWxzZX1mdW5jdGlvbiBGKEwsUCl7TD1tKEwpO2lmKCFQLmspe3JldHVybiBMfXZhciByPSIiO3ZhciBPPTA7UC5sUi5sYXN0SW5kZXg9MDt2YXIgTT1QLmxSLmV4ZWMoTCk7d2hpbGUoTSl7cis9TC5zdWJzdHIoTyxNLmluZGV4LU8pO3ZhciBOPXooUCxNKTtpZihOKXt4Kz1OWzFdO3IrPSc8c3BhbiBjbGFzcz0iJytOWzBdKyciPicrTVswXSsiPC9zcGFuPiJ9ZWxzZXtyKz1NWzBdfU89UC5sUi5sYXN0SW5kZXg7TT1QLmxSLmV4ZWMoTCl9cmV0dXJuIHIrTC5zdWJzdHIoTyxMLmxlbmd0aC1PKX1mdW5jdGlvbiBKKEwsTSl7aWYoTS5zTCYmZVtNLnNMXSl7dmFyIHI9ZChNLnNMLEwpO3grPXIua2V5d29yZF9jb3VudDtyZXR1cm4gci52YWx1ZX1lbHNle3JldHVybiBGKEwsTSl9fWZ1bmN0aW9uIEkoTSxyKXt2YXIgTD1NLmNOPyc8c3BhbiBjbGFzcz0iJytNLmNOKyciPic6IiI7aWYoTS5yQil7eSs9TDtNLmJ1ZmZlcj0iIn1lbHNle2lmKE0uZUIpe3krPW0ocikrTDtNLmJ1ZmZlcj0iIn1lbHNle3krPUw7TS5idWZmZXI9cn19RC5wdXNoKE0pO0ErPU0ucn1mdW5jdGlvbiBHKE4sTSxRKXt2YXIgUj1EW0QubGVuZ3RoLTFdO2lmKFEpe3krPUooUi5idWZmZXIrTixSKTtyZXR1cm4gZmFsc2V9dmFyIFA9cShNLFIpO2lmKFApe3krPUooUi5idWZmZXIrTixSKTtJKFAsTSk7cmV0dXJuIFAuckJ9dmFyIEw9dihELmxlbmd0aC0xLE0pO2lmKEwpe3ZhciBPPVIuY04/Ijwvc3Bhbj4iOiIiO2lmKFIuckUpe3krPUooUi5idWZmZXIrTixSKStPfWVsc2V7aWYoUi5lRSl7eSs9SihSLmJ1ZmZlcitOLFIpK08rbShNKX1lbHNle3krPUooUi5idWZmZXIrTitNLFIpK099fXdoaWxlKEw+MSl7Tz1EW0QubGVuZ3RoLTJdLmNOPyI8L3NwYW4+IjoiIjt5Kz1PO0wtLTtELmxlbmd0aC0tfXZhciByPURbRC5sZW5ndGgtMV07RC5sZW5ndGgtLTtEW0QubGVuZ3RoLTFdLmJ1ZmZlcj0iIjtpZihyLnN0YXJ0cyl7SShyLnN0YXJ0cywiIil9cmV0dXJuIFIuckV9aWYodyhNLFIpKXt0aHJvdyJJbGxlZ2FsIn19dmFyIEU9ZVtCXTt2YXIgRD1bRS5kTV07dmFyIEE9MDt2YXIgeD0wO3ZhciB5PSIiO3RyeXt2YXIgcyx1PTA7RS5kTS5idWZmZXI9IiI7ZG97cz1wKEMsdSk7dmFyIHQ9RyhzWzBdLHNbMV0sc1syXSk7dSs9c1swXS5sZW5ndGg7aWYoIXQpe3UrPXNbMV0ubGVuZ3RofX13aGlsZSghc1syXSk7aWYoRC5sZW5ndGg+MSl7dGhyb3ciSWxsZWdhbCJ9cmV0dXJue3I6QSxrZXl3b3JkX2NvdW50OngsdmFsdWU6eX19Y2F0Y2goSCl7aWYoSD09IklsbGVnYWwiKXtyZXR1cm57cjowLGtleXdvcmRfY291bnQ6MCx2YWx1ZTptKEMpfX1lbHNle3Rocm93IEh9fX1mdW5jdGlvbiBnKHQpe3ZhciBwPXtrZXl3b3JkX2NvdW50OjAscjowLHZhbHVlOm0odCl9O3ZhciByPXA7Zm9yKHZhciBxIGluIGUpe2lmKCFlLmhhc093blByb3BlcnR5KHEpKXtjb250aW51ZX12YXIgcz1kKHEsdCk7cy5sYW5ndWFnZT1xO2lmKHMua2V5d29yZF9jb3VudCtzLnI+ci5rZXl3b3JkX2NvdW50K3Iucil7cj1zfWlmKHMua2V5d29yZF9jb3VudCtzLnI+cC5rZXl3b3JkX2NvdW50K3Aucil7cj1wO3A9c319aWYoci5sYW5ndWFnZSl7cC5zZWNvbmRfYmVzdD1yfXJldHVybiBwfWZ1bmN0aW9uIGkocixxLHApe2lmKHEpe3I9ci5yZXBsYWNlKC9eKCg8W14+XSs+fFx0KSspL2dtLGZ1bmN0aW9uKHQsdyx2LHUpe3JldHVybiB3LnJlcGxhY2UoL1x0L2cscSl9KX1pZihwKXtyPXIucmVwbGFjZSgvXG4vZywiPGJyPiIpfXJldHVybiByfWZ1bmN0aW9uIG4odCx3LHIpe3ZhciB4PWgodCxyKTt2YXIgdj1hKHQpO3ZhciB5LHM7aWYodil7eT1kKHYseCl9ZWxzZXtyZXR1cm59dmFyIHE9Yyh0KTtpZihxLmxlbmd0aCl7cz1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCJwcmUiKTtzLmlubmVySFRNTD15LnZhbHVlO3kudmFsdWU9ayhxLGMocykseCl9eS52YWx1ZT1pKHkudmFsdWUsdyxyKTt2YXIgdT10LmNsYXNzTmFtZTtpZighdS5tYXRjaCgiKFxcc3xeKShsYW5ndWFnZS0pPyIrdisiKFxcc3wkKSIpKXt1PXU/KHUrIiAiK3YpOnZ9aWYoL01TSUUgWzY3OF0vLnRlc3QobmF2aWdhdG9yLnVzZXJBZ2VudCkmJnQudGFnTmFtZT09IkNPREUiJiZ0LnBhcmVudE5vZGUudGFnTmFtZT09IlBSRSIpe3M9dC5wYXJlbnROb2RlO3ZhciBwPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpO3AuaW5uZXJIVE1MPSI8cHJlPjxjb2RlPiIreS52YWx1ZSsiPC9jb2RlPjwvcHJlPiI7dD1wLmZpcnN0Q2hpbGQuZmlyc3RDaGlsZDtwLmZpcnN0Q2hpbGQuY049cy5jTjtzLnBhcmVudE5vZGUucmVwbGFjZUNoaWxkKHAuZmlyc3RDaGlsZCxzKX1lbHNle3QuaW5uZXJIVE1MPXkudmFsdWV9dC5jbGFzc05hbWU9dTt0LnJlc3VsdD17bGFuZ3VhZ2U6dixrdzp5LmtleXdvcmRfY291bnQscmU6eS5yfTtpZih5LnNlY29uZF9iZXN0KXt0LnNlY29uZF9iZXN0PXtsYW5ndWFnZTp5LnNlY29uZF9iZXN0Lmxhbmd1YWdlLGt3Onkuc2Vjb25kX2Jlc3Qua2V5d29yZF9jb3VudCxyZTp5LnNlY29uZF9iZXN0LnJ9fX1mdW5jdGlvbiBvKCl7aWYoby5jYWxsZWQpe3JldHVybn1vLmNhbGxlZD10cnVlO3ZhciByPWRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCJwcmUiKTtmb3IodmFyIHA9MDtwPHIubGVuZ3RoO3ArKyl7dmFyIHE9YihyW3BdKTtpZihxKXtuKHEsaGxqcy50YWJSZXBsYWNlKX19fWZ1bmN0aW9uIGwoKXtpZih3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcil7d2luZG93LmFkZEV2ZW50TGlzdGVuZXIoIkRPTUNvbnRlbnRMb2FkZWQiLG8sZmFsc2UpO3dpbmRvdy5hZGRFdmVudExpc3RlbmVyKCJsb2FkIixvLGZhbHNlKX1lbHNle2lmKHdpbmRvdy5hdHRhY2hFdmVudCl7d2luZG93LmF0dGFjaEV2ZW50KCJvbmxvYWQiLG8pfWVsc2V7d2luZG93Lm9ubG9hZD1vfX19dmFyIGU9e307dGhpcy5MQU5HVUFHRVM9ZTt0aGlzLmhpZ2hsaWdodD1kO3RoaXMuaGlnaGxpZ2h0QXV0bz1nO3RoaXMuZml4TWFya3VwPWk7dGhpcy5oaWdobGlnaHRCbG9jaz1uO3RoaXMuaW5pdEhpZ2hsaWdodGluZz1vO3RoaXMuaW5pdEhpZ2hsaWdodGluZ09uTG9hZD1sO3RoaXMuSVI9IlthLXpBLVpdW2EtekEtWjAtOV9dKiI7dGhpcy5VSVI9IlthLXpBLVpfXVthLXpBLVowLTlfXSoiO3RoaXMuTlI9IlxcYlxcZCsoXFwuXFxkKyk/Ijt0aGlzLkNOUj0iXFxiKDBbeFhdW2EtZkEtRjAtOV0rfChcXGQrKFxcLlxcZCopP3xcXC5cXGQrKShbZUVdWy0rXT9cXGQrKT8pIjt0aGlzLkJOUj0iXFxiKDBiWzAxXSspIjt0aGlzLlJTUj0iIXwhPXwhPT18JXwlPXwmfCYmfCY9fFxcKnxcXCo9fFxcK3xcXCs9fCx8XFwufC18LT18L3wvPXw6fDt8PHw8PHw8PD18PD18PXw9PXw9PT18Pnw+PXw+Pnw+Pj18Pj4+fD4+Pj18XFw/fFxcW3xcXHt8XFwofFxcXnxcXF49fFxcfHxcXHw9fFxcfFxcfHx+Ijt0aGlzLkVSPSIoPyFbXFxzXFxTXSkiO3RoaXMuQkU9e2I6IlxcXFwuIixyOjB9O3RoaXMuQVNNPXtjTjoic3RyaW5nIixiOiInIixlOiInIixpOiJcXG4iLGM6W3RoaXMuQkVdLHI6MH07dGhpcy5RU009e2NOOiJzdHJpbmciLGI6JyInLGU6JyInLGk6IlxcbiIsYzpbdGhpcy5CRV0scjowfTt0aGlzLkNMQ009e2NOOiJjb21tZW50IixiOiIvLyIsZToiJCJ9O3RoaXMuQ0JMQ0xNPXtjTjoiY29tbWVudCIsYjoiL1xcKiIsZToiXFwqLyJ9O3RoaXMuSENNPXtjTjoiY29tbWVudCIsYjoiIyIsZToiJCJ9O3RoaXMuTk09e2NOOiJudW1iZXIiLGI6dGhpcy5OUixyOjB9O3RoaXMuQ05NPXtjTjoibnVtYmVyIixiOnRoaXMuQ05SLHI6MH07dGhpcy5CTk09e2NOOiJudW1iZXIiLGI6dGhpcy5CTlIscjowfTt0aGlzLmluaGVyaXQ9ZnVuY3Rpb24ocixzKXt2YXIgcD17fTtmb3IodmFyIHEgaW4gcil7cFtxXT1yW3FdfWlmKHMpe2Zvcih2YXIgcSBpbiBzKXtwW3FdPXNbcV19fXJldHVybiBwfX0oKTtobGpzLkxBTkdVQUdFUy5jcHA9ZnVuY3Rpb24oKXt2YXIgYT17a2V5d29yZDp7ImZhbHNlIjoxLCJpbnQiOjEsImZsb2F0IjoxLCJ3aGlsZSI6MSwicHJpdmF0ZSI6MSwiY2hhciI6MSwiY2F0Y2giOjEsImV4cG9ydCI6MSx2aXJ0dWFsOjEsb3BlcmF0b3I6MixzaXplb2Y6MixkeW5hbWljX2Nhc3Q6Mix0eXBlZGVmOjIsY29uc3RfY2FzdDoyLCJjb25zdCI6MSxzdHJ1Y3Q6MSwiZm9yIjoxLHN0YXRpY19jYXN0OjIsdW5pb246MSxuYW1lc3BhY2U6MSx1bnNpZ25lZDoxLCJsb25nIjoxLCJ0aHJvdyI6MSwidm9sYXRpbGUiOjIsInN0YXRpYyI6MSwicHJvdGVjdGVkIjoxLGJvb2w6MSx0ZW1wbGF0ZToxLG11dGFibGU6MSwiaWYiOjEsInB1YmxpYyI6MSxmcmllbmQ6MiwiZG8iOjEsInJldHVybiI6MSwiZ290byI6MSxhdXRvOjEsInZvaWQiOjIsImVudW0iOjEsImVsc2UiOjEsImJyZWFrIjoxLCJuZXciOjEsZXh0ZXJuOjEsdXNpbmc6MSwidHJ1ZSI6MSwiY2xhc3MiOjEsYXNtOjEsImNhc2UiOjEsdHlwZWlkOjEsInNob3J0IjoxLHJlaW50ZXJwcmV0X2Nhc3Q6MiwiZGVmYXVsdCI6MSwiZG91YmxlIjoxLHJlZ2lzdGVyOjEsZXhwbGljaXQ6MSxzaWduZWQ6MSx0eXBlbmFtZToxLCJ0cnkiOjEsInRoaXMiOjEsInN3aXRjaCI6MSwiY29udGludWUiOjEsd2NoYXJfdDoxLGlubGluZToxLCJkZWxldGUiOjEsYWxpZ25vZjoxLGNoYXIxNl90OjEsY2hhcjMyX3Q6MSxjb25zdGV4cHI6MSxkZWNsdHlwZToxLG5vZXhjZXB0OjEsbnVsbHB0cjoxLHN0YXRpY19hc3NlcnQ6MSx0aHJlYWRfbG9jYWw6MSxyZXN0cmljdDoxLF9Cb29sOjEsY29tcGxleDoxfSxidWlsdF9pbjp7c3RkOjEsc3RyaW5nOjEsY2luOjEsY291dDoxLGNlcnI6MSxjbG9nOjEsc3RyaW5nc3RyZWFtOjEsaXN0cmluZ3N0cmVhbToxLG9zdHJpbmdzdHJlYW06MSxhdXRvX3B0cjoxLGRlcXVlOjEsbGlzdDoxLHF1ZXVlOjEsc3RhY2s6MSx2ZWN0b3I6MSxtYXA6MSxzZXQ6MSxiaXRzZXQ6MSxtdWx0aXNldDoxLG11bHRpbWFwOjEsdW5vcmRlcmVkX3NldDoxLHVub3JkZXJlZF9tYXA6MSx1bm9yZGVyZWRfbXVsdGlzZXQ6MSx1bm9yZGVyZWRfbXVsdGltYXA6MSxhcnJheToxLHNoYXJlZF9wdHI6MX19O3JldHVybntkTTp7azphLGk6IjwvIixjOltobGpzLkNMQ00saGxqcy5DQkxDTE0saGxqcy5RU00se2NOOiJzdHJpbmciLGI6IidcXFxcPy4iLGU6IiciLGk6Ii4ifSx7Y046Im51bWJlciIsYjoiXFxiKFxcZCsoXFwuXFxkKik/fFxcLlxcZCspKHV8VXxsfEx8dWx8VUx8ZnxGKSJ9LGhsanMuQ05NLHtjTjoicHJlcHJvY2Vzc29yIixiOiIjIixlOiIkIn0se2NOOiJzdGxfY29udGFpbmVyIixiOiJcXGIoZGVxdWV8bGlzdHxxdWV1ZXxzdGFja3x2ZWN0b3J8bWFwfHNldHxiaXRzZXR8bXVsdGlzZXR8bXVsdGltYXB8dW5vcmRlcmVkX21hcHx1bm9yZGVyZWRfc2V0fHVub3JkZXJlZF9tdWx0aXNldHx1bm9yZGVyZWRfbXVsdGltYXB8YXJyYXkpXFxzKjwiLGU6Ij4iLGs6YSxyOjEwLGM6WyJzZWxmIl19XX19fSgpO2hsanMuTEFOR1VBR0VTLnI9e2RNOntjOltobGpzLkhDTSx7Y046Im51bWJlciIsYjoiXFxiMFt4WF1bMC05YS1mQS1GXStbTGldP1xcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjB9LHtjTjoibnVtYmVyIixiOiJcXGJcXGQrKD86W2VFXVsrXFwtXT9cXGQqKT9MXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJudW1iZXIiLGI6IlxcYlxcZCtcXC4oPyFcXGQpKD86aVxcYik/IixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJudW1iZXIiLGI6IlxcYlxcZCsoPzpcXC5cXGQqKT8oPzpbZUVdWytcXC1dP1xcZCopP2k/XFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJudW1iZXIiLGI6IlxcLlxcZCsoPzpbZUVdWytcXC1dP1xcZCopP2k/XFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJrZXl3b3JkIixiOiIoPzp0cnlDYXRjaHxsaWJyYXJ5fHNldEdlbmVyaWN8c2V0R3JvdXBHZW5lcmljKVxcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImtleXdvcmQiLGI6IlxcLlxcLlxcLiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImtleXdvcmQiLGI6IlxcLlxcLlxcZCsoPyFbXFx3Ll0pIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MTB9LHtjTjoia2V5d29yZCIsYjoiXFxiKD86ZnVuY3Rpb24pIixlOmhsanMuSU1NRURJQVRFX1JFLHI6Mn0se2NOOiJrZXl3b3JkIixiOiIoPzppZnxpbnxicmVha3xuZXh0fHJlcGVhdHxlbHNlfGZvcnxyZXR1cm58c3dpdGNofHdoaWxlfHRyeXxzdG9wfHdhcm5pbmd8cmVxdWlyZXxhdHRhY2h8ZGV0YWNofHNvdXJjZXxzZXRNZXRob2R8c2V0Q2xhc3MpXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJsaXRlcmFsIixiOiIoPzpOQXxOQV9pbnRlZ2VyX3xOQV9yZWFsX3xOQV9jaGFyYWN0ZXJffE5BX2NvbXBsZXhfKVxcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImxpdGVyYWwiLGI6Iig/Ok5VTEx8VFJVRXxGQUxTRXxUfEZ8SW5mfE5hTilcXGIiLGU6aGxqcy5JTU1FRElBVEVfUkUscjoxfSx7Y046ImlkZW50aWZpZXIiLGI6IlthLXpBLVouXVthLXpBLVowLTkuX10qXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJvcGVyYXRvciIsYjoiPFxcLSg/IVxccypcXGQpIixlOmhsanMuSU1NRURJQVRFX1JFLHI6Mn0se2NOOiJvcGVyYXRvciIsYjoiXFwtPnw8XFwtIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJvcGVyYXRvciIsYjoiJSV8fiIsZTpobGpzLklNTUVESUFURV9SRX0se2NOOiJvcGVyYXRvciIsYjoiPj18PD18PT18IT18XFx8XFx8fCYmfD18XFwrfFxcLXxcXCp8L3xcXF58Pnw8fCF8JnxcXHx8XFwkfDoiLGU6aGxqcy5JTU1FRElBVEVfUkUscjowfSx7Y046Im9wZXJhdG9yIixiOiIlIixlOiIlIixpOiJcXG4iLHI6MX0se2NOOiJpZGVudGlmaWVyIixiOiJgIixlOiJgIixyOjB9LHtjTjoic3RyaW5nIixiOiciJyxlOiciJyxjOltobGpzLkJFXSxyOjB9LHtjTjoic3RyaW5nIixiOiInIixlOiInIixjOltobGpzLkJFXSxyOjB9LHtjTjoicGFyZW4iLGI6IltbKHtcXF0pfV0iLGU6aGxqcy5JTU1FRElBVEVfUkUscjowfV19fTsKaGxqcy5pbml0SGlnaGxpZ2h0aW5nT25Mb2FkKCk7Cgo="></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+<link href="data:text/css;charset=utf-8,body%2C%20td%20%7B%0Afont%2Dfamily%3A%20sans%2Dserif%3B%0Abackground%2Dcolor%3A%20white%3B%0Afont%2Dsize%3A%2013px%3B%0A%7D%0Abody%20%7B%0Amax%2Dwidth%3A%20800px%3B%0Amargin%3A%200%20auto%3B%0Apadding%3A%201em%201em%202em%3B%0Aline%2Dheight%3A%2020px%3B%0A%7D%0A%0Ap%2C%20pre%20%7B%20margin%3A%200em%200em%201em%3B%0A%7D%0A%0Aimg%2C%20table%20%7B%0Amargin%3A%200em%20auto%201em%3B%0A%7D%0Ap%20%7B%0Atext%2Dalign%3A%20justify%3B%0A%7D%0Att%2C%20code%2C%20pre%20%7B%0Afont%2Dfamily%3A%20%27DejaVu%20Sans%20Mono%27%2C%20%27Droid%20Sans%20Mono%27%2C%20%27Lucida%20Console%27%2C%20Consolas%2C%20Monaco%2C%20monospace%3B%0A%7D%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%20font%2Dfamily%3A%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amargin%3A%201%2E2em%200em%200%2E6em%200em%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Ah1%20%7B%0Afont%2Dsize%3A%20250%25%3B%0Afont%2Dweight%3A%20normal%3B%0Acolor%3A%20%2387b13f%3B%0Aline%2Dheight%3A%201%2E1em%3B%0A%7D%0Ah2%20%7B%0Afont%2Dsize%3A%20160%25%3B%0Afont%2Dweight%3A%20normal%3B%0Aline%2Dheight%3A%201%2E4em%3B%0Aborder%2Dbottom%3A%201px%20%231a81c2%20solid%3B%0A%7D%0Ah3%20%7B%0Afont%2Dsize%3A%20130%25%3B%20%7D%0Ah2%2C%20h3%20%7B%0Acolor%3A%20%231a81c2%3B%0A%7D%0Ah4%2C%20h5%2C%20h6%20%7B%0Afont%2Dsize%3A115%25%3B%0A%7D%20%0A%0Aa%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Aactive%20%7B%20outline%3A%20none%3B%20%7D%0Aa%3Avisited%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Ahover%20%7B%20color%3A%20%234c94c2%3B%20%7D%0Apre%2C%20img%20%7B%0Amax%2Dwidth%3A%20100%25%3B%0Adisplay%3A%20block%3B%0A%7D%0Apre%20%7B%0Aborder%3A%200px%20none%3B%0Abackground%2Dcolor%3A%20%23F8F8F8%3B%0Awhite%2Dspace%3A%20pre%3B%0Aoverflow%2Dx%3A%20auto%3B%0A%7D%0Apre%20code%20%7B%0Aborder%3A%201px%20%23aaa%20dashed%3B%0Abackground%2Dcolor%3A%20white%3B%0Adisplay%3A%20block%3B%0Apadding%3A%201em%3B%20color%3A%20%23111%3B%0Aoverflow%2Dx%3A%20inherit%3B%0A%7D%0A%0Apre%20code%5Bclass%5D%20%7B%0Abackground%2Dcolor%3A%20inherit%3B%0A%7D%0A%0Apre%5Bclass%5D%20code%20%7B%0Abackground%2Dcolor%3A%20inherit%3B%0A%7D%0A%0Acode%20%7B%20background%2Dcolor%3A%20transparent%3B%0Acolor%3A%20%2387b13f%3B%0Afont%2Dsize%3A%2092%25%3B%0A%7D%0A%0Atable%2C%20td%2C%20th%20%7B%0Aborder%3A%20none%3B%0Apadding%3A%200%200%2E5em%3B%0A%7D%0A%0Atbody%20tr%3Anth%2Dchild%28odd%29%20td%20%7B%0Abackground%2Dcolor%3A%20%23F8F8F8%3B%0A%7D%0Ablockquote%20%7B%0Acolor%3A%23666666%3B%0Amargin%3A0%3B%0Apadding%2Dleft%3A%201em%3B%0Aborder%2Dleft%3A%200%2E5em%20%23EEE%20solid%3B%0A%7D%0Ahr%20%7B%0Aheight%3A%200px%3B%0Aborder%2Dbottom%3A%20none%3B%0Aborder%2Dtop%2Dwidth%3A%20thin%3B%0Aborder%2Dtop%2Dstyle%3A%20dotted%3B%0Aborder%2Dtop%2Dcolor%3A%20%23999999%3B%0A%7D%0A%40media%20print%20%7B%0A%2A%20%7B%0Abackground%3A%20transparent%20%21important%3B%0Acolor%3A%20black%20%21important%3B%0Afilter%3Anone%20%21important%3B%0A%2Dms%2Dfilter%3A%20none%20%21important%3B%0A%7D%0Abody%20%7B%0Afont%2Dsize%3A12pt%3B%0Amax%2Dwidth%3A100%25%3B%0A%7D%0Aa%2C%20a%3Avisited%20%7B%0Atext%2Ddecoration%3A%20underline%3B%0A%7D%0Ahr%20%7B%0Avisibility%3A%20hidden%3B%0Apage%2Dbreak%2Dbefore%3A%20always%3B%0A%7D%0Apre%2C%20blockquote%20%7B%0Apadding%2Dright%3A%201em%3B%0Apage%2Dbreak%2Dinside%3A%20avoid%3B%0A%7D%0Atr%2C%20img%20%7B%0Apage%2Dbreak%2Dinside%3A%20avoid%3B%0A%7D%0Aimg%20%7B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A%40page%20%3Aleft%20%7B%0Amargin%3A%2015mm%2020mm%2015mm%2010mm%3B%0A%7D%0A%40page%20%3Aright%20%7B%0Amargin%3A%2015mm%2010mm%2015mm%2020mm%3B%0A%7D%0Ap%2C%20h2%2C%20h3%20%7B%0Aorphans%3A%203%3B%20widows%3A%203%3B%0A%7D%0Ah2%2C%20h3%20%7B%0Apage%2Dbreak%2Dafter%3A%20avoid%3B%0A%7D%0A%7D%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Usecase - Basic GRanges and AnnotationHub</h1>
+<h4 class="author"><em>Kasper D. Hansen</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#getting-the-data">Getting the data</a></li>
+<li><a href="#sessioninfo">SessionInfo</a></li>
+</ul>
+</div>
+
+<div id="dependencies" class="section level2">
+<h2>Dependencies</h2>
+<p>This document has the following dependencies:</p>
+<pre class="r"><code>library(GenomicRanges)
+library(rtracklayer)
+library(AnnotationHub)</code></pre>
+<p>Use the following commands to install these packages in R.</p>
+<pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
+biocLite(c(&quot;GenomicRanges&quot;, &quot;rtracklayer&quot;, &quot;AnnotationHub&quot;))</code></pre>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>We are going to use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em> to access ENCODE data on the H3K4me3 histone modification in a specific cell line. This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement. This involves</p>
+<ol style="list-style-type: decimal">
+<li>Getting the ENCODE histone data using <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em>.</li>
+<li>Getting promoters using <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em>.</li>
+<li>Comparing the histone data and promoters using <code>findOverlaps</code> in <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicRanges.html">GenomicRanges</a></em>.</li>
+</ol>
+</div>
+<div id="getting-the-data" class="section level2">
+<h2>Getting the data</h2>
+<p>First we use <em><a href="http://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a></em> to get data on homo sapiens.</p>
+<pre class="r"><code>ah &lt;- AnnotationHub()
+ah &lt;- subset(ah, species == &quot;Homo sapiens&quot;)</code></pre>
+<p>Next we search for two keywords: <strong>H3K4me3</strong> and <strong>Gm12878</strong> which is the name of the cell line we are interested in.</p>
+<pre class="r"><code>qhs &lt;- query(ah, &quot;H3K4me3&quot;)
+qhs &lt;- query(qhs, &quot;Gm12878&quot;)</code></pre>
+<p>(Note: I like to keep my full annotation hub around, so I can re-do my query with a different search term in case I end up with no hits. This is why I start assigning output to the <code>qhs</code> object and not <code>ah</code>).</p>
+<p>Lets have a look</p>
+<pre class="r"><code>qhs</code></pre>
+<pre><code>## AnnotationHub with 11 records
+## # snapshotDate(): 2015-08-17 
+## # $dataprovider: BroadInstitute, UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges, BigWigFile
+## # additional mcols(): taxonomyid, genome, description, tags,
+## #   sourceurl, sourcetype 
+## # retrieve records with, e.g., 'object[[&quot;AH23256&quot;]]' 
+## 
+##             title                                                      
+##   AH23256 | wgEncodeBroadHistoneGm12878H3k4me3StdPk.broadPeak.gz       
+##   AH27075 | wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep1.broadPeak.gz
+##   AH27076 | wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep2.broadPeak.gz
+##   AH27077 | wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz     
+##   AH27078 | wgEncodeUwHistoneGm12878H3k4me3StdPkRep2.narrowPeak.gz     
+##   ...       ...                                                        
+##   AH30747 | E116-H3K4me3.narrowPeak.gz                                 
+##   AH31690 | E116-H3K4me3.gappedPeak.gz                                 
+##   AH32869 | E116-H3K4me3.fc.signal.bigwig                              
+##   AH33901 | E116-H3K4me3.pval.signal.bigwig                            
+##   AH40294 | E116-H3K4me3.imputed.pval.signal.bigwig</code></pre>
+<p>Note how some of these hits don’t contain <strong>Gm12878</strong> in their title. This is a useful illustration of how <code>query</code> searches over multiple fields.</p>
+<p>Lets have a closer look at this</p>
+<pre class="r"><code>qhs$title</code></pre>
+<pre><code>##  [1] &quot;wgEncodeBroadHistoneGm12878H3k4me3StdPk.broadPeak.gz&quot;       
+##  [2] &quot;wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep1.broadPeak.gz&quot;
+##  [3] &quot;wgEncodeUwHistoneGm12878H3k4me3StdHotspotsRep2.broadPeak.gz&quot;
+##  [4] &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz&quot;     
+##  [5] &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep2.narrowPeak.gz&quot;     
+##  [6] &quot;E116-H3K4me3.broadPeak.gz&quot;                                  
+##  [7] &quot;E116-H3K4me3.narrowPeak.gz&quot;                                 
+##  [8] &quot;E116-H3K4me3.gappedPeak.gz&quot;                                 
+##  [9] &quot;E116-H3K4me3.fc.signal.bigwig&quot;                              
+## [10] &quot;E116-H3K4me3.pval.signal.bigwig&quot;                            
+## [11] &quot;E116-H3K4me3.imputed.pval.signal.bigwig&quot;</code></pre>
+<pre class="r"><code>qhs$dataprovider</code></pre>
+<pre><code>##  [1] &quot;UCSC&quot;           &quot;UCSC&quot;           &quot;UCSC&quot;           &quot;UCSC&quot;          
+##  [5] &quot;UCSC&quot;           &quot;BroadInstitute&quot; &quot;BroadInstitute&quot; &quot;BroadInstitute&quot;
+##  [9] &quot;BroadInstitute&quot; &quot;BroadInstitute&quot; &quot;BroadInstitute&quot;</code></pre>
+<p>This result is a great illustration of the mess of public data. It turns our that <strong>E116</strong> is a Roadmap Epigenetics code for the <strong>Gm12878</strong> cell line. The first 5 hits are from ENCODE, hosted at UCSC and the last 6 hits are from Roadmap Epigenomics hosted at the Broad Institute. The Roadmap data is different representation (and peaks) from the same underlying data. For the ENCODE data, two different centers did the same experiment in the same cell line (<code>Broad</code>, hit 1) and (<code>Uw</code>, hit 2-5), where <code>Uw</code> exposed data on two replicates (whatever that means). These two experiments seems to be analyzed using different algorithms. It is even possible that the Roadmap data is from the same raw data but just analyzed using different algorithms.</p>
+<p>Lets take a look at the <code>narrowPeak</code> data:</p>
+<pre class="r"><code>gr1 &lt;- subset(qhs, title == &quot;wgEncodeUwHistoneGm12878H3k4me3StdPkRep1.narrowPeak.gz&quot;)[[1]]
+gr1</code></pre>
+<pre><code>## GRanges object with 74470 ranges and 6 metadata columns:
+##           seqnames                 ranges strand   |        name     score
+##              &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;character&gt; &lt;numeric&gt;
+##       [1]     chr1       [713301, 713450]      *   |        &lt;NA&gt;         0
+##       [2]     chr1       [713501, 713650]      *   |        &lt;NA&gt;         0
+##       [3]     chr1       [713881, 714030]      *   |        &lt;NA&gt;         0
+##       [4]     chr1       [714181, 714330]      *   |        &lt;NA&gt;         0
+##       [5]     chr1       [714481, 714630]      *   |        &lt;NA&gt;         0
+##       ...      ...                    ...    ... ...         ...       ...
+##   [74466]     chrX [154492741, 154492890]      *   |        &lt;NA&gt;         0
+##   [74467]     chrX [154493401, 154493550]      *   |        &lt;NA&gt;         0
+##   [74468]     chrX [154560441, 154560590]      *   |        &lt;NA&gt;         0
+##   [74469]     chrX [154562121, 154562270]      *   |        &lt;NA&gt;         0
+##   [74470]     chrX [154842061, 154842210]      *   |        &lt;NA&gt;         0
+##           signalValue    pValue    qValue      peak
+##             &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+##       [1]          91  112.7680        -1        -1
+##       [2]          25   26.7181        -1        -1
+##       [3]          81   77.4798        -1        -1
+##       [4]          32  106.5650        -1        -1
+##       [5]         122  153.8320        -1        -1
+##       ...         ...       ...       ...       ...
+##   [74466]          43  52.20930        -1        -1
+##   [74467]         122 203.16800        -1        -1
+##   [74468]           8   4.49236        -1        -1
+##   [74469]           8   4.41978        -1        -1
+##   [74470]         125 170.20100        -1        -1
+##   -------
+##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="r"><code>gr2 &lt;- subset(qhs, title == &quot;E116-H3K4me3.narrowPeak.gz&quot;)[[1]]
+gr2</code></pre>
+<pre><code>## GRanges object with 76188 ranges and 6 metadata columns:
+##           seqnames                 ranges strand   |        name     score
+##              &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;character&gt; &lt;numeric&gt;
+##       [1]     chr9 [123553464, 123557122]      *   |      Rank_1       623
+##       [2]     chr3 [ 53196213,  53197995]      *   |      Rank_2       622
+##       [3]    chr18 [  9137534,   9142676]      *   |      Rank_3       583
+##       [4]    chr11 [ 75110593,  75111943]      *   |      Rank_4       548
+##       [5]    chr13 [ 41343776,  41345943]      *   |      Rank_5       543
+##       ...      ...                    ...    ... ...         ...       ...
+##   [76184]     chr8 [ 98881411,  98881613]      *   |  Rank_76184        20
+##   [76185]     chr9 [ 26812360,  26812533]      *   |  Rank_76185        20
+##   [76186]     chrX [ 49019816,  49020016]      *   |  Rank_76186        20
+##   [76187]     chrX [ 55932872,  55933045]      *   |  Rank_76187        20
+##   [76188]     chr5 [118322235, 118322408]      *   |  Rank_76188        20
+##           signalValue    pValue    qValue      peak
+##             &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+##       [1]    23.09216  62.34132  52.85911      1736
+##       [2]    24.91976  62.22835  52.85911       439
+##       [3]    22.48938  58.39180  50.67302       442
+##       [4]    22.47056  54.84914  47.77176       752
+##       [5]    20.82804  54.31837  47.29083       909
+##       ...         ...       ...       ...       ...
+##   [76184]     2.63471   2.02539   0.27458        94
+##   [76185]     2.63471   2.02539   0.27458        32
+##   [76186]     2.63471   2.02539   0.27458        82
+##   [76187]     2.63471   2.02539   0.27458        41
+##   [76188]     2.62206   2.00970   0.26790        52
+##   -------
+##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>(Note: I use this code, where I use <code>title</code> to refer to the different resources, to make this script more robust over time).</p>
+<p>This gives us two <code>GRanges</code> objects. Let us look at the distribution of peak widths:</p>
+<pre class="r"><code>summary(width(gr1))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   150.0   150.0   150.0   150.3   150.0   410.0</code></pre>
+<pre class="r"><code>table(width(gr1))</code></pre>
+<pre><code>## 
+##   150   210   230   250   270   290   390   410 
+## 74313     1    13    24    37    77     4     1</code></pre>
+<pre class="r"><code>summary(width(gr2))</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     174     243     387     662     770   12340</code></pre>
+<p>Turns out that almost all peaks in <code>gr1</code> have a width of 150bp, whereas <code>gr2</code> is much more variable. This is likely a product of the data processing algorithm; it can be very hard to figure out the details of this.</p>
+<p>At this time one can spend a lot of time thinking about which datasets is best. We will avoid this (important) discussion; since we referred to ENCODE data above (in the Overview section), we will stick with <code>gr1</code>.</p>
+<p>Now we need to get some promoter coordinates. There are multiple ways to do this in Bioconductor, but here I will do a quick lookup for RefSeq in my annotation hub. RefSeq is a highly curated (aka conservative) collection of genes.</p>
+<p>Lets get started</p>
+<pre class="r"><code>qhs &lt;- query(ah, &quot;RefSeq&quot;)
+qhs</code></pre>
+<pre><code>## AnnotationHub with 8 records
+## # snapshotDate(): 2015-08-17 
+## # $dataprovider: UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges
+## # additional mcols(): taxonomyid, genome, description, tags,
+## #   sourceurl, sourcetype 
+## # retrieve records with, e.g., 'object[[&quot;AH5040&quot;]]' 
+## 
+##            title       
+##   AH5040 | RefSeq Genes
+##   AH5041 | Other RefSeq
+##   AH5155 | RefSeq Genes
+##   AH5156 | Other RefSeq
+##   AH5306 | RefSeq Genes
+##   AH5307 | Other RefSeq
+##   AH5431 | RefSeq Genes
+##   AH5432 | Other RefSeq</code></pre>
+<p>So this gives us multiple datasets, all with very similar names. We probably need the thing called <code>RefSeq Genes</code> and not <code>Other RefSeq</code> but why are there multiple resources with the same name?</p>
+<p>Turns out the answer makes sense:</p>
+<pre class="r"><code>qhs$genome</code></pre>
+<pre><code>## [1] &quot;hg19&quot; &quot;hg19&quot; &quot;hg18&quot; &quot;hg18&quot; &quot;hg17&quot; &quot;hg17&quot; &quot;hg16&quot; &quot;hg16&quot;</code></pre>
+<p>This looks like the same resources, but in different genome builds. We have</p>
+<pre class="r"><code>genome(gr1)</code></pre>
+<pre><code>##  chr1 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19  chr2 
+##    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA 
+## chr20 chr21 chr22  chr3  chr4  chr5  chr6  chr7  chr8  chr9  chrX 
+##    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA</code></pre>
+<p>so we know which one to get:</p>
+<pre class="r"><code>refseq &lt;- qhs[qhs$genome == &quot;hg19&quot; &amp; qhs$title == &quot;RefSeq Genes&quot;]
+refseq</code></pre>
+<pre><code>## AnnotationHub with 1 record
+## # snapshotDate(): 2015-08-17 
+## # names(): AH5040
+## # $dataprovider: UCSC
+## # $species: Homo sapiens
+## # $rdataclass: GRanges
+## # $title: RefSeq Genes
+## # $description: GRanges object from UCSC track 'RefSeq Genes'
+## # $taxonomyid: 9606
+## # $genome: hg19
+## # $sourcetype: UCSC track
+## # $sourceurl: rtracklayer://hgdownload.cse.ucsc.edu/goldenpath/hg19/dat...
+## # $sourcelastmodifieddate: NA
+## # $sourcesize: NA
+## # $tags: refGene, UCSC, track, Gene, Transcript, Annotation 
+## # retrieve record with 'object[[&quot;AH5040&quot;]]'</code></pre>
+<pre class="r"><code>refseq &lt;- refseq[[1]] ## Downloads</code></pre>
+<p>Lets have a look</p>
+<pre class="r"><code>refseq</code></pre>
+<pre><code>## UCSC track 'refGene'
+## UCSCData object with 50066 ranges and 5 metadata columns:
+##                        seqnames               ranges strand   |
+##                           &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;   |
+##       [1]                  chr1 [66999825, 67210768]      +   |
+##       [2]                  chr1 [ 8378145,  8404227]      +   |
+##       [3]                  chr1 [48998527, 50489626]      -   |
+##       [4]                  chr1 [16767167, 16786584]      +   |
+##       [5]                  chr1 [16767167, 16786584]      +   |
+##       ...                   ...                  ...    ... ...
+##   [50062] chr19_gl000209_random     [ 57209,  68123]      +   |
+##   [50063] chr19_gl000209_random     [ 46646,  68123]      +   |
+##   [50064] chr19_gl000209_random     [ 98135, 112667]      +   |
+##   [50065] chr19_gl000209_random     [ 70071,  84658]      +   |
+##   [50066] chr19_gl000209_random     [131433, 145745]      +   |
+##                   name     score     itemRgb                thick
+##            &lt;character&gt; &lt;numeric&gt; &lt;character&gt;            &lt;IRanges&gt;
+##       [1]    NM_032291         0        &lt;NA&gt; [67000042, 67208778]
+##       [2] NM_001080397         0        &lt;NA&gt; [ 8378169,  8404073]
+##       [3]    NM_032785         0        &lt;NA&gt; [48999845, 50489468]
+##       [4] NM_001145277         0        &lt;NA&gt; [16767257, 16785491]
+##       [5] NM_001145278         0        &lt;NA&gt; [16767257, 16785385]
+##       ...          ...       ...         ...                  ...
+##   [50062]    NM_002255         0        &lt;NA&gt;     [ 57249,  67717]
+##   [50063] NM_001258383         0        &lt;NA&gt;     [ 57132,  67717]
+##   [50064]    NM_012313         0        &lt;NA&gt;     [ 98146, 112480]
+##   [50065] NM_001083539         0        &lt;NA&gt;     [ 70108,  83979]
+##   [50066]    NM_012312         0        &lt;NA&gt;     [131468, 145120]
+##                                                     blocks
+##                                              &lt;IRangesList&gt;
+##       [1] [    1,   227] [91706, 91769] [98929, 98953] ...
+##       [2]       [   1,  102] [6222, 6642] [7214, 7306] ...
+##       [3]       [   1, 1439] [2036, 2062] [6788, 6884] ...
+##       [4]       [   1,  182] [2961, 3061] [7199, 7303] ...
+##       [5]       [   1,  104] [2961, 3061] [7199, 7303] ...
+##       ...                                              ...
+##   [50062]       [   1,   80] [ 280,  315] [1182, 1466] ...
+##   [50063] [    1,    86] [10414, 10643] [10843, 10878] ...
+##   [50064]       [   1,   46] [1523, 1557] [4002, 4301] ...
+##   [50065]       [   1,   71] [1071, 1106] [1851, 2135] ...
+##   [50066]       [   1,   69] [ 862,  897] [3334, 3633] ...
+##   -------
+##   seqinfo: 93 sequences from hg19 genome</code></pre>
+<p>Let us look at the number of isoforms per gene name:</p>
+<pre class="r"><code>table(table(refseq$name))</code></pre>
+<pre><code>## 
+##     1     2     3     4     5     6     7     8     9    10    12    13 
+## 45178   568   102    27    74    52   171   129    13    19     1     1 
+##    19 
+##     5</code></pre>
+<p>(the <code>table(table())</code> construction may seems weird at first, but its a great way to get a quick tabular summary of occurrences with the same name). This shows that almost all genes have a single transcript, which reflects how conservative RefSeq is.</p>
+<p>Notice that each transcript is a separate range. Therefore, each transcript is represented as the “outer” coordinates of the gene; the ranges does not exclude introns. Because we got this from UCSC I happen to know that the <code>$blocks</code> metadata really contains the coordinates of the different exons. In a later example we will introduce a gene representation where we keep track of exons, introns and transcripts from the same gene, through something known as a <code>TxDb</code> (transcript database) object.</p>
+<p>For now, we just need the promoters, so we don’t really care about introns. We need to keep track of which strand each transcript is on, to get the transcription start site.</p>
+<p>Or we could just use the convenience function <code>promoters()</code>:</p>
+<pre class="r"><code>promoters &lt;- promoters(refseq)
+table(width(promoters))</code></pre>
+<pre><code>## 
+##  2200 
+## 50066</code></pre>
+<pre class="r"><code>args(promoters)</code></pre>
+<pre><code>## NULL</code></pre>
+<p>There are many definitions of promoters based on transcription start site. The default in this function is to use 2kb upstream and 200bp downstream of the start site. Let’s keep this.</p>
+<p>Now we compute which promoters have a H3K4me3 peak in them:</p>
+<pre class="r"><code>ov &lt;- findOverlaps(promoters, gr1)
+ov</code></pre>
+<pre><code>## Hits object with 46022 hits and 0 metadata columns:
+##           queryHits subjectHits
+##           &lt;integer&gt;   &lt;integer&gt;
+##       [1]         2         387
+##       [2]         3        2523
+##       [3]         4         774
+##       [4]         5         774
+##       [5]         6        1114
+##       ...       ...         ...
+##   [46018]     47457       47491
+##   [46019]     47459       47493
+##   [46020]     47459       47494
+##   [46021]     47460       47493
+##   [46022]     47460       47494
+##   -------
+##   queryLength: 50066
+##   subjectLength: 74470</code></pre>
+<p>Let us compute how many percent of the peaks are in a promoter</p>
+<pre class="r"><code>length(unique(queryHits(ov))) / length(gr1)</code></pre>
+<pre><code>## [1] 0.3333691</code></pre>
+<p>and how many percent of promoters have a peak in them</p>
+<pre class="r"><code>length(unique(subjectHits(ov))) / length(promoters)</code></pre>
+<pre><code>## [1] 0.440878</code></pre>
+<p>My rule of thumb is that any cell type has at most 50% of genes expressed, which fits well with these numbers. We also see that there are many H3K4me3 peaks which do not lie in a genic promoter. This is actually expected.</p>
+<p>Now, the overlap is non-empty, but is it interesting or “significant”. Answering this question thoroughly requires thinking deeply about background distributions etc. We will avoid a careful statistical approach to this question, and will instead do a few back-of-the-envelope calculations to get a feel for it.</p>
+<p>First we notice that both promoters and peaks are small compared to the size of the human genome:</p>
+<pre class="r"><code>sum(width(reduce(gr1))) / 10^6</code></pre>
+<pre><code>## [1] 11.19044</code></pre>
+<pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
+<pre><code>## [1] 64.3005</code></pre>
+<p>(result is in megabases; the human genome is 3000 megabases). Just this fact alone should convince you that the overlap is highly unlikely happen purely by chance. Let us calculate the overlap in megabases:</p>
+<pre class="r"><code>sum(width(intersect(gr1, promoters))) / 10^6</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>That’s weird; why is the overlap empty when we know (using <code>findOverlaps</code>) that there is plenty of overlap? Turns out the answer is strand. We need to ignore the strand when we do this calculation:</p>
+<pre class="r"><code>sum(width(intersect(gr1, promoters, ignore.strand = TRUE))) / 10^6</code></pre>
+<pre><code>## [1] 3.019608</code></pre>
+<p>This brings us back to the question of the size of the promoter set above; this is also affected by strand when there is a promoter on each strand which overlaps. Contrast</p>
+<pre class="r"><code>sum(width(reduce(promoters))) / 10^6</code></pre>
+<pre><code>## [1] 64.3005</code></pre>
+<pre class="r"><code>sum(width(reduce(promoters, ignore.strand = TRUE))) / 10^6</code></pre>
+<pre><code>## [1] 62.27957</code></pre>
+<p>Strand can be troublesome!</p>
+<p>Let us compute a small 2x2 matrix for which bases are in promoters and/or peaks:</p>
+<pre class="r"><code>prom &lt;- reduce(promoters, ignore.strand = TRUE)
+peaks &lt;- reduce(gr1)
+both &lt;- intersect(prom, peaks)
+only.prom &lt;- setdiff(prom, both)
+only.peaks &lt;- setdiff(peaks, both)
+overlapMat &lt;- matrix(0,, ncol = 2, nrow = 2)
+colnames(overlapMat) &lt;- c(&quot;in.peaks&quot;, &quot;out.peaks&quot;)
+rownames(overlapMat) &lt;- c(&quot;in.promoters&quot;, &quot;out.promoter&quot;)
+overlapMat[1,1] &lt;- sum(width(both))
+overlapMat[1,2] &lt;- sum(width(only.prom))
+overlapMat[2,1] &lt;- sum(width(only.peaks))
+overlapMat[2,2] &lt;- 3*10^9 - sum(overlapMat)
+round(overlapMat / 10^6, 2)</code></pre>
+<pre><code>##              in.peaks out.peaks
+## in.promoters     3.02     59.26
+## out.promoter     8.17   2929.55</code></pre>
+<p>Here we have just used the genome size of 3 billion bases. This is not correct. There are many of these bases which have not been sequenced and in addition, there are many bases which cannot be mapped using short reads. This will reduce the genome size.</p>
+<p>Nevertheless, let us compute an odds-ratio for this table:</p>
+<pre class="r"><code>oddsRatio &lt;- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio</code></pre>
+<pre><code>## [1] 18.26938</code></pre>
+<p>This odds-ratio shows an enrichment of peaks in promoters. We can get a feel for how much the genome size (which we use incorrectly) affects our result by using a lower bound on the genome size. Let us say 1.5 billion bases:</p>
+<pre class="r"><code>overlapMat[2,2] &lt;- 1.5*10^9
+oddsRatio &lt;- overlapMat[1,1] * overlapMat[2,2] / (overlapMat[2,1] * overlapMat[1,2])
+oddsRatio</code></pre>
+<pre><code>## [1] 9.354362</code></pre>
+<p>The odds-ratio got smaller, but it is still bigger than 1.</p>
+<p>Here we basically says that each base can be assigned to peaks or promoters independently, which is definitely false. So there are many, many reasons why this calculation is not the “right” one. Nevertheless, it appears that we have some enrichment, as expected.</p>
+</div>
+<div id="sessioninfo" class="section level2">
+<h2>SessionInfo</h2>
+<p></p>
+<pre><code>## R version 3.2.1 (2015-06-18)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.5 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats4    parallel  methods   stats     graphics  grDevices utils    
+## [8] datasets  base     
+## 
+## other attached packages:
+## [1] AnnotationHub_2.0.3  rtracklayer_1.28.8   GenomicRanges_1.20.5
+## [4] GenomeInfoDb_1.4.2   IRanges_2.2.7        S4Vectors_0.6.3     
+## [7] BiocGenerics_0.14.0  BiocStyle_1.6.0      rmarkdown_0.7       
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.0                  BiocInstaller_1.18.4        
+##  [3] formatR_1.2                  futile.logger_1.4.1         
+##  [5] XVector_0.8.0                bitops_1.0-6                
+##  [7] futile.options_1.0.0         tools_3.2.1                 
+##  [9] zlibbioc_1.14.0              digest_0.6.8                
+## [11] evaluate_0.7.2               RSQLite_1.0.0               
+## [13] shiny_0.12.2                 DBI_0.3.1                   
+## [15] curl_0.9.2                   yaml_2.1.13                 
+## [17] stringr_1.0.0                httr_1.0.0                  
+## [19] knitr_1.11                   Biostrings_2.36.3           
+## [21] Biobase_2.28.0               R6_2.1.0                    
+## [23] AnnotationDbi_1.30.1         XML_3.98-1.3                
+## [25] BiocParallel_1.2.20          lambda.r_1.1.7              
+## [27] magrittr_1.5                 Rsamtools_1.20.4            
+## [29] htmltools_0.2.6              GenomicAlignments_1.4.1     
+## [31] mime_0.3                     interactiveDisplayBase_1.6.0
+## [33] xtable_1.7-4                 httpuv_1.3.3                
+## [35] stringi_0.5-5                RCurl_1.95-4.7</code></pre>
+<div class="references">
+
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
