@@ -1,0 +1,146 @@
+---
+author: Kasper D. Hansen
+title: GenomicRanges - Basic GRanges Usage
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+## Other Resources
+
+- The vignettes from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
+
+## DataFrame
+
+The `r Biocpkg("S4Vectors")` package introduced the `DataFrame` class.  This class is very similar to the base `data.frame` class from R, but it allows columns of any class, provided a number of required methods are supported.  For example, `DataFrame` can have `IRanges` as columns, unlike `data.frame`:
+
+```{r DataFrame}
+ir <- IRanges(start = 1:2, width = 3)
+df1 <- DataFrame(iranges = ir)
+df1
+df1$iranges
+df2 <- data.frame(iranges = ir)
+df2
+```
+
+In the `data.frame` case, the `IRanges` gives rise to 4 columns, whereas it is a single column when a `DataFrame` is used.
+
+Think of this as an expanded and more versatile class.
+
+## GRanges, metadata
+
+`GRanges` (unlike `IRanges`) may have associated metadata.  This is immensely useful.  The formal way to access and set this metadata is through `values` or `elementMetadata` or `mcols`, like
+
+```{r GRanges}
+gr <- GRanges(seqnames = "chr1", strand = c("+", "-", "+"),
+              ranges = IRanges(start = c(1,3,5), width = 3))
+values(gr) <- DataFrame(score = c(0.1, 0.5, 0.3))
+gr
+``` 
+
+A much easier way to set and access metadata is through the `$` operator
+
+```{r grdollar}
+gr$score
+gr$score2 = gr$score * 0.2
+gr
+```
+
+## findOverlaps
+
+`findOverlaps` works exactly as for `IRanges`.  But the `strand` information can be confusing.  Let us make an example
+
+```{r findOverlaps_setup}
+gr2 <- GRanges(seqnames = c("chr1", "chr2", "chr1"), strand = "*",
+               ranges = IRanges(start = c(1, 3, 5), width = 3))
+gr2
+gr
+```
+
+Note how the `ranges` in the two `GRanges` object are the same coordinates, they just have different `seqnames` and `strand`.  Let us try to do a standard `findOverlaps`:
+
+```{r findOverlaps}
+findOverlaps(gr, gr2)
+```
+
+Notice how the `*` strand overlaps both `+` and `-`.  There is an argument `ignore.strand` to `findOverlaps` which will ... ignore the strand information (so `+` overlaps `-`). Several other functions in `GenomicRanges` have an `ignore.strand` argument as well. 
+
+## subsetByOverlaps
+
+A common operation is to select only certain ranges from a `GRanges` which overlap something else.  Enter the convenience function `subsetByOverlaps`
+```{r subsetByOverlaps}
+subsetByOverlaps(gr, gr2)
+```
+
+## makeGRangesFromDataFrame
+
+A common situation is that you have data which looks like a `GRanges` but is really stored as a classic `data.frame`, with `chr`, `start` etc.  The `makeGRangesFromDataFrame` converts this `data.frame` into a `GRanges`.  An argument tells you whether you want to keep any additional columns.
+
+```{r makeGRangesFromDataFrame}
+df <- data.frame(chr = "chr1", start = 1:3, end = 4:6, score = 7:9)
+makeGRangesFromDataFrame(df)
+makeGRangesFromDataFrame(df, keep.extra.columns = TRUE)
+```
+
+## Biology usecases
+
+Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
+
+### Biology usecase I
+
+Suppose we want to identify transcription factor (TF) binding sites that overlaps known SNPs.
+
+Input objects are  
+**snps**: a `GRanges` (of width 1)  
+**TF**: a `GRanges`
+
+pseudocode:
+```{r usecaseI, eval=FALSE}
+findOverlaps(snps, TF)
+``` 
+
+(watch out for strand)
+
+## Biology usecase II
+
+Suppose we have a set of differentially methylation regions (DMRs) (think genomic regions) and a set of CpG Islands and we want to find all DMRs within 10kb of a CpG Island.
+
+Input objects are  
+**dmrs**: a `GRanges`  
+**islands**: a `GRanges`
+
+pseudocode:
+```{r usecaseII, eval=FALSE}
+big_islands <- resize(islands, width = 20000 + width(islands), fix = "center")
+findOverlaps(dmrs, big_islands)
+``` 
+
+(watch out for strand)
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
+

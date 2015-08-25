@@ -1,0 +1,164 @@
+---
+author: Kasper D. Hansen
+title: GenomicRanges - Rle
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicRanges"))
+```
+
+### Overview
+
+In this session we will discuss a data representation class called `Rle` (run length encoding).  This class is great for representation genome-wide sequence coverage.
+
+## Other Resources
+
+### Coverage
+
+In high-throughput sequencing, coverage is the number of reads overlapping each base.  In other words, it associates a number (the number of reads) to every base in the genome.
+
+This is a fundamental quantity for many high-throughout sequencing analyses.  For variant calling (DNA sequencing) it tells you how much power (information) you have to call a variant at a given location.  For ChIP sequencing it is the primary signal; areas with high coverage are thought to be enriched for a given protein.
+
+A file format which is often used to represent coverage data is `Wig` or the modern version `BigWig`.
+
+### Rle
+
+An `Rle` (run-length-encoded) vector is a specific representation of a vector.  The `r Biocpkg("IRanges")` package implements support for this class.  Watch out: there is also a base R class called `rle` which has much less functionality.
+
+The run-length-encoded representation of a vector, represents the vector as a set of distinct runs with their own value.  Let us take an example
+```{r RleEx1}
+rl <- Rle(c(1,1,1,1,2,2,3,3,2,2))
+rl
+runLength(rl)
+runValue(rl)
+as.numeric(rl)
+```
+Note the accessor functions `runLength()` and `runValue()`.
+
+This is a very efficient representation if
+
+- the vector is very long
+- there are a lot of consecutive elements with the same value
+
+This is especially useful for genomic data which is either piecewise constant, or where most of the genome is not covered (eg. RNA sequencing in mammals).
+
+In many ways `Rle`s function as normal vectors, you can do arithmetic with them, transform them etc. using standard R functions like `+` and `log2`.
+
+There are also `RleList` which is a list of `Rle`s.  This class is used to represent a genome wide coverage track where each element of the list is a different chromosome.
+
+### Useful functions for Rle
+
+A standard usecase is that you have a number of regions (say `IRanges`) and you want to do something to your `Rle` over each of these regions.  Enter `aggregate()`.
+
+```{r aggregate}
+ir <- IRanges(start = c(2,6), width = 2)
+aggregate(rl, ir, FUN = mean)
+```
+
+It is also possible to covert an `IRanges` to a `Rle` by the `coverage()` function.  This counts, for each integer, how many ranges overlap the integer.
+```{r coverage}
+ir <- IRanges(start = 1:10, width = 3)
+rl <- coverage(ir)
+rl
+```
+
+You can select high coverage regions by the `slice()` function:
+
+```{r slice}
+slice(rl, 2)
+```
+
+This outputs a `Views` object, see next section.
+
+### Views and Rles
+
+In the sessions on the `r Biocpkg("Biostrings")` package we learned about `Views` on genomes.  `Views` can also be instantiated on `Rle`s.
+
+```{r views}
+vi <- Views(rl, start = c(3,7), width = 3)
+vi
+``` 
+with `Views` you can now (again) apply functions:
+```{r viewsMean}
+mean(vi)
+```
+This is very similar to using `aggregate()` described above.
+
+
+
+### RleList
+
+An `RleList` is simply a list of `Rle`.  It is similar to a `GRangesList` in concept.
+
+### Rles and GRanges
+
+`Rle`'s can also be constructed from `GRanges`.
+
+This often involves `RleList` where each element of the list is a chromosome.  Surprisingly, we do not yet have an `RleList` type structure which also contains information about say the length of the different chromosomes.
+
+Let us see some examples
+
+```{r GRanges}
+gr <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:10, width = 3))
+rl <- coverage(gr)
+rl
+```
+
+Using `Views` on such an object exposes some missing functionality
+
+```{r GRangesViews, error=TRUE}
+grView <- GRanges("chr1", ranges = IRanges(start = 2, end = 7))
+vi <- Views(rl, grView)
+```
+
+We get an error, mentioning some object called a `RangesList`.  This type of object is similar to a `GRanges` and could be considered succeeded by the later class.  We sometimes see instances of this popping around.
+
+```{r GRangesViews2}
+vi <- Views(rl, as(grView, "RangesList"))
+vi
+vi[[1]]
+```
+
+## Biology Usecase
+
+Suppose we want to compute the average coverage of bases belonging to (known) exons.
+
+Input objects are   
+**reads**: a `GRanges`.  
+**exons**: a `GRanges`.
+
+pseudocode:
+```{r usecase, eval=FALSE}
+bases <- reduce(exons)
+nBases <- sum(width(bases))
+nCoverage <- sum(Views(coverage(reads), bases))
+nCoverage / nBases
+``` 
+
+(watch out for strand)
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
+

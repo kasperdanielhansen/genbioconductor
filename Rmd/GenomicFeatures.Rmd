@@ -1,0 +1,129 @@
+---
+title: "GenomicFeatures"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GenomicFeatures)
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GenomicFeatures", "TxDb.Hsapiens.UCSC.hg19.knownGene"))
+```
+
+## Overview
+
+The `r Biocpkg("GenomicFeatures")` package contains functionality for so-called transcript database or *TxDb* objects.  These objects contains a coherent interface to transcripts.  Transcripts are complicated because higher organisms usually have many different transcripts for each gene locus.
+
+## Other Resources
+
+- The vignette from the [GenomicFeatures webpage](http://bioconductor.org/packages/GenomicFeatures).
+
+## Examples
+
+We will show the `TxDb` functionality by examining a database of human transcripts.  Unlike genomes in Bioconductor, there is no shorthand object; we reassign the long name to a shorter for convenience:
+
+```{r txdb}
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+txdb
+```
+
+A `TxDb` object is really an interface to a `SQLite` database.  You can query the database using a number of tools detailed in the package vignette, but usually you use convenience functions to extract the relevant information.
+
+
+**Extract basic quantities**
+
+- `genes()`
+- `transcripts()`
+- `cds()`
+- `exons()`
+- `microRNAs()`
+- `tRNAs()`
+- `promoters()`
+
+**Extract quantities and group**
+
+- `transcriptsBy(by = c("gene", "exon", "cds"))`
+- `cdsBy(by = c("tx", "gene"))`
+- `exonsBy(by = c("tx", "gene"))`
+- `intronsByTranscript()`
+- `fiveUTRsByTranscript()`
+- `threeUTRsByTranscript()`
+
+(Note: there are grouping functions without the non-grouping function and vice versa; there is for example no `introns()` function.
+
+**Other functions**
+
+- `transcriptLengths()` (optionally include CDS length etc).
+- `XXByOverlaps()` (select features based on overlaps with `XX` being `transcript`, `cds` or `exon`).
+
+**Mapping between genome and transcript coordinates**
+
+- `extractTranscriptSeqs()` (getting RNA sequencing of the transcripts).
+
+
+## Caution: Terminology
+
+The `TxDb` object approach is powerful but it suffers (in my opinion) from a lack of clearly defined terminology.  Even worse, the meaning of terminology changes depending on the function.  For example `transcript` is sometimes used to refer to un-spliced transcripts (pre-mRNA) and sometimes to splices transcripts.
+
+## Gene, exons and transcripts
+
+Let us start by examining genes, exons and transcripts.  Let us focus on a single gene on chr1: DDX11L1.
+```{r gr}
+gr <- GRanges(seqnames = "chr1", strand = "+", ranges = IRanges(start = 11874, end = 14409))
+subsetByOverlaps(genes(txdb), gr)
+subsetByOverlaps(genes(txdb), gr, ignore.strand = TRUE)
+```
+The `genes()` output contains a single gene with these coordinates, overlapping another gene on the opposite strand.  Note that the gene is represented as a single range; so this output tells us nothing about exons and splicing. There is a single identifier called `gene_id`.  If you look at the output of `txdb` you'll see that this is an "Entrex Gene ID".
+
+```{r transcripts}
+subsetByOverlaps(transcripts(txdb), gr)
+```
+The gene has 3 transcripts; again we only have coordinates of the pre-mRNA here.  There are 3 different transcript names (`tx_name`) which are identifiers from UCSC and then we have a `TxDb` specific transcript id (`tx_id`) which is an integer.  Let's look at exons:
+```{r exons}
+subsetByOverlaps(exons(txdb), gr)
+```
+Here we get 6 exons, but no indication of which exons makes up which transcripts.  To get this, we can do
+```{r exonsBy}
+subsetByOverlaps(exonsBy(txdb, by = "tx"), gr)
+```
+Here we now finally see the structure of the three transcripts in the form of a `GRangesList`.
+
+Let us include the coding sequence (CDS).  Now, it can be extremely hard to computationally infer the coding sequence from a fully spliced mRNA.
+
+```{r cds}
+subsetByOverlaps(cds(txdb), gr)
+subsetByOverlaps(cdsBy(txdb, by = "tx"), gr)
+```
+
+The output of `cds()` is not very useful by itself, since each range is part of a CDS, not the entire cds.  We need to know how these ranges together form a CDS, and for that we need `cdsBy(by = "tx")`.  We can see that only one of the three transcripts has a CDS by looking at their CDS lengths:
+```{r transcriptLengths}
+subset(transcriptLengths(txdb, with.cds_len = TRUE), gene_id == "100287102")
+```
+(here we subset a `data.frame`).
+
+Note: as an example of terminology mixup, consider that the output of `transcripts()` are coordinates for the unspliced transcript, whereas `extractTranscriptSeqs()` is the RNA sequence of the spliced transcripts.
+
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References

@@ -1,0 +1,266 @@
+---
+title: "R - S4 Classes and Methods"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(ALL)
+library(GenomicRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("ALL" "GenomicRanges"))
+```
+
+## Overview
+  
+The S4 system in R is a system for object oriented programing.  Confusingly, R has support for at least 3 different systems for object oriented programming: S3, S4 and S5 (also known as reference classes).
+
+The S4 system is heavily used in Bioconductor, whereas it is very lightly used in "traditional" R and in packages from CRAN.  As a user it can be useful to recognize S4 objects and to learn some facts about how to explore, manipulate and use the help system when encountering S4 classes and methods.
+
+### Important note for programmers
+
+If you have experience with object oriented programming in other languages, for example java, you need to understand that in R, S4 objects and methods are completely separate.  You can use S4 classes without every using S4 methods and vice versa.
+
+## Other Resources
+
+- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+
+## S3 and S4 classes
+
+Based on years of experience in Bioconductor, it is fair to say that S4 classes have been very successful in this project.  S4 classes has allowed us to construct rich and complicated data representations that nevertheless seems simple to the end user.  An example, which we will return to, are the data containers `ExpressionSet` and `SummarizedExperiment`.
+
+Let us look at a S3 object, the output of the linear model function `lm` in base R:
+```{r lm}
+df <- data.frame(y = rnorm(10), x = rnorm(10))
+lm.object <- lm(y ~ x, data = df)
+lm.object
+names(lm.object)
+class(lm.object)
+```
+In standard R, an S3 object is essentially a `list` with a `class` attribute on it.  The problem with S3 is that we can assign any class to any list, which is nonsense.  Let us try an example
+```{r lm2}
+xx <- list(a = letters[1:3], b = rnorm(3))
+xx
+class(xx) <- "lm"
+xx
+```
+At least we don't get an error when we print it.
+
+S4 classes have a formal definition and formal validity checking.  To the end user, this gurantees validity of the object.
+
+Let us load an S4 object:
+
+```{r ALL}
+library(ALL)
+data(ALL)
+ALL
+class(ALL)
+isS4(ALL)
+```
+
+The last function call checks whether the object is S4.
+
+## Constructors and getting help
+
+The proper way of finding help on a class is to do one of the following
+```{r help, eval=FALSE}
+?"ExpressionSet-class"
+class?ExpressionSet
+```
+Note how you need to put the `ExpressionSet-class` in quotes.
+
+A constructor function is a way to construct objects of the given class.  You have already used constructor functions for base R classes, such as
+```{r list}
+xx <- list(a = 1:3)
+```
+here `list()` is a constructor function.  The Bioconductor coding standards suggests that an S4 class should have a name that begins with a capital letter and a constructor function with the same name as the class.
+
+This is true for `ExpressionSet`:
+```{r ExpressionSet}
+ExpressionSet()
+```
+It is common that the constructor function is documented on the same help page as the class; this is why getting using
+```{r help2,eval=FALSE}
+?ExpressionSet
+```
+works to give you detail on the class. *This does not always work*.
+
+You can always use the function `new()` to construct an instance of a class. This is now frowned upon in Bioconductor, since it is not a good idea for complicated classes (... years of experience left out here).  But in old documents on Bioconductor you can sometimes see calls like
+```{r newExpressionSet}
+new("ExpressionSet")
+```
+
+An example of a class in Bioconductor that does not have a constructor function is the `BSParams` class from `r Biocpkg("BSgenome")` used for constructing calls to the `bsapply` function (applying functions over whole genomes).
+
+## Slots and accessor functions
+
+You can get the class definition as
+```{r getClass}
+getClass("ExpressionSet")
+```
+In  this output you'll see two things
+
+1. A number of `slots` are mentioned together with a name and a `class`.
+2. The class "extends" the class `eSet` "directly".
+
+First, let us discuss (1).  Data inside an S4 class are organized into slots.  You access slots by using either '@' or the 'slots()` function, like
+
+```{r slots}
+ALL@annotation
+slot(ALL, "annotation")
+```
+
+However, as a user you **should never have to access slots directly**.  This is important to understand.  You should get data out of the class using "accessor" functions.  Frequently accessor functions are named as the slot or perhaps `get` and the slot name.
+
+```{r accessor}
+annotation(ALL)
+```
+
+(the `get` version of this name is `getAnnotation()` - different package authors use different styles).  Not all slots have an accessor function, because slots may contain data which is not useful to the user.
+
+Traditionally, accessor functions are documented on the same help page as the class itself.
+
+Accessor functions does not always precisely refer to a slot.  For example, for `ExpressionSet` we use `exprs()` to get the expression matrix, but there is no slot called `exprs` in the class definition.  We still refer to `exprs()` as an accessor function.
+
+By only using accessor functions you are protecting yourself (and your code) against future changes in the class definition; accessor functions should always work.
+
+
+## Class inheritance
+
+Class inheritance is used a lot in Bioconductor.  Class inheritance is used when you define a new class which "is almost like this other class but with a little twist".  For example `ExpressionSet` inherits from `eSet`, and when you look at the class definition you cannot easily see a difference.  The difference is that `ExpressionSet` is meant to contain expression data and has the `exprs()` accessor.
+
+To make the usefulness of this more obvious, let me describe (briefly) the `MethylSet` class from the `r Biocpkg("minfi")` (which I have authored).  This class is very similar to `ExpressionSet` except it contains methylation data.  Methylation is commonly measured using two channels "methylation" and "unmethylation" as opposed to the single channel exposed by `ExpressionSet`.  Both `ExpressionSet` and `MethylSet` inherits from `eSet` (which actually represents most of the code of these classes) but `ExpressionSet` has a single `exprs()` accessor and `MethylSet` has two methylation accessors `getMeth()` and `getUnmeth()`.
+
+This is useful to know because the documentation for a class might often refer to its parent class.  For example, in the documentation for `ExpressionSet` you find the phrase "see `eSet`" a lot.
+
+
+## Outdated S4 classes
+
+It occasionally happens that an S4 class definition gets updated.  This might affect you in the following scenario
+
+- You do an analysis in a given version of Bioconductor and you save your objects.
+- 6 months later your work has to be revised, but Bioconductor has been updated in the meantime.
+- When you `load` the old object, it doesn't seem to work.
+
+The solution to this problem is the function `updateObject`.  When a programmer updates their class definition, they are supposed to provide an `updateObject` function which will update old objects to new objects.  Note the "supposed", this is not guranteed to happen, but feel free to report this as a bug if you encounter it.
+
+Usage is easy
+```{r updateObject, eval=FALSE}
+new_object <- updateObject(old_object)
+```
+In practice, you tend to not want to keep the `old_object` around so you do
+```{r updateObject2, eval=FALSE}
+object <- updateObject(object)
+```
+
+As an added hint, you can always run validity checking on an S4 objects if you think something funny is going on.  It should return `TRUE`:
+```{r validity}
+validObject(ALL)
+```
+
+### Notes on class version
+
+In the early days of Bioconductor, efforts were made to version S4 classes.  This was done in anticipation of changes in class definitions.  This actually happens.  For example, the `ExpressionSet` class has changed definition at least one time, and at the time of writing, the `SummarizedExperiment` class is undergoing changes to its internal structure between Bioconductor 3.1 and 3.2.  It was later realized that we do seldom change class definitions, so the versioning was abandoned.  You see debris from this in the `.__classVersion__` slot of the `ExpressionSet` class.
+
+## S4 Methods
+
+You can think of S4 methods as simple functions.  A method is a function which can look at its arguments and decide what to do.  One way to mimic a method is by a function definition like the following
+```{r mimicMethod}
+mimicMethod <- function(x) {
+    if (is(x, "matrix"))
+        method1(x)
+    if (is(x, "data.frame"))
+        method2(x)
+    if (is(x, "IRanges"))
+        method3(x)
+}
+```
+This function examines the `x` argument and runs different sets of code (`method1`, `method2`, `method3`) depending on which class `x` is.
+
+An example of this is `as.data.frame`. 
+```{r as.data.frame}
+as.data.frame
+```
+In the output you can see that it is  so-called "generic" method involved something called `standardGeneric()`.  Don't be distracted by this lingo; this is just like the `mimicMethod` function defined above.  To see `method1`, `method2` etc you do
+```{r showMethods}
+showMethods("as.data.frame")
+```
+The different values of `x` here are called "signatures".
+
+Actually, this does not show you the actual methods, it just shows you which values of `x` a method has been defined for.  To see the code, do
+```{r getMethod}
+getMethod("as.data.frame", "DataFrame")
+```
+Lingo - `as.data.frame` is a generic method.  It operatures on different signatures (values of `x`) and each signature has an associated method.  This method is said to "dispatch" on `x`.
+
+Many Bioconductor packages uses S4 classes extensively and S4 methods sparringly; I tend to follow this paradigm.  S4 methods are particularly useful when
+
+1. there are many different values if the argument which needs to be handled (like `as.data.frame` above.
+2. you want to mimic functions from base R.
+
+The second point is the case for, for example, the `r Biocpkg("IRanges")` and`r Biocpkg("GenomicRanges")` packages.  The `IRanges` class looks very much like a standard vector and extensive work has gone into making it feel like a standard vector.
+
+For `as.data.frame`, you can see that the value of this function in base R is not a method, by
+```{r base_as.data.frame}
+base::as.data.frame
+```
+What happens is that the `r Biocpkg("BiocGenerics")` converts the base R function `as.data.frame` into a generic method.  This is what you get notified about when the following is printed when you load `r Biocpkg("BiocGenerics")` (typically as  by-product of loading another Biconductor package such as `r Biocpkg("IRanges")`.
+
+```
+The following objects are masked from 'package:base':
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, append,
+    as.data.frame, as.vector, cbind, colnames, do.call, duplicated,
+    eval, evalq, get, intersect, is.unsorted, lapply, mapply, match,
+    mget, order, paste, pmax, pmax.int, pmin, pmin.int, rank, rbind,
+    rep.int, rownames, sapply, setdiff, sort, table, tapply, union,
+    unique, unlist, unsplit
+```
+
+There are drwabacks to methods:
+
+1. It is hard (but not impossible) to get the actual code.
+2. The help system can be confusing.
+3. They are hard to debug for non-package authors.
+
+We have addressed (1) above.  The problem with the help system is that each method of `as.data.frame` may have its own help page, sometimes in different packages.  Furthermore, each method may have different arguments.
+
+The correct way to look up a help page for a method is
+```{r helpMethod,eval=FALSE}
+method?as.data.frame,DataFrame
+?"as.data.frame-method,DataFrame"
+```
+which is quite a mothful.  This becomes worse when there is dispatching on multiple arguments; a great example is
+```{r findOverlaps}
+showMethods("findOverlaps")
+```
+Finding the right help page for a method is (in my opinion) currently much harder than it ought to be; console yourself that many people struggle with this.
+
+`findOverlaps` is also an example where two different methods of the generic have different arguments, although it becomes extremely confusing to illustrate how `findOverlaps` only accepts `ignore.strand` when the argument is a `GRanges` and not an `IRanges`.  You cannot see it in the method arguments; you need to read the code itself (or the help page):
+```{r ignore.strand}
+getMethod("findOverlaps", signature(query = "Ranges", subject = "Ranges"))
+getMethod("findOverlaps", signature(query = "GenomicRanges", subject = "GenomicRanges"))
+```
+This is (in some ways) a great illustration of how confusing methods can be!  The good thing is that they tend to "just work".
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References

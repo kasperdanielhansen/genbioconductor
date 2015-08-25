@@ -1,0 +1,97 @@
+---
+title: "GEOquery"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(GEOquery)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("GEOquery"))
+```
+
+## Overview
+  
+NCBI Gene Expression Omnibus (GEO) has a lot of high-throughput genomics datasets publicly available.  Despite the name, this database is not exclusively for gene expression data.
+
+## Other Resources
+
+- The vignette from the [GEOquert webpage](http://bioconductor.org/packages/GEOquery).
+- GEO [documentation](http://www.ncbi.nlm.nih.gov/geo/info/overview.html).
+
+## NCBI GEO
+
+NCBI GEO is organised as samples which are grouped into series.  For bigger experiments there are both SubSeries and SuperSeries.  A SuperSeries is all the experiments for a single paper; a SuperSeries can be decomposed into SubSeries which are different technologies.  As an example, look at the SuperSeries [GSE19486](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19486). In this paper they used 2 different platforms (this is a weird name; a platform is a combination of a technology and a species).  And they did RNA-seq and ChIP-seq for two different factors (NFkB-II and Pol II).  This results in 4 SubSeries (2 for RNA-seq and 2 for ChIP-seq).
+
+A simpler setup is for example [GSE994](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE994) where samples from current and former smokers were compared, using an Affymetrix microarray.
+
+Data submitted to NCBI GEO can be both "raw" and "proceseed".  Let us focus on gene expression data for the moment.  "Processed" data is normalized and quantified, typically at the gene level, and is usually provided in the form of a gene by sample matrix.  "Raw" data can be anything, from sequencing reads to microarray image files.  There can even be different states of "raw" data, for example for a RNA-seq dataset you may have
+
+- FASTQ files (raw reads)
+- BAM files (aligned reads)
+- gene by sample expression matrix (unnormalized)
+- gene by sample expression matrix (normalized)
+
+So what is "raw" and what is "processed" can be very context dependent.
+
+In some cases there is a consensus in the field.  For Affymetrix gene expression microarrays, "raw" files are so-called CEL files (a file format invented by Affymetrix) and "processed" data is normalized and quantified data, summarized at the probeset level.
+
+At the end of the day, GEO has series identifiers (like GSE19486) and sample identiers (GSM486297).  Note the GSE vs GSM in the same.  A user is almost always interested in all the samples in a given series, so the starting point is the series identifier, also called the accession number.
+
+
+## GEOquery
+
+All you need to download data from GEO is the accession number.  Let us use [GSE11675](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE11675) which is a very small scale Affymetrix gene expression array study (6 samples).
+
+```{r getData}
+eList <- getGEO("GSE11675")
+class(eList)
+length(eList)
+names(eList)
+eData <- eList[[1]]
+eData
+```
+
+The function returns a `list` because you might be getting multiple SubSeries.  In this case there is only one, and the list element is an `ExpressionSet` ready for usage!  The phenotype data (which GEO knows about) is contained inside the `pData` slot; there is usually a lot of unnecessary stuff here:
+```{r pData}
+names(pData(eData))
+```
+
+However, what we got here was processed data.  Users (including me) often wants access to more raw data.  This is called "supplementary files" in GEO language and we can get those as well.
+
+```{r getGEOsupp}
+eList2 <- getGEOSuppFiles("GSE11675")
+eList2
+tarArchive <- rownames(eList2)[1]
+tarArchive
+```
+
+This is now a `data.frame` of file names.  A single TAR archive was downloaded. You can expand the TAR achive using standard tools; inside there is a list of 6 CEL files and 6 CHP files.  You can then read the 6 CEL files into R using functions from `r Biocpkg("affy")` or `r Biocpkg("oligo")`.
+
+It is also possible to use `r Biocpkg("GEOquery")` to query GEO as a database (ie. looking for datasets); more information in the package vignette.
+
+## Other packages
+
+There are other packages for accessing other online repositories with public data; they include `r Biocpkg("SRAdb")` for the Short Read Archive (SRA) and `r Biocpkg("ArrayExpress")` (ArrayExpress; a similar database to NCBI GEO but hosted at the European Bioinformatics Institute (EBI)).
+
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+

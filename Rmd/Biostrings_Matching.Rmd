@@ -1,0 +1,87 @@
+---
+author: "Kasper D. Hansen"
+title: "Biostrings - Intermediate Usage"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(Biostrings)
+library(BSgenome)
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
+
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("Biostrings", "BSgenome",
+           "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
+```
+
+## Overview
+
+We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`
+
+## Other Resources
+
+
+## Pattern matching
+
+We often want to find patterns in (long) sequences.  `r Biocpkg("Biostrings")` have a number of functions for doing so
+
+- `matchPattern` and `vmatchPattern`: match a single sequence against one sequence (`matchPattern`) or more than one (`vmatchPattern`) sequences.
+- `matchPDict` and `vmatchPDict`: match a (possibly large) set of sequences against one sequence (`matchPDict`) or more than one (`vmatchPDict`) sequences.
+
+These functions allows a small set of mismatches and some small indels.  The `Dict` term is used because the function builds a "dictionary" over the sequences.
+
+There are also functions with similar naming using `count` instead of `match` (eg. `countPatterns`).  These functions returns the number of matches instead of precise information about where the matches occur.
+
+In many ways, these functions are similar to using short read aligners like Bowtie.  But these functions are designed to be comprehensive (return all matches satisfying certain criteria).  Having this functionality available in Bioconductor can sometimes be very useful.
+
+```{r mmatchPattern}
+dnaseq <- DNAString("ACGTACGT")
+matchPattern(dnaseq, Scerevisiae$chrI)
+countPattern(dnaseq, Scerevisiae$chrI)
+vmatchPattern(dnaseq, Scerevisiae)
+head(vcountPattern(dnaseq, Scerevisiae))
+```
+
+See how we use `vmatchPattern` to examine across all chromosomes.
+
+First, note how the return object of `vmatchPattern` is a `GRanges` given the exact information of where the string matches.  Note sequence we search for is its own reverse complement, so we get hits on both strands (which makes sense).  Obviously, not all sequences are like this
+```{r revCompCheck}
+dnaseq == reverseComplement(dnaseq)
+```
+
+Second, note how the return object of `matchPattern` looks like an `IRanges` but is really something called a `Views` (see another session).
+
+## Specialized alignments
+
+There are a number of other, specialized, alignment functions in `r Biocpkg("Biostrings")`.  They include
+
+- `matchPWM`: a position weight matrix is a common way to represent for example a transcription factor binding motif (think sequence logos).  This function allows you to search for such motifs in the genome.
+- `pairwiseAlignment`: This function implements pairwise alignments using dynamic programming; providing an interface to both the Smith-Waterman local alignment problem and the Needleman-Wunsch global alignment problems, see a thorough description in [@Durbin:1998].
+- `trimLRpattern` (trim left-right pattern): Takes a set of sequences and looks for whether they start or end with a given (other sequence), for example a sequencing adapter.  Used for trimming reads based on adapter sequences.
+
+For now, we will avoid further discussion of these functions.
+
+One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read data, because the algorithms scale badly with the length of the sequence (ie. the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
+

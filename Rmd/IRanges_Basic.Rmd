@@ -1,0 +1,221 @@
+---
+author: Kasper D. Hansen
+title: IRanges - Basic Usage
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(IRanges)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("IRanges"))
+```
+
+## Overview
+
+A surprising amount of objects/tasks in computational biology can be formulated in terms of integer intervals, manipulation of integer intervals and overlap of integer intervals.
+
+**Objects**: A transcript (a union of integer intervals), a collection of SNPs (intervals of width 1), transcription factor binding sites, a collection of aligned short reads.
+
+**Tasks**: Which transcription factor binding sites hit the promoter of genes (overlap between two sets of intervals), which SNPs hit a collection of exons, which short reads hit a predetermined set of exons.
+
+`IRanges` are collections of integer intervals.  `GRanges` are like `IRanges`, but with an associated chromosome and strand, taking care of some book keeping.
+
+Here we discuss `IRanges`, which provides the foundation for `GRanges`.  This package implements (amongst other things) an algebra for handling integer intervals.
+
+## Other Resources
+
+- The vignette titled "An Introduction to IRanges" from the [IRanges webpage](http://bioconductor.org/packages/IRanges).
+
+## Basic IRanges
+  
+Specify IRanges by 2 of start, end, width (SEW).
+  
+```{r iranges1}
+ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
+ir1
+ir2 <- IRanges(start = c(1,3,5), width = 3)
+all.equal(ir1, ir2)
+``` 
+
+An `IRanges` consist of separate intervals; each interval is called a range.  So `ir1` above contains 3 ranges.
+
+Assessor methods: `start()`, `end()`, `width()` and also replacement methods.
+
+```{r ir_width}
+start(ir1)
+width(ir2) <- 1
+ir2
+```
+
+They may have names
+```{r ir_names}
+names(ir1) <- paste("A", 1:3, sep = "")
+ir1
+```
+
+They have a single dimension
+```{r ir_dim}
+dim(ir1)
+length(ir1)
+``` 
+
+Because of this, subsetting works like a vector
+```{r ir_subset}
+ir1[1]
+ir1["A1"]
+```
+
+Like vectors, you can concatenate two `IRanges` with the `c()` function
+```{r concatenate}
+c(ir1, ir2)
+```
+
+## Normal IRanges
+
+A normal IRanges is a minimal representation of the IRanges viewed as a set.  Each integer only occur in a single range and there are as few ranges as possible.  In addition, it is ordered.  Many functions produce a normal `IRanges`.  Created by `reduce()`.
+
+```{r irNormal1, echo=FALSE}
+ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
+``` 
+
+```{r irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+```{r irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+plotRanges(reduce(ir))
+``` 
+
+```{r irNormal4}
+ir
+reduce(ir)
+``` 
+
+Answers: "Given a set of overlapping exons, which bases belong to an exon?"
+
+
+## Disjoin
+
+From some perspective, `disjoin()` is the opposite of `reduce()`.  An example explains better:
+
+```{r irDisjoin1, eval=FALSE}
+disjoin(ir1)
+```
+
+```{r irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+```{r irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+plotRanges(disjoin(ir))
+``` 
+
+Answers: "Give a set of overlapping exons, which bases belong to the same set of exons?"
+
+## Manipulating IRanges, intra-range
+
+"Intra-range" manipulations are manipulations where each original range gets mapped to a new range.
+
+Examples of these are: `shift()`, `narrow()`, `flank()`, `resize()`, `restrict()`.
+
+For example, `resize()` can be extremely useful.  It has a `fix` argument controlling where the resizing occurs from.  Use `fix="center"` to resize around the center of the ranges; I use this a lot.
+
+```{r ir_resize}
+resize(ir, width = 1, fix = "start")
+resize(ir, width = 1, fix = "center")
+```
+
+The help page is `?"intra-range-methods"` (note that there is both a help page in `r Biocpkg("IRanges")` and `r Biocpkg("GenomicRanges")`).
+
+## Manipulating IRanges, as sets
+
+Manipulating `IRanges` as sets means that we view each `IRanges` as a set of integers; individual integers is either contained in one or more ranges or they are not.  This is equivalent to calling `reduce()` on the `IRanges` first.
+
+Once this is done, we can use standard: `union()`, `intersect()`, `setdiff()`, `gaps()` between two `IRanges` (which all returns normalized `IRanges`).
+
+```{r ir_sets}
+ir1 <- IRanges(start = c(1, 3, 5), width = 1)
+ir2 <- IRanges(start = c(4, 5, 6), width = 1)
+union(ir1, ir2)
+intersect(ir1, ir2)
+```
+
+Because they return normalized `IRanges`, an alternative to `union()` is
+```{r union2}
+reduce(c(ir1, ir2))
+```
+
+There is also an element-wise (pair-wise) version of these: `punion()`, `pintersect()`, `psetdiff()`, `pgap()`; this is similar to say `pmax` from base R.   In my experience, these functions are seldom used.
+
+## Finding Overlaps
+
+Finding (pairwise) overlaps between two `IRanges` is done by `findOverlaps()`.  This function is very important and amazingly fast!
+
+```{r findOverlaps}
+ir1 <- IRanges(start = c(1,4,8), end = c(3,7,10))
+ir2 <- IRanges(start = c(3,4), width = 3)
+ov <- findOverlaps(ir1, ir2)
+ov
+``` 
+
+It returns a `Hits` object which describes the relationship between the two `IRanges`.  This object is basically a two-column matrix of indicies into the two `IRanges`.
+
+The two columns of the hits object can be accessed by `queryHits()` and `subjectHits()` (often used with `unique()`).
+
+For example, the first row of the matrix describes that the first range of `ir1` overlaps with the first range of `ir2`. Or said differently, they have a non-empty intersection:
+
+```{r findOverlaps_ill}
+intersect(ir1[subjectHits(ov)[1]],
+          ir2[queryHits(ov)[2]])
+```
+
+The elements of `unique(queryHits)` gives you the indices of the query ranges which actually had an overlap; you need `unique` because a query range may overlap multiple subject ranges.
+
+```{r subjectHits}
+queryHits(ov)
+unique(queryHits(ov))
+```
+
+The list of arguments to `findOverlaps()` is long; there are a few hidden treasures here.  For example, you can ask to only get an overlap if two ranges overlap by a certain number of bases.
+
+```{r argsFindOverlaps, tidy=TRUE}
+args(findOverlaps)
+``` 
+
+## countOverlaps
+
+For efficiency, there is also `countOverlaps()`, which just returns the number of overlaps.  This function is faster and takes up less memory because it does not have to keep track of which ranges overlap, just the number of overlaps.
+
+```{r countOverlaps}
+countOverlaps(ir1, ir2)
+``` 
+
+## Finding nearest IRanges
+
+Sometimes you have two sets of `IRanges` and you need to know which ones are closest to each other.  Functions for this include `nearest()`, `precede()`, `follow()`.  Watch out for ties!
+
+```{r nearest}
+ir1
+ir2
+nearest(ir1, ir2)
+``` 
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```

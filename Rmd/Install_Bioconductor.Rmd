@@ -1,0 +1,41 @@
+---
+title: "Installing Bioconductor"
+author: "Kasper D. Hansen"
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Installing Bioconductor
+
+The one true way to install Bioconductor is by using the `biocLite` script.  You get access to this script by sourcing it from the Bioconductor website
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+```
+
+The first time you run the script without arguments, it will install a core set of Bioconductor packages.
+
+```{r biocLite1, eval=FALSE}
+biocLite()
+```
+
+When you run this script, it will autodetect if any of your installed packages are out of date; it will aggressively ask you to update your packages.
+
+Because of this, the way you update a Bioconductor installation, is just by running `biocLite()` without any argument.
+
+You can check if your installation is fully up-to-date, by running `biocValid()`; it will return `TRUE` if everything is current.
+
+You install a new package by using `biocLite` with the package name, for example
+```{r biocLite2, eval=FALSE}
+biocLite("limma")
+```
+
+The reason why you want to use `biocLite` - and only this function - to install and update Bioconductor, is because one of the top problems users have is when they mix and match Bioconductor packages from different releases.  Using `biocLite` ensures that everything is synchronized.
+
+The way you update Bioconductor itself when a new release comes out, is by updating R itself and then run `biocLite`.
+
+## Other Resources
+
+- Installation instructions from the [Bioconductor site](http://bioconductor.org/install/).
+
