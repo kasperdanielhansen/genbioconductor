@@ -1,10 +1,15 @@
 R_SCRIPT=/usr/bin/Rscript
+GITHUB_URL=https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd
+
 
 index : index.Rmd
 	$(R_SCRIPT) -e '{library(rmarkdown);\
                          render("index.Rmd",\
                                 output_format="html_document",\
                                 output_options=list(theme="cosmo"))}'
+	sed -i.bak 's|GITHUB_URL|$(GITHUB_URL)|' index.html
+	rm index.html.bak
+
 
 html/%.html: Rmd/%.Rmd .FORCE
 	cd Rmd && $(R_SCRIPT) -e '{\

@@ -1,4 +1,3 @@
-Test
 ---
 title: "ExpressionSet"
 author: "Kasper D. Hansen"
