@@ -1,6 +1,6 @@
 R_SCRIPT=/usr/bin/Rscript
 
-Materials : Materials.Rmd
+index : index.Rmd
 	$(R_SCRIPT) -e '{library(rmarkdown);\
                          render("Materials.Rmd",\
                                 output_format="html_document",\
