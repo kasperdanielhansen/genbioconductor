@@ -1,7 +1,6 @@
 ---
 title: "GenomicRanges - seqinfo"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -22,6 +21,10 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomeInfoDb", "GenomicRanges"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicRanges_seqinfo.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
 
@@ -91,4 +94,3 @@ Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` in `r Biocpk
 sessionInfo()
 ```
 
-## References

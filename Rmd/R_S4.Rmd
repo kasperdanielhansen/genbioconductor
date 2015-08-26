@@ -1,7 +1,6 @@
 ---
 title: "R - S4 Classes and Methods"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -22,6 +21,10 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("ALL" "GenomicRanges"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_S4.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
   
@@ -262,5 +265,3 @@ This is (in some ways) a great illustration of how confusing methods can be!  Th
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
-
-## References

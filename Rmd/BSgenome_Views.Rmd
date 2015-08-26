@@ -1,7 +1,6 @@
 ---
 author: "Kasper D. Hansen"
-title: "Biostrings - Intermediate Usage"
-bibliography: genbioconductor.bib
+title: "BSgenome - Views"
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -24,6 +23,10 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("BSgenome",
            "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/BSgenome_Views.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
 
@@ -112,5 +115,4 @@ At first glance, the GC content of the promoters is not very different from the 
 sessionInfo()
 ```
 
-## References
 

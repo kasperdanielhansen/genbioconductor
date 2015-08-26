@@ -22,6 +22,10 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("AnnotationHub"))
 ```
 
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/AnnotationHub.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
+
 ## Overview
 
 Annotation information is extremely important for putting your data into context.  There are many online resources for doing this, and many different databases organizes different information suing different approaches.
@@ -42,7 +46,7 @@ In a recent paper I was involved in [@Hansen:EBV], I used `r Biocpkg("Annotation
 
 First we create an `AnnotationHub` instance.  The first time you do this, it will create a local cache on your system, so that repeat queries for the same information (even in different R sessions) will be very fast.
   
-```{r annoHub}
+```{r annoHub,results="hide"}
 ah <- AnnotationHub()
 ah
 ```

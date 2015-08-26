@@ -1,7 +1,6 @@
 ---
 title: "R - Base Types"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -13,6 +12,11 @@ This document has no dependencies.
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_Base_Types.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
+
 
 ## Overview
 
@@ -212,4 +216,3 @@ This is how you convert most Bioconductor objects.
 sessionInfo()
 ```
 
-## References
