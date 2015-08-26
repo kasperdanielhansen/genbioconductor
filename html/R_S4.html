@@ -47,6 +47,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="TOC">
 <ul>
 <li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#corrections">Corrections</a></li>
 <li><a href="#overview">Overview</a><ul>
 <li><a href="#important-note-for-programmers">Important note for programmers</a></li>
 </ul></li>
@@ -60,7 +61,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </ul></li>
 <li><a href="#s4-methods">S4 Methods</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
-<li><a href="#references">References</a></li>
 </ul>
 </div>
 
@@ -72,6 +72,10 @@ library(GenomicRanges)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;ALL&quot; &quot;GenomicRanges&quot;))</code></pre>
+</div>
+<div id="corrections" class="section level2">
+<h2>Corrections</h2>
+<p>Improvements and corrections to this document can be submitted on its <a href="https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_S4.Rmd">GitHub</a> in its <a href="https://github.com/kasperdanielhansen/genbioconductor">repository</a>.</p>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -101,7 +105,7 @@ lm.object</code></pre>
 ## 
 ## Coefficients:
 ## (Intercept)            x  
-##      0.0366      -0.2908</code></pre>
+##      0.3147      -0.7131</code></pre>
 <pre class="r"><code>names(lm.object)</code></pre>
 <pre><code>##  [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
 ##  [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
@@ -115,7 +119,7 @@ xx</code></pre>
 ## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;
 ## 
 ## $b
-## [1]  1.3581774  0.7814791 -1.0628298</code></pre>
+## [1]  0.3380950  0.8861906 -1.1216766</code></pre>
 <pre class="r"><code>class(xx) &lt;- &quot;lm&quot;
 xx</code></pre>
 <pre><code>## 
@@ -267,7 +271,7 @@ class?ExpressionSet</code></pre>
 ## 
 ## function (x, row.names = NULL, optional = FALSE, ...) 
 ## standardGeneric(&quot;as.data.frame&quot;)
-## &lt;environment: 0x7f971cd7f0e8&gt;
+## &lt;environment: 0x7ff6d3e84a40&gt;
 ## Methods may be defined for arguments: x
 ## Use  showMethods(&quot;as.data.frame&quot;)  for currently available ones.</code></pre>
 <p>In the output you can see that it is so-called “generic” method involved something called <code>standardGeneric()</code>. Don’t be distracted by this lingo; this is just like the <code>mimicMethod</code> function defined above. To see <code>method1</code>, <code>method2</code> etc you do</p>
@@ -331,7 +335,7 @@ class?ExpressionSet</code></pre>
 ##         return(as.data.frame(list()))
 ##     UseMethod(&quot;as.data.frame&quot;)
 ## }
-## &lt;bytecode: 0x7f971da58f50&gt;
+## &lt;bytecode: 0x7ff6d20b6a00&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p>What happens is that the <em><a href="http://bioconductor.org/packages/release/bioc/html/BiocGenerics.html">BiocGenerics</a></em> converts the base R function <code>as.data.frame</code> into a generic method. This is what you get notified about when the following is printed when you load <em><a href="http://bioconductor.org/packages/release/bioc/html/BiocGenerics.html">BiocGenerics</a></em> (typically as by-product of loading another Biconductor package such as <em><a href="http://bioconductor.org/packages/release/bioc/html/IRanges.html">IRanges</a></em>.</p>
 <pre><code>The following objects are masked from 'package:base':
@@ -483,9 +487,6 @@ class?ExpressionSet</code></pre>
 ##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7.2 
 ##  [5] stringi_0.5-5   XVector_0.8.0   tools_3.2.1     stringr_1.0.0  
 ##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.11</code></pre>
-</div>
-<div id="references" class="section level2 references unnumbered">
-<h2>References</h2>
 </div>
 
 

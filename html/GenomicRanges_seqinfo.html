@@ -47,13 +47,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="TOC">
 <ul>
 <li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#corrections">Corrections</a></li>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
 <li><a href="#drop-and-keep-seqlevels">Drop and keep seqlevels</a></li>
 <li><a href="#changing-style">Changing style</a></li>
 <li><a href="#using-information-from-bsgenome-packages">Using information from BSgenome packages</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
-<li><a href="#references">References</a></li>
 </ul>
 </div>
 
@@ -65,6 +65,10 @@ library(GenomicRanges)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;GenomeInfoDb&quot;, &quot;GenomicRanges&quot;))</code></pre>
+</div>
+<div id="corrections" class="section level2">
+<h2>Corrections</h2>
+<p>Improvements and corrections to this document can be submitted on its <a href="https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicRanges_seqinfo.Rmd">GitHub</a> in its <a href="https://github.com/kasperdanielhansen/genbioconductor">repository</a>.</p>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -156,9 +160,6 @@ gr &lt;- renameSeqlevels(gr, newStyle)</code></pre>
 ##  [1] digest_0.6.8    formatR_1.2     magrittr_1.5    evaluate_0.7.2 
 ##  [5] stringi_0.5-5   XVector_0.8.0   tools_3.2.1     stringr_1.0.0  
 ##  [9] yaml_2.1.13     htmltools_0.2.6 knitr_1.11</code></pre>
-</div>
-<div id="references" class="section level2 references unnumbered">
-<h2>References</h2>
 </div>
 
 
