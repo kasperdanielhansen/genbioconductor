@@ -5,7 +5,7 @@ library(AnnotationHub)
 ## source("http://www.bioconductor.org/biocLite.R")
 ## biocLite(c("AnnotationHub"))
 
-## ----annoHub-------------------------------------------------------------
+## ----annoHub,results="hide"----------------------------------------------
 ah <- AnnotationHub()
 ah
 
