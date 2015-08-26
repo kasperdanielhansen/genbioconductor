@@ -58,22 +58,9 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 | 11 | AnnotationHub - Basic Usage | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](html/AnnotationHub.html) | [R code](R/AnnotationHub.R) | [R markdown](Rmd/AnnotationHub.Rmd) ([On GitHub](GITHUB_URL/AnnotationHub.Rmd)) |
 | 12 | Usecase - AnnotationHub and GRanges, part 1 | (12:56) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part1_version1.mp4) | [HTML](html/Usecase_AnnotationHub_GRanges.html) | [R code](R/Usecase_AnnotationHub_GRanges.R) | [R markdown](Rmd/Usecase_AnnotationHub_GRanges.Rmd) ([On GitHub](GITHUB_URL/Usecase_AnnotationHub_GRanges.Rmd)) |
 | 13 | Usecase - AnnotationHub and GRanges, part 2 | (13:46) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part2_version1.mp4) | [HTML](html/Usecase_AnnotationHub_GRanges.html) | [R code](R/Usecase_AnnotationHub_GRanges.R) | [R markdown](Rmd/Usecase_AnnotationHub_GRanges.Rmd) ([On GitHub](GITHUB_URL/Usecase_AnnotationHub_GRanges.Rmd)) |
-|  | Total | (119:22) | | | | 
-
-Total: (119:22)
+|  | Total | (119:22) | | | | |
 
 #### Week 2
-
-| N  | Lecture |  Time | Video | Material | Code | Source |
-|---|---|---|---|---|--|--|
-| 0 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types_version1.mp4) | [PDF](pdf/BiocIntro_Basic_Data_Types.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
-| 0 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | [PDF](pdf/BiocIntro_ExpressionSet_Overview.pdf) | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
-| 0 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | [PDF](pdf/BiocIntro_Annotation_Overview.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
-| 0 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](html/ExpressionSet.html) | [R code](R/ExpressionSet.R) | [R markdown](Rmd/ExpressionSet.Rmd) ([On GitHub](GITHUB_URL/ExpressionSet.Rmd)) |
-| 0 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](html/SummarizedExperiment.html) | [R code](R/SummarizedExperiment.R) | [R markdown](Rmd/SummarizedExperiment.Rmd) ([On GitHub](GITHUB_URL/SummarizedExperiment.Rmd)) |
-| 0 | GEOquery | (6:34) | [Video](dropbox/Videos/BiocIntro_GEOquery_version1.mp4) | [HTML](html/GEOquery.html) | [R code](R/GEOquery.R) | [R markdown](Rmd/GEOquery.Rmd) ([On GitHub](GITHUB_URL/GEOquery.Rmd)) |
-| 0 | biomaRt | (13:48) | [Video](dropbox/Videos/BiocIntro_biomaRt_version1.mp4) | [HTML](html/biomaRt.html) | [R code](R/biomaRt.R) | [R markdown](Rmd/biomaRt.Rmd) ([On GitHub](GITHUB_URL/biomaRt.Rmd)) |
-|  | Total | (51:47) | | | | 
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
@@ -85,13 +72,23 @@ Total: (119:22)
 | 0 | GenomicRanges - Lists | (8:02) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Lists_version1.mp4) | [HTML](html/GenomicRanges_Lists.html) | [R code](R/GenomicRanges_Lists.R) | [R markdown](Rmd/GenomicRanges_Lists.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Lists.Rmd)) |
 | 0 | GenomicFeatures | (18:30) | [Video](dropbox/Videos/BiocIntro_GenomicFeatures_version1.mp4) | [HTML](html/GenomicFeatures.html) | [R code](R/GenomicFeatures.R) | [R markdown](Rmd/GenomicFeatures.Rmd) ([On GitHub](GITHUB_URL/GenomicFeatures.Rmd)) |
 | 0 | rtracklayer - Data Import | (14:44) | [Video](dropbox/Videos/BiocIntro_rtracklayer_Import_version1.mp4) | [HTML](html/rtracklayer_Import.html) | [R code](R/rtracklayer_Import.R) | [R markdown](Rmd/rtracklayer_Import.Rmd) ([On GitHub](GITHUB_URL/rtracklayer_Import.Rmd)) |
-|  | Total | (82:35) | | | | 
+|  | Total | (82:35) | | | | |
+
+#### Week 3
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
+| 0 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types_version1.mp4) | [PDF](pdf/BiocIntro_Basic_Data_Types.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
+| 0 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | [PDF](pdf/BiocIntro_ExpressionSet_Overview.pdf) | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
+| 0 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | [PDF](pdf/BiocIntro_Annotation_Overview.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
+| 0 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](html/ExpressionSet.html) | [R code](R/ExpressionSet.R) | [R markdown](Rmd/ExpressionSet.Rmd) ([On GitHub](GITHUB_URL/ExpressionSet.Rmd)) |
+| 0 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](html/SummarizedExperiment.html) | [R code](R/SummarizedExperiment.R) | [R markdown](Rmd/SummarizedExperiment.Rmd) ([On GitHub](GITHUB_URL/SummarizedExperiment.Rmd)) |
+| 0 | GEOquery | (6:34) | [Video](dropbox/Videos/BiocIntro_GEOquery_version1.mp4) | [HTML](html/GEOquery.html) | [R code](R/GEOquery.R) | [R markdown](Rmd/GEOquery.Rmd) ([On GitHub](GITHUB_URL/GEOquery.Rmd)) |
+| 0 | biomaRt | (13:48) | [Video](dropbox/Videos/BiocIntro_biomaRt_version1.mp4) | [HTML](html/biomaRt.html) | [R code](R/biomaRt.R) | [R markdown](Rmd/biomaRt.Rmd) ([On GitHub](GITHUB_URL/biomaRt.Rmd)) |
 | 0 | S4 Classes | (16:56) | [Video](dropbox/Videos/BiocIntro_R_S4_Classes_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
 | 0 | S4 Methods | (10:15) | [Video](dropbox/Videos/BiocIntro_R_S4_Methods_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
-|  | Total | (27:11) | | | | 
+|  | Total | (78:58) | | | | |
+
 
 
 This page was last updated on `r Sys.time()` Eastern Time.
