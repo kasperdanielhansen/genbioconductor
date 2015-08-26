@@ -1,0 +1,7 @@
+# SNP packages
+
+- `seqlevels` in the SN packages uses a different style.  Why not rename to UCSC?
+
+# TxDb packages
+
+- why is there no `genome` on the `seqinfo`

@@ -1,0 +1,20 @@
+soft.pkgs <- c("AnnotationHub", 
+               "BSgenome", 
+               "Biobase", 
+               "Biostrings", 
+               "GEOquery", 
+               "GenomeInfoDb", 
+               "GenomicFeatures", 
+               "GenomicRanges", 
+               "IRanges", 
+               "Rsamtools", 
+               "biomaRt", 
+               "rtracklayer")
+
+data.pkgs <- c("ALL",
+               "BSgenome.Hsapiens.UCSC.hg19",
+               "BSgenome.Scerevisiae.UCSC.sacCer2",
+               "SNPlocs.Hsapiens.dbSNP144.GRCh37",
+               "TxDb.Hsapiens.UCSC.hg19.knownGene",
+               "airway",
+               "hgu95av2.db")
