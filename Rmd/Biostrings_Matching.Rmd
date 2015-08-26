@@ -1,6 +1,6 @@
 ---
 author: "Kasper D. Hansen"
-title: "Biostrings - Intermediate Usage"
+title: "Biostrings - Matching"
 bibliography: genbioconductor.bib
 ---
 
@@ -25,6 +25,10 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("Biostrings", "BSgenome",
            "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Biostrings_Matching.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
 

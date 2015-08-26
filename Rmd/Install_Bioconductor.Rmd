@@ -39,3 +39,6 @@ The way you update Bioconductor itself when a new release comes out, is by updat
 
 - Installation instructions from the [Bioconductor site](http://bioconductor.org/install/).
 
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Install_Bioconductor.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).

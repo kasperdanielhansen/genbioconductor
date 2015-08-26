@@ -47,6 +47,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="TOC">
 <ul>
 <li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#corrections">Corrections</a></li>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
 <li><a href="#atomic-vectors">Atomic Vectors</a><ul>
@@ -59,13 +60,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#data-frames">Data frames</a></li>
 <li><a href="#conversion">Conversion</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
-<li><a href="#references">References</a></li>
 </ul>
 </div>
 
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <p>This document has no dependencies.</p>
+</div>
+<div id="corrections" class="section level2">
+<h2>Corrections</h2>
+<p>Improvements and corrections to this document can be submitted on its <a href="https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_Base_Types.Rmd">GitHub</a> in its <a href="https://github.com/kasperdanielhansen/genbioconductor">repository</a>.</p>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -245,14 +249,14 @@ x[1:2]</code></pre>
 <pre class="r"><code>x &lt;- list(a = rnorm(3), b = rnorm(3))
 lapply(x, mean)</code></pre>
 <pre><code>## $a
-## [1] 0.07972735
+## [1] -0.6467477
 ## 
 ## $b
-## [1] -0.2085864</code></pre>
+## [1] 0.6932006</code></pre>
 <p>If the output of the function is of the same kind, you can simplify the output using <code>sapply</code> (simplify apply). This is particularly useful if the function in question returns a single number.</p>
 <pre class="r"><code>sapply(x, mean)</code></pre>
-<pre><code>##           a           b 
-##  0.07972735 -0.20858636</code></pre>
+<pre><code>##          a          b 
+## -0.6467477  0.6932006</code></pre>
 </div>
 </div>
 <div id="data-frames" class="section level2">
@@ -329,9 +333,6 @@ as(x, &quot;matrix&quot;)</code></pre>
 ##  [1] magrittr_1.5    formatR_1.2     tools_3.2.1     htmltools_0.2.6
 ##  [5] yaml_2.1.13     stringi_0.5-5   knitr_1.11      stringr_1.0.0  
 ##  [9] digest_0.6.8    evaluate_0.7.2</code></pre>
-</div>
-<div id="references" class="section level2 references unnumbered">
-<h2>References</h2>
 </div>
 
 

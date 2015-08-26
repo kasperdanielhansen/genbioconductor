@@ -1,7 +1,6 @@
 ---
 author: "Kasper D. Hansen"
-title: "Biostrings - Basic Usage"
-bibliography: genbioconductor.bib
+title: "BSgenome"
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -22,6 +21,10 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/BSgenome.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
 
@@ -81,6 +84,4 @@ sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
-
-## References
 

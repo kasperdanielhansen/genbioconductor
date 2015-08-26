@@ -1,7 +1,6 @@
 ---
 author: Kasper D. Hansen
 title: IRanges - Basic Usage
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -21,6 +20,10 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("IRanges"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/IRanges_Basic.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
 
 ## Overview
 

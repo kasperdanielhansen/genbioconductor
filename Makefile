@@ -50,7 +50,7 @@ Rmds : html/Install_Bioconductor.html\
       html/R_S4.html\
       html/biomaRt.html
 
-all : Rmds Materials
+all : Rmds index
 
 clean:
 	rm -f *~ *.pdf

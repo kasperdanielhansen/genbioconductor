@@ -1,7 +1,6 @@
 ---
 title: "rtracklayer - Data Import"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -23,6 +22,11 @@ Use the following commands to install these packages in R.
 source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("rtracklayer", "AnnotationHub", "Rsamtools"))
 ```
+
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/rtracklayer_Import.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
+
 
 ## Overview
 

@@ -22,6 +22,10 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
+## Corrections
+
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicRanges_GRanges.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
+
 ## Other Resources
 
 - The vignettes from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
