@@ -14,7 +14,8 @@ soft.pkgs <- c("AnnotationHub",
 data.pkgs <- c("ALL",
                "BSgenome.Hsapiens.UCSC.hg19",
                "BSgenome.Scerevisiae.UCSC.sacCer2",
-               "SNPlocs.Hsapiens.dbSNP144.GRCh37",
+               # "SNPlocs.Hsapiens.dbSNP144.GRCh37",
                "TxDb.Hsapiens.UCSC.hg19.knownGene",
                "airway",
                "hgu95av2.db")
+
