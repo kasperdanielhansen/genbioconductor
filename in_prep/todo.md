@@ -10,6 +10,7 @@
 - (Perhaps) add Coursera links to Github pages
 - Add section to Syllabus explaining coursera hosted material vs. Github hosted material.
 - Should all Rmds have an "edit on Github" link.
+- Description using all_pkgs.R
 
 # Remaining lectures
 
