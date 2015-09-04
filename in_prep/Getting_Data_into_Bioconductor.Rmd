@@ -9,17 +9,9 @@ bibliography: genbioconductor.bib
 
 ## Dependencies
 
-This document has the following dependencies:
+This document has no dependencies.
 
 ```{r dependencies, warning=FALSE, message=FALSE}
-library(GenomicRanges)
-```
-
-Use the following commands to install these packages in R.
-
-```{r biocLite, eval=FALSE}
-source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges"))
 ```
 
 ## Overview
@@ -32,11 +24,38 @@ Bioinformatics has jokingly been referred to as "The Science of Inventing New Fi
 
 In this document we shall provide an overview.
 
-## Other Resources
+## Application Area
 
-- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+### Microarray Data
+
+Most microarray data is available to end users through a vendor specific file format such as CEL (Affymetrix) or IDAT  (Illumina).  These file formats can be read using vendor specific packages such as
+
+- `r Biocpkg("affyio")`
+- `r Biocpkg("affxparser")`
+- `r Biocpkg("illuminaio")`
+
+These packages are very low-level.  In practice, many analysis specific packages supports import of these files into useful data structures, and you are much better off using one of those packages.  For example
+
+- `r Biocpkg("affy")` for Affymetrix Gene Expression data.
+- `r Biocpkg("oligo")` for Affymetrix and Nimblegen expression and SNP array data.
+- `r Biocpkg("lumi")` for Illumina arrays.
+- `r Biocpkg("minfi")` for Illumina DNA methylation arrays (the 450k and 27k arrays).
+
+### High-throughput sequencing
+
+Raw (unmapped) reads are typically available in the FASTQ format.  For aligned reads, the BAM (SAM) format is common.  Both BAM and FASTQ files can be extremely big and unwieldy.  Downstream of alignment, the form of the processed data vary by application area (ChIP, RNA, DNA etc).  Additionally, very few common processed file formats have emerged.  Instead different pipelines produce different types of files, including custom text files, even for the same type of analysis.  This makes it hard to provide immediately useful tools for dealing with processed data.  Instead a user needs to know tools for standard file formats described below.
 
 ## File formats
+
+### FASTQ files
+
+See `readFastq` in `r Biocpkg("ShortRead")`.
+
+### BAM files
+
+BAM/SAM files represents aligned reads to a genome.  They are typically produced using a short read aligner such as Bowtie or MAQ or any of the many alternatives.
+
+Use `r Biocpkg("Rsamtools")` to read these files.  It is possible to read the files in "chunks" so that only a part of the file is read into memory.  If the BAM file is sorted and indexed, you can access all reads in a genomic region.
 
 ### Text files
 
@@ -47,30 +66,9 @@ Many different file formats are based on simple text files.  In case the text fi
 - `skip`; don't read the first `n` lines of the file.
 - `header`; the first (read) line contains the column names.
 
-Sometimes it 
+The function is rather slow, although it can be sped up dramatically by using the `colClasses` argument.
 
-
-`read.table`
-
-`r CRANpkg("readr")`
-
-`r CRANpkg("data.table")`
-
-### Microarray Data
-
-Most microarray data is available to end users through a vendor specific file format such as CEL (Affymetrix) or IDAT (Illumina).  These fileformats can be read using vendor specific packages such as
-
-- `r Biopkg("affyio")`
-- `r Biocpkg("affxparser")`
-- `r Biocpkg("illuminaio")`
-
-These packages are very low-level.  In practice, many analysis specific packages supports import of these files into useful data structures, and you are much better off using one of those packages.  For example
-
-- `r Biocpkg("affy")` for Affymetrix Gene Expression data.
-- `r Biocpkg("oligo")` for Affymetrix and Nimblegen Expression and SNP array data.
-- `r Biopkg("lumi")` for Illumina arrays.
-- `r Biocpkg("minfi")` for Illumina DNA methylation arrays (the 450k and 27k arrays).
-
+Must faster (and by many accounts better) functions are `read_tsv` (TSV is Tab Separated Values) and friends from the `r CRANpkg("readr")` package and `fread` from `r CRANpkg("data.table")`.  `fread` is the fastest but has a number of limitations compared to `read_tsv`.
 
 ### UCSC file formats
 
@@ -89,32 +87,17 @@ Other kinds of information from UCSC including UCSC tables can be accessed from 
 
 There is also support for parsing GFF (Genome File Format) in `r Biocpkg("rtracklayer")`.
 
-### FASTQ files
-
-`r Biocpkg("ShortRead")`
-
-### BAM files
-
-BAM/SAM files represents aligned reads to a genome.  They are typically produced using a short read aligner such as Bowtie or MAQ or any of the many alternatives.
-
-Use `r Biocpkg("Rsamtools")` to read these files.
-
 ### VCF files
 
-VCF (Varient Call Format) files represents genotype files, typically produced by running a genotyping pipeline on high-throughout sequencing data.  Use the functionality in `r Biocpkg("VariantAnnotation")` to access these files.
+VCF (Variant Call Format) files represents genotype files, typically produced by running a genotyping pipeline on high-throughout sequencing data.  Use the functionality in `r Biocpkg("VariantAnnotation")` to access these files.
 
-### From databases of publicly available data
+## Get data from databases of publicly available data
 
-A number of data repositories have software packages dedicated to accesssing the data inside of them:
+A number of data repositories have software packages dedicated to accessing the data inside of them:
 
-- [NCBI GEO](http://www.ncbi.nlm.nih.gov/geo/) (Gene Expression Omnibus): `r Biocpkg("GEOquery")`.
-- [NCBI SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): `r Biocpkg("SRAdb")`.
-- [EBI ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): `r Biocpkg("ArrayExpress")`.
-
-
-
-
-
+- NCBI [GEO](http://www.ncbi.nlm.nih.gov/geo/) (Gene Expression Omnibus): `r Biocpkg("GEOquery")`.
+- NCBI [SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): `r Biocpkg("SRAdb")`.
+- EBI [ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): `r Biocpkg("ArrayExpress")`.
 
 ## SessionInfo
 
@@ -124,4 +107,3 @@ A number of data repositories have software packages dedicated to accesssing the
 sessionInfo()
 ```
 
-## References

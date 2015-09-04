@@ -19,12 +19,12 @@
 
 
 
-Something about limma
-Preprocessing using oligo
+done Something about limma
+done Preprocessing using oligo
 edgeR / DEseq
+
 heatmaps
 ggbio
-
 
 VariantAnnotation
 Rsamtools

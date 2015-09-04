@@ -17,5 +17,6 @@ data.pkgs <- c("ALL",
                # "SNPlocs.Hsapiens.dbSNP144.GRCh37",
                "TxDb.Hsapiens.UCSC.hg19.knownGene",
                "airway",
-               "hgu95av2.db")
+               "hgu95av2.db",
+               "leukemiasEset")
 

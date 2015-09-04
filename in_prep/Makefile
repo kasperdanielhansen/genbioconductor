@@ -14,6 +14,10 @@ R_SCRIPT=/usr/bin/Rscript
 
 .FORCE :
 
+oligo : oligo.html
+
+limma : limma.html
+
 Getting_Data_into_Bioconductor : Getting_Data_into_Bioconductor.html
 
 fixme:

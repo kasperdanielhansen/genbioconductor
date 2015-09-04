@@ -1,0 +1,131 @@
+---
+title: "limma"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(limma)
+library(leukemiasEset)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("limma", "leukemiasEset"))
+```
+
+## Overview
+  
+`r Biocpkg("limma")` is a very popular package for analyzing microarray and RNA-seq data.
+
+LIMMA stands for "linear models for microarray data".  While most of the functionality has been developed for microarray data, the model fitting routines of limma are very broadly useful.  For example, I am using limma in my research on analysis of DNA methylation.  The core of limma consists of fitting so-called "linear models" which are a broad class of statistical models including linear regression, multiple linear regressio and analysis of variance.  In addition to fitting these 
+
+
+
+## Other Resources
+
+- The limma User's Guide from the [limma webpage](http://bioconductor.org/packages/limma).
+
+## Analysis Setup and Design
+
+A very common analysis setup is having access to a matrix of numeric values representing some measurements; an example is gene expression.  Traditionally in Bioconductor, and in computational biology more generally, columns of this matrix are samples and rows of the matrix are features.  In gene expression, a feature is a gene.  The feature by sample layout in Bioconductor is the transpose of the layout in classic statistics where the matrix is samples by features; this sometimes cause confusion.  A very common setup is gene expression data (either from microarrays or from RNA sequencing) where the features are individual genes.
+
+Samples are usually few (less than a hundred) and are often grouped; arguably the most common setup is having samples from two different groups which we can call cases and controls.  The objective of an analysis is frequently to discover which features (genes) are different between groups or said differently: to discover which genes are differentially expressed between cases and controls.  Sometimes more than two groups are involved and sometimes there are a few additional variables which are important to include in the analysis.  A common special case is a time series experiment where each time point is a group and where it is sometimes important to account for the time elapsed between time points.
+
+Broadly speaking, how samples are distributed between groups and which question is of interest, determines the *design* of the study.  Samples are usually assumed to be independent but are sometimes paired; an example of pairing is when a normal and a cancer sample from the same patient is available.  Many different designs exists, but the most common scenario is a two group comparison.
+
+Features are often genes or genomic intervals, for example different promoters or genomic bins.  The data is often gene expression data but could be histone modification abundances or even measurements from a Hi-C contact matrix.
+
+Common to all these cases is the rectangular data structure (the matrix) with samples on columns and features on rows.  This is exactly the data structure which is represented by an `ExpressionSet` or a `SummarizedExperiment`.
+
+A number of different packages allows us to fit common types of models to this data structure
+
+- `r Biocpkg("limma")` fits a so-called linear model; examples of linear models are (1) linear regression, (2) multiple linear regressio and (3) analysis of variance.
+- `r Biocpkg("edgeR")`, `r Biocpkg("DESeq")` and `r Biocpkg("DESeq2")` fits generalized linear models, specifically models based on the negative binomial distribution.
+
+Extremely simplified, `r Biocpkg("limma")` is useful for continuous data such as microarray data and `r Biocpkg("edgeR")`/`r Biocpkg("DESeq")`/`r Biocpkg("DESeq2")` are useful for count data such as high-throughput sequencing.
+
+In addition to the distributional assumptions, all of these packages uses something called empirical Bayes techniques to borrow information across features.  As stated above, usually the number of samples is small and the number of features is large.  It has been shown time and time again that you can get better results by borrowing information across features, for example by modeling a mean-variance relationship.  The main difference between edgeR and DESeq(2) from a statistical point of view is how this borrowing of information happens.
+
+Fully understanding these classes of models as well as their strengths and limitations are beyond the scope of this class.  But we will still introduce aspects of these packages because they are so widely used.
+
+## Quick Example
+
+Let us use the `leukemiasEset` dataset from the `r Biocpkg("leukemiasEset")` package; this is an `ExpressionSet`.
+
+```{r load}
+library(leukemiasEset)
+data(leukemiasEset)
+leukemiasEset
+table(leukemiasEset$LeukemiaType)
+```
+
+This is data on different types of leukemia.  The code `NoL` means not leukemia, ie. normal controls.
+
+Let us ask which genes are differentially expressed between the `ALL` type and normal controls.  First we subset the data and clean it up
+
+```{r subset}
+ourData <- leukemiasEset[, leukemiasEset$LeukemiaType %in% c("ALL", "NoL")]
+ourData$LeukemiaType <- factor(ourData$LeukemiaType)
+```
+
+Now we do a standard limma model fit
+```{r limma}
+design <- model.matrix(~ ourData$LeukemiaType)
+fit <- lmFit(ourData, design)
+fit <- eBayes(fit)
+topTable(fit)
+```
+
+What happens here is a common limma (and friends) workflow.  First, the comparison of interest (and the design of the experiment) is defined through a so-called "design matrix".  This matrix basically encompasses everything we know about the design; in this case there are two groups.  Next, the model is fitted.  This is followed by borrowing strength across genes using a so-called empirical Bayes procedure (this is the step in limma which really works wonders).  Because this design only has two groups there is only one possible comparison to make: which genes differs between the two groups.  This question is examined by the `topTable` command which lists the top differentially expressed genes.  In a more complicated design, the `topTable` command would need to be told which comparison of interest to summarize.
+
+An important part of the output is `logFC` which is the log fold-change.  To interpret the sign of this quantitiy you need to know if this is `ALL-NoL` (in which case positive values are up-regulated in ALL) or the reverse.  In this case this is determied by the reference level which is the first level of the factor.
+```{r level}
+ourData$LeukemiaType
+```
+we see the reference level is `ALL` so positive values means it is down-regulated in cancer.  You can change the reference level of a factor using the `relevel()` function.  You can also confirm this by computing the `logFC` by hand, which is useful to know.  Let's compute the fold-change of the top differentially expressed gene:
+```{r FCbyHand}
+topTable(fit, n = 1)
+genename <- rownames(topTable(fit, n=1))
+typeMean <- tapply(exprs(ourData)[genename,], ourData$LeukemiaType, mean)
+typeMean
+typeMean["NoL"] - typeMean["ALL"]
+```
+confirming the statement.  It is sometimes useful to check things by hand to make sure you have the right interpretation.  Finally, note that limma doesn't do anything different from a difference of means when it computes `logFC`; all the statistical improvements centers on computing better t-statistics and p-values.
+
+The output from `topTable` includes
+
+- `logFC`: the log fold-change between cases and controls.
+- `t`: the t-statistic used to assess differential expression.
+- `P.Value`: the p-value for differential expression; this value is not adjusted for multiple testing.
+- `adj.P.Val`: the p-value adjusted for multiple testing.   Different adjustment methods are available, the default is Benjamini-Horchberg.
+
+How to setup and interpret a design matrix for more complicated designs is beyond the scope of this course.  The limma User's Guide is extremely helpful here.  Also, note that setting up a design matrix for an experiment is a standard task in statistics (and requires very little knowledge about genomics), so other sources of help is a local, friendly statistician or text books on basic statistics.
+
+
+
+
+## Background: Data representation in limma
+
+As we see above, `r Biocpkg("limma")` works directly on `ExpressionSet`s.  It also works directly on matrices.  But limma also have a class `RGList` which represents a two-color microarray.  The basic data stored in this class is very `ExpressionSet`-like, but it has at least two matrices of expression measurements `R` (Red) and `G` (Green) and optionally two additional matrices of background estimates (`Rb` and `Gb`).  It has a slot called `genes` which is basically equivalent to `featureData` for `ExpressionSet`s (ie. information about which genes are measured on the microarray) as well as a `targets` slot which is basically the `pData` information from `ExpressionSet`.
+
+## Background: The targets file
+
+limma introduced the concept of a so-called `targets` file.  This is just a simple text file (usually TAB or comma-separated) which holds the phenotype data.  The idea is that it is easier for many users to create this text file in a spreadsheet program, and then read it into R and stored the information in the data object.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
