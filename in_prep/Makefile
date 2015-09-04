@@ -18,6 +18,8 @@ oligo : oligo.html
 
 limma : limma.html
 
+minfi : minfi.html
+
 Getting_Data_into_Bioconductor : Getting_Data_into_Bioconductor.html
 
 fixme:
