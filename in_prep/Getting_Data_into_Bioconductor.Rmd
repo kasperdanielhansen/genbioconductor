@@ -1,7 +1,6 @@
 ---
 title: "Getting Data into Bioconductor"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r child="front.Rmd", echo=FALSE}
@@ -16,13 +15,11 @@ This document has no dependencies.
 
 ## Overview
 
-You should now have some idea of some useful data containers in Bioconductor (for example `ExpressionSet` and `SummarizedExperiment`) and you have learned some fundamentals of Bioconductor such as the `GRanges` class.
+How do you get your data into R/Bioconductor?  The answer obviously depends on the file format of the data, but also what what you want to do with the data.  Generally speaking, you need access to the data file and then you need to put the data into a relevant **data container**.  Examples of data containers are `ExpressionSet` and `SummarizedExperiment`, but also classes such as `GRanges`.
 
-But how do you get your data into R/Bioconductor?  This depends a lot on the file format your data is in, and what you want to do with it.
+Bioinformatics has jokingly been referred to as "The Science of Inventing New File Formats".  This joke exemplifies the myriad of different file formats in use.  Because we use many file formats and different types of data, it is hard to comprehensively cover all file formats and data types.
 
-Bioinformatics has jokingly been referred to as "The Science of Inventing New File Formats".  This exemplifies the myriad of different file formats in use across computational biology, and makes this task hard to cover quickly.
-
-In this document we shall provide an overview.
+In general, a lot of useful solutions exists in domain / application specific packages.  As an example of this paradigm, the `r Biocpkg("affxparser")` package provides tools for parsing Affymetrix CEL files.  However, this package is a parsing library and returns the data in a less useful representation.  An end-user should instead use the `r Biocpkg("oligo")` package which uses `r Biocpkg("affxparser")` to read the data and then puts the data inside a useful data container; ready for downstream analysis.
 
 ## Application Area
 
@@ -43,47 +40,11 @@ These packages are very low-level.  In practice, many analysis specific packages
 
 ### High-throughput sequencing
 
-Raw (unmapped) reads are typically available in the FASTQ format.  For aligned reads, the BAM (SAM) format is common.  Both BAM and FASTQ files can be extremely big and unwieldy.  Downstream of alignment, the form of the processed data vary by application area (ChIP, RNA, DNA etc).  Additionally, very few common processed file formats have emerged.  Instead different pipelines produce different types of files, including custom text files, even for the same type of analysis.  This makes it hard to provide immediately useful tools for dealing with processed data.  Instead a user needs to know tools for standard file formats described below.
+Raw (unmapped) reads are typically available in the FASTQ format.
 
-## File formats
+The first step in most analyses is mapping the reads onto a genome.  For aligned reads, the BAM (SAM) format is now a clear standard.
 
-### FASTQ files
-
-See `readFastq` in `r Biocpkg("ShortRead")`.
-
-### BAM files
-
-BAM/SAM files represents aligned reads to a genome.  They are typically produced using a short read aligner such as Bowtie or MAQ or any of the many alternatives.
-
-Use `r Biocpkg("Rsamtools")` to read these files.  It is possible to read the files in "chunks" so that only a part of the file is read into memory.  If the BAM file is sorted and indexed, you can access all reads in a genomic region.
-
-### Text files
-
-Many different file formats are based on simple text files.  In case the text file is organized (essentially) as a matrix, you can read the file using `read.table()` from base R.  This function has a lot of arguments, and you are likely to have to change the default arguments for your purpose.  Important ones includes
-
-- `sep`; what is the separate (typically either TAB, whitespace or `,`).
-- `comment.char` and `quote`.  The default is to treat `#` and `'` in a special fashion, which can lead to parsing problems.  Especially `'` is encountered as 3' and 5'.
-- `skip`; don't read the first `n` lines of the file.
-- `header`; the first (read) line contains the column names.
-
-The function is rather slow, although it can be sped up dramatically by using the `colClasses` argument.
-
-Must faster (and by many accounts better) functions are `read_tsv` (TSV is Tab Separated Values) and friends from the `r CRANpkg("readr")` package and `fread` from `r CRANpkg("data.table")`.  `fread` is the fastest but has a number of limitations compared to `read_tsv`.
-
-### UCSC file formats
-
-A number of file formats are invented by the UCSC genome browser.  For some applications, these are now standard file formats.  This includes
-
-- BED files.
-- BigBed files (large BED files, efficient access).
-- Wig files.
-- BigWig files (large Wig files, efficient access).
-
-These files can be read using `r Biocpkg("rtracklayer")`, specifically the `import()` function.
-
-Note: BED files looks like simple text files (and they are), but there are a number of conventions such as (1) they are zero-indexed and (2) all intervals are half-open.  These conventions are automatically mapped to the Bioconductor conventions (1) one-indexed and (2) all intervals are closed by `r Biocpkg("rtracklayer")`.
-
-Other kinds of information from UCSC including UCSC tables can be accessed from the same package, for example by using the functions `getTable` and `ucscTableQuery`. 
+However BAM (and SAM and FASTQ) files are quite big and still represents the data in a format which requires further processing before analysis.  However, this further processing vary by application area (ChIP, RNA, DNA etc).  Additionally, there are very few standard processed file formats; an example of such a standard format is BigWig.  As an example of the lack of standards, there is still no standard file format representing RNA-seq reads summarized at the gene or transcript level; different pipelines provide different sorts of file.  Luckily, these files are usually text files and can be read with standard tools for processing text files.ation from UCSC including UCSC tables can be accessed from the same package, for example by using the functions `getTable()` and `ucscTableQuery()`. 
 
 There is also support for parsing GFF (Genome File Format) in `r Biocpkg("rtracklayer")`.
 
@@ -95,9 +56,9 @@ VCF (Variant Call Format) files represents genotype files, typically produced by
 
 A number of data repositories have software packages dedicated to accessing the data inside of them:
 
-- NCBI [GEO](http://www.ncbi.nlm.nih.gov/geo/) (Gene Expression Omnibus): `r Biocpkg("GEOquery")`.
-- NCBI [SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): `r Biocpkg("SRAdb")`.
-- EBI [ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): `r Biocpkg("ArrayExpress")`.
+- NCBI [GEO](http://www.ncbi.nlm.nih.gov/geo/) (Gene Expression Omnibus): the `r Biocpkg("GEOquery")` package.
+- NCBI [SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): the `r Biocpkg("SRAdb")` package.
+- EBI [ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): the `r Biocpkg("ArrayExpress")` package.
 
 ## SessionInfo
 
