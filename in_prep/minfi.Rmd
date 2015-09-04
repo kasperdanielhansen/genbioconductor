@@ -1,0 +1,50 @@
+---
+title: "Analysis of 450k DNA methylation data with minfi"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(minfi)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("minfi"))
+```
+
+## Overview
+  
+The Illumina 450k DNA methylation microarray is a cheap and relatively comprehensive array for assaying DNA methylation.  It is the platform of choice for large sample profiling of DNA methylation, especially for so-called EWAS (Epigenome-wide association studies).  The studies are like GWAS (genome-wide association studies) but instead of associated a phenotype (like disease) with genotype (typically measured on SNP arrays or exome/whole-genome sequencing) they associated phenotype with epigenotype.
+
+## Other Resources
+
+- The vignette from the [minfi webpage](http://bioconductor.org/packages/minfi).
+
+## Array Design
+
+The 450k array has a very unusual design, which to some extent impact analysis.  It is really a mixture of a two-color array and two one-color arrays.  There are two main types of probes (type I and type II) and the probe design affects the signal distribution of the probe.
+
+The raw data format for the 450k array is known as IDAT.  Because the array is measured in two different colors, there are two files for each sample, typically with the extention `_Grn.idat` and `_Red.idat`.  Illumina's software suite for analysis of this array is called GenomeStudio.  It is not unusual for practitioners to only have access to processed data from GenomeStudio instead of the raw IDAT files, but I and others have shown that there is information in the IDAT files which are beneficial to analysis.
+
+## 
+
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
