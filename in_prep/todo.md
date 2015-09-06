@@ -25,7 +25,7 @@
 3. oligo DONE
 4. minfi
 5. edgeR / DESeq
-6. Rsamtools and a bit of ShortRead
+6. Rsamtools and a bit of ShortRead DONE
 7. Things to explore; ending the course
 
 # Assessments

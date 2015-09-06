@@ -1,5 +1,5 @@
 ---
-title: "RNA-seq analysis"
+title: "RNA-seq analysis with DESeq2 and edgeR"
 author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
@@ -49,7 +49,10 @@ library(DESeq2)
 se <- airway
 se$dex
 se$dex <- relevel(se$dex, "untrt")
-dds <- DESeqDataSet(se, design = ~ cell + dex)
+dds <- DESeqDataSet(se, design = ~ dex)
+dds <- DESeq(dds)
+res <- results(dds)
+res <- res[order(res$padj),]
 ```
 
 ```{r}
