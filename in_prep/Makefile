@@ -16,6 +16,8 @@ R_SCRIPT=/usr/bin/Rscript
 
 Rsamtools : Rsamtools.html
 
+ShortRead : ShortRead.html
+
 rnaseq : rnaseq.html
 
 minfi : minfi.html
