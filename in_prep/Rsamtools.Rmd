@@ -1,0 +1,62 @@
+---
+title: "Rsamtools"
+author: "Kasper D. Hansen"
+bibliography: genbioconductor.bib
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(Rsamtools)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("Rsamtools"))
+```
+
+## Overview
+  
+Blah
+
+## Other Resources
+
+- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+
+## Section 2
+  
+Specify IRanges by 2 of start, end, width (SEW).
+  
+```{r}
+ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
+ir1
+``` 
+
+## Section 3
+
+Some plots
+
+```{r, echo=FALSE}
+ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
+``` 
+
+```{r, echo=FALSE, fig.width=7, fig.height=2, small.mar=TRUE}
+plotRanges(ir)
+``` 
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## References
