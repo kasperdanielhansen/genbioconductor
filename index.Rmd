@@ -90,5 +90,11 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 |  | Total | (78:58) | | | | |
 
 
+#### Week 3
+
+| N  | Lecture |  Time | Video | Material | Code | Source |
+|---|---|---|---|---|--|--|
+|  | Total | (0:0) | | | | |
+
 
 This page was last updated on `r Sys.time()` Eastern Time.
