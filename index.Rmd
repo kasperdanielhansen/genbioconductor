@@ -90,10 +90,15 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 |  | Total | (78:58) | | | | |
 
 
-#### Week 3
+#### Week 4
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
+| 0 | limma | (16:38) | [Video](dropbox/Videos/BiocIntro_limma_version1.mp4) | [HTML](html/limma.html) | [R code](R/limma.R) | [R markdown](Rmd/limma.Rmd) ([On GitHub](GITHUB_URL/limma.Rmd)) |
+| 0 | oligo | (14:19) | [Video](dropbox/Videos/BiocIntro_oligo_version1.mp4) | [HTML](html/oligo.html) | [R code](R/oligo.R) | [R markdown](Rmd/oligo.Rmd) ([On GitHub](GITHUB_URL/oligo.Rmd)) |
+| 0 | minfi | (FIXME) | [Video](dropbox/Videos/BiocIntro_minfi_version1.mp4) | [HTML](html/minfi.html) | [R code](R/minfi.R) | [R markdown](Rmd/minfi.Rmd) ([On GitHub](GITHUB_URL/minfi.Rmd)) |
+| 0 | ShortRead and Rsamtools | (FIXME) | [Video](dropbox/Videos/BiocIntro_Rsamtools_version1.mp4) | [HTML](html/Rsamtools.html) | [R code](R/Rsamtools.R) | [R markdown](Rmd/Rsamtools.Rmd) ([On GitHub](GITHUB_URL/Rsamtools.Rmd)) |
+| 0 | rnaseq | (FIXME) | [Video](dropbox/Videos/BiocIntro_rnaseq_version1.mp4) | [HTML](html/rnaseq.html) | [R code](R/rnaseq.R) | [R markdown](Rmd/rnaseq.Rmd) ([On GitHub](GITHUB_URL/rnaseq.Rmd)) |
 |  | Total | (0:0) | | | | |
 
 
