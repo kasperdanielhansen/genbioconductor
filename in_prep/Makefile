@@ -18,7 +18,7 @@ Rsamtools : Rsamtools.html
 
 ShortRead : ShortRead.html
 
-rnaseq : rnaseq.html
+Count_Based_RNAseq : Count_Based_RNAseq.html
 
 minfi : minfi.html
 
