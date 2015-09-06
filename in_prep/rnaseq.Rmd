@@ -36,6 +36,42 @@ Blah
 
 ## edgeR
 
+```{r}
+library(airway)
+data(airway)
+airway
+assay(airway, "counts")[1:3, 1:3]
+airway$dex
+```
+
+```{r}
+library(DESeq2)
+se <- airway
+se$dex
+se$dex <- relevel(se$dex, "untrt")
+dds <- DESeqDataSet(se, design = ~ cell + dex)
+```
+
+```{r}
+library(edgeR)
+dge <- DGEList(counts = assay(se, "counts"),
+               group = se$dex)
+dge$samples <- merge(dge$samples,
+                     as.data.frame(colData(se)),
+                     by = 0)
+dge$genes <- data.frame(name = names(rowRanges(se)),
+                        stringsAsFactors = FALSE)
+dge <- calcNormFactors(dge)
+
+design <- model.matrix(~dge$samples$group)
+dge <- estimateGLMCommonDisp(dge)
+dge <- estimateGLMTagwiseDisp(dge)
+fit <- glmFit(dge, design)
+lrt <- glmLRT(fit, coef = 2)
+topTags(lrt)
+```
+
+
 ## DESeq
 
 
