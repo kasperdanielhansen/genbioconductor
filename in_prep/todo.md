@@ -51,7 +51,8 @@ cummerbound
 
 
 ## Other list
-ore
+
+Core
 
 - Rsamtools / ShortRead
 - GenomicAlignments

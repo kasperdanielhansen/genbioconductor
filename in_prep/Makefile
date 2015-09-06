@@ -14,11 +14,15 @@ R_SCRIPT=/usr/bin/Rscript
 
 .FORCE :
 
+Rsamtools : Rsamtools.html
+
+rnaseq : rnaseq.html
+
+minfi : minfi.html
+
 oligo : oligo.html
 
 limma : limma.html
-
-minfi : minfi.html
 
 Getting_Data_into_Bioconductor : Getting_Data_into_Bioconductor.html
 

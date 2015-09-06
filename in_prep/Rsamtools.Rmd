@@ -1,5 +1,5 @@
 ---
-title: "Rsamtools"
+title: "Rsamtools and ShortRead"
 author: "Kasper D. Hansen"
 bibliography: genbioconductor.bib
 ---
@@ -13,43 +13,225 @@ This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(Rsamtools)
+library(ShortRead)
 ```
 
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("Rsamtools"))
+biocLite(c("Rsamtools", "ShortRead"))
 ```
 
 ## Overview
-  
-Blah
+
+The `r Biocpkg("ShortRead")` and `r Biocpkg("Rsamtools")` packages contains functionality for reading and examining raw sequence reads (typically in FASTQ format) or aligned reads (typically in BAM format).
 
 ## Other Resources
 
-- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The vignettes from the [ShortRead webpage](http://bioconductor.org/packages/ShortRead).
+- The vignettes from the [Rsamtools webpage](http://bioconductor.org/packages/Rsamtools).
+- For representing more complicated alignments (specifically spliced alignments from RNA-seq), see the `r Biocpkg("GenomicAlignments")` package.
 
-## Section 2
-  
-Specify IRanges by 2 of start, end, width (SEW).
-  
+## ShortRead
+
+The ShortRead package was one of the first Bioconductor packages to deal with low-level analysis of high-throughput sequencing data. Some of its functionality has now been superseded by other packages, but there is still relevant functionality left.
+
+### Reading FASTQ files
+
+The FASTQ file format is the standard way of representing raw (unaligned) next generation sequencing reads, particular for the Illumina platform.  The format basically consists of 4 lines per read, with the lines containing
+
+1. Read name (sometimes includes flowcell ID or other information).
+2. Read nucleotides
+3. Either empty or a repeat of line 1
+4. Encoded read quality scores 
+
+Paired-end reads are stored in two separate files, where the reads are ordered the same (this is obviously fragile; what if reads are re-ordered in one file and not the other).
+
+These files are read by `readFastq()` which produces an object of class `ShortReadQ`
+
+```{r fastq1}
+fastqDir <- system.file("extdata", "E-MTAB-1147", package = "ShortRead")
+fastqPath <- list.files(fastqDir, pattern = ".fastq.gz$", full = TRUE)[1]
+reads <- readFastq(fastqPath)
+reads
+```
+Here we directly point the function to the file path.  A paradigm which is often used in Bioconductor is to first put the file path into an object which represents a specific file type and then read it; see
+```{r fastq2}
+fqFile <- FastqFile(fastqPath)
+fqFile
+reads <- readFastq(fqFile)
+```
+This appears to make little sense in this situation, but for really big files it makes sense to access them in chunks, see below for a BAM file example.
+
+The `ShortReadQ` class is very similar to a `DNAStringSet` but it has two sets of strings: one for the read nucleotides and one for the base qualities.  They are accessed as
+```{r accessorFastq}
+sread(reads)[1:2]
+quality(reads)[1:2]
+id(reads)[1:2]
+```
+
+### A word on quality scores
+
+Note how the quality scores are listed as characters.  You can convert them into standard 0-40 integer quality scores by
+```{r convertQual}
+as(quality(reads), "matrix")[1:2,1:10]
+```
+In this conversion, each letter is matched to an integer between 0 and 40.  This matching is known as the "encoding" of the quality scores and there has been different ways to do this encoding.  Unfortunately, it is not stored in the FASTQ file which encoding is used, so you have to know or guess the encoding.  The ShortRead package does this for you.
+
+These numbers are supposed to related to the probability that the reported base is different from the template fragment (ie. a sequence error).  One should be aware that this probabilistic interpretation is not always true; methods such as "quality-remapping" helps to ensure this.
+
+### Reading alignment files
+
+In the early days of next generation sequencing, there was no standardized alignment output format.  different aligners produced different output file, including Bowtie and MAQ. Later on, the SAM / BAM format was introduced and this is now the standard alignment output.  ShortRead contains tools for reading these older alignment formats through the `readAligned()` function (the `type` argument support options such as `type="Bowtie"` and `type="MAQMap"` and `type="MAQMapShort"`).
+
+The package has some very old support for parsing BAM files, but use `r Biocpkg("Rsamtools")` and `r Biocpkg("GenomicAlignments")` for this task instead.
+
+## Rsamtools
+
+The Rsamtools package is an interface to the widely used `samtools`/`htslib` library. The main functionality of the package is support for reading BAM files.
+
+### The BAM / SAM file format
+
+The SAM format is a text based representation of alignments.  The BAM format is a binary version of SAM which is smaller and much faster.  In general, always work with BAM.
+
+The format is quite complicated, which means the R representation is also a bit complicated. This complication happens because of the following features of the file format
+
+- It may contain unaligned sequences.
+- Each sequence may be aligned to multiple locations.
+- It supports spliced (split) alignments.
+- It may contain reads from multiple samples.
+
+We will not attempt to fully understanding all the intricacies of this format.
+
+A BAM file can be sorted in multiple ways. If it is sorted according to genomic location and if it is also "indexed" it is possible to retrieve all reads mapping to a genomic location, something which can be very useful. In `r Biocpkg("Rsamtools")` this is done by the functions `sortBam()` and `indexBam()`.
+
+## scanBam
+
+How to read a BAM file goes conceptually like this
+
+1. A pointer to the file is created by the `BamFile()` constructor.
+2. (Optional) Parameters for which reads to report is constructed by `ScanBamParams()`.
+3. The file is being read according to these parameters by `scanBam()`.
+
+First we setup a `BamFile` object:
+
+```{r bamPath}	
+bamPath <- system.file("extdata", "ex1.bam", package="Rsamtools")
+bamFile <- BamFile(bamPath)
+bamFile
+```
+
+Some high-level information can be accessed here, like
+```{r bamFileInfo}
+seqinfo(bamFile)
+```
+(obviously, `seqinfo()` and `seqlevels()` etc. are supported as well).
+
+Now we read all the reads in the file using `scanBam()`, ignoring the possibility of selecting reads using `ScanBamParams()` (we will return to this below).
+
+```{r scanBam}
+aln <- scanBam(bamFile)
+length(aln)
+class(aln)
+```
+
+We get back a list of length 1; this is because `scanBam()` can return output from multiple genomic regions, and here we have only one (everything).  We therefore subset the output; this again gives us a list and we show the information from the first alignment
+```{r lookAtBam}
+aln <- aln[[1]]
+names(aln)
+lapply(aln, function(xx) xx[1])
+```
+Notice how the `scanBam()` function returns a basic R object, instead of an S4 class.  Representing the alignments as S4 object is done by the `r Biocpkg("GenomicAlignments")` package; this is especially useful for access to spliced alignments from RNA sequencing data.
+
+The names of the `aln` list are basically the names used in the BAM specification.  Here is a quick list of some important ones
+
+- `qname`: The name of the read.
+- `rname`: The name of the chromosome / sequence / contig it was aligned to.
+- `strand`: The strand of the alignment.
+- `pos`: The coordinate of the left-most part of the alignment.
+- `qwidth`: The length of the read.
+- `mapq`: The mapping quality of the alignment.
+- `seq`: The actual sequence of the alignment.
+- `qual`: The quality string of the alignment.
+- `cigar`: The CIGAR string (below).
+- `flag`: The flag (below).
+
+### Reading in parts of the file
+
+BAM files can be extremely big and it is there often necessary to read in parts of the file.  You can do this in different ways
+
+1. Read a set number of records (alignments).
+2. Only read alignments satisfying certain criteria.
+3. Only read alignments in certain genomic regions.
+
+Let us start with the first of this.  By specifying `yieldSize` when you use `BamFile()`, every invocation of `scanBam()` will only read `yieldSize` number of alignments.  You can then invoke `scanBam()` again to get the next set of alignments; this requires you to `open()` the file first (otherwise you will keep read the same alignments).
+
+```{r yieldSize}
+yieldSize(bamFile) <- 1
+open(bamFile)
+scanBam(bamFile)[[1]]$seq
+scanBam(bamFile)[[1]]$seq
+## Cleanup
+close(bamFile)
+yieldSize(bamFile) <- NA
+```
+
+The other two ways of reading in parts of a BAM file is to use `ScanBamParams()`, specifically the `what` and `which` arguments.
+
+```{r ScanBamParams}
+gr <- GRanges(seqnames = "seq2",
+              ranges = IRanges(start = c(100, 1000), end = c(1500,2000)))
+params <- ScanBamParam(which = gr, what = scanBamWhat())
+aln <- scanBam(bamFile, param = params)
+names(aln)
+head(aln[[1]]$pos)
+```
+Notice how the `pos` is less than what is specified in the `which` argument; this is because the alignments overlap the `which` argument.  The `what=scanBamWhat()` tells the function to read everything.  Often, you may not be interested in the actual sequence of the read or its quality scores.  These takes up a lot of space so you may consider disabling reading this information.
+
+#### The CIGAR string
+
+
+The "CIGAR" is how the BAM format represents spliced alignments.  For example, the format stored the left most coordinate of the alignment.  To get to the right coordinate, you have to parse the CIGAR string.  In this example "36M" means that it has been aligned with no insertions or deletions.  If you need to work with spliced alignments or alignments containing insertions or deletions, you should use the `r Biocpkg("GenomicAlignments")` package.
+#### Flag
+
+An alignment may have a number of "flags" set or unset.  These flags provide information about the alignment.  The flag integer is a representation of multiple flags simultanously.  An example of a flag is indicating (for a paired end alignment) whether both pairs have been properly aligned.  For more information, see the BAM specification.
+
+In `r Biocpkg("Rsamtools")` there is a number of helper functions dealing with only reading certain flags; use these.
+
+### BAM summary
+
+Sometimes you want a quick summary of the alignments in a BAM file:
+
 ```{r}
-ir1 <- IRanges(start = c(1,3,5), end = c(3,5,7))
-ir1
-``` 
+quickBamFlagSummary(bamFile)
+```
 
-## Section 3
+## Other functionality from Rsamtools
 
-Some plots
+### BamViews
 
-```{r, echo=FALSE}
-ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
-``` 
+Instead of reading a single file, it is possible to construct something called a `BamViews`, a link to multiple files.  In many ways, it has the same `Views` functionality as other views.  A quick example should suffice, first we read everything;
 
-```{r, echo=FALSE, fig.width=7, fig.height=2, small.mar=TRUE}
-plotRanges(ir)
-``` 
+```{r BamViews}
+bamView <- BamViews(bamPath)
+aln <- scanBam(bamView)
+names(aln)
+```
+This gives us an extra list level on the return object; first level is files, second level is ranges.
+
+We can also set `bamRanges()` on the `BamViews` to specify that only certain ranges are read; this is similar to setting a `which` argument to `ScanBamParams()`.
+
+```{r BamViews2}
+bamRanges(bamView) <- gr
+aln <- scanBam(bamView)
+names(aln)
+names(aln[[1]])
+```
+
+### countBam
+
+Sometimes, all you want to do is count... use `countBam()` instead of `scanBam()`.
 
 ## SessionInfo
 
