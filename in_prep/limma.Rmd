@@ -98,6 +98,7 @@ topTable(fit)
 
 What happens here is a common limma (and friends) workflow.  First, the comparison of interest (and the design of the experiment) is defined through a so-called "design matrix".  This matrix basically encompasses everything we know about the design; in this case there are two groups (we have more to say on the design below).  Next, the model is fitted.  This is followed by borrowing strength across genes using a so-called empirical Bayes procedure (this is the step in limma which really works wonders).  Because this design only has two groups there is only one possible comparison to make: which genes differs between the two groups.  This question is examined by the `topTable()` function which lists the top differentially expressed genes.  In a more complicated design, the `topTable()` function would need to be told which comparison of interest to summarize.
 
+
 An important part of the output is `logFC` which is the log fold-change.  To interpret the sign of this quantity you need to know if this is `ALL-NoL` (in which case positive values are up-regulated in ALL) or the reverse.  In this case this is determined by the reference level which is the first level of the factor.
 ```{r level}
 ourData$LeukemiaType
@@ -111,6 +112,8 @@ typeMean
 typeMean["NoL"] - typeMean["ALL"]
 ```
 confirming the statement.  It is sometimes useful to check things by hand to make sure you have the right interpretation.  Finally, note that limma doesn't do anything different from a difference of means when it computes `logFC`; all the statistical improvements centers on computing better t-statistics and p-values.
+
+The reader who has some experience with statistics will note that all we are doing is comparing two groups; this is the same setup as the classic t-statistic.  What we are computing here is indeed a t-statistic, but one where the variance estimation (the denominator of the t-statistics) is *moderated* by borrowing strength across genes (this is what `eBayes()` does); this is called a moderated t-statistic.
 
 The output from `topTable()` includes
 

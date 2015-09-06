@@ -38,6 +38,62 @@ The raw data format for the 450k array is known as IDAT.  Because the array is m
 
 ## 
 
+We will access a dataset created with the intention of studying the difference between X and Y.
+
+We want to obtain the IDAT files which are available as supplementary data.  Far from all 450k datasets on GEO has IDAT files available.  First we download the files.
+
+```{r}
+library(GEOquery)
+## getGEOSuppFiles("GSE68777")
+## untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
+head(list.files("GSE68777/idat", pattern = "idat"))
+```
+
+Currently `r Biocpkg("minfi")` does not support reading compressed IDAT files.  This is clearly a needed functionality and (as the maintainer of this package) I will address this.  But for now we will need to decompress the files.
+
+```{r decompress}
+idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
+## sapply(idatFiles, gunzip)
+```
+
+Now we read the IDAT files using `read.450k.exp()` which (in this case) reads all the IDAT files in a directory.
+
+```{r readExp}
+rgSet <- read.450k.exp("GSE68777/idat")
+rgSet
+pData(rgSet)
+head(sampleNames(rgSet))
+```
+Now we have the data, but note that we have no pheno data.  And the filenames are very unhelpful here.  These names consists of a GEO identifier (the `GSM` part) followed by a standard IDAT naming convention with a 10 digit number which is an array identifier followed by an identifier of the form `R01C01`.  This is because each array actually allows for the hybridization of 12 samples in a 6x2 arrangement.  The `5958091020_R01C0` means row 1 and column 1 on chip `5958091020`.  This is all good, but does not help us understand which samples are cases and which are controls.
+
+We now get the standard GEO representation to get the phenotype data stored in GEO.  Most of the columns in this phenotype data are irrelevant (contains data such as the address of the person who submitted the data); we keep the useful ones.  Then we clean it.
+
+```{r geoPheno}
+geoMat <- getGEO("GSE68777")
+pD.all <- pData(geoMat[[1]])
+pD <- pD.all[, c("title", "geo_accession", "characteristics_ch1.1", "characteristics_ch1.2")]
+head(pD)
+names(pD)[c(3,4)] <- c("group", "sex")
+pD$group <- sub("^diagnosis: ", "", pD$group)
+pD$sex <- sub("^Sex: ", "", pD$sex)
+```
+
+We now need to merge this pheno data into the methylation data.  To do so, we need a common sample identifier and we make sure we re-order the phenotype data in the same order as the methylation data.  Finally we put the phenotype data inside the methylation data.
+
+```{r merge}
+sampleNames(rgSet) <- sub(".*_5", "5", sampleNames(rgSet))
+rownames(pD) <- pD$title
+pD <- pD[sampleNames(rgSet),]
+pData(rgSet) <- pD
+rgSet
+```
+
+The `rgSet` object is a class called `RGChannelSet` which represents two color data with a green and a red channel, very similar to an `ExpressionSet`.
+
+
+
+
+
 
 ## SessionInfo
 

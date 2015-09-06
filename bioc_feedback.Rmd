@@ -1,3 +1,54 @@
+# GenomicFeatures
+
+On TxDb objects:
+
+Using
+txdb = TxDb.Hsapiens.UCSC.hg19.knownGene
+
+Observation: There are many different keys (tx number, gene number, exon number); some of these have names from the database source.  But they get internal keys in the TxDb object which are just integers.  This means, when I see "2" I don't know if it is the second gene, transcript, cds or exon.
+
+Suggestion: replace these integer keys with tx1, ex1, ge1, cds1 or similar.
+
+
+Observation: I have been extremely confused about when something is a spliced transcript or not.  For example
+
+transcript(txdb)[1:3]
+
+gives coordinates of the first 3 pre-mRNAs.  By looking carefully at the database, I can see that out of these 3 transcripts, only one contains a coding sequence (if you look at current UCSC all 3 transcripts have coding sequence).
+
+But confusingly
+  cds(txdb)[1:3]
+gives my the coding sequence intersected with the exons, and these 3 elements together make up the first coding sequence.  
+
+  
+# rtracklayer
+
+- Pointer to AnnotationHub for chain files.
+- Why does import(format = "BigWig") not support the genome argument as format="BED" does?
+- outout of `liftOver` does not have a `genome` nor `seqlengths` in the `seqinfo` slot.  Seems weird.
+- Link to `indexTabix` in Rsamtools.
+
+# Rsamtools
+
+- I think `indexTabix` should use `bgzip` if necessary.
+
+# GenomicRanges
+
+- I think `RleList` should get a new extension: `GRleList` with a `seqinfo` slot.
+
+# Biostrings / BSgenome
+
+- No `BSParams()` constructor function.
+
+
+
+
+
+- Something with views and as(GRanges)
+
+
+
+
 # SNP packages
 
 - `seqlevels` in the SN packages uses a different style.  Why not rename to UCSC?
@@ -5,3 +56,10 @@
 # TxDb packages
 
 - why is there no `genome` on the `seqinfo`
+
+
+## GEOquery
+
+- Function for just parsing the phenoData of a GSE record.
+- getGEOSuppFiles should get an extra argument `overwrite=FALSE`.  The default value should prevent re-download if the downloaded files exists.
+

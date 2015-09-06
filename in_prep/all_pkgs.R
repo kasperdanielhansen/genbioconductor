@@ -7,16 +7,22 @@ soft.pkgs <- c("AnnotationHub",
                "GenomicFeatures", 
                "GenomicRanges", 
                "IRanges", 
-               "Rsamtools", 
-               "biomaRt", 
+               "Rsamtools",
+               "ShortRead",
+               "biomaRt",
+               "minfi",
+               "oligo",
                "rtracklayer")
 
 data.pkgs <- c("ALL",
                "BSgenome.Hsapiens.UCSC.hg19",
                "BSgenome.Scerevisiae.UCSC.sacCer2",
-               # "SNPlocs.Hsapiens.dbSNP144.GRCh37",
                "TxDb.Hsapiens.UCSC.hg19.knownGene",
                "airway",
                "hgu95av2.db",
-               "leukemiasEset")
+               "leeBamViews",
+               "leukemiasEset",
+               "minfiData",
+               "yeastRNASeq",
+               "zebrafishRNASeq")
 
