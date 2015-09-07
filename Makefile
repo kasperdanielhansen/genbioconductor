@@ -1,6 +1,6 @@
 R_SCRIPT=/usr/bin/Rscript
 GITHUB_URL=https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd
-
+COURSERA_URL=https://class.coursera.org/genbioconductor-004/lecture
 
 index : index.Rmd
 	$(R_SCRIPT) -e '{library(rmarkdown);\
@@ -8,6 +8,7 @@ index : index.Rmd
                                 output_format="html_document",\
                                 output_options=list(theme="cosmo"))}'
 	sed -i.bak 's|GITHUB_URL|$(GITHUB_URL)|' index.html
+	sed -i.bak 's|COURSERA_URL|$(COURSERA_URL)|' index.html
 	rm index.html.bak
 
 
@@ -54,7 +55,8 @@ Rmds : html/Install_Bioconductor.html\
       html/Rsamtools.html\
       html/ShortRead.html\
       html/Getting_Data_into_Bioconductor.html\
-      html/Count_Based_RNAseq.html
+      html/Count_Based_RNAseq.html\
+      html/minfi.html
 
 all : Rmds index
 

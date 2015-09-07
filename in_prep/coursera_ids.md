@@ -27,3 +27,12 @@
 | 53 | GenomicRanges - Lists | `BiocIntro_GenomicRanges_Lists_version1.mp4` |
 | 55 | GenomicFeatures | `BiocIntro_GenomicFeatures_version1.mp4` |
 | 57 | rtracklayer - Data Import | `BiocIntro_rtracklayer_Import_version1.mp4` |
+61 | biomaRt
+63 | S4 Classes
+65 | S4 Methods
+73 | Getting data into Bioc
+75 | ShortRead
+77 | Rsamtools
+81 | oligo
+79 | limma
+85 | Count RNA-seq
