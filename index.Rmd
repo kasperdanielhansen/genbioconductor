@@ -7,7 +7,7 @@ title: "Bioconductor for Genomic Data Science"
 
 **Class Website:**
 
-* [Bioconudctor for Genomic Data Science](https://www.coursera.org/course/genbioconductor)
+* [Bioconductor for Genomic Data Science](https://www.coursera.org/course/genbioconductor)
 * [Genomic Data Science Specialization](https://www.coursera.org/specialization/genomics/41)
 
 
@@ -27,19 +27,19 @@ Installation help
 
 Other sources of help
 
-- [Rstudio](https://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
-- [Rstudio's cheatsheets](https://www.rstudio.com/resources/cheatsheets/) 
+- [RStudio](https://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
+- [RStudio's cheatsheets](https://www.rstudio.com/resources/cheatsheets/) 
 - [PH525x Statistics for Genomics Book](http://genomicsclass.github.io/book/)
 
 ### Course Materials
 
 All materials are available on the Coursera website as well as on the course [GitHub page](http://kasperdanielhansen.github.io/genbioconductor/).  The materials on the GitHub website will be updated continuously as needed, whereas the materials hosted on Coursera will not change after the course has started.
 
-The course consists of a number of video lecture.  Most of the video lectures are supported by a script in R markdown which we render in HTML and we provide the stand-alone R code.  We recommend reading these lectures following the HTML links.  Changes and improvements to these scripts are welcome at the class Github repository.
+The course consists of a number of video lecture.  Most of the video lectures are supported by a script in R markdown which we render in HTML and we provide the stand-alone R code.  We recommend reading these lectures following the HTML links.  Changes and improvements to these scripts are welcome at the class GitHub repository.
 
 There is a few number of video lectures supported by slides made in Google Slides.  We link to the original slides and provide them in HTML.
 
-Videos are available both on the Coursera website as well as on Youtube.  Links are provided to both locations.
+Videos are available both on the [Coursera](http://www.coursera.org/course/genbioconductor) website as well as on [Youtube](http://www.youtube.com).  Links are provided to both locations.
 
 #### Week 1
 
@@ -55,7 +55,7 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 | 8 | GenomicRanges - GRanges | (8:44) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_version1.mp4) | [HTML](html/GenomicRanges_GRanges.html) | [R code](R/GenomicRanges_GRanges.R) | [R markdown](Rmd/GenomicRanges_GRanges.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_GRanges.Rmd)) |
 | 9 | GenomicRanges - Basic GRanges Usage | (8:14) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_GRanges_Usage_version1.mp4) | [HTML](html/GenomicRanges_GRanges_Usage.html) | [R code](R/GenomicRanges_GRanges_Usage.R) | [R markdown](Rmd/GenomicRanges_GRanges_Usage.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_GRanges_Usage.Rmd)) |
 | 10 | GenomicRanges - seqinfo | (6:13) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_seqinfo_version1.mp4) | [HTML](html/GenomicRanges_seqinfo.html) | [R code](R/GenomicRanges_seqinfo.R) | [R markdown](Rmd/GenomicRanges_seqinfo.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_seqinfo.Rmd)) |
-| 11 | AnnotationHub - Basic Usage | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](html/AnnotationHub.html) | [R code](R/AnnotationHub.R) | [R markdown](Rmd/AnnotationHub.Rmd) ([On GitHub](GITHUB_URL/AnnotationHub.Rmd)) |
+| 11 | AnnotationHub | (8:23) | [Video](dropbox/Videos/BiocIntro_AnnotationHub_version1.mp4) | [HTML](html/AnnotationHub.html) | [R code](R/AnnotationHub.R) | [R markdown](Rmd/AnnotationHub.Rmd) ([On GitHub](GITHUB_URL/AnnotationHub.Rmd)) |
 | 12 | Usecase - AnnotationHub and GRanges, part 1 | (12:56) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part1_version1.mp4) | [HTML](html/Usecase_AnnotationHub_GRanges.html) | [R code](R/Usecase_AnnotationHub_GRanges.R) | [R markdown](Rmd/Usecase_AnnotationHub_GRanges.Rmd) ([On GitHub](GITHUB_URL/Usecase_AnnotationHub_GRanges.Rmd)) |
 | 13 | Usecase - AnnotationHub and GRanges, part 2 | (13:46) | [Video](dropbox/Videos/BiocIntro_Usecase_AnnotationHub_GRanges_Part2_version1.mp4) | [HTML](html/Usecase_AnnotationHub_GRanges.html) | [R code](R/Usecase_AnnotationHub_GRanges.R) | [R markdown](Rmd/Usecase_AnnotationHub_GRanges.Rmd) ([On GitHub](GITHUB_URL/Usecase_AnnotationHub_GRanges.Rmd)) |
 |  | Total | (119:22) | | | | |
@@ -64,29 +64,29 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
-| 0 | Biostrings | (7:04) | [Video](dropbox/Videos/BiocIntro_Biostrings_version1.mp4) | [HTML](html/Biostrings.html) | [R code](R/Biostrings.R) | [R markdown](Rmd/Biostrings.Rmd) ([On GitHub](GITHUB_URL/Biostrings.Rmd)) |
-| 0 | BSgenome | (6:35) | [Video](dropbox/Videos/BiocIntro_BSgenome_version1.mp4) | [HTML](html/BSgenome.html) | [R code](R/BSgenome.R) | [R markdown](Rmd/BSgenome.Rmd) ([On GitHub](GITHUB_URL/BSgenome.Rmd)) |
-| 0 | Biostrings - Matching | (6:18) | [Video](dropbox/Videos/BiocIntro_Biostrings_Matching_version1.mp4) | [HTML](html/Biostrings_Matching.html) | [R code](R/Biostrings_Matching.R) | [R markdown](Rmd/Biostrings_Matching.Rmd) ([On GitHub](GITHUB_URL/Biostrings_Matching.Rmd)) |
-| 0 | BSgenome - Views | (9:21) | [Video](dropbox/Videos/BiocIntro_BSgenome_Views_version1.mp4) | [HTML](html/BSgenome_Views.html) | [R code](R/BSgenome_Views.R) | [R markdown](Rmd/BSgenome_Views.Rmd) ([On GitHub](GITHUB_URL/BSgenome_Views.Rmd)) |
-| 0 | GenomicRanges - Rle | (12:01) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Rle_version1.mp4) | [HTML](html/GenomicRanges_Rle.html) | [R code](R/GenomicRanges_Rle.R) | [R markdown](Rmd/GenomicRanges_Rle.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Rle.Rmd)) |
-| 0 | GenomicRanges - Lists | (8:02) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Lists_version1.mp4) | [HTML](html/GenomicRanges_Lists.html) | [R code](R/GenomicRanges_Lists.R) | [R markdown](Rmd/GenomicRanges_Lists.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Lists.Rmd)) |
-| 0 | GenomicFeatures | (18:30) | [Video](dropbox/Videos/BiocIntro_GenomicFeatures_version1.mp4) | [HTML](html/GenomicFeatures.html) | [R code](R/GenomicFeatures.R) | [R markdown](Rmd/GenomicFeatures.Rmd) ([On GitHub](GITHUB_URL/GenomicFeatures.Rmd)) |
-| 0 | rtracklayer - Data Import | (14:44) | [Video](dropbox/Videos/BiocIntro_rtracklayer_Import_version1.mp4) | [HTML](html/rtracklayer_Import.html) | [R code](R/rtracklayer_Import.R) | [R markdown](Rmd/rtracklayer_Import.Rmd) ([On GitHub](GITHUB_URL/rtracklayer_Import.Rmd)) |
+| 14 | Biostrings | (7:04) | [Video](dropbox/Videos/BiocIntro_Biostrings_version1.mp4) | [HTML](html/Biostrings.html) | [R code](R/Biostrings.R) | [R markdown](Rmd/Biostrings.Rmd) ([On GitHub](GITHUB_URL/Biostrings.Rmd)) |
+| 15 | BSgenome | (6:35) | [Video](dropbox/Videos/BiocIntro_BSgenome_version1.mp4) | [HTML](html/BSgenome.html) | [R code](R/BSgenome.R) | [R markdown](Rmd/BSgenome.Rmd) ([On GitHub](GITHUB_URL/BSgenome.Rmd)) |
+| 16 | Biostrings - Matching | (6:18) | [Video](dropbox/Videos/BiocIntro_Biostrings_Matching_version1.mp4) | [HTML](html/Biostrings_Matching.html) | [R code](R/Biostrings_Matching.R) | [R markdown](Rmd/Biostrings_Matching.Rmd) ([On GitHub](GITHUB_URL/Biostrings_Matching.Rmd)) |
+| 17 | BSgenome - Views | (9:21) | [Video](dropbox/Videos/BiocIntro_BSgenome_Views_version1.mp4) | [HTML](html/BSgenome_Views.html) | [R code](R/BSgenome_Views.R) | [R markdown](Rmd/BSgenome_Views.Rmd) ([On GitHub](GITHUB_URL/BSgenome_Views.Rmd)) |
+| 18 | GenomicRanges - Rle | (12:01) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Rle_version1.mp4) | [HTML](html/GenomicRanges_Rle.html) | [R code](R/GenomicRanges_Rle.R) | [R markdown](Rmd/GenomicRanges_Rle.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Rle.Rmd)) |
+| 19 | GenomicRanges - Lists | (8:02) | [Video](dropbox/Videos/BiocIntro_GenomicRanges_Lists_version1.mp4) | [HTML](html/GenomicRanges_Lists.html) | [R code](R/GenomicRanges_Lists.R) | [R markdown](Rmd/GenomicRanges_Lists.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Lists.Rmd)) |
+| 20 | GenomicFeatures | (18:30) | [Video](dropbox/Videos/BiocIntro_GenomicFeatures_version1.mp4) | [HTML](html/GenomicFeatures.html) | [R code](R/GenomicFeatures.R) | [R markdown](Rmd/GenomicFeatures.Rmd) ([On GitHub](GITHUB_URL/GenomicFeatures.Rmd)) |
+| 21 | rtracklayer - Data Import | (14:44) | [Video](dropbox/Videos/BiocIntro_rtracklayer_Import_version1.mp4) | [HTML](html/rtracklayer_Import.html) | [R code](R/rtracklayer_Import.R) | [R markdown](Rmd/rtracklayer_Import.Rmd) ([On GitHub](GITHUB_URL/rtracklayer_Import.Rmd)) |
 |  | Total | (82:35) | | | | |
 
 #### Week 3
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
-| 0 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types_version1.mp4) | [PDF](pdf/BiocIntro_Basic_Data_Types.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
-| 0 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | [PDF](pdf/BiocIntro_ExpressionSet_Overview.pdf) | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
-| 0 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | [PDF](pdf/BiocIntro_Annotation_Overview.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
-| 0 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](html/ExpressionSet.html) | [R code](R/ExpressionSet.R) | [R markdown](Rmd/ExpressionSet.Rmd) ([On GitHub](GITHUB_URL/ExpressionSet.Rmd)) |
-| 0 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](html/SummarizedExperiment.html) | [R code](R/SummarizedExperiment.R) | [R markdown](Rmd/SummarizedExperiment.Rmd) ([On GitHub](GITHUB_URL/SummarizedExperiment.Rmd)) |
-| 0 | GEOquery | (6:34) | [Video](dropbox/Videos/BiocIntro_GEOquery_version1.mp4) | [HTML](html/GEOquery.html) | [R code](R/GEOquery.R) | [R markdown](Rmd/GEOquery.Rmd) ([On GitHub](GITHUB_URL/GEOquery.Rmd)) |
-| 0 | biomaRt | (13:48) | [Video](dropbox/Videos/BiocIntro_biomaRt_version1.mp4) | [HTML](html/biomaRt.html) | [R code](R/biomaRt.R) | [R markdown](Rmd/biomaRt.Rmd) ([On GitHub](GITHUB_URL/biomaRt.Rmd)) |
-| 0 | S4 Classes | (16:56) | [Video](dropbox/Videos/BiocIntro_R_S4_Classes_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
-| 0 | S4 Methods | (10:15) | [Video](dropbox/Videos/BiocIntro_R_S4_Methods_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
+| 22 | Basic Data Types | (4:59) | [Video](dropbox/Drive/BiocIntro_Basic_Data_Types_version1.mp4) | [PDF](pdf/BiocIntro_Basic_Data_Types.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/1GidGTxreaffyutdpy4vKcmKdWc-z1KYsWbxihTorI_8/edit?usp=sharing) |
+| 23 | Annotation Overview | (4:33) | [Video](dropbox/Drive/BiocIntro_Annotation_Overview_version1.mp4) | [PDF](pdf/BiocIntro_Annotation_Overview.pdf) | NA | [Google Slides](https://docs.google.com/presentation/d/14-uvs23suNXr8-xZRDcreo_Ws01VKCLCUy-q99Gf_hc/edit?usp=sharing) |
+| 24 | ExpressionSet Overview | (4:19) | [Video](dropbox/Drive/BiocIntro_ExpressionSet_Overview_version1.mp4) | [PDF](pdf/BiocIntro_ExpressionSet_Overview.pdf) | NA |[Google Slides](https://docs.google.com/presentation/d/1ouDEq37R5ReiuLgfSm7c3lexceIovy5IUac9jfYX1L8/edit?usp=sharing) |
+| 25 | ExpressionSet | (9:50) | [Video](dropbox/Videos/BiocIntro_ExpressionSet_version1.mp4) | [HTML](html/ExpressionSet.html) | [R code](R/ExpressionSet.R) | [R markdown](Rmd/ExpressionSet.Rmd) ([On GitHub](GITHUB_URL/ExpressionSet.Rmd)) |
+| 26 | SummarizedExperiment | (7:44) | [Video](dropbox/Videos/BiocIntro_SummarizedExperiment_version1.mp4) | [HTML](html/SummarizedExperiment.html) | [R code](R/SummarizedExperiment.R) | [R markdown](Rmd/SummarizedExperiment.Rmd) ([On GitHub](GITHUB_URL/SummarizedExperiment.Rmd)) |
+| 27 | GEOquery | (6:34) | [Video](dropbox/Videos/BiocIntro_GEOquery_version1.mp4) | [HTML](html/GEOquery.html) | [R code](R/GEOquery.R) | [R markdown](Rmd/GEOquery.Rmd) ([On GitHub](GITHUB_URL/GEOquery.Rmd)) |
+| 28 | biomaRt | (13:48) | [Video](dropbox/Videos/BiocIntro_biomaRt_version1.mp4) | [HTML](html/biomaRt.html) | [R code](R/biomaRt.R) | [R markdown](Rmd/biomaRt.Rmd) ([On GitHub](GITHUB_URL/biomaRt.Rmd)) |
+| 29 | S4 Classes | (16:56) | [Video](dropbox/Videos/BiocIntro_R_S4_Classes_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
+| 30 | S4 Methods | (10:15) | [Video](dropbox/Videos/BiocIntro_R_S4_Methods_version1.mp4) | [HTML](html/R_S4.html) | [R code](R/R_S4.R) | [R markdown](Rmd/R_S4.Rmd) ([On GitHub](GITHUB_URL/R_S4.Rmd)) |
 |  | Total | (78:58) | | | | |
 
 
