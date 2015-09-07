@@ -43,7 +43,7 @@ There are no consensus on this process and the different choices one make is kno
 Tools for doing gene counting includes
 
 - by using `featureCounts()` from the `r Biocpkg("Rsubread")` package.
-- the [HTSeq](www-huber.embl.de/users/anders/HTSeq/) package (this is a python package, not a Bioconductor package).
+- the [HTSeq](http://www-huber.embl.de/users/anders/HTSeq/) package (this is a python package, not a Bioconductor package).
 - by using `summarizeOverlaps()` from the `r Biocpkg("GenomicAlignments")` package.
 
 and there are other alternatives.  Many people seem to write their own counting pipeline.
