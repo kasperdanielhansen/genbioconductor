@@ -1,0 +1,128 @@
+---
+title: "The oligo package"
+author: "Kasper D. Hansen"
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(oligo)
+library(GEOquery)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("oligo", "GEOquery))
+```
+
+## Overview
+  
+This document presents the `r Biocpkg("oligo")` package for handling Affymetrix and Nimblegen microarrays, especially gene expression, exon expression and SNP arrays.
+
+## Other Resources
+
+- The vignette from the [oligo webpage](http://bioconductor.org/packages/oligo).
+
+## Getting the data
+
+We will use the dataset deposited as GEO accession number "GSE38792".  In this dataset, the experimenters profiled fat biopsies from two different conditions: 10 patients with obstructive sleep apnea (OSA) and 8 healthy controls.
+
+The profiling was done using the Affymetrix Human Gene ST 1.0 array.
+
+First we need to get the raw data; this will be a set of binary files in CEL format.  There will be one file per sample.  The CEL files are accessible as supplementary information from GEO; we get the files using `r Biocpkg("GEOquery")`.
+
+```{r getData}
+library(GEOquery)
+getGEOSuppFiles("GSE38792")
+list.files("GSE38792")
+untar("GSE38792/GSE38792_RAW.tar", exdir = "GSE38792/CEL")
+list.files("GSE38792/CEL")
+```
+
+`r Biocpkg("oligo")` and many other packages of its kind has convenience functions for reading in many files at once.  In this case we construct a vector of filenames and feed it to `read.celfiles()`.
+
+```{r readData, message=FALSE}
+library(oligo)
+celfiles <- list.files("GSE38792/CEL", full = TRUE)
+rawData <- read.celfiles(celfiles)
+```
+
+```{r show}
+rawData
+```
+
+This is in the form of an `GeneFeatureSet`; which is an `ExpressionSet`-like container.  Knowing a bit of S4, we can see this through the class definition
+```{r getClass}
+getClass("GeneFeatureSet")
+```
+We see that this is a special case of a `FeatureSet` which is a special case of `NChannelSet` which is an `eSet`.  We can see the intensity measures by
+```{r rawPeak}
+exprs(rawData)[1:4,1:3]
+```
+We see this is raw intensity data; the unit of measure is integer measurements on a 16 bit scanner, so we get values between 0 and $2^16=65,536$.  This is easily verifiable:
+```{r maxExpr}
+max(exprs(rawData))
+```
+
+Note the large number of features in this dataset, more than 1 million.  Because of the manufacturing technology, Affymetrix can only make very short oligos (around 25bp) but can make them cheaply and at high quality.  The short oligos means that the binding specificity of the oligo is not very good. To compensate for this, Affymetrix uses a design where a gene is being measured by many different probes simultaneously; this is called a probeset.  As part of the preprocessing step for Affymetrix arrays, the measurements for all probes in a probeset needs to be combined into one expression measure.
+
+Let us clean up the phenotype information for `rawData`.
+```{r pData}
+filename <- sampleNames(rawData)
+pData(rawData)$filename <- filename
+sampleNames <- sub(".*_", "", filename)
+sampleNames <- sub(".CEL.gz$", "", sampleNames)
+sampleNames(rawData) <- sampleNames
+pData(rawData)$group <- ifelse(grepl("^OSA", sampleNames(rawData)),
+                               "OSA", "Control")
+pData(rawData)
+```
+
+## Normalization
+
+Let us look at the probe intensities across the samples, using the `boxplot()` function.
+
+```{r rawBox, plot=TRUE}
+boxplot(rawData)
+```
+
+Boxplots are great for comparing many samples because it is easy to display many box plots side by side.  We see there is a large difference in both location and spread between samples.  There are three samples with very low intensities; almost all probes have intensities less than 7 on the log2 scale.  From experience with Affymetrix microarrays, I know this is an extremely low intensity.  Perhaps the array hybridization failed for these arrays.  To determine this will require more investigation.
+
+A classic and powerful method for preprocessing Affymetrix gene expression arrays is the RMA method.  Experience tells us that RMA essentially always performs well so many people prefer this method; one can argue that it is better to use a method which always does well as opposed to a method which does extremely well on some datasets and poorly on others.
+
+The RMA method was originally implemented in the `r Biocpkg("affy")` package which has later been supplanted by the `r Biocpkg("oligo")` package.  The data we are analyzing comes from a "new" style Affymetrix array based on random priming; the `r Biocpkg("affy")` package does not support these types of arrays.  It is extremely easy to run RMA:
+
+```{r rma}
+normData <- rma(rawData)
+normData
+```
+
+Note how `normData` has on the order of 33k features which is closer to the number of genes in the human genome.
+
+We can check the performance of RMA by looking at boxplots again.
+
+```{r normBox, plot=TRUE}
+boxplot(normData)
+```
+
+Here, it is important to remember that the first set of boxplots is at the probe level (~1M probes) whereas the second set of boxplots is at the probeset level (~33k probesets), so they display data at different summarization levels.  However, what matters for analysis is that the probe distributions are normalized across samples and at a first glance it looks ok.  One can see that the 3 suspicious samples from before still are slightly different, but that at least 2 more samples are similar to those.
+
+For the normalization-interested person, note that while the distributions are similar, they are not identical despite the fact that RMA includes quantile normalization.  This is because quantile normalization is done prior to probe summarization; if you quantile normalize different distributions they are guaranteed to have the same distribution afterwards.
+
+The data is now ready for differential expression analysis.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+

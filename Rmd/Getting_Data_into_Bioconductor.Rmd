@@ -1,0 +1,111 @@
+---
+title: "Getting Data into Bioconductor"
+author: "Kasper D. Hansen"
+---
+
+```{r child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has no dependencies.
+
+```{r dependencies, warning=FALSE, message=FALSE}
+```
+
+## Overview
+
+How do you get your data into R/Bioconductor?  The answer obviously depends on the file format of the data, but also what what you want to do with the data.  Generally speaking, you need access to the data file and then you need to put the data into a relevant **data container**.  Examples of data containers are `ExpressionSet` and `SummarizedExperiment`, but also classes such as `GRanges`.
+
+Bioinformatics has jokingly been referred to as "The Science of Inventing New File Formats".  This joke exemplifies the myriad of different file formats in use.  Because we use many file formats and different types of data, it is hard to comprehensively cover all file formats and data types.
+
+In general, a lot of useful solutions exists in domain / application specific packages.  As an example of this paradigm, the `r Biocpkg("affxparser")` package provides tools for parsing Affymetrix CEL files.  However, this package is a parsing library and returns the data in a less useful representation.  An end-user should instead use the `r Biocpkg("oligo")` package which uses `r Biocpkg("affxparser")` to read the data and then puts the data inside a useful data container; ready for downstream analysis.
+
+## Application Area
+
+### Microarray Data
+
+Most microarray data is available to end users through a vendor specific file format such as CEL (Affymetrix) or IDAT  (Illumina).  These file formats can be read using vendor specific packages such as
+
+- `r Biocpkg("affyio")`
+- `r Biocpkg("affxparser")`
+- `r Biocpkg("illuminaio")`
+
+These packages are very low-level.  In practice, many analysis specific packages supports import of these files into useful data structures, and you are much better off using one of those packages.  For example
+
+- `r Biocpkg("affy")` for Affymetrix Gene Expression data.
+- `r Biocpkg("oligo")` for Affymetrix and Nimblegen expression and SNP array data.
+- `r Biocpkg("lumi")` for Illumina arrays.
+- `r Biocpkg("minfi")` for Illumina DNA methylation arrays (the 450k and 27k arrays).
+
+### High-throughput sequencing
+
+Raw (unmapped) reads are typically available in the FASTQ format.
+
+The first step in most analyses is mapping the reads onto a genome.  For aligned reads, the BAM (SAM) format is now a clear standard.
+
+However BAM (and SAM and FASTQ) files are quite big and still represents the data in a format which requires further processing before analysis.  However, this further processing vary by application area (ChIP, RNA, DNA etc).  Additionally, there are very few standard processed file formats; an example of such a standard format is BigWig.  As an example of the lack of standards, there is still no standard file format representing RNA-seq reads summarized at the gene or transcript level; different pipelines provide different sorts of file.  Luckily, these files are usually text files and can be read with standard tools for processing text files.ation from UCSC including UCSC tables can be accessed from the same package, for example by using the functions `getTable()` and `ucscTableQuery()`. 
+
+There is also support for parsing GFF (Genome File Format) in `r Biocpkg("rtracklayer")`.
+
+## File types
+
+### FASTQ files
+
+These file represent sequencing reads, often from an Illumina sequencer.  See the `r Biocpkg("ShortRead")` package.
+
+### BAM / SAM files
+
+This fileformat contains reads aligned to a reference genome.  See the `Biocpkg("Rsamtools")` package.
+
+### VCF files
+
+VCF (Variant Call Format) files represents genotype files, typically produced by running a genotyping pipeline on high-throughout sequencing data.  This format has a binary version called BCF.  Use the functionality in `r Biocpkg("VariantAnnotation")` to access these files.
+
+### UCSC Genome Browser formats
+
+These formats include
+
+- Wig and BigWig
+- Bed and BigBed
+- bedGraph
+
+and can be read using the `r Biocpkg("rtracklayer")` package, which also contains support for GFF files (annotation files).
+
+### Text files
+
+An important special case is simple text files, either separated by `TAB` or `,` and then often named TSV (tab separated values) or CSV (comma separated values).
+
+The base R function for reading these types of files is the versatile, but slow, `read.table()`.  It has a large number of arguments, and can be customized to read most files.  Pay attention to the following arguments
+
+- `sep`: the separator
+- `comment.char`: commenting out lines, for example header line.
+- `colClasses`: if you know the class of the different columns in the file, you can speed up the function substantially.
+- `quote`: the default value is `'"` which can cause problems in genomics due to the use of 3' and 5'.
+- `row.names`, `col.names`
+- `skip`, `nrows`, `fill`: reading part of the file.
+
+For extremely complicated files you can use `readLines()` which reads the file into a character vector.
+
+While `read.table()` is a classic, there are never, faster and more convenient functions which you should get to know.
+
+The `r CRANpkg("readr")` package has functions `read_tsv()`, `read_csv()` and more general `read_delim()`.  These functions are much faster than `read.table()` and support connections.
+
+The `r CRANpkg("data.table")` package has the `fread()` function which is the fastest parser I know of, but is less flexible than the functions in `r CRANpkg("readr")`.
+
+## Get data from databases of publicly available data
+
+A number of data repositories have software packages dedicated to accessing the data inside of them:
+
+- NCBI [GEO](http://www.ncbi.nlm.nih.gov/geo/) (Gene Expression Omnibus): the `r Biocpkg("GEOquery")` package.
+- NCBI [SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): the `r Biocpkg("SRAdb")` package.
+- EBI [ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): the `r Biocpkg("ArrayExpress")` package.
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
