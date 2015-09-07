@@ -99,7 +99,7 @@ Videos are available both on the [Coursera](http://www.coursera.org/course/genbi
 | 33 | Rsamtools | (12:56) | [Video](COURSERA_URL/77) | [Youtube](https://youtu.be/3T4mDPQ5hU8) | [HTML](html/Rsamtools.html) | [R code](R/Rsamtools.R) | [R markdown](Rmd/Rsamtools.Rmd) ([On GitHub](GITHUB_URL/Rsamtools.Rmd)) 
 | 0 | oligo | (14:19) | [Video](COURSERA_URL/81) | [Youtube](https://youtu.be/_pAtq0OC8Ro) | [HTML](html/oligo.html) | [R code](R/oligo.R) | [R markdown](Rmd/oligo.Rmd) ([On GitHub](GITHUB_URL/oligo.Rmd)) |
 | 0 | limma | (16:38) | [Video](COURSERA_URL/79) | [Youtube](https://youtu.be/ZRet1oeGiUU) | [HTML](html/limma.html) | [R code](R/limma.R) | [R markdown](Rmd/limma.Rmd) ([On GitHub](GITHUB_URL/limma.Rmd)) |
-| 0 | minfi | (11:18) | [Video](COURSERA_URL/) | [Youtube]() | [HTML](html/minfi.html) | [R code](R/minfi.R) | [R markdown](Rmd/minfi.Rmd) ([On GitHub](GITHUB_URL/minfi.Rmd)) |
+| 0 | minfi | (11:18) | [Video](COURSERA_URL/83) | [Youtube](https://youtu.be/0llfypt9FAM) | [HTML](html/minfi.html) | [R code](R/minfi.R) | [R markdown](Rmd/minfi.Rmd) ([On GitHub](GITHUB_URL/minfi.Rmd)) |
 | 0 | Count Based RNAseq | (15:34) | [Video](COURSERA_URL/85) | [Youtube](https://youtu.be/zAXHn_Y_NhI) | [HTML](html/Count_Based_RNAseq.html) | [R code](R/Count_Based_RNAseq.R) | [R markdown](Rmd/Count_Based_RNAseq.Rmd) ([On GitHub](GITHUB_URL/Count_Based_RNAseq.Rmd)) |
 |  | Total | (81:26) | | | | | |
 
