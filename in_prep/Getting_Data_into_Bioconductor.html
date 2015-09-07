@@ -51,7 +51,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#application-area">Application Area</a><ul>
 <li><a href="#microarray-data">Microarray Data</a></li>
 <li><a href="#high-throughput-sequencing">High-throughput sequencing</a></li>
+</ul></li>
+<li><a href="#file-types">File types</a><ul>
+<li><a href="#fastq-files">FASTQ files</a></li>
+<li><a href="#bam-sam-files">BAM / SAM files</a></li>
 <li><a href="#vcf-files">VCF files</a></li>
+<li><a href="#ucsc-genome-browser-formats">UCSC Genome Browser formats</a></li>
+<li><a href="#text-files">Text files</a></li>
 </ul></li>
 <li><a href="#get-data-from-databases-of-publicly-available-data">Get data from databases of publicly available data</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
@@ -93,9 +99,47 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>However BAM (and SAM and FASTQ) files are quite big and still represents the data in a format which requires further processing before analysis. However, this further processing vary by application area (ChIP, RNA, DNA etc). Additionally, there are very few standard processed file formats; an example of such a standard format is BigWig. As an example of the lack of standards, there is still no standard file format representing RNA-seq reads summarized at the gene or transcript level; different pipelines provide different sorts of file. Luckily, these files are usually text files and can be read with standard tools for processing text files.ation from UCSC including UCSC tables can be accessed from the same package, for example by using the functions <code>getTable()</code> and <code>ucscTableQuery()</code>.</p>
 <p>There is also support for parsing GFF (Genome File Format) in <em><a href="http://bioconductor.org/packages/release/bioc/html/rtracklayer.html">rtracklayer</a></em>.</p>
 </div>
+</div>
+<div id="file-types" class="section level2">
+<h2>File types</h2>
+<div id="fastq-files" class="section level3">
+<h3>FASTQ files</h3>
+<p>These file represent sequencing reads, often from an Illumina sequencer. See the <em><a href="http://bioconductor.org/packages/release/bioc/html/ShortRead.html">ShortRead</a></em> package.</p>
+</div>
+<div id="bam-sam-files" class="section level3">
+<h3>BAM / SAM files</h3>
+<p>This fileformat contains reads aligned to a reference genome. See the <code>Biocpkg(&quot;Rsamtools&quot;)</code> package.</p>
+</div>
 <div id="vcf-files" class="section level3">
 <h3>VCF files</h3>
-<p>VCF (Variant Call Format) files represents genotype files, typically produced by running a genotyping pipeline on high-throughout sequencing data. Use the functionality in <em><a href="http://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html">VariantAnnotation</a></em> to access these files.</p>
+<p>VCF (Variant Call Format) files represents genotype files, typically produced by running a genotyping pipeline on high-throughout sequencing data. This format has a binary version called BCF. Use the functionality in <em><a href="http://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html">VariantAnnotation</a></em> to access these files.</p>
+</div>
+<div id="ucsc-genome-browser-formats" class="section level3">
+<h3>UCSC Genome Browser formats</h3>
+<p>These formats include</p>
+<ul>
+<li>Wig and BigWig</li>
+<li>Bed and BigBed</li>
+<li>bedGraph</li>
+</ul>
+<p>and can be read using the <em><a href="http://bioconductor.org/packages/release/bioc/html/rtracklayer.html">rtracklayer</a></em> package, which also contains support for GFF files (annotation files).</p>
+</div>
+<div id="text-files" class="section level3">
+<h3>Text files</h3>
+<p>An important special case is simple text files, either separated by <code>TAB</code> or <code>,</code> and then often named TSV (tab separated values) or CSV (comma separated values).</p>
+<p>The base R function for reading these types of files is the versatile, but slow, <code>read.table()</code>. It has a large number of arguments, and can be customized to read most files. Pay attention to the following arguments</p>
+<ul>
+<li><code>sep</code>: the separator</li>
+<li><code>comment.char</code>: commenting out lines, for example header line.</li>
+<li><code>colClasses</code>: if you know the class of the different columns in the file, you can speed up the function substantially.</li>
+<li><code>quote</code>: the default value is <code>'&quot;</code> which can cause problems in genomics due to the use of 3’ and 5’.</li>
+<li><code>row.names</code>, <code>col.names</code></li>
+<li><code>skip</code>, <code>nrows</code>, <code>fill</code>: reading part of the file.</li>
+</ul>
+<p>For extremely complicated files you can use <code>readLines()</code> which reads the file into a character vector.</p>
+<p>While <code>read.table()</code> is a classic, there are never, faster and more convenient functions which you should get to know.</p>
+<p>The <em><a href="http://cran.fhcrc.org/web/packages/readr/index.html">readr</a></em> package has functions <code>read_tsv()</code>, <code>read_csv()</code> and more general <code>read_delim()</code>. These functions are much faster than <code>read.table()</code> and support connections.</p>
+<p>The <em><a href="http://cran.fhcrc.org/web/packages/data.table/index.html">data.table</a></em> package has the <code>fread()</code> function which is the fastest parser I know of, but is less flexible than the functions in <em><a href="http://cran.fhcrc.org/web/packages/readr/index.html">readr</a></em>.</p>
 </div>
 </div>
 <div id="get-data-from-databases-of-publicly-available-data" class="section level2">
