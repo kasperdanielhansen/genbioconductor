@@ -99,8 +99,8 @@ Videos are available both on the [Coursera](http://www.coursera.org/course/genbi
 | 0 | Rsamtools | (12:56) | [Video](dropbox/Videos/BiocIntro_Rsamtools_version1.mp4) | [HTML](html/Rsamtools.html) | [R code](R/Rsamtools.R) | [R markdown](Rmd/Rsamtools.Rmd) ([On GitHub](GITHUB_URL/Rsamtools.Rmd)) 
 | 0 | limma | (16:38) | [Video](dropbox/Videos/BiocIntro_limma_version1.mp4) | [HTML](html/limma.html) | [R code](R/limma.R) | [R markdown](Rmd/limma.Rmd) ([On GitHub](GITHUB_URL/limma.Rmd)) |
 | 0 | oligo | (14:19) | [Video](dropbox/Videos/BiocIntro_oligo_version1.mp4) | [HTML](html/oligo.html) | [R code](R/oligo.R) | [R markdown](Rmd/oligo.Rmd) ([On GitHub](GITHUB_URL/oligo.Rmd)) |
+| 0 | Count_Based_RNAseq | (FIXME) | [Video](dropbox/Videos/BiocIntro_Count_Based_RNAseq_version1.mp4) | [HTML](html/Count_Based_RNAseq.html) | [R code](R/Count_Based_RNAseq.R) | [R markdown](Rmd/Count_Based_RNAseq.Rmd) ([On GitHub](GITHUB_URL/Count_Based_RNAseq.Rmd)) |
 | 0 | minfi | (FIXME) | NA | NA | NA | NA |
-| 0 | Count-based RNA-seq analysis | (FIXME) | NA | NA | NA | NA |
 |  | Total | (54:34) | | | | |
 
 

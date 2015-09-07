@@ -53,7 +53,8 @@ Rmds : html/Install_Bioconductor.html\
       html/limma.html\
       html/Rsamtools.html\
       html/ShortRead.html\
-      html/Getting_Data_into_Bioconductor.html
+      html/Getting_Data_into_Bioconductor.html\
+      html/Count_Based_RNAseq.html
 
 all : Rmds index
 
