@@ -14,19 +14,7 @@ R_SCRIPT=/usr/bin/Rscript
 
 .FORCE :
 
-Rsamtools : Rsamtools.html
-
-ShortRead : ShortRead.html
-
-Count_Based_RNAseq : Count_Based_RNAseq.html
-
 minfi : minfi.html
-
-oligo : oligo.html
-
-limma : limma.html
-
-Getting_Data_into_Bioconductor : Getting_Data_into_Bioconductor.html
 
 fixme:
 	grep FIXME *.Rmd *.md

@@ -13,13 +13,14 @@ This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(minfi)
+library(GEOquery)
 ```
 
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("minfi"))
+biocLite(c("minfi", "GEOquery"))
 ```
 
 ## Overview
@@ -36,13 +37,13 @@ The 450k array has a very unusual design, which to some extent impact analysis. 
 
 The raw data format for the 450k array is known as IDAT.  Because the array is measured in two different colors, there are two files for each sample, typically with the extention `_Grn.idat` and `_Red.idat`.  Illumina's software suite for analysis of this array is called GenomeStudio.  It is not unusual for practitioners to only have access to processed data from GenomeStudio instead of the raw IDAT files, but I and others have shown that there is information in the IDAT files which are beneficial to analysis.
 
-## 
+## Data
 
-We will access a dataset created with the intention of studying the difference between X and Y.
+We will access a dataset created with the intention of studying acute mania.  Serum samples were obtained from individuals hospitalized with acute mania as well as unaffected controls.
 
 We want to obtain the IDAT files which are available as supplementary data.  Far from all 450k datasets on GEO has IDAT files available.  First we download the files.
 
-```{r}
+```{r geoquery}
 library(GEOquery)
 ## getGEOSuppFiles("GSE68777")
 ## untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
@@ -53,7 +54,7 @@ Currently `r Biocpkg("minfi")` does not support reading compressed IDAT files.  
 
 ```{r decompress}
 idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
-## sapply(idatFiles, gunzip)
+##sapply(idatFiles, gunzip)
 ```
 
 Now we read the IDAT files using `read.450k.exp()` which (in this case) reads all the IDAT files in a directory.
@@ -90,6 +91,16 @@ rgSet
 
 The `rgSet` object is a class called `RGChannelSet` which represents two color data with a green and a red channel, very similar to an `ExpressionSet`.
 
+## Methylation
+
+
+
+Needs:
+
+`getIslandStatus()`
+`preprocessFunnorm()`
+`getBeta()`
+`granges()`
 
 
 
