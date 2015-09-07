@@ -49,8 +49,11 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
+<li><a href="#dna-methylation">DNA methylation</a></li>
 <li><a href="#array-design">Array Design</a></li>
-<li><a href="#section"></a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#preprocessing">Preprocessing</a></li>
+<li><a href="#differential-methylation">Differential Methylation</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 <li><a href="#references">References</a></li>
 </ul>
@@ -59,10 +62,11 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <div id="dependencies" class="section level2">
 <h2>Dependencies</h2>
 <p>This document has the following dependencies:</p>
-<pre class="r"><code>library(minfi)</code></pre>
+<pre class="r"><code>library(minfi)
+library(GEOquery)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
 <pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
-biocLite(c(&quot;minfi&quot;))</code></pre>
+biocLite(c(&quot;minfi&quot;, &quot;GEOquery&quot;))</code></pre>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
@@ -74,18 +78,23 @@ biocLite(c(&quot;minfi&quot;))</code></pre>
 <li>The vignette from the <a href="http://bioconductor.org/packages/minfi">minfi webpage</a>.</li>
 </ul>
 </div>
+<div id="dna-methylation" class="section level2">
+<h2>DNA methylation</h2>
+<p>DNA methylation is a chemical modification of DNA. In humans, it occurs at CpG dinucleotides where the ‘C’ can be methylated or not. The methylation state of a given locus in a single cell is binary (technically tertiary since we have two copies of most chromosomes) but we measure DNA methylation across a population of cells. We observe that some loci has intermediate methylation values (between 0 and 1) and we use the methylation percentage (or Beta-value) to describe this.</p>
+<p>The goal of most analyses of DNA methylation is to associate changes in phenotype with changes in methylation in one or more loci.</p>
+</div>
 <div id="array-design" class="section level2">
 <h2>Array Design</h2>
 <p>The 450k array has a very unusual design, which to some extent impact analysis. It is really a mixture of a two-color array and two one-color arrays. There are two main types of probes (type I and type II) and the probe design affects the signal distribution of the probe.</p>
 <p>The raw data format for the 450k array is known as IDAT. Because the array is measured in two different colors, there are two files for each sample, typically with the extention <code>_Grn.idat</code> and <code>_Red.idat</code>. Illumina’s software suite for analysis of this array is called GenomeStudio. It is not unusual for practitioners to only have access to processed data from GenomeStudio instead of the raw IDAT files, but I and others have shown that there is information in the IDAT files which are beneficial to analysis.</p>
 </div>
-<div id="section" class="section level2">
-<h2></h2>
-<p>We will access a dataset created with the intention of studying the difference between X and Y.</p>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>We will access a dataset created with the intention of studying acute mania. Serum samples were obtained from individuals hospitalized with acute mania as well as unaffected controls.</p>
 <p>We want to obtain the IDAT files which are available as supplementary data. Far from all 450k datasets on GEO has IDAT files available. First we download the files.</p>
 <pre class="r"><code>library(GEOquery)
-## getGEOSuppFiles(&quot;GSE68777&quot;)
-## untar(&quot;GSE68777/GSE68777_RAW.tar&quot;, exdir = &quot;GSE68777/idat&quot;)
+getGEOSuppFiles(&quot;GSE68777&quot;)
+untar(&quot;GSE68777/GSE68777_RAW.tar&quot;, exdir = &quot;GSE68777/idat&quot;)
 head(list.files(&quot;GSE68777/idat&quot;, pattern = &quot;idat&quot;))</code></pre>
 <pre><code>## [1] &quot;GSM1681154_5958091019_R03C02_Grn.idat&quot;   
 ## [2] &quot;GSM1681154_5958091019_R03C02_Grn.idat.gz&quot;
@@ -95,7 +104,167 @@ head(list.files(&quot;GSE68777/idat&quot;, pattern = &quot;idat&quot;))</code></
 ## [6] &quot;GSM1681155_5935446005_R05C01_Grn.idat.gz&quot;</code></pre>
 <p>Currently <em><a href="http://bioconductor.org/packages/release/bioc/html/minfi.html">minfi</a></em> does not support reading compressed IDAT files. This is clearly a needed functionality and (as the maintainer of this package) I will address this. But for now we will need to decompress the files.</p>
 <pre class="r"><code>idatFiles &lt;- list.files(&quot;GSE68777/idat&quot;, pattern = &quot;idat.gz$&quot;, full = TRUE)
-## sapply(idatFiles, gunzip)</code></pre>
+sapply(idatFiles, gunzip, overwrite = TRUE)</code></pre>
+<pre><code>## GSE68777/idat/GSM1681154_5958091019_R03C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681154_5958091019_R03C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681155_5935446005_R05C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681155_5935446005_R05C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681156_5958091020_R01C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681156_5958091020_R01C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681157_5958091020_R03C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681157_5958091020_R03C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681158_5935403032_R05C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681158_5935403032_R05C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681159_5958091019_R04C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681159_5958091019_R04C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681160_5935446005_R06C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681160_5935446005_R06C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681161_5958091020_R02C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681161_5958091020_R02C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681162_5958091020_R04C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681162_5958091020_R04C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681163_5935403032_R06C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681163_5935403032_R06C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681164_5935446005_R01C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681164_5935446005_R01C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681165_5958091020_R03C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681165_5958091020_R03C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681166_5958091020_R05C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681166_5958091020_R05C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681167_5935403032_R01C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681167_5935403032_R01C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681168_5958091019_R06C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681168_5958091019_R06C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681169_5935446005_R02C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681169_5935446005_R02C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681170_5958091020_R04C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681170_5958091020_R04C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681171_5958091020_R06C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681171_5958091020_R06C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681172_5935403032_R02C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681172_5935403032_R02C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681173_5958091019_R05C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681173_5958091019_R05C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681174_5935446005_R01C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681174_5935446005_R01C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681175_5935446005_R03C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681175_5935446005_R03C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681176_5958091020_R05C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681176_5958091020_R05C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681177_5935403032_R01C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681177_5935403032_R01C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681178_5935403032_R03C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681178_5935403032_R03C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681179_5958091019_R06C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681179_5958091019_R06C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681180_5935446005_R02C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681180_5935446005_R02C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681181_5935446005_R04C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681181_5935446005_R04C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681182_5958091020_R06C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681182_5958091020_R06C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681183_5935403032_R02C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681183_5935403032_R02C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681184_5958091019_R01C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681184_5958091019_R01C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681185_5935446005_R03C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681185_5935446005_R03C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681186_5935446005_R05C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681186_5935446005_R05C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681187_5958091020_R01C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681187_5958091020_R01C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681188_5935403032_R03C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681188_5935403032_R03C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681189_5958091019_R02C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681189_5958091019_R02C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681190_5935446005_R04C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681190_5935446005_R04C01_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681191_5935446005_R06C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681191_5935446005_R06C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681192_5958091020_R02C02_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681192_5958091020_R02C02_Red.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681193_5935403032_R04C01_Grn.idat.gz 
+##                                                8091452 
+## GSE68777/idat/GSM1681193_5935403032_R04C01_Red.idat.gz 
+##                                                8091452</code></pre>
 <p>Now we read the IDAT files using <code>read.450k.exp()</code> which (in this case) reads all the IDAT files in a directory.</p>
 <pre class="r"><code>rgSet &lt;- read.450k.exp(&quot;GSE68777/idat&quot;)
 rgSet</code></pre>
@@ -152,7 +321,77 @@ rgSet</code></pre>
 ## Annotation
 ##   array: IlluminaHumanMethylation450k
 ##   annotation: ilmn12.hg19</code></pre>
+</div>
+<div id="preprocessing" class="section level2">
+<h2>Preprocessing</h2>
 <p>The <code>rgSet</code> object is a class called <code>RGChannelSet</code> which represents two color data with a green and a red channel, very similar to an <code>ExpressionSet</code>.</p>
+<p>The first step is usually to preprocess the data, using a number of functions including</p>
+<ul>
+<li><code>preprocessRaw()</code> : do nothing.</li>
+<li><code>preprocessIllumina()</code> : use Illumina’s standard processing choices.</li>
+<li><code>preprocessQuantile()</code> : use a version of quantile normalization adapted to methylation arrays.</li>
+<li><code>preprocessNoob()</code> : use the NOOB background correction method.</li>
+<li><code>preprocessSWAN()</code> : use the SWAN method.</li>
+<li><code>preprocessFunnorm()</code> : use functional normalization.</li>
+</ul>
+<p>These functions output different types of objects.</p>
+<p>The class hierarchy in minfi is as follows: data can be stored in an Methylation and Unmethylation channel or in a percent methylation (called Beta) channel. For the first case we have the class <code>MethylSet</code>, for the second case we have the class <code>RatioSet</code>. When you have methylation / unmethylation values you can still compute Beta values on the fly. You convert from a <code>MethylSet</code> to a <code>RatioSet</code> with <code>ratioConvert()</code>.</p>
+<p>In addition to these two classes, we have <code>GenomicMethylSet</code> and <code>GenomicRatioSet</code>. The <code>Genomic</code> indicates that the data has been associated with genomic coordinates using the <code>mapToGenome()</code> function.</p>
+<p>The starting point for most analyses ought to be a <code>GenomicRatioSet</code> class. If your preprocessing method of choice does not get you there, use <code>ratioConvert()</code> and <code>mapToGenome()</code> to go the last steps.</p>
+<p>Let us run <code>preprocessQuantile()</code> which arrives at a <code>GenomicRatioSet</code>:</p>
+<pre class="r"><code>grSet &lt;- preprocessQuantile(rgSet)</code></pre>
+<pre><code>## [preprocessQuantile] Mapping to genome.
+## [preprocessQuantile] Fixing outliers.
+## [preprocessQuantile] Quantile normalizing.</code></pre>
+<pre class="r"><code>grSet</code></pre>
+<pre><code>## class: GenomicRatioSet 
+## dim: 485512 40 
+## exptData(0):
+## assays(2): M CN
+## rownames(485512): cg13869341 cg14008030 ... cg08265308 cg14273923
+## rowRanges metadata column names(0):
+## colnames(40): 5958091019_R03C02 5935446005_R05C01 ...
+##   5958091020_R02C02 5935403032_R04C01
+## colData names(5): title geo_accession group sex predictedSex
+## Annotation
+##   array: IlluminaHumanMethylation450k
+##   annotation: ilmn12.hg19
+## Preprocessing
+##   Method: Raw (no normalization or bg correction)
+##   minfi version: 1.14.0
+##   Manifest version: 0.4.0</code></pre>
+<p>This is like a <code>SummarizedExperiment</code>; we can get the location of the CpGs by</p>
+<pre class="r"><code>granges(grSet)</code></pre>
+<pre><code>## GRanges object with 485512 ranges and 0 metadata columns:
+##              seqnames               ranges strand
+##                 &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;
+##   cg13869341     chr1       [15865, 15865]      *
+##   cg14008030     chr1       [18827, 18827]      *
+##   cg12045430     chr1       [29407, 29407]      *
+##   cg20826792     chr1       [29425, 29425]      *
+##   cg00381604     chr1       [29435, 29435]      *
+##          ...      ...                  ...    ...
+##   cg17939569     chrY [27009430, 27009430]      *
+##   cg13365400     chrY [27210334, 27210334]      *
+##   cg21106100     chrY [28555536, 28555536]      *
+##   cg08265308     chrY [28555550, 28555550]      *
+##   cg14273923     chrY [28555912, 28555912]      *
+##   -------
+##   seqinfo: 24 sequences from hg19 genome; no seqlengths</code></pre>
+<p>The usual methylation measure is called “Beta” values; equal to percent methylation and defined as <code>Meth</code> divided by <code>Meth + Unmeth</code>.</p>
+<pre class="r"><code>getBeta(grSet)[1:3,1:3]</code></pre>
+<pre><code>##            5958091019_R03C02 5935446005_R05C01 5958091020_R01C01
+## cg13869341         0.7485333         0.7696497         0.7322275
+## cg14008030         0.5300410         0.5893653         0.6044354
+## cg12045430         0.0912596         0.1007678         0.1057603</code></pre>
+<p>CpGs forms clusters known as “CpG Islands”. Areas close to CpG Islands are known as CpG Shores, followed by CpG Shelfs and finally CpG Open Sea probes. An easy way to get at this is to use</p>
+<pre class="r"><code>head(getIslandStatus(grSet))</code></pre>
+<pre><code>## [1] &quot;OpenSea&quot; &quot;OpenSea&quot; &quot;Island&quot;  &quot;Island&quot;  &quot;Island&quot;  &quot;OpenSea&quot;</code></pre>
+</div>
+<div id="differential-methylation" class="section level2">
+<h2>Differential Methylation</h2>
+<p>Once the data has been normalized, one possibility is to identify differentially methylated CpGs by using <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em> on the Beta values.</p>
+<p>Another possibility is to look for clusters of CpGs all changing in the same direction. One method for doing this is through the <code>bumphunter()</code> function which interfaces to the <em><a href="http://bioconductor.org/packages/release/bioc/html/bumphunter.html">bumphunter</a></em> package.</p>
 </div>
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>
@@ -169,12 +408,25 @@ rgSet</code></pre>
 ## [8] datasets  base     
 ## 
 ## other attached packages:
-##  [1] GEOquery_2.34.0      minfi_1.14.0         bumphunter_1.8.0    
-##  [4] locfit_1.5-9.1       iterators_1.0.7      foreach_1.4.2       
-##  [7] Biostrings_2.36.4    XVector_0.8.0        GenomicRanges_1.20.6
-## [10] GenomeInfoDb_1.4.2   IRanges_2.2.7        S4Vectors_0.6.5     
-## [13] lattice_0.20-33      Biobase_2.28.0       BiocGenerics_0.14.0 
-## [16] BiocStyle_1.6.0      rmarkdown_0.8       
+##  [1] IlluminaHumanMethylation450kanno.ilmn12.hg19_0.2.1
+##  [2] IlluminaHumanMethylation450kmanifest_0.4.0        
+##  [3] GEOquery_2.34.0                                   
+##  [4] minfi_1.14.0                                      
+##  [5] bumphunter_1.8.0                                  
+##  [6] locfit_1.5-9.1                                    
+##  [7] iterators_1.0.7                                   
+##  [8] foreach_1.4.2                                     
+##  [9] Biostrings_2.36.4                                 
+## [10] XVector_0.8.0                                     
+## [11] GenomicRanges_1.20.6                              
+## [12] GenomeInfoDb_1.4.2                                
+## [13] IRanges_2.2.7                                     
+## [14] S4Vectors_0.6.5                                   
+## [15] lattice_0.20-33                                   
+## [16] Biobase_2.28.0                                    
+## [17] BiocGenerics_0.14.0                               
+## [18] BiocStyle_1.6.0                                   
+## [19] rmarkdown_0.8                                     
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] mclust_5.0.2            base64_1.1             

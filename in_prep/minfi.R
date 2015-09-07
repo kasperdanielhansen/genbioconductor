@@ -1,19 +1,20 @@
 ## ----dependencies, warning=FALSE, message=FALSE--------------------------
 library(minfi)
+library(GEOquery)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("minfi"))
+## biocLite(c("minfi", "GEOquery"))
 
-## ------------------------------------------------------------------------
+## ----geoquery------------------------------------------------------------
 library(GEOquery)
-## getGEOSuppFiles("GSE68777")
-## untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
+getGEOSuppFiles("GSE68777")
+untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
 head(list.files("GSE68777/idat", pattern = "idat"))
 
 ## ----decompress----------------------------------------------------------
 idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
-## sapply(idatFiles, gunzip)
+sapply(idatFiles, gunzip, overwrite = TRUE)
 
 ## ----readExp-------------------------------------------------------------
 rgSet <- read.450k.exp("GSE68777/idat")
@@ -36,6 +37,19 @@ rownames(pD) <- pD$title
 pD <- pD[sampleNames(rgSet),]
 pData(rgSet) <- pD
 rgSet
+
+## ----preprocess----------------------------------------------------------
+grSet <- preprocessQuantile(rgSet)
+grSet
+
+## ----granges-------------------------------------------------------------
+granges(grSet)
+
+## ----getBeta-------------------------------------------------------------
+getBeta(grSet)[1:3,1:3]
+
+## ----getIslandStatus-----------------------------------------------------
+head(getIslandStatus(grSet))
 
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()

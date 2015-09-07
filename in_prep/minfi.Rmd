@@ -31,6 +31,12 @@ The Illumina 450k DNA methylation microarray is a cheap and relatively comprehen
 
 - The vignette from the [minfi webpage](http://bioconductor.org/packages/minfi).
 
+## DNA methylation
+
+DNA methylation is a chemical modification of DNA.  In humans, it occurs at CpG dinucleotides where the 'C' can be methylated or not.  The methylation state of a given locus in a single cell is binary (technically tertiary since we have two copies of most chromosomes) but we measure DNA methylation across a population of cells.  We observe that some loci has intermediate methylation values (between 0 and 1) and we use the methylation percentage (or Beta-value) to describe this.
+
+The goal of most analyses of DNA methylation is to associate changes in phenotype with changes in methylation in one or more loci.
+
 ## Array Design
 
 The 450k array has a very unusual design, which to some extent impact analysis.  It is really a mixture of a two-color array and two one-color arrays.  There are two main types of probes (type I and type II) and the probe design affects the signal distribution of the probe.
@@ -45,8 +51,8 @@ We want to obtain the IDAT files which are available as supplementary data.  Far
 
 ```{r geoquery}
 library(GEOquery)
-## getGEOSuppFiles("GSE68777")
-## untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
+getGEOSuppFiles("GSE68777")
+untar("GSE68777/GSE68777_RAW.tar", exdir = "GSE68777/idat")
 head(list.files("GSE68777/idat", pattern = "idat"))
 ```
 
@@ -54,7 +60,7 @@ Currently `r Biocpkg("minfi")` does not support reading compressed IDAT files.  
 
 ```{r decompress}
 idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
-##sapply(idatFiles, gunzip)
+sapply(idatFiles, gunzip, overwrite = TRUE)
 ```
 
 Now we read the IDAT files using `read.450k.exp()` which (in this case) reads all the IDAT files in a directory.
@@ -89,22 +95,52 @@ pData(rgSet) <- pD
 rgSet
 ```
 
+## Preprocessing
+
 The `rgSet` object is a class called `RGChannelSet` which represents two color data with a green and a red channel, very similar to an `ExpressionSet`.
 
-## Methylation
+The first step is usually to preprocess the data, using a number of functions including
 
+- `preprocessRaw()` : do nothing.
+- `preprocessIllumina()` : use Illumina's standard processing choices.
+- `preprocessQuantile()` : use a version of quantile normalization adapted to methylation arrays.
+- `preprocessNoob()` : use the NOOB background correction method.
+- `preprocessSWAN()` : use the SWAN method.
+- `preprocessFunnorm()` : use functional normalization.
 
+These functions output different types of objects.
 
-Needs:
+The class hierarchy in minfi is as follows: data can be stored in an Methylation and Unmethylation channel or in a percent methylation (called Beta) channel.  For the first case we have the class `MethylSet`, for the second case we have the class `RatioSet`.  When you have methylation / unmethylation values you can still compute Beta values on the fly.  You convert from a `MethylSet` to a `RatioSet` with `ratioConvert()`. 
 
-`getIslandStatus()`
-`preprocessFunnorm()`
-`getBeta()`
-`granges()`
+In addition to these two classes, we have `GenomicMethylSet` and `GenomicRatioSet`.  The `Genomic` indicates that the data has been associated with genomic coordinates using the `mapToGenome()` function.  
 
+The starting point for most analyses ought to be a `GenomicRatioSet` class.  If your preprocessing method of choice does not get you there, use `ratioConvert()` and `mapToGenome()` to go the last steps.
 
+Let us run `preprocessQuantile()` which arrives at a `GenomicRatioSet`:
 
+```{r preprocess}
+grSet <- preprocessQuantile(rgSet)
+grSet
+```
 
+This is like a `SummarizedExperiment`; we can get the location of the CpGs by
+```{r granges}
+granges(grSet)
+```
+The usual methylation measure is called "Beta" values; equal to percent methylation and defined as `Meth` divided by `Meth + Unmeth`.
+```{r getBeta}
+getBeta(grSet)[1:3,1:3]
+```
+CpGs forms clusters known as "CpG Islands".  Areas close to CpG Islands are known as CpG Shores, followed by CpG Shelfs and finally CpG Open Sea probes.  An easy way to get at this is to use
+```{r getIslandStatus}
+head(getIslandStatus(grSet))
+```
+
+## Differential Methylation
+
+Once the data has been normalized, one possibility is to identify differentially methylated CpGs by using `r Biocpkg("limma")` on the Beta values.
+
+Another possibility is to look for clusters of CpGs all changing in the same direction.  One method for doing this is through the `bumphunter()` function which interfaces to the `r Biocpkg("bumphunter")` package.
 
 ## SessionInfo
 
