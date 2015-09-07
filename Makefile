@@ -49,6 +49,11 @@ Rmds : html/Install_Bioconductor.html\
       html/rtracklayer_Import.html\
       html/R_S4.html\
       html/biomaRt.html
+      html/oligo.html
+      html/limma.html
+      html/Rsamtools.html
+      html/ShortRead.html
+      html/Getting_Data_into_Bioconductor.html
 
 all : Rmds index
 
