@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kasper D. Hansen" />
+
+
+<title>Count Based RNA-seq analysis</title>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<link href="data:text/css;charset=utf-8,pre%20%2Eoperator%2C%0Apre%20%2Eparen%20%7B%0Acolor%3A%20rgb%28104%2C%20118%2C%20135%29%0A%7D%0Apre%20%2Eliteral%20%7B%0Acolor%3A%20%23990073%0A%7D%0Apre%20%2Enumber%20%7B%0Acolor%3A%20%23099%3B%0A%7D%0Apre%20%2Ecomment%20%7B%0Acolor%3A%20%23998%3B%0Afont%2Dstyle%3A%20italic%0A%7D%0Apre%20%2Ekeyword%20%7B%0Acolor%3A%20%23900%3B%0Afont%2Dweight%3A%20bold%0A%7D%0Apre%20%2Eidentifier%20%7B%0Acolor%3A%20rgb%280%2C%200%2C%200%29%3B%0A%7D%0Apre%20%2Estring%20%7B%0Acolor%3A%20%23d14%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
+<script src="data:application/x-javascript;base64,CnZhciBobGpzPW5ldyBmdW5jdGlvbigpe2Z1bmN0aW9uIG0ocCl7cmV0dXJuIHAucmVwbGFjZSgvJi9nbSwiJmFtcDsiKS5yZXBsYWNlKC88L2dtLCImbHQ7Iil9ZnVuY3Rpb24gZihyLHEscCl7cmV0dXJuIFJlZ0V4cChxLCJtIisoci5jST8iaSI6IiIpKyhwPyJnIjoiIikpfWZ1bmN0aW9uIGIocil7Zm9yKHZhciBwPTA7cDxyLmNoaWxkTm9kZXMubGVuZ3RoO3ArKyl7dmFyIHE9ci5jaGlsZE5vZGVzW3BdO2lmKHEubm9kZU5hbWU9PSJDT0RFIil7cmV0dXJuIHF9aWYoIShxLm5vZGVUeXBlPT0zJiZxLm5vZGVWYWx1ZS5tYXRjaCgvXHMrLykpKXticmVha319fWZ1bmN0aW9uIGgodCxzKXt2YXIgcD0iIjtmb3IodmFyIHI9MDtyPHQuY2hpbGROb2Rlcy5sZW5ndGg7cisrKXtpZih0LmNoaWxkTm9kZXNbcl0ubm9kZVR5cGU9PTMpe3ZhciBxPXQuY2hpbGROb2Rlc1tyXS5ub2RlVmFsdWU7aWYocyl7cT1xLnJlcGxhY2UoL1xuL2csIiIpfXArPXF9ZWxzZXtpZih0LmNoaWxkTm9kZXNbcl0ubm9kZU5hbWU9PSJCUiIpe3ArPSJcbiJ9ZWxzZXtwKz1oKHQuY2hpbGROb2Rlc1tyXSl9fX1pZigvTVNJRSBbNjc4XS8udGVzdChuYXZpZ2F0b3IudXNlckFnZW50KSl7cD1wLnJlcGxhY2UoL1xyL2csIlxuIil9cmV0dXJuIHB9ZnVuY3Rpb24gYShzKXt2YXIgcj1zLmNsYXNzTmFtZS5zcGxpdCgvXHMrLyk7cj1yLmNvbmNhdChzLnBhcmVudE5vZGUuY2xhc3NOYW1lLnNwbGl0KC9ccysvKSk7Zm9yKHZhciBxPTA7cTxyLmxlbmd0aDtxKyspe3ZhciBwPXJbcV0ucmVwbGFjZSgvXmxhbmd1YWdlLS8sIiIpO2lmKGVbcF0pe3JldHVybiBwfX19ZnVuY3Rpb24gYyhxKXt2YXIgcD1bXTsoZnVuY3Rpb24ocyx0KXtmb3IodmFyIHI9MDtyPHMuY2hpbGROb2Rlcy5sZW5ndGg7cisrKXtpZihzLmNoaWxkTm9kZXNbcl0ubm9kZVR5cGU9PTMpe3QrPXMuY2hpbGROb2Rlc1tyXS5ub2RlVmFsdWUubGVuZ3RofWVsc2V7aWYocy5jaGlsZE5vZGVzW3JdLm5vZGVOYW1lPT0iQlIiKXt0Kz0xfWVsc2V7aWYocy5jaGlsZE5vZGVzW3JdLm5vZGVUeXBlPT0xKXtwLnB1c2goe2V2ZW50OiJzdGFydCIsb2Zmc2V0OnQsbm9kZTpzLmNoaWxkTm9kZXNbcl19KTt0PWFyZ3VtZW50cy5jYWxsZWUocy5jaGlsZE5vZGVzW3JdLHQpO3AucHVzaCh7ZXZlbnQ6InN0b3AiLG9mZnNldDp0LG5vZGU6cy5jaGlsZE5vZGVzW3JdfSl9fX19cmV0dXJuIHR9KShxLDApO3JldHVybiBwfWZ1bmN0aW9uIGsoeSx3LHgpe3ZhciBxPTA7dmFyIHo9IiI7dmFyIHM9W107ZnVuY3Rpb24gdSgpe2lmKHkubGVuZ3RoJiZ3Lmxlbmd0aCl7aWYoeVswXS5vZmZzZXQhPXdbMF0ub2Zmc2V0KXtyZXR1cm4oeVswXS5vZmZzZXQ8d1swXS5vZmZzZXQpP3k6d31lbHNle3JldHVybiB3WzBdLmV2ZW50PT0ic3RhcnQiP3k6d319ZWxzZXtyZXR1cm4geS5sZW5ndGg/eTp3fX1mdW5jdGlvbiB0KEQpe3ZhciBBPSI8IitELm5vZGVOYW1lLnRvTG93ZXJDYXNlKCk7Zm9yKHZhciBCPTA7QjxELmF0dHJpYnV0ZXMubGVuZ3RoO0IrKyl7dmFyIEM9RC5hdHRyaWJ1dGVzW0JdO0ErPSIgIitDLm5vZGVOYW1lLnRvTG93ZXJDYXNlKCk7aWYoQy52YWx1ZSE9PXVuZGVmaW5lZCYmQy52YWx1ZSE9PWZhbHNlJiZDLnZhbHVlIT09bnVsbCl7QSs9Jz0iJyttKEMudmFsdWUpKyciJ319cmV0dXJuIEErIj4ifXdoaWxlKHkubGVuZ3RofHx3Lmxlbmd0aCl7dmFyIHY9dSgpLnNwbGljZSgwLDEpWzBdO3orPW0oeC5zdWJzdHIocSx2Lm9mZnNldC1xKSk7cT12Lm9mZnNldDtpZih2LmV2ZW50PT0ic3RhcnQiKXt6Kz10KHYubm9kZSk7cy5wdXNoKHYubm9kZSl9ZWxzZXtpZih2LmV2ZW50PT0ic3RvcCIpe3ZhciBwLHI9cy5sZW5ndGg7ZG97ci0tO3A9c1tyXTt6Kz0oIjwvIitwLm5vZGVOYW1lLnRvTG93ZXJDYXNlKCkrIj4iKX13aGlsZShwIT12Lm5vZGUpO3Muc3BsaWNlKHIsMSk7d2hpbGUocjxzLmxlbmd0aCl7eis9dChzW3JdKTtyKyt9fX19cmV0dXJuIHorbSh4LnN1YnN0cihxKSl9ZnVuY3Rpb24gaigpe2Z1bmN0aW9uIHEoeCx5LHYpe2lmKHguY29tcGlsZWQpe3JldHVybn12YXIgdTt2YXIgcz1bXTtpZih4Lmspe3gubFI9Zih5LHgubHx8aGxqcy5JUix0cnVlKTtmb3IodmFyIHcgaW4geC5rKXtpZigheC5rLmhhc093blByb3BlcnR5KHcpKXtjb250aW51ZX1pZih4Lmtbd10gaW5zdGFuY2VvZiBPYmplY3Qpe3U9eC5rW3ddfWVsc2V7dT14Lms7dz0ia2V5d29yZCJ9Zm9yKHZhciByIGluIHUpe2lmKCF1Lmhhc093blByb3BlcnR5KHIpKXtjb250aW51ZX14Lmtbcl09W3csdVtyXV07cy5wdXNoKHIpfX19aWYoIXYpe2lmKHguYldLKXt4LmI9IlxcYigiK3Muam9pbigifCIpKyIpXFxzIn14LmJSPWYoeSx4LmI/eC5iOiJcXEJ8XFxiIik7aWYoIXguZSYmIXguZVcpe3guZT0iXFxCfFxcYiJ9aWYoeC5lKXt4LmVSPWYoeSx4LmUpfX1pZih4Lmkpe3guaVI9Zih5LHguaSl9aWYoeC5yPT09dW5kZWZpbmVkKXt4LnI9MX1pZigheC5jKXt4LmM9W119eC5jb21waWxlZD10cnVlO2Zvcih2YXIgdD0wO3Q8eC5jLmxlbmd0aDt0Kyspe2lmKHguY1t0XT09InNlbGYiKXt4LmNbdF09eH1xKHguY1t0XSx5LGZhbHNlKX1pZih4LnN0YXJ0cyl7cSh4LnN0YXJ0cyx5LGZhbHNlKX19Zm9yKHZhciBwIGluIGUpe2lmKCFlLmhhc093blByb3BlcnR5KHApKXtjb250aW51ZX1xKGVbcF0uZE0sZVtwXSx0cnVlKX19ZnVuY3Rpb24gZChCLEMpe2lmKCFqLmNhbGxlZCl7aigpO2ouY2FsbGVkPXRydWV9ZnVuY3Rpb24gcShyLE0pe2Zvcih2YXIgTD0wO0w8TS5jLmxlbmd0aDtMKyspe2lmKChNLmNbTF0uYlIuZXhlYyhyKXx8W251bGxdKVswXT09cil7cmV0dXJuIE0uY1tMXX19fWZ1bmN0aW9uIHYoTCxyKXtpZihEW0xdLmUmJkRbTF0uZVIudGVzdChyKSl7cmV0dXJuIDF9aWYoRFtMXS5lVyl7dmFyIE09dihMLTEscik7cmV0dXJuIE0/TSsxOjB9cmV0dXJuIDB9ZnVuY3Rpb24gdyhyLEwpe3JldHVybiBMLmkmJkwuaVIudGVzdChyKX1mdW5jdGlvbiBLKE4sTyl7dmFyIE09W107Zm9yKHZhciBMPTA7TDxOLmMubGVuZ3RoO0wrKyl7TS5wdXNoKE4uY1tMXS5iKX12YXIgcj1ELmxlbmd0aC0xO2Rve2lmKERbcl0uZSl7TS5wdXNoKERbcl0uZSl9ci0tfXdoaWxlKERbcisxXS5lVyk7aWYoTi5pKXtNLnB1c2goTi5pKX1yZXR1cm4gZihPLE0uam9pbigifCIpLHRydWUpfWZ1bmN0aW9uIHAoTSxMKXt2YXIgTj1EW0QubGVuZ3RoLTFdO2lmKCFOLnQpe04udD1LKE4sRSl9Ti50Lmxhc3RJbmRleD1MO3ZhciByPU4udC5leGVjKE0pO3JldHVybiByP1tNLnN1YnN0cihMLHIuaW5kZXgtTCksclswXSxmYWxzZV06W00uc3Vic3RyKEwpLCIiLHRydWVdfWZ1bmN0aW9uIHooTixyKXt2YXIgTD1FLmNJP3JbMF0udG9Mb3dlckNhc2UoKTpyWzBdO3ZhciBNPU4ua1tMXTtpZihNJiZNIGluc3RhbmNlb2YgQXJyYXkpe3JldHVybiBNfXJldHVybiBmYWxzZX1mdW5jdGlvbiBGKEwsUCl7TD1tKEwpO2lmKCFQLmspe3JldHVybiBMfXZhciByPSIiO3ZhciBPPTA7UC5sUi5sYXN0SW5kZXg9MDt2YXIgTT1QLmxSLmV4ZWMoTCk7d2hpbGUoTSl7cis9TC5zdWJzdHIoTyxNLmluZGV4LU8pO3ZhciBOPXooUCxNKTtpZihOKXt4Kz1OWzFdO3IrPSc8c3BhbiBjbGFzcz0iJytOWzBdKyciPicrTVswXSsiPC9zcGFuPiJ9ZWxzZXtyKz1NWzBdfU89UC5sUi5sYXN0SW5kZXg7TT1QLmxSLmV4ZWMoTCl9cmV0dXJuIHIrTC5zdWJzdHIoTyxMLmxlbmd0aC1PKX1mdW5jdGlvbiBKKEwsTSl7aWYoTS5zTCYmZVtNLnNMXSl7dmFyIHI9ZChNLnNMLEwpO3grPXIua2V5d29yZF9jb3VudDtyZXR1cm4gci52YWx1ZX1lbHNle3JldHVybiBGKEwsTSl9fWZ1bmN0aW9uIEkoTSxyKXt2YXIgTD1NLmNOPyc8c3BhbiBjbGFzcz0iJytNLmNOKyciPic6IiI7aWYoTS5yQil7eSs9TDtNLmJ1ZmZlcj0iIn1lbHNle2lmKE0uZUIpe3krPW0ocikrTDtNLmJ1ZmZlcj0iIn1lbHNle3krPUw7TS5idWZmZXI9cn19RC5wdXNoKE0pO0ErPU0ucn1mdW5jdGlvbiBHKE4sTSxRKXt2YXIgUj1EW0QubGVuZ3RoLTFdO2lmKFEpe3krPUooUi5idWZmZXIrTixSKTtyZXR1cm4gZmFsc2V9dmFyIFA9cShNLFIpO2lmKFApe3krPUooUi5idWZmZXIrTixSKTtJKFAsTSk7cmV0dXJuIFAuckJ9dmFyIEw9dihELmxlbmd0aC0xLE0pO2lmKEwpe3ZhciBPPVIuY04/Ijwvc3Bhbj4iOiIiO2lmKFIuckUpe3krPUooUi5idWZmZXIrTixSKStPfWVsc2V7aWYoUi5lRSl7eSs9SihSLmJ1ZmZlcitOLFIpK08rbShNKX1lbHNle3krPUooUi5idWZmZXIrTitNLFIpK099fXdoaWxlKEw+MSl7Tz1EW0QubGVuZ3RoLTJdLmNOPyI8L3NwYW4+IjoiIjt5Kz1PO0wtLTtELmxlbmd0aC0tfXZhciByPURbRC5sZW5ndGgtMV07RC5sZW5ndGgtLTtEW0QubGVuZ3RoLTFdLmJ1ZmZlcj0iIjtpZihyLnN0YXJ0cyl7SShyLnN0YXJ0cywiIil9cmV0dXJuIFIuckV9aWYodyhNLFIpKXt0aHJvdyJJbGxlZ2FsIn19dmFyIEU9ZVtCXTt2YXIgRD1bRS5kTV07dmFyIEE9MDt2YXIgeD0wO3ZhciB5PSIiO3RyeXt2YXIgcyx1PTA7RS5kTS5idWZmZXI9IiI7ZG97cz1wKEMsdSk7dmFyIHQ9RyhzWzBdLHNbMV0sc1syXSk7dSs9c1swXS5sZW5ndGg7aWYoIXQpe3UrPXNbMV0ubGVuZ3RofX13aGlsZSghc1syXSk7aWYoRC5sZW5ndGg+MSl7dGhyb3ciSWxsZWdhbCJ9cmV0dXJue3I6QSxrZXl3b3JkX2NvdW50OngsdmFsdWU6eX19Y2F0Y2goSCl7aWYoSD09IklsbGVnYWwiKXtyZXR1cm57cjowLGtleXdvcmRfY291bnQ6MCx2YWx1ZTptKEMpfX1lbHNle3Rocm93IEh9fX1mdW5jdGlvbiBnKHQpe3ZhciBwPXtrZXl3b3JkX2NvdW50OjAscjowLHZhbHVlOm0odCl9O3ZhciByPXA7Zm9yKHZhciBxIGluIGUpe2lmKCFlLmhhc093blByb3BlcnR5KHEpKXtjb250aW51ZX12YXIgcz1kKHEsdCk7cy5sYW5ndWFnZT1xO2lmKHMua2V5d29yZF9jb3VudCtzLnI+ci5rZXl3b3JkX2NvdW50K3Iucil7cj1zfWlmKHMua2V5d29yZF9jb3VudCtzLnI+cC5rZXl3b3JkX2NvdW50K3Aucil7cj1wO3A9c319aWYoci5sYW5ndWFnZSl7cC5zZWNvbmRfYmVzdD1yfXJldHVybiBwfWZ1bmN0aW9uIGkocixxLHApe2lmKHEpe3I9ci5yZXBsYWNlKC9eKCg8W14+XSs+fFx0KSspL2dtLGZ1bmN0aW9uKHQsdyx2LHUpe3JldHVybiB3LnJlcGxhY2UoL1x0L2cscSl9KX1pZihwKXtyPXIucmVwbGFjZSgvXG4vZywiPGJyPiIpfXJldHVybiByfWZ1bmN0aW9uIG4odCx3LHIpe3ZhciB4PWgodCxyKTt2YXIgdj1hKHQpO3ZhciB5LHM7aWYodil7eT1kKHYseCl9ZWxzZXtyZXR1cm59dmFyIHE9Yyh0KTtpZihxLmxlbmd0aCl7cz1kb2N1bWVudC5jcmVhdGVFbGVtZW50KCJwcmUiKTtzLmlubmVySFRNTD15LnZhbHVlO3kudmFsdWU9ayhxLGMocykseCl9eS52YWx1ZT1pKHkudmFsdWUsdyxyKTt2YXIgdT10LmNsYXNzTmFtZTtpZighdS5tYXRjaCgiKFxcc3xeKShsYW5ndWFnZS0pPyIrdisiKFxcc3wkKSIpKXt1PXU/KHUrIiAiK3YpOnZ9aWYoL01TSUUgWzY3OF0vLnRlc3QobmF2aWdhdG9yLnVzZXJBZ2VudCkmJnQudGFnTmFtZT09IkNPREUiJiZ0LnBhcmVudE5vZGUudGFnTmFtZT09IlBSRSIpe3M9dC5wYXJlbnROb2RlO3ZhciBwPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpO3AuaW5uZXJIVE1MPSI8cHJlPjxjb2RlPiIreS52YWx1ZSsiPC9jb2RlPjwvcHJlPiI7dD1wLmZpcnN0Q2hpbGQuZmlyc3RDaGlsZDtwLmZpcnN0Q2hpbGQuY049cy5jTjtzLnBhcmVudE5vZGUucmVwbGFjZUNoaWxkKHAuZmlyc3RDaGlsZCxzKX1lbHNle3QuaW5uZXJIVE1MPXkudmFsdWV9dC5jbGFzc05hbWU9dTt0LnJlc3VsdD17bGFuZ3VhZ2U6dixrdzp5LmtleXdvcmRfY291bnQscmU6eS5yfTtpZih5LnNlY29uZF9iZXN0KXt0LnNlY29uZF9iZXN0PXtsYW5ndWFnZTp5LnNlY29uZF9iZXN0Lmxhbmd1YWdlLGt3Onkuc2Vjb25kX2Jlc3Qua2V5d29yZF9jb3VudCxyZTp5LnNlY29uZF9iZXN0LnJ9fX1mdW5jdGlvbiBvKCl7aWYoby5jYWxsZWQpe3JldHVybn1vLmNhbGxlZD10cnVlO3ZhciByPWRvY3VtZW50LmdldEVsZW1lbnRzQnlUYWdOYW1lKCJwcmUiKTtmb3IodmFyIHA9MDtwPHIubGVuZ3RoO3ArKyl7dmFyIHE9YihyW3BdKTtpZihxKXtuKHEsaGxqcy50YWJSZXBsYWNlKX19fWZ1bmN0aW9uIGwoKXtpZih3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcil7d2luZG93LmFkZEV2ZW50TGlzdGVuZXIoIkRPTUNvbnRlbnRMb2FkZWQiLG8sZmFsc2UpO3dpbmRvdy5hZGRFdmVudExpc3RlbmVyKCJsb2FkIixvLGZhbHNlKX1lbHNle2lmKHdpbmRvdy5hdHRhY2hFdmVudCl7d2luZG93LmF0dGFjaEV2ZW50KCJvbmxvYWQiLG8pfWVsc2V7d2luZG93Lm9ubG9hZD1vfX19dmFyIGU9e307dGhpcy5MQU5HVUFHRVM9ZTt0aGlzLmhpZ2hsaWdodD1kO3RoaXMuaGlnaGxpZ2h0QXV0bz1nO3RoaXMuZml4TWFya3VwPWk7dGhpcy5oaWdobGlnaHRCbG9jaz1uO3RoaXMuaW5pdEhpZ2hsaWdodGluZz1vO3RoaXMuaW5pdEhpZ2hsaWdodGluZ09uTG9hZD1sO3RoaXMuSVI9IlthLXpBLVpdW2EtekEtWjAtOV9dKiI7dGhpcy5VSVI9IlthLXpBLVpfXVthLXpBLVowLTlfXSoiO3RoaXMuTlI9IlxcYlxcZCsoXFwuXFxkKyk/Ijt0aGlzLkNOUj0iXFxiKDBbeFhdW2EtZkEtRjAtOV0rfChcXGQrKFxcLlxcZCopP3xcXC5cXGQrKShbZUVdWy0rXT9cXGQrKT8pIjt0aGlzLkJOUj0iXFxiKDBiWzAxXSspIjt0aGlzLlJTUj0iIXwhPXwhPT18JXwlPXwmfCYmfCY9fFxcKnxcXCo9fFxcK3xcXCs9fCx8XFwufC18LT18L3wvPXw6fDt8PHw8PHw8PD18PD18PXw9PXw9PT18Pnw+PXw+Pnw+Pj18Pj4+fD4+Pj18XFw/fFxcW3xcXHt8XFwofFxcXnxcXF49fFxcfHxcXHw9fFxcfFxcfHx+Ijt0aGlzLkVSPSIoPyFbXFxzXFxTXSkiO3RoaXMuQkU9e2I6IlxcXFwuIixyOjB9O3RoaXMuQVNNPXtjTjoic3RyaW5nIixiOiInIixlOiInIixpOiJcXG4iLGM6W3RoaXMuQkVdLHI6MH07dGhpcy5RU009e2NOOiJzdHJpbmciLGI6JyInLGU6JyInLGk6IlxcbiIsYzpbdGhpcy5CRV0scjowfTt0aGlzLkNMQ009e2NOOiJjb21tZW50IixiOiIvLyIsZToiJCJ9O3RoaXMuQ0JMQ0xNPXtjTjoiY29tbWVudCIsYjoiL1xcKiIsZToiXFwqLyJ9O3RoaXMuSENNPXtjTjoiY29tbWVudCIsYjoiIyIsZToiJCJ9O3RoaXMuTk09e2NOOiJudW1iZXIiLGI6dGhpcy5OUixyOjB9O3RoaXMuQ05NPXtjTjoibnVtYmVyIixiOnRoaXMuQ05SLHI6MH07dGhpcy5CTk09e2NOOiJudW1iZXIiLGI6dGhpcy5CTlIscjowfTt0aGlzLmluaGVyaXQ9ZnVuY3Rpb24ocixzKXt2YXIgcD17fTtmb3IodmFyIHEgaW4gcil7cFtxXT1yW3FdfWlmKHMpe2Zvcih2YXIgcSBpbiBzKXtwW3FdPXNbcV19fXJldHVybiBwfX0oKTtobGpzLkxBTkdVQUdFUy5jcHA9ZnVuY3Rpb24oKXt2YXIgYT17a2V5d29yZDp7ImZhbHNlIjoxLCJpbnQiOjEsImZsb2F0IjoxLCJ3aGlsZSI6MSwicHJpdmF0ZSI6MSwiY2hhciI6MSwiY2F0Y2giOjEsImV4cG9ydCI6MSx2aXJ0dWFsOjEsb3BlcmF0b3I6MixzaXplb2Y6MixkeW5hbWljX2Nhc3Q6Mix0eXBlZGVmOjIsY29uc3RfY2FzdDoyLCJjb25zdCI6MSxzdHJ1Y3Q6MSwiZm9yIjoxLHN0YXRpY19jYXN0OjIsdW5pb246MSxuYW1lc3BhY2U6MSx1bnNpZ25lZDoxLCJsb25nIjoxLCJ0aHJvdyI6MSwidm9sYXRpbGUiOjIsInN0YXRpYyI6MSwicHJvdGVjdGVkIjoxLGJvb2w6MSx0ZW1wbGF0ZToxLG11dGFibGU6MSwiaWYiOjEsInB1YmxpYyI6MSxmcmllbmQ6MiwiZG8iOjEsInJldHVybiI6MSwiZ290byI6MSxhdXRvOjEsInZvaWQiOjIsImVudW0iOjEsImVsc2UiOjEsImJyZWFrIjoxLCJuZXciOjEsZXh0ZXJuOjEsdXNpbmc6MSwidHJ1ZSI6MSwiY2xhc3MiOjEsYXNtOjEsImNhc2UiOjEsdHlwZWlkOjEsInNob3J0IjoxLHJlaW50ZXJwcmV0X2Nhc3Q6MiwiZGVmYXVsdCI6MSwiZG91YmxlIjoxLHJlZ2lzdGVyOjEsZXhwbGljaXQ6MSxzaWduZWQ6MSx0eXBlbmFtZToxLCJ0cnkiOjEsInRoaXMiOjEsInN3aXRjaCI6MSwiY29udGludWUiOjEsd2NoYXJfdDoxLGlubGluZToxLCJkZWxldGUiOjEsYWxpZ25vZjoxLGNoYXIxNl90OjEsY2hhcjMyX3Q6MSxjb25zdGV4cHI6MSxkZWNsdHlwZToxLG5vZXhjZXB0OjEsbnVsbHB0cjoxLHN0YXRpY19hc3NlcnQ6MSx0aHJlYWRfbG9jYWw6MSxyZXN0cmljdDoxLF9Cb29sOjEsY29tcGxleDoxfSxidWlsdF9pbjp7c3RkOjEsc3RyaW5nOjEsY2luOjEsY291dDoxLGNlcnI6MSxjbG9nOjEsc3RyaW5nc3RyZWFtOjEsaXN0cmluZ3N0cmVhbToxLG9zdHJpbmdzdHJlYW06MSxhdXRvX3B0cjoxLGRlcXVlOjEsbGlzdDoxLHF1ZXVlOjEsc3RhY2s6MSx2ZWN0b3I6MSxtYXA6MSxzZXQ6MSxiaXRzZXQ6MSxtdWx0aXNldDoxLG11bHRpbWFwOjEsdW5vcmRlcmVkX3NldDoxLHVub3JkZXJlZF9tYXA6MSx1bm9yZGVyZWRfbXVsdGlzZXQ6MSx1bm9yZGVyZWRfbXVsdGltYXA6MSxhcnJheToxLHNoYXJlZF9wdHI6MX19O3JldHVybntkTTp7azphLGk6IjwvIixjOltobGpzLkNMQ00saGxqcy5DQkxDTE0saGxqcy5RU00se2NOOiJzdHJpbmciLGI6IidcXFxcPy4iLGU6IiciLGk6Ii4ifSx7Y046Im51bWJlciIsYjoiXFxiKFxcZCsoXFwuXFxkKik/fFxcLlxcZCspKHV8VXxsfEx8dWx8VUx8ZnxGKSJ9LGhsanMuQ05NLHtjTjoicHJlcHJvY2Vzc29yIixiOiIjIixlOiIkIn0se2NOOiJzdGxfY29udGFpbmVyIixiOiJcXGIoZGVxdWV8bGlzdHxxdWV1ZXxzdGFja3x2ZWN0b3J8bWFwfHNldHxiaXRzZXR8bXVsdGlzZXR8bXVsdGltYXB8dW5vcmRlcmVkX21hcHx1bm9yZGVyZWRfc2V0fHVub3JkZXJlZF9tdWx0aXNldHx1bm9yZGVyZWRfbXVsdGltYXB8YXJyYXkpXFxzKjwiLGU6Ij4iLGs6YSxyOjEwLGM6WyJzZWxmIl19XX19fSgpO2hsanMuTEFOR1VBR0VTLnI9e2RNOntjOltobGpzLkhDTSx7Y046Im51bWJlciIsYjoiXFxiMFt4WF1bMC05YS1mQS1GXStbTGldP1xcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjB9LHtjTjoibnVtYmVyIixiOiJcXGJcXGQrKD86W2VFXVsrXFwtXT9cXGQqKT9MXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJudW1iZXIiLGI6IlxcYlxcZCtcXC4oPyFcXGQpKD86aVxcYik/IixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJudW1iZXIiLGI6IlxcYlxcZCsoPzpcXC5cXGQqKT8oPzpbZUVdWytcXC1dP1xcZCopP2k/XFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJudW1iZXIiLGI6IlxcLlxcZCsoPzpbZUVdWytcXC1dP1xcZCopP2k/XFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJrZXl3b3JkIixiOiIoPzp0cnlDYXRjaHxsaWJyYXJ5fHNldEdlbmVyaWN8c2V0R3JvdXBHZW5lcmljKVxcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImtleXdvcmQiLGI6IlxcLlxcLlxcLiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImtleXdvcmQiLGI6IlxcLlxcLlxcZCsoPyFbXFx3Ll0pIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MTB9LHtjTjoia2V5d29yZCIsYjoiXFxiKD86ZnVuY3Rpb24pIixlOmhsanMuSU1NRURJQVRFX1JFLHI6Mn0se2NOOiJrZXl3b3JkIixiOiIoPzppZnxpbnxicmVha3xuZXh0fHJlcGVhdHxlbHNlfGZvcnxyZXR1cm58c3dpdGNofHdoaWxlfHRyeXxzdG9wfHdhcm5pbmd8cmVxdWlyZXxhdHRhY2h8ZGV0YWNofHNvdXJjZXxzZXRNZXRob2R8c2V0Q2xhc3MpXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJsaXRlcmFsIixiOiIoPzpOQXxOQV9pbnRlZ2VyX3xOQV9yZWFsX3xOQV9jaGFyYWN0ZXJffE5BX2NvbXBsZXhfKVxcYiIsZTpobGpzLklNTUVESUFURV9SRSxyOjEwfSx7Y046ImxpdGVyYWwiLGI6Iig/Ok5VTEx8VFJVRXxGQUxTRXxUfEZ8SW5mfE5hTilcXGIiLGU6aGxqcy5JTU1FRElBVEVfUkUscjoxfSx7Y046ImlkZW50aWZpZXIiLGI6IlthLXpBLVouXVthLXpBLVowLTkuX10qXFxiIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MH0se2NOOiJvcGVyYXRvciIsYjoiPFxcLSg/IVxccypcXGQpIixlOmhsanMuSU1NRURJQVRFX1JFLHI6Mn0se2NOOiJvcGVyYXRvciIsYjoiXFwtPnw8XFwtIixlOmhsanMuSU1NRURJQVRFX1JFLHI6MX0se2NOOiJvcGVyYXRvciIsYjoiJSV8fiIsZTpobGpzLklNTUVESUFURV9SRX0se2NOOiJvcGVyYXRvciIsYjoiPj18PD18PT18IT18XFx8XFx8fCYmfD18XFwrfFxcLXxcXCp8L3xcXF58Pnw8fCF8JnxcXHx8XFwkfDoiLGU6aGxqcy5JTU1FRElBVEVfUkUscjowfSx7Y046Im9wZXJhdG9yIixiOiIlIixlOiIlIixpOiJcXG4iLHI6MX0se2NOOiJpZGVudGlmaWVyIixiOiJgIixlOiJgIixyOjB9LHtjTjoic3RyaW5nIixiOiciJyxlOiciJyxjOltobGpzLkJFXSxyOjB9LHtjTjoic3RyaW5nIixiOiInIixlOiInIixjOltobGpzLkJFXSxyOjB9LHtjTjoicGFyZW4iLGI6IltbKHtcXF0pfV0iLGU6aGxqcy5JTU1FRElBVEVfUkUscjowfV19fTsKaGxqcy5pbml0SGlnaGxpZ2h0aW5nT25Mb2FkKCk7Cgo="></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+<link href="data:text/css;charset=utf-8,body%2C%20td%20%7B%0Afont%2Dfamily%3A%20sans%2Dserif%3B%0Abackground%2Dcolor%3A%20white%3B%0Afont%2Dsize%3A%2013px%3B%0A%7D%0Abody%20%7B%0Amax%2Dwidth%3A%20800px%3B%0Amargin%3A%200%20auto%3B%0Apadding%3A%201em%201em%202em%3B%0Aline%2Dheight%3A%2020px%3B%0A%7D%0A%0Ap%2C%20pre%20%7B%20margin%3A%200em%200em%201em%3B%0A%7D%0A%0Aimg%2C%20table%20%7B%0Amargin%3A%200em%20auto%201em%3B%0A%7D%0Ap%20%7B%0Atext%2Dalign%3A%20justify%3B%0A%7D%0Att%2C%20code%2C%20pre%20%7B%0Afont%2Dfamily%3A%20%27DejaVu%20Sans%20Mono%27%2C%20%27Droid%20Sans%20Mono%27%2C%20%27Lucida%20Console%27%2C%20Consolas%2C%20Monaco%2C%20monospace%3B%0A%7D%0Ah1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%20font%2Dfamily%3A%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Amargin%3A%201%2E2em%200em%200%2E6em%200em%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Ah1%20%7B%0Afont%2Dsize%3A%20250%25%3B%0Afont%2Dweight%3A%20normal%3B%0Acolor%3A%20%2387b13f%3B%0Aline%2Dheight%3A%201%2E1em%3B%0A%7D%0Ah2%20%7B%0Afont%2Dsize%3A%20160%25%3B%0Afont%2Dweight%3A%20normal%3B%0Aline%2Dheight%3A%201%2E4em%3B%0Aborder%2Dbottom%3A%201px%20%231a81c2%20solid%3B%0A%7D%0Ah3%20%7B%0Afont%2Dsize%3A%20130%25%3B%20%7D%0Ah2%2C%20h3%20%7B%0Acolor%3A%20%231a81c2%3B%0A%7D%0Ah4%2C%20h5%2C%20h6%20%7B%0Afont%2Dsize%3A115%25%3B%0A%7D%20%0A%0Aa%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Aactive%20%7B%20outline%3A%20none%3B%20%7D%0Aa%3Avisited%20%7B%20color%3A%20%231a81c2%3B%20%7D%0Aa%3Ahover%20%7B%20color%3A%20%234c94c2%3B%20%7D%0Apre%2C%20img%20%7B%0Amax%2Dwidth%3A%20100%25%3B%0Adisplay%3A%20block%3B%0A%7D%0Apre%20%7B%0Aborder%3A%200px%20none%3B%0Abackground%2Dcolor%3A%20%23F8F8F8%3B%0Awhite%2Dspace%3A%20pre%3B%0Aoverflow%2Dx%3A%20auto%3B%0A%7D%0Apre%20code%20%7B%0Aborder%3A%201px%20%23aaa%20dashed%3B%0Abackground%2Dcolor%3A%20white%3B%0Adisplay%3A%20block%3B%0Apadding%3A%201em%3B%20color%3A%20%23111%3B%0Aoverflow%2Dx%3A%20inherit%3B%0A%7D%0A%0Apre%20code%5Bclass%5D%20%7B%0Abackground%2Dcolor%3A%20inherit%3B%0A%7D%0A%0Apre%5Bclass%5D%20code%20%7B%0Abackground%2Dcolor%3A%20inherit%3B%0A%7D%0A%0Acode%20%7B%20background%2Dcolor%3A%20transparent%3B%0Acolor%3A%20%2387b13f%3B%0Afont%2Dsize%3A%2092%25%3B%0A%7D%0A%0Atable%2C%20td%2C%20th%20%7B%0Aborder%3A%20none%3B%0Apadding%3A%200%200%2E5em%3B%0A%7D%0A%0Atbody%20tr%3Anth%2Dchild%28odd%29%20td%20%7B%0Abackground%2Dcolor%3A%20%23F8F8F8%3B%0A%7D%0Ablockquote%20%7B%0Acolor%3A%23666666%3B%0Amargin%3A0%3B%0Apadding%2Dleft%3A%201em%3B%0Aborder%2Dleft%3A%200%2E5em%20%23EEE%20solid%3B%0A%7D%0Ahr%20%7B%0Aheight%3A%200px%3B%0Aborder%2Dbottom%3A%20none%3B%0Aborder%2Dtop%2Dwidth%3A%20thin%3B%0Aborder%2Dtop%2Dstyle%3A%20dotted%3B%0Aborder%2Dtop%2Dcolor%3A%20%23999999%3B%0A%7D%0A%40media%20print%20%7B%0A%2A%20%7B%0Abackground%3A%20transparent%20%21important%3B%0Acolor%3A%20black%20%21important%3B%0Afilter%3Anone%20%21important%3B%0A%2Dms%2Dfilter%3A%20none%20%21important%3B%0A%7D%0Abody%20%7B%0Afont%2Dsize%3A12pt%3B%0Amax%2Dwidth%3A100%25%3B%0A%7D%0Aa%2C%20a%3Avisited%20%7B%0Atext%2Ddecoration%3A%20underline%3B%0A%7D%0Ahr%20%7B%0Avisibility%3A%20hidden%3B%0Apage%2Dbreak%2Dbefore%3A%20always%3B%0A%7D%0Apre%2C%20blockquote%20%7B%0Apadding%2Dright%3A%201em%3B%0Apage%2Dbreak%2Dinside%3A%20avoid%3B%0A%7D%0Atr%2C%20img%20%7B%0Apage%2Dbreak%2Dinside%3A%20avoid%3B%0A%7D%0Aimg%20%7B%0Amax%2Dwidth%3A%20100%25%20%21important%3B%0A%7D%0A%40page%20%3Aleft%20%7B%0Amargin%3A%2015mm%2020mm%2015mm%2010mm%3B%0A%7D%0A%40page%20%3Aright%20%7B%0Amargin%3A%2015mm%2010mm%2015mm%2020mm%3B%0A%7D%0Ap%2C%20h2%2C%20h3%20%7B%0Aorphans%3A%203%3B%20widows%3A%203%3B%0A%7D%0Ah2%2C%20h3%20%7B%0Apage%2Dbreak%2Dafter%3A%20avoid%3B%0A%7D%0A%7D%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Count Based RNA-seq analysis</h1>
+<h4 class="author"><em>Kasper D. Hansen</em></h4>
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#other-resources">Other Resources</a></li>
+<li><a href="#rna-seq-count-data">RNA-seq count data</a></li>
+<li><a href="#statistical-issues">Statistical issues</a></li>
+<li><a href="#the-data">The Data</a></li>
+<li><a href="#edger">edgeR</a></li>
+<li><a href="#deseq2">DESeq2</a></li>
+<li><a href="#sessioninfo">SessionInfo</a></li>
+</ul>
+</div>
+
+<div id="dependencies" class="section level2">
+<h2>Dependencies</h2>
+<p>This document has the following dependencies:</p>
+<pre class="r"><code>library(DESeq2)
+library(edgeR)</code></pre>
+<p>Use the following commands to install these packages in R.</p>
+<pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
+biocLite(c(&quot;DESeq2&quot;, &quot;edgeR))</code></pre>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>RNA seq data is often analyzed by creating a count matrix of gene counts per sample. This matrix is analyzed using count-based models, often built on the negative binomial distribution. Popular packages for this includes <em><a href="http://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a></em> and <em><a href="http://bioconductor.org/packages/release/bioc/html/DESeq.html">DESeq</a></em> / <em><a href="http://bioconductor.org/packages/release/bioc/html/DESeq2.html">DESeq2</a></em>.</p>
+<p>This type of analysis discards part of the information in the RNA sequencing reads, but we have a good understanding of how to analyze this type of data.</p>
+</div>
+<div id="other-resources" class="section level2">
+<h2>Other Resources</h2>
+<ul>
+<li>The vignette from the <a href="http://bioconductor.org/packages/edgeR">edgeR webpage</a>.</li>
+<li>The vignette from the <a href="http://bioconductor.org/packages/DESeq2">DESeq2 webpage</a>.</li>
+<li>The <a href="http://bioconductor.org/help/workflows/rnaseqGene/">RNA-seq workflow</a>.</li>
+</ul>
+</div>
+<div id="rna-seq-count-data" class="section level2">
+<h2>RNA-seq count data</h2>
+<p>One simple way of analyzing RNA sequencing data is to make it look like microarray data. This is done by counting how many reads in each sample overlaps a gene. There are many ways to do this. It obviously depends on the annotation used, but also on how it is decided that a read overlaps a region. Of specific concern is which genomic regions are part of a gene with multiple transcripts.</p>
+<p>There are no consensus on this process and the different choices one make is known to affect the outcome.</p>
+<p>Tools for doing gene counting includes</p>
+<ul>
+<li>by using <code>featureCounts()</code> from the <em><a href="http://bioconductor.org/packages/release/bioc/html/Rsubread.html">Rsubread</a></em> package.</li>
+<li>the <a href="www-huber.embl.de/users/anders/HTSeq/">HTSeq</a> package (this is a python package, not a Bioconductor package).</li>
+<li>by using <code>summarizeOverlaps()</code> from the <em><a href="http://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html">GenomicAlignments</a></em> package.</li>
+</ul>
+<p>and there are other alternatives. Many people seem to write their own counting pipeline.</p>
+<p>Reducing RNA sequencing data to a single integer per gene is obvious a simplification. Indeed it ignores some of the main reasons for doing RNA sequencing, including assessing alternative splicing. On the other hand, we understand the statistical properties of this procedure well, and it delivers a basic insight into something that most researcher wants to know. Finally, this approach requires the different genomic regions to be known beforehand.</p>
+</div>
+<div id="statistical-issues" class="section level2">
+<h2>Statistical issues</h2>
+<p>In RNA-seq data analysis we often see that many genes (up to 50%) have little or no expression. It is common to pre-filter (remove) these genes prior to analysis. In general genomics filtering might be beneficial to your analysis, but this discussion is outside the scope of this document.</p>
+<p><strong>Note:</strong> The analysis presented below is <strong>extremely</strong> superficial. Consider this a very quick introduction to the workflow of these two packages.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>We will be using the <em><a href="http://bioconductor.org/packages/release/data/experiment/html/airway.html">airway</a></em> dataset which contains RNA-seq data in the form of a <code>SummarizedExperiment</code>. Lets load the data and have a look</p>
+<pre class="r"><code>library(airway)
+data(airway)
+airway</code></pre>
+<pre><code>## class: SummarizedExperiment 
+## dim: 64102 8 
+## exptData(1): ''
+## assays(1): counts
+## rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
+## rowRanges metadata column names(0):
+## colnames(8): SRR1039508 SRR1039509 ... SRR1039520 SRR1039521
+## colData names(9): SampleName cell ... Sample BioSample</code></pre>
+<pre class="r"><code>assay(airway, &quot;counts&quot;)[1:3, 1:3]</code></pre>
+<pre><code>##                 SRR1039508 SRR1039509 SRR1039512
+## ENSG00000000003        679        448        873
+## ENSG00000000005          0          0          0
+## ENSG00000000419        467        515        621</code></pre>
+<pre class="r"><code>airway$dex</code></pre>
+<pre><code>## [1] untrt trt   untrt trt   untrt trt   untrt trt  
+## Levels: trt untrt</code></pre>
+<p>The main variable of interest is <code>dex</code> which takes on levels <code>trt</code> (treated) and <code>untrt</code> (untreated). The first level will be the reference level for this factor, so we use <code>relevel()</code> to set the <code>untrt</code> level as reference; this is much easier to interpret.</p>
+<pre class="r"><code>airway$dex &lt;- relevel(airway$dex, &quot;untrt&quot;)
+airway$dex</code></pre>
+<pre><code>## [1] untrt trt   untrt trt   untrt trt   untrt trt  
+## Levels: untrt trt</code></pre>
+<p>There is rich information about which gene model was used for each gene:</p>
+<pre class="r"><code>granges(airway)</code></pre>
+<pre><code>## GRangesList object of length 64102:
+## $ENSG00000000003 
+## GRanges object with 17 ranges and 2 metadata columns:
+##        seqnames               ranges strand   |   exon_id       exon_name
+##           &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;   | &lt;integer&gt;     &lt;character&gt;
+##    [1]        X [99883667, 99884983]      -   |    667145 ENSE00001459322
+##    [2]        X [99885756, 99885863]      -   |    667146 ENSE00000868868
+##    [3]        X [99887482, 99887565]      -   |    667147 ENSE00000401072
+##    [4]        X [99887538, 99887565]      -   |    667148 ENSE00001849132
+##    [5]        X [99888402, 99888536]      -   |    667149 ENSE00003554016
+##    ...      ...                  ...    ... ...       ...             ...
+##   [13]        X [99890555, 99890743]      -   |    667156 ENSE00003512331
+##   [14]        X [99891188, 99891686]      -   |    667158 ENSE00001886883
+##   [15]        X [99891605, 99891803]      -   |    667159 ENSE00001855382
+##   [16]        X [99891790, 99892101]      -   |    667160 ENSE00001863395
+##   [17]        X [99894942, 99894988]      -   |    667161 ENSE00001828996
+## 
+## ...
+## &lt;64101 more elements&gt;
+## -------
+## seqinfo: 722 sequences (1 circular) from an unspecified genome</code></pre>
+</div>
+<div id="edger" class="section level2">
+<h2>edgeR</h2>
+<p>The <em><a href="http://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a></em> is very similar in terms of data structures and functionality to the <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em>. Whereas <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em> allows us to operate directy on <code>ExpressionSet</code>s, edgeR does not work directly with <code>SummarizedExperiment</code>. We first need to put out data into an edgeR specific container.</p>
+<pre class="r"><code>library(edgeR)
+dge &lt;- DGEList(counts = assay(airway, &quot;counts&quot;),
+               group = airway$dex)
+dge$samples &lt;- merge(dge$samples,
+                     as.data.frame(colData(airway)),
+                     by = 0)
+dge$genes &lt;- data.frame(name = names(rowRanges(airway)),
+                        stringsAsFactors = FALSE)</code></pre>
+<p>This object has something called the <code>group</code> which is the basic experimental group for each sample. It also has <code>$samples</code> (the pheno data) which - weirdly - cannot be set when you create the <code>DGEList</code> object, so we set it afterwards. The <code>$genes</code> is a <code>data.frame</code> so we cannot include the rich gene model information we had in the <code>SummarizedExperiment</code>.</p>
+<p>Having set up the input object, we now proceed as follows.</p>
+<p>First we estimate the normalization factors or effective library sizes</p>
+<pre class="r"><code>dge &lt;- calcNormFactors(dge)</code></pre>
+<p>Next we estimate the dispersion (variance). There are multiple ways to do this, and the weird two-step procedure is necessary.</p>
+<pre class="r"><code>dge &lt;- estimateGLMCommonDisp(dge)
+dge &lt;- estimateGLMTagwiseDisp(dge)</code></pre>
+<p>Now we setup the design matrix and do a <code>glmFit()</code>, similar to <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em></p>
+<pre class="r"><code>design &lt;- model.matrix(~dge$samples$group)
+fit &lt;- glmFit(dge, design)</code></pre>
+<p>Now it is time to do a test and extract the top hits</p>
+<pre class="r"><code>lrt &lt;- glmLRT(fit, coef = 2)
+topTags(lrt)</code></pre>
+<pre><code>## Coefficient:  dge$samples$grouptrt 
+##                  name     logFC    logCPM       LR       PValue       FDR
+## 56702 ENSG00000265702  5.793444 -2.057490 18.86584 1.402419e-05 0.3032692
+## 26235 ENSG00000222939  5.279691 -2.393440 18.47944 1.717474e-05 0.3032692
+## 14922 ENSG00000179593 10.102066  1.658949 18.01816 2.188075e-05 0.3032692
+## 55622 ENSG00000264569  5.520191 -2.235712 17.90243 2.325244e-05 0.3032692
+## 6667  ENSG00000132518  6.536657 -1.591221 17.60321 2.721293e-05 0.3032692
+## 28978 ENSG00000226453 -4.891970 -2.504215 16.30160 5.401843e-05 0.3032692
+## 3751  ENSG00000109906  7.082997  4.162779 16.19655 5.709795e-05 0.3032692
+## 6058  ENSG00000128285 -5.209306 -1.287458 16.16211 5.814574e-05 0.3032692
+## 38438 ENSG00000237949  3.828161 -2.279109 15.98393 6.388248e-05 0.3032692
+## 363   ENSG00000015413  4.764661 -2.606451 15.93160 6.567293e-05 0.3032692</code></pre>
+</div>
+<div id="deseq2" class="section level2">
+<h2>DESeq2</h2>
+<p>Like <em><a href="http://bioconductor.org/packages/release/bioc/html/edgeR.html">edgeR</a></em>, DESeq2 requires us to put the data into a package-specific container (a <code>DESeqDataSet</code>). But unlike edgeR, it is pretty easy.</p>
+<pre class="r"><code>library(DESeq2)
+dds &lt;- DESeqDataSet(airway, design = ~ dex)</code></pre>
+<p>Note that the design of the experiment is stored inside the object. The last variable (in case multiple variables are list) will be the variable of interest which is report in the different results outputs.</p>
+<p>Fitting the model is simple</p>
+<pre class="r"><code>dds &lt;- DESeq(dds)</code></pre>
+<p>and then all we need to do is get the results. Note that the results are not ordered, so we do that.</p>
+<pre class="r"><code>res &lt;- results(dds)
+res &lt;- res[order(res$padj),]
+res</code></pre>
+<pre><code>## log2 fold change (MAP): dex trt vs untrt 
+## Wald test p-value: dex trt vs untrt 
+## DataFrame with 64102 rows and 6 columns
+##                   baseMean log2FoldChange      lfcSE      stat
+##                  &lt;numeric&gt;      &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt;
+## ENSG00000152583   997.4398       4.285847 0.19605831  21.86006
+## ENSG00000148175 11193.7188       1.434388 0.08411178  17.05336
+## ENSG00000179094   776.5967       2.984244 0.18864120  15.81968
+## ENSG00000109906   385.0710       5.137007 0.33077733  15.53010
+## ENSG00000134686  2737.9820       1.368176 0.09059205  15.10261
+## ...                    ...            ...        ...       ...
+## LRG_94                   0             NA         NA        NA
+## LRG_96                   0             NA         NA        NA
+## LRG_97                   0             NA         NA        NA
+## LRG_98                   0             NA         NA        NA
+## LRG_99                   0             NA         NA        NA
+##                        pvalue          padj
+##                     &lt;numeric&gt;     &lt;numeric&gt;
+## ENSG00000152583 6.235873e-106 1.089469e-101
+## ENSG00000148175  3.300017e-65  2.882730e-61
+## ENSG00000179094  2.276377e-56  1.325686e-52
+## ENSG00000109906  2.170243e-54  9.479080e-51
+## ENSG00000134686  1.556576e-51  5.438987e-48
+## ...                       ...           ...
+## LRG_94                     NA            NA
+## LRG_96                     NA            NA
+## LRG_97                     NA            NA
+## LRG_98                     NA            NA
+## LRG_99                     NA            NA</code></pre>
+</div>
+<div id="sessioninfo" class="section level2">
+<h2>SessionInfo</h2>
+<p></p>
+<pre><code>## R version 3.2.1 (2015-06-18)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.5 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] parallel  stats4    methods   stats     graphics  grDevices utils    
+## [8] datasets  base     
+## 
+## other attached packages:
+##  [1] airway_0.102.0            edgeR_3.10.2             
+##  [3] limma_3.24.15             DESeq2_1.8.1             
+##  [5] RcppArmadillo_0.5.500.2.0 Rcpp_0.12.0              
+##  [7] GenomicRanges_1.20.6      GenomeInfoDb_1.4.2       
+##  [9] IRanges_2.2.7             S4Vectors_0.6.5          
+## [11] BiocGenerics_0.14.0       BiocStyle_1.6.0          
+## [13] rmarkdown_0.8            
+## 
+## loaded via a namespace (and not attached):
+##  [1] RColorBrewer_1.1-2   formatR_1.2          futile.logger_1.4.1 
+##  [4] plyr_1.8.3           XVector_0.8.0        futile.options_1.0.0
+##  [7] tools_3.2.1          rpart_4.1-10         digest_0.6.8        
+## [10] RSQLite_1.0.0        annotate_1.46.1      evaluate_0.7.2      
+## [13] gtable_0.1.2         lattice_0.20-33      DBI_0.3.1           
+## [16] yaml_2.1.13          proto_0.3-10         gridExtra_2.0.0     
+## [19] genefilter_1.50.0    cluster_2.0.3        stringr_1.0.0       
+## [22] knitr_1.11           locfit_1.5-9.1       nnet_7.3-10         
+## [25] grid_3.2.1           Biobase_2.28.0       AnnotationDbi_1.30.1
+## [28] XML_3.98-1.3         survival_2.38-3      BiocParallel_1.2.20 
+## [31] foreign_0.8-65       latticeExtra_0.6-26  Formula_1.2-1       
+## [34] geneplotter_1.46.0   ggplot2_1.0.1        reshape2_1.4.1      
+## [37] lambda.r_1.1.7       magrittr_1.5         scales_0.3.0        
+## [40] Hmisc_3.16-0         htmltools_0.2.6      MASS_7.3-43         
+## [43] splines_3.2.1        xtable_1.7-4         colorspace_1.2-6    
+## [46] stringi_0.5-5        acepack_1.3-3.3      munsell_0.4.2</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

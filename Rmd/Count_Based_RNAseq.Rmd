@@ -1,0 +1,158 @@
+---
+title: "Count Based RNA-seq analysis"
+author: "Kasper D. Hansen"
+---
+
+```{r front, child="front.Rmd", echo=FALSE}
+```
+
+## Dependencies
+
+This document has the following dependencies:
+
+```{r dependencies, warning=FALSE, message=FALSE}
+library(DESeq2)
+library(edgeR)
+```
+
+Use the following commands to install these packages in R.
+
+```{r biocLite, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("DESeq2", "edgeR))
+```
+
+## Overview
+  
+RNA seq data is often analyzed by creating a count matrix of gene counts per sample.  This matrix is analyzed using count-based models, often built on the negative binomial distribution.  Popular packages for this includes `r Biocpkg("edgeR")` and `r Biocpkg("DESeq")` / `r Biocpkg("DESeq2")`.
+
+This type of analysis discards part of the information in the RNA sequencing reads, but we have a good understanding of how to analyze this type of data.
+
+## Other Resources
+
+- The vignette from the [edgeR webpage](http://bioconductor.org/packages/edgeR).
+- The vignette from the [DESeq2 webpage](http://bioconductor.org/packages/DESeq2).
+- The [RNA-seq workflow](http://bioconductor.org/help/workflows/rnaseqGene/).
+
+## RNA-seq count data
+
+One simple way of analyzing RNA sequencing data is to make it look like microarray data.  This is done by counting how many reads in each sample overlaps a gene.  There are many ways to do this.  It obviously depends on the annotation used, but also on how it is decided that a read overlaps a region.  Of specific concern is which genomic regions are part of a gene with multiple transcripts.
+
+There are no consensus on this process and the different choices one make is known to affect the outcome.
+
+Tools for doing gene counting includes
+
+- by using `featureCounts()` from the `r Biocpkg("Rsubread")` package.
+- the [HTSeq](www-huber.embl.de/users/anders/HTSeq/) package (this is a python package, not a Bioconductor package).
+- by using `summarizeOverlaps()` from the `r Biocpkg("GenomicAlignments")` package.
+
+and there are other alternatives.  Many people seem to write their own counting pipeline.
+
+Reducing RNA sequencing data to a single integer per gene is obvious a simplification.  Indeed it ignores some of the main reasons for doing RNA sequencing, including assessing alternative splicing.  On the other hand, we understand the statistical properties of this procedure well, and it delivers a basic insight into something that most researcher wants to know.  Finally, this approach requires the different genomic regions to be known beforehand.
+
+## Statistical issues
+
+In RNA-seq data analysis we often see that many genes (up to 50%) have little or no expression.  It is common to pre-filter (remove) these genes prior to analysis.  In general genomics filtering might be beneficial to your analysis, but this discussion is outside the scope of this document.
+
+**Note:** The analysis presented below is **extremely** superficial.  Consider this a very quick introduction to the workflow of these two packages.
+
+## The Data
+
+We will be using the `r Biocexptpkg("airway")` dataset which contains RNA-seq data in the form of a `SummarizedExperiment`.  Lets load the data and have a look
+
+```{r data}
+library(airway)
+data(airway)
+airway
+assay(airway, "counts")[1:3, 1:3]
+airway$dex
+```
+
+The main variable of interest is `dex` which takes on levels `trt` (treated) and `untrt` (untreated).  The first level will be the reference level for this factor, so we use `relevel()` to set the `untrt` level as reference; this is much easier to interpret.
+
+```{r relevel}
+airway$dex <- relevel(airway$dex, "untrt")
+airway$dex
+```
+
+There is rich information about which gene model was used for each gene:
+```{r granges}
+granges(airway)
+```
+
+## edgeR
+
+The `r Biocpkg("edgeR")` is very similar in terms of data structures and functionality to the `r Biocpkg("limma")`.  Whereas `r Biocpkg("limma")` allows us to operate directy on `ExpressionSet`s, edgeR does not work directly with `SummarizedExperiment`.  We first need to put out data into an edgeR specific container.
+
+```{r edgeRsetup}
+library(edgeR)
+dge <- DGEList(counts = assay(airway, "counts"),
+               group = airway$dex)
+dge$samples <- merge(dge$samples,
+                     as.data.frame(colData(airway)),
+                     by = 0)
+dge$genes <- data.frame(name = names(rowRanges(airway)),
+                        stringsAsFactors = FALSE)
+```
+This object has something called the `group` which is the basic experimental group for each sample. It also has `$samples` (the pheno data)  which - weirdly - cannot be set when you create the `DGEList` object, so we set it afterwards.  The `$genes` is a `data.frame` so we cannot include the rich gene model information we had in the `SummarizedExperiment`.
+
+Having set up the input object, we now proceed as follows.
+
+First we estimate the normalization factors or effective library sizes
+```{r calcNormFactors}
+dge <- calcNormFactors(dge)
+```
+
+Next we estimate the dispersion (variance).  There are multiple ways to do this, and the weird two-step procedure is necessary.
+
+```{r disp}
+dge <- estimateGLMCommonDisp(dge)
+dge <- estimateGLMTagwiseDisp(dge)
+```
+
+Now we setup the design matrix and do a `glmFit()`, similar to `r Biocpkg("limma")`
+
+```{r edgeRdesign}
+design <- model.matrix(~dge$samples$group)
+fit <- glmFit(dge, design)
+```
+
+Now it is time to do a test and extract the top hits
+
+```{r glmLRT}
+lrt <- glmLRT(fit, coef = 2)
+topTags(lrt)
+```
+
+## DESeq2
+
+Like `r Biocpkg("edgeR")`, DESeq2 requires us to put the data into a package-specific container (a `DESeqDataSet`).  But unlike edgeR, it is pretty easy.
+
+```{r DESeq2setup}
+library(DESeq2)
+dds <- DESeqDataSet(airway, design = ~ dex)
+```
+Note that the design of the experiment is stored inside the object.  The last variable (in case multiple variables are list) will be the variable of interest which is report in the different results outputs.
+
+Fitting the model is simple
+
+```{r deseqfit}
+dds <- DESeq(dds)
+```
+
+and then all we need to do is get the results.  Note that the results are not ordered, so we do that.
+
+```{r deseqResults}
+res <- results(dds)
+res <- res[order(res$padj),]
+res
+```
+
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
