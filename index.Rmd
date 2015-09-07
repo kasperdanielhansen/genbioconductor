@@ -94,12 +94,13 @@ Videos are available both on the Coursera website as well as on Youtube.  Links 
 
 | N  | Lecture |  Time | Video | Material | Code | Source |
 |---|---|---|---|---|--|--|
-| 0 | Getting data into Bioconductor | (FIXME) | NA | NA | NA | NA |
-| 0 | ShortRead and Rsamtools | (FIXME) | NA | NA | NA | NA |
+| 0 | Getting data into Bioconductor | (6:32) | [Video](dropbox/Videos/BiocIntro_Getting_Data_into_Bioconductor_version1.mp4) | [HTML](html/Getting_Data_into_Bioconductor.html) | [R code](R/Getting_Data_into_Bioconductor.R) | [R markdown](Rmd/Getting_Data_into_Bioconductor.Rmd) ([On GitHub](GITHUB_URL/Getting_Data_into_Bioconductor.Rmd)) 
+| 0 | ShortRead | (4:09) | [Video](dropbox/Videos/BiocIntro_ShortRead_version1.mp4) | [HTML](html/ShortRead.html) | [R code](R/ShortRead.R) | [R markdown](Rmd/ShortRead.Rmd) ([On GitHub](GITHUB_URL/ShortRead.Rmd)) 
+| 0 | Rsamtools | (FIXME) | [Video](dropbox/Videos/BiocIntro_Rsamtools_version1.mp4) | [HTML](html/Rsamtools.html) | [R code](R/Rsamtools.R) | [R markdown](Rmd/Rsamtools.Rmd) ([On GitHub](GITHUB_URL/Rsamtools.Rmd)) 
 | 0 | limma | (16:38) | [Video](dropbox/Videos/BiocIntro_limma_version1.mp4) | [HTML](html/limma.html) | [R code](R/limma.R) | [R markdown](Rmd/limma.Rmd) ([On GitHub](GITHUB_URL/limma.Rmd)) |
 | 0 | oligo | (14:19) | [Video](dropbox/Videos/BiocIntro_oligo_version1.mp4) | [HTML](html/oligo.html) | [R code](R/oligo.R) | [R markdown](Rmd/oligo.Rmd) ([On GitHub](GITHUB_URL/oligo.Rmd)) |
 | 0 | minfi | (FIXME) | NA | NA | NA | NA |
-| 0 | Count-based RNA-seq analysis | NA | NA | NA | NA |
+| 0 | Count-based RNA-seq analysis | (FIXME) | NA | NA | NA | NA |
 |  | Total | (0:0) | | | | |
 
 
