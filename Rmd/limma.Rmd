@@ -68,7 +68,7 @@ Fully understanding these classes of models as well as their strengths and limit
 
 ### Obtaining data
 
-Let us use the `leukemiasEset` dataset from the `r Biocpkg("leukemiasEset")` package; this is an `ExpressionSet`.
+Let us use the `leukemiasEset` dataset from the `r Biocexptpkg("leukemiasEset")` package; this is an `ExpressionSet`.
 
 ```{r load}
 library(leukemiasEset)
