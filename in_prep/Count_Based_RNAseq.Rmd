@@ -1,7 +1,6 @@
 ---
 title: "Count Based RNA-seq analysis"
 author: "Kasper D. Hansen"
-bibliography: genbioconductor.bib
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}
@@ -157,4 +156,3 @@ res
 sessionInfo()
 ```
 
-## References
