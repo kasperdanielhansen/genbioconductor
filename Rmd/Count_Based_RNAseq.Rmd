@@ -43,7 +43,7 @@ There are no consensus on this process and the different choices one make is kno
 Tools for doing gene counting includes
 
 - by using `featureCounts()` from the `r Biocpkg("Rsubread")` package.
-- the [HTSeq](www-huber.embl.de/users/anders/HTSeq/) package (this is a python package, not a Bioconductor package).
+- the [HTSeq](http://www-huber.embl.de/users/anders/HTSeq/) package (this is a python package, not a Bioconductor package).
 - by using `summarizeOverlaps()` from the `r Biocpkg("GenomicAlignments")` package.
 
 and there are other alternatives.  Many people seem to write their own counting pipeline.
@@ -103,17 +103,17 @@ First we estimate the normalization factors or effective library sizes
 dge <- calcNormFactors(dge)
 ```
 
-Next we estimate the dispersion (variance).  There are multiple ways to do this, and the weird two-step procedure is necessary.
+Next we setup the design matrix and estimate the dispersion (variance).  There are multiple ways to do this, and the weird two-step procedure is necessary.
 
 ```{r disp}
-dge <- estimateGLMCommonDisp(dge)
-dge <- estimateGLMTagwiseDisp(dge)
+design <- model.matrix(~dge$samples$group)
+dge <- estimateGLMCommonDisp(dge, design)
+dge <- estimateGLMTagwiseDisp(dge, design)
 ```
 
-Now we setup the design matrix and do a `glmFit()`, similar to `r Biocpkg("limma")`
+Now we do a `glmFit()`, similar to `r Biocpkg("limma")`
 
 ```{r edgeRdesign}
-design <- model.matrix(~dge$samples$group)
 fit <- glmFit(dge, design)
 ```
 
@@ -147,6 +147,10 @@ res <- results(dds)
 res <- res[order(res$padj),]
 res
 ```
+
+## Comments
+
+We see that amongst the top 5 genes, 3 are shared between edgeR and DESeq2, with some small variation in the estimated fold-change.  The two methods are both being continually developed (and probably bench-marked against each other by the authors).  At any given time it is difficult to decide which one to prefer.
 
 ## SessionInfo
 
