@@ -103,17 +103,17 @@ First we estimate the normalization factors or effective library sizes
 dge <- calcNormFactors(dge)
 ```
 
-Next we estimate the dispersion (variance).  There are multiple ways to do this, and the weird two-step procedure is necessary.
+Next we setup the design matrix and estimate the dispersion (variance).  There are multiple ways to do this, and the weird two-step procedure is necessary.
 
 ```{r disp}
-dge <- estimateGLMCommonDisp(dge)
-dge <- estimateGLMTagwiseDisp(dge)
+design <- model.matrix(~dge$samples$group)
+dge <- estimateGLMCommonDisp(dge, design)
+dge <- estimateGLMTagwiseDisp(dge, design)
 ```
 
-Now we setup the design matrix and do a `glmFit()`, similar to `r Biocpkg("limma")`
+Now we do a `glmFit()`, similar to `r Biocpkg("limma")`
 
 ```{r edgeRdesign}
-design <- model.matrix(~dge$samples$group)
 fit <- glmFit(dge, design)
 ```
 
