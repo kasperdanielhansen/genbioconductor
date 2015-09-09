@@ -54,6 +54,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#the-data">The Data</a></li>
 <li><a href="#edger">edgeR</a></li>
 <li><a href="#deseq2">DESeq2</a></li>
+<li><a href="#comments">Comments</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
 </ul>
 </div>
@@ -164,27 +165,38 @@ dge$genes &lt;- data.frame(name = names(rowRanges(airway)),
 <p>Having set up the input object, we now proceed as follows.</p>
 <p>First we estimate the normalization factors or effective library sizes</p>
 <pre class="r"><code>dge &lt;- calcNormFactors(dge)</code></pre>
-<p>Next we estimate the dispersion (variance). There are multiple ways to do this, and the weird two-step procedure is necessary.</p>
-<pre class="r"><code>dge &lt;- estimateGLMCommonDisp(dge)
-dge &lt;- estimateGLMTagwiseDisp(dge)</code></pre>
-<p>Now we setup the design matrix and do a <code>glmFit()</code>, similar to <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em></p>
+<p>Next we setup the design matrix and estimate the dispersion (variance). There are multiple ways to do this, and the weird two-step procedure is necessary.</p>
 <pre class="r"><code>design &lt;- model.matrix(~dge$samples$group)
-fit &lt;- glmFit(dge, design)</code></pre>
+dge &lt;- estimateGLMCommonDisp(dge, design)
+dge &lt;- estimateGLMTagwiseDisp(dge, design)</code></pre>
+<p>Now we do a <code>glmFit()</code>, similar to <em><a href="http://bioconductor.org/packages/release/bioc/html/limma.html">limma</a></em></p>
+<pre class="r"><code>fit &lt;- glmFit(dge, design)</code></pre>
 <p>Now it is time to do a test and extract the top hits</p>
 <pre class="r"><code>lrt &lt;- glmLRT(fit, coef = 2)
 topTags(lrt)</code></pre>
 <pre><code>## Coefficient:  dge$samples$grouptrt 
-##                  name     logFC    logCPM       LR       PValue       FDR
-## 56702 ENSG00000265702  5.793444 -2.057490 18.86584 1.402419e-05 0.3032692
-## 26235 ENSG00000222939  5.279691 -2.393440 18.47944 1.717474e-05 0.3032692
-## 14922 ENSG00000179593 10.102066  1.658949 18.01816 2.188075e-05 0.3032692
-## 55622 ENSG00000264569  5.520191 -2.235712 17.90243 2.325244e-05 0.3032692
-## 6667  ENSG00000132518  6.536657 -1.591221 17.60321 2.721293e-05 0.3032692
-## 28978 ENSG00000226453 -4.891970 -2.504215 16.30160 5.401843e-05 0.3032692
-## 3751  ENSG00000109906  7.082997  4.162779 16.19655 5.709795e-05 0.3032692
-## 6058  ENSG00000128285 -5.209306 -1.287458 16.16211 5.814574e-05 0.3032692
-## 38438 ENSG00000237949  3.828161 -2.279109 15.98393 6.388248e-05 0.3032692
-## 363   ENSG00000015413  4.764661 -2.606451 15.93160 6.567293e-05 0.3032692</code></pre>
+##                  name     logFC   logCPM       LR       PValue
+## 9658  ENSG00000152583  4.584952 5.536240 286.3965 3.032129e-64
+## 14922 ENSG00000179593 10.100345 1.658949 180.1177 4.568028e-41
+## 3751  ENSG00000109906  7.128577 4.162779 170.6604 5.307950e-39
+## 44236 ENSG00000250978  6.166269 1.398266 168.8572 1.314558e-38
+## 14827 ENSG00000179094  3.167788 5.177198 161.6348 4.971441e-37
+## 17245 ENSG00000189221  3.289112 6.769209 138.9111 4.606056e-32
+## 5054  ENSG00000120129  2.932939 7.310715 137.0461 1.178199e-31
+## 2529  ENSG00000101347  3.842550 9.207488 131.4672 1.956855e-30
+## 2071  ENSG00000096060  3.921841 6.898829 123.3973 1.141438e-28
+## 14737 ENSG00000178695 -2.515219 6.959467 122.9711 1.414932e-28
+##                FDR
+## 9658  1.943655e-59
+## 14922 1.464099e-36
+## 3751  1.134167e-34
+## 44236 2.106644e-34
+## 14827 6.373586e-33
+## 17245 4.920957e-28
+## 5054  1.078927e-27
+## 2529  1.567979e-26
+## 2071  8.129829e-25
+## 14737 9.069997e-25</code></pre>
 </div>
 <div id="deseq2" class="section level2">
 <h2>DESeq2</h2>
@@ -227,6 +239,10 @@ res</code></pre>
 ## LRG_97                     NA            NA
 ## LRG_98                     NA            NA
 ## LRG_99                     NA            NA</code></pre>
+</div>
+<div id="comments" class="section level2">
+<h2>Comments</h2>
+<p>We see that amongst the top 5 genes, 3 are shared between edgeR and DESeq2, with some small variation in the estimated fold-change. The two methods are both being continually developed (and probably bench-marked against each other by the authors). At any given time it is difficult to decide which one to prefer.</p>
 </div>
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>

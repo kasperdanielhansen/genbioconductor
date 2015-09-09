@@ -148,6 +148,10 @@ res <- res[order(res$padj),]
 res
 ```
 
+## Comments
+
+We see that amongst the top 5 genes, 3 are shared between edgeR and DESeq2, with some small variation in the estimated fold-change.  The two methods are both being continually developed (and probably bench-marked against each other by the authors).  At any given time it is difficult to decide which one to prefer.
+
 ## SessionInfo
 
 \scriptsize

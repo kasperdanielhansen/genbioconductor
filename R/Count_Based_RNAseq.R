@@ -34,11 +34,11 @@ dge$genes <- data.frame(name = names(rowRanges(airway)),
 dge <- calcNormFactors(dge)
 
 ## ----disp----------------------------------------------------------------
-dge <- estimateGLMCommonDisp(dge)
-dge <- estimateGLMTagwiseDisp(dge)
+design <- model.matrix(~dge$samples$group)
+dge <- estimateGLMCommonDisp(dge, design)
+dge <- estimateGLMTagwiseDisp(dge, design)
 
 ## ----edgeRdesign---------------------------------------------------------
-design <- model.matrix(~dge$samples$group)
 fit <- glmFit(dge, design)
 
 ## ----glmLRT--------------------------------------------------------------

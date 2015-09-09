@@ -58,6 +58,8 @@ Rmds : html/Install_Bioconductor.html\
       html/Count_Based_RNAseq.html\
       html/minfi.html
 
+temp: html/Count_Based_RNAseq.html
+
 all : Rmds index
 
 clean:
