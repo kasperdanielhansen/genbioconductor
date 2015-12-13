@@ -4,7 +4,7 @@ library(GenomicRanges)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("ALL" "GenomicRanges"))
+## biocLite(c("ALL", "GenomicRanges"))
 
 ## ----lm------------------------------------------------------------------
 df <- data.frame(y = rnorm(10), x = rnorm(10))
