@@ -69,10 +69,10 @@ Videos are available both on the [Coursera](http://www.coursera.org/course/genbi
 | 16 | Biostrings - Matching | (6:18) | [Video](COURSERA_URL/47) | [Youtube](https://youtu.be/wFfaF4M8sqM) | [HTML](html/Biostrings_Matching.html) | [R code](R/Biostrings_Matching.R) | [R markdown](Rmd/Biostrings_Matching.Rmd) ([On GitHub](GITHUB_URL/Biostrings_Matching.Rmd)) |
 | 17 | BSgenome - Views | (9:21) | [Video](COURSERA_URL/49) | [Youtube](https://youtu.be/fPBxqAPXQCE) | [HTML](html/BSgenome_Views.html) | [R code](R/BSgenome_Views.R) | [R markdown](Rmd/BSgenome_Views.Rmd) ([On GitHub](GITHUB_URL/BSgenome_Views.Rmd)) |
 | 18 | GenomicRanges - Rle | (12:01) | [Video](COURSERA_URL/51) | [Youtube](https://youtu.be/w7ZPnO-jB9o) | [HTML](html/GenomicRanges_Rle.html) | [R code](R/GenomicRanges_Rle.R) | [R markdown](Rmd/GenomicRanges_Rle.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Rle.Rmd)) |
-| 19 | GenomicRanges - Lists | (8:02) | [Video](COURSERA_URL/53) | [Youtube](https://youtu.be/Ba3_nX2L1gI) | [HTML](html/GenomicRanges_Lists.html) | [R code](R/GenomicRanges_Lists.R) | [R markdown](Rmd/GenomicRanges_Lists.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Lists.Rmd)) |
+| 19 | GenomicRanges - Lists | (6:02) | [Video](COURSERA_URL/53) | [Youtube](https://youtu.be/Ba3_nX2L1gI) | [HTML](html/GenomicRanges_Lists.html) | [R code](R/GenomicRanges_Lists.R) | [R markdown](Rmd/GenomicRanges_Lists.Rmd) ([On GitHub](GITHUB_URL/GenomicRanges_Lists.Rmd)) |
 | 20 | GenomicFeatures | (18:30) | [Video](COURSERA_URL/55) | [Youtube](https://youtu.be/9sAhB4Bs43k) | [HTML](html/GenomicFeatures.html) | [R code](R/GenomicFeatures.R) | [R markdown](Rmd/GenomicFeatures.Rmd) ([On GitHub](GITHUB_URL/GenomicFeatures.Rmd)) |
 | 21 | rtracklayer - Data Import | (14:44) | [Video](COURSERA_URL/57) | [Youtube](https://youtu.be/BGlXm0kCwf4) | [HTML](html/rtracklayer_Import.html) | [R code](R/rtracklayer_Import.R) | [R markdown](Rmd/rtracklayer_Import.Rmd) ([On GitHub](GITHUB_URL/rtracklayer_Import.Rmd)) |
-|  | Total | (82:35) | | | | | |
+|  | Total | (80:35) | | | | | |
 
 #### Week 3
 
