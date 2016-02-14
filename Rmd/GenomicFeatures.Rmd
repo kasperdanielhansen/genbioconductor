@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicFeatures", "TxDb.Hsapiens.UCSC.hg19.knownGene"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicFeatures.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 The `r Biocpkg("GenomicFeatures")` package contains functionality for so-called transcript database or *TxDb* objects.  These objects contains a coherent interface to transcripts.  Transcripts are complicated because higher organisms usually have many different transcripts for each gene locus.
@@ -120,11 +116,5 @@ subset(transcriptLengths(txdb, with.cds_len = TRUE), gene_id == "100287102")
 
 Note: as an example of terminology mixup, consider that the output of `transcripts()` are coordinates for the unspliced transcript, whereas `extractTranscriptSeqs()` is the RNA sequence of the spliced transcripts.
 
-
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```

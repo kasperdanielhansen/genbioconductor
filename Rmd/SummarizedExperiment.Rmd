@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges", "airway"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/SummarizedExperiment.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 We will present the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges")` package; an extension of the `ExpressionSet` class to include `GRanges`.
@@ -105,10 +101,5 @@ gr <- GRanges(seqnames = "1", ranges = IRanges(start = 1, end = 10^7))
 subsetByOverlaps(airway, gr)
 ```
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```

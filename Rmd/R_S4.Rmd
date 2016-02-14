@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("ALL" "GenomicRanges"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_S4.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
   
 The S4 system in R is a system for object oriented programing.  Confusingly, R has support for at least 3 different systems for object oriented programming: S3, S4 and S5 (also known as reference classes).
@@ -258,10 +254,5 @@ getMethod("findOverlaps", signature(query = "GenomicRanges", subject = "GenomicR
 ```
 This is (in some ways) a great illustration of how confusing methods can be!  The good thing is that they tend to "just work".
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```

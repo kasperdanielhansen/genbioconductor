@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/BSgenome.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 The `r Biocpkg("BSgenome")` package contains infrastructure for representing genome sequences in Bioconductor.
@@ -77,11 +73,5 @@ Note how the mitochondria chromosome is very different.  To conclude, the GC per
 sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
 ```
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

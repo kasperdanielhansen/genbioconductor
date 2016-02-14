@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomeInfoDb", "GenomicRanges"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicRanges_seqinfo.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 The `GRanges` class contains `seqinfo` information about the length and the names of the chromosomes.  Here we will briefly discuss strategies for harmonizing this information.
@@ -86,11 +82,6 @@ The `r Biocpkg("GenomeInfoDb")` also contains information for dropping / keeping
 
 Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` in `r Biocpkg("GenomeInfoDb")` so we can avoid using the big genome packages.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 

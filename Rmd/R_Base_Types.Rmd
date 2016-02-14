@@ -13,11 +13,6 @@ This document has no dependencies.
 ```{r dependencies, warning=FALSE, message=FALSE}
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/R_Base_Types.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
-
 ## Overview
 
 A very brief overview of core R object types and how to subset them.
@@ -208,11 +203,5 @@ as(x, "matrix")
 ```
 This is how you convert most Bioconductor objects.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

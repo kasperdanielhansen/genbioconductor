@@ -23,10 +23,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("Biobase", "ALL", "hgu95av2.db"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/ExpressionSet.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
   
 We will examine how to use and manipulate the `ExpressionSet` class; a fundamental data container in Bioconductor.  The class is defined in the `r Biocpkg("Biobase")` package.
@@ -162,10 +158,8 @@ An example of another `eSet` derived class is `NChannelSet` which is meant to st
 
 Another example of classes are from the `r Biocpkg("minfi")` package for DNA methylation arrays; here there are classes such as `RGChannelSet` for a two color microarray and `MethylSet` for methylation measurements.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
+
+
+

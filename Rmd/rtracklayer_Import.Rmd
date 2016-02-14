@@ -23,11 +23,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("rtracklayer", "AnnotationHub", "Rsamtools"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/rtracklayer_Import.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
-
 ## Overview
 
 The `r Biocpkg("rtracklayer")` package interfaces to (UCSC) Genome Browser.  It contains functions for importing and exporting data to this browser.
@@ -163,10 +158,5 @@ idx <- indexTabix(zipped, "sam")
 ```
 see also the help page for `indexTabix`.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```

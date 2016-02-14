@@ -31,6 +31,5 @@ Package vignettes are installed inside of R.  You can access vignettes in the fo
 2. Through the `vignettes()` function in R, but that requires you know the name of the vignette.
 3. Through the `browseVignettes()` function in `r Biocpkg("Biobase")` which shows a list of installed vignettes in a browser (this is a different interface to the RStudio help interface).
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Online_Resources.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
+```{r back, child="back.Rmd", echo=FALSE}
+```

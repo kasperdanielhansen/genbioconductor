@@ -21,10 +21,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GEOquery"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GEOquery.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
   
 NCBI Gene Expression Omnibus (GEO) has a lot of high-throughput genomics datasets publicly available.  Despite the name, this database is not exclusively for gene expression data.
@@ -89,12 +85,5 @@ It is also possible to use `r Biocpkg("GEOquery")` to query GEO as a database (i
 
 There are other packages for accessing other online repositories with public data; they include `r Biocpkg("SRAdb")` for the Short Read Archive (SRA) and `r Biocpkg("ArrayExpress")` (ArrayExpress; a similar database to NCBI GEO but hosted at the European Bioinformatics Institute (EBI)).
 
-
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

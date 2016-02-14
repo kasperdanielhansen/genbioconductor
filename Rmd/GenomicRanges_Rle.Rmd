@@ -21,10 +21,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/GenomicRanges_Rle.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ### Overview
 
 In this session we will discuss a data representation class called `Rle` (run length encoding).  This class is great for representation genome-wide sequence coverage.
@@ -155,11 +151,6 @@ nCoverage / nBases
 
 (watch out for strand)
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 

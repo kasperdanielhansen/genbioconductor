@@ -1,0 +1,11 @@
+## SessionInfo
+
+\scriptsize
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+## Corrections
+    
+Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/`r I(knitr:::knit_concord$get("infile"))`) in its [repository](https://github.com/kasperdanielhansen/genbioconductor)

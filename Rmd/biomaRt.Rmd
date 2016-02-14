@@ -21,10 +21,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("biomaRt"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/biomaRt.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
   
 We use a large number of different databases in computational biology. "Biomart" is a flexible interface to a biological database.  The idea is that any kind of resource can setup a Biomart and then users can access the data using a single set of tools to access multiple databases.
@@ -111,11 +107,6 @@ The `r Biocpkg("biomaRt")` vignette is very useful and readable and contains a l
 10. Retrieve known SNPs located on the human chromosome 8 between positions 148350 and 148612.
 11. Given the human gene TP53, retrieve the human chromosomal location of this gene and also retrieve the chromosomal location and RefSeq id of it’s homolog in mouse.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 

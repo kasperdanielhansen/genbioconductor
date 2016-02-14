@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("Biostrings"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Biostrings.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
@@ -143,12 +139,7 @@ consensusMatrix(dna2, as.prob = TRUE)
 ```
 (most functions allows the return of probabilities with `as.prob = TRUE`).
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 
 ## References

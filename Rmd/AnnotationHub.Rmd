@@ -22,10 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("AnnotationHub"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/AnnotationHub.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 Annotation information is extremely important for putting your data into context.  There are many online resources for doing this, and many different databases organizes different information suing different approaches.
@@ -94,12 +90,7 @@ hist <- display(ah)
 
 ![display(ah)](./ahub_display.png)
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 
 ## References

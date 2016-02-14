@@ -23,10 +23,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges", "rtracklayer", "AnnotationHub"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Usecase_AnnotationHub_GRanges.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")` to access ENCODE data on the H3K4me3 histone modification in a specific cell line.  This histone modification is believed to mark active promoters, and we are going to attempt to verify this statement.  This involves
@@ -211,11 +207,6 @@ The odds-ratio got smaller, but it is still bigger than 1.
 
 Here we basically says that each base can be assigned to peaks or promoters independently, which is definitely false.  So there are many, many reasons why this calculation is not the "right" one.  Nevertheless, it appears that we have some enrichment, as expected.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 

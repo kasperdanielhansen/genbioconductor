@@ -15,7 +15,6 @@ This document has the following dependencies:
 library(Biostrings)
 library(BSgenome)
 library(BSgenome.Scerevisiae.UCSC.sacCer2)
-
 ```
 
 Use the following commands to install these packages in R.
@@ -26,16 +25,9 @@ biocLite(c("Biostrings", "BSgenome",
            "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
 ```
 
-## Corrections
-
-Improvements and corrections to this document can be submitted on its [GitHub](https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd/Biostrings_Matching.Rmd) in its [repository](https://github.com/kasperdanielhansen/genbioconductor).
-
 ## Overview
 
 We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`
-
-## Other Resources
-
 
 ## Pattern matching
 
@@ -79,12 +71,7 @@ For now, we will avoid further discussion of these functions.
 
 One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read data, because the algorithms scale badly with the length of the sequence (ie. the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 
 ## References
