@@ -1,5 +1,5 @@
 ---
-title: Usecase - Basic GRanges and AnnotationHub
+title: "Usecase - Basic GRanges and AnnotationHub"
 author: Kasper D. Hansen
 ---
 

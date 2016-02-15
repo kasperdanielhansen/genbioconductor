@@ -1,5 +1,5 @@
 ---
-title: AnnotationHub
+title: "AnnotationHub"
 author: Kasper D. Hansen
 bibliography: genbioconductor.bib
 ---

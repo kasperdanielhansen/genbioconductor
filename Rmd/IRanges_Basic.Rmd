@@ -1,6 +1,6 @@
 ---
+title: "IRanges - Basic Usage"
 author: Kasper D. Hansen
-title: IRanges - Basic Usage
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}

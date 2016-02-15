@@ -1,6 +1,6 @@
 ---
+title: "GenomicRanges - Basic GRanges Usage"
 author: Kasper D. Hansen
-title: GenomicRanges - Basic GRanges Usage
 bibliography: genbioconductor.bib
 ---
 

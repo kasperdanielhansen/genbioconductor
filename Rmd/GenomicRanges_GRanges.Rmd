@@ -1,6 +1,6 @@
 ---
+title: "GenomicRanges - GRanges"
 author: Kasper D. Hansen
-title: GenomicRanges - GRanges
 bibliography: genbioconductor.bib
 ---
 

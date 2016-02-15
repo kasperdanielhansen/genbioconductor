@@ -1,4 +1,5 @@
-R_SCRIPT=/usr/bin/Rscript
+#R_SCRIPT=/usr/local/bin/Rscript
+R_SCRIPT=~/Bin/Rscript-devel
 GITHUB_URL=https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd
 COURSERA_URL=https://class.coursera.org/genbioconductor-004/lecture
 
@@ -14,7 +15,7 @@ index : index.Rmd
 
 html/%.html: Rmd/%.Rmd .FORCE
 	cd Rmd && $(R_SCRIPT) -e '{\
-           library(rmarkdown); library(BiocStyle);\
+           printBook=FALSE; library(rmarkdown); library(BiocStyle);\
            render("$*.Rmd", \
                   output_format="BiocStyle::html_document",\
                   output_options=list(toc=TRUE))}'
@@ -58,7 +59,7 @@ Rmds : html/Install_Bioconductor.html\
       html/Count_Based_RNAseq.html\
       html/minfi.html
 
-temp: html/Count_Based_RNAseq.html
+temp: html/Install_Bioconductor.html
 
 all : Rmds index
 

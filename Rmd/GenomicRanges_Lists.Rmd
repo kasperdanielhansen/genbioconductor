@@ -1,6 +1,6 @@
 ---
+title: "GenomicRanges - Lists"
 author: Kasper D. Hansen
-title: GenomicRanges - Lists
 ---
 
 ```{r front, child="front.Rmd", echo=FALSE}

@@ -1,6 +1,7 @@
 ## Bioconductor for Genomic Data Science
 
-* Lecture Notes: FIXME
-* Course: [Bioconductor for Genomic Data Science](FXIME)
-* Specialization: [Genomic Data Science Specialization](https://www.coursera.org/specialization/genomics/41)
+* [Website](http://kasperdanielhansen.github.io/genbioconductor/)
+* Lecture Notes: Coming on LeanPub
+* Course: [Bioconductor for Genomic Data Science](https://www.coursera.org/learn/bioconductor)
+* Specialization: [Genomic Data Science Specialization](https://www.coursera.org/specializations/genomic-data-science)
 
