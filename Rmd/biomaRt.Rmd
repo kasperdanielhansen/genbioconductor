@@ -31,7 +31,7 @@ Databases supporting the Biomart interface includes Ensembl (from EBI), HapMap a
 
 ## Other Resources
 
-- The vignette from the [biomaRt webpage](http://bioconductor.org/packages/biomaRt).
+- The vignette from the [biomaRt package](http://bioconductor.org/packages/biomaRt).
 
 ## Specifiying a mart and a dataset
 

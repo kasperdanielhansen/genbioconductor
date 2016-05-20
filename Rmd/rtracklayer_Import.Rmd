@@ -1,5 +1,5 @@
 ---
-title: "rtracklayer - Data Import"
+title: "Using the rtracklayer package for data import"
 author: "Kasper D. Hansen"
 ---
 
@@ -31,7 +31,7 @@ This includes functionality for parsing file formats associated the UCSC Genome 
 
 ## Other Resources
 
-- The vignette from the [rtracklayer webpage](http://bioconductor.org/packages/rtracklayer).
+- The vignette from the [rtracklayer package](http://bioconductor.org/packages/rtracklayer).
 
 ## The import function
 

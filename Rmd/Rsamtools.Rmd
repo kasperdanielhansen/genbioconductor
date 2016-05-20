@@ -27,14 +27,14 @@ The `r Biocpkg("Rsamtools")` packages contains functionality for reading and exa
 
 ## Other Resources
 
-- The vignettes from the [Rsamtools webpage](http://bioconductor.org/packages/Rsamtools).
+- The vignettes from the [Rsamtools package](http://bioconductor.org/packages/Rsamtools).
 - For representing more complicated alignments (specifically spliced alignments from RNA-seq), see the `r Biocpkg("GenomicAlignments")` package.
 
 ## Rsamtools
 
 The Rsamtools package is an interface to the widely used `samtools`/`htslib` library. The main functionality of the package is support for reading BAM files.
 
-### The BAM / SAM file format
+## The BAM / SAM file format
 
 The SAM format is a text based representation of alignments.  The BAM format is a binary version of SAM which is smaller and much faster.  In general, always work with BAM.
 
@@ -100,7 +100,7 @@ The names of the `aln` list are basically the names used in the BAM specificatio
 - `cigar`: The CIGAR string (below).
 - `flag`: The flag (below).
 
-### Reading in parts of the file
+## Reading in parts of the file
 
 BAM files can be extremely big and it is there often necessary to read in parts of the file.  You can do this in different ways
 
@@ -132,17 +132,18 @@ head(aln[[1]]$pos)
 ```
 Notice how the `pos` is less than what is specified in the `which` argument; this is because the alignments overlap the `which` argument.  The `what=scanBamWhat()` tells the function to read everything.  Often, you may not be interested in the actual sequence of the read or its quality scores.  These takes up a lot of space so you may consider disabling reading this information.
 
-#### The CIGAR string
+### The CIGAR string
 
 
 The "CIGAR" is how the BAM format represents spliced alignments.  For example, the format stored the left most coordinate of the alignment.  To get to the right coordinate, you have to parse the CIGAR string.  In this example "36M" means that it has been aligned with no insertions or deletions.  If you need to work with spliced alignments or alignments containing insertions or deletions, you should use the `r Biocpkg("GenomicAlignments")` package.
-#### Flag
+
+### Flag
 
 An alignment may have a number of "flags" set or unset.  These flags provide information about the alignment.  The flag integer is a representation of multiple flags simultanously.  An example of a flag is indicating (for a paired end alignment) whether both pairs have been properly aligned.  For more information, see the BAM specification.
 
 In `r Biocpkg("Rsamtools")` there is a number of helper functions dealing with only reading certain flags; use these.
 
-### BAM summary
+## BAM summary
 
 Sometimes you want a quick summary of the alignments in a BAM file:
 

@@ -27,13 +27,13 @@ The `r Biocpkg("ShortRead")` package contains functionality for reading and exam
 
 ## Other Resources
 
-- The vignettes from the [ShortRead webpage](http://bioconductor.org/packages/ShortRead).
+- The vignettes from the [ShortRead package](http://bioconductor.org/packages/ShortRead).
 
 ## ShortRead
 
 The ShortRead package was one of the first Bioconductor packages to deal with low-level analysis of high-throughput sequencing data. Some of its functionality has now been superseded by other packages, but there is still relevant functionality left.
 
-### Reading FASTQ files
+## Reading FASTQ files
 
 The FASTQ file format is the standard way of representing raw (unaligned) next generation sequencing reads, particular for the Illumina platform.  The format basically consists of 4 lines per read, with the lines containing
 
@@ -67,7 +67,7 @@ quality(reads)[1:2]
 id(reads)[1:2]
 ```
 
-### A word on quality scores
+## A word on quality scores
 
 Note how the quality scores are listed as characters.  You can convert them into standard 0-40 integer quality scores by
 ```{r convertQual}
@@ -77,7 +77,7 @@ In this conversion, each letter is matched to an integer between 0 and 40.  This
 
 These numbers are supposed to related to the probability that the reported base is different from the template fragment (ie. a sequence error).  One should be aware that this probabilistic interpretation is not always true; methods such as "quality-remapping" helps to ensure this.
 
-### Reading alignment files
+## Reading alignment files
 
 In the early days of next generation sequencing, there was no standardized alignment output format.  different aligners produced different output file, including Bowtie and MAQ. Later on, the SAM / BAM format was introduced and this is now the standard alignment output.  ShortRead contains tools for reading these older alignment formats through the `readAligned()` function (the `type` argument support options such as `type="Bowtie"` and `type="MAQMap"` and `type="MAQMapShort"`).
 

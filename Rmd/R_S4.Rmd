@@ -32,10 +32,6 @@ The S4 system is heavily used in Bioconductor, whereas it is very lightly used i
 
 If you have experience with object oriented programming in other languages, for example java, you need to understand that in R, S4 objects and methods are completely separate.  You can use S4 classes without every using S4 methods and vice versa.
 
-## Other Resources
-
-- The vignette from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
-
 ## S3 and S4 classes
 
 Based on years of experience in Bioconductor, it is fair to say that S4 classes have been very successful in this project.  S4 classes has allowed us to construct rich and complicated data representations that nevertheless seems simple to the end user.  An example, which we will return to, are the data containers `ExpressionSet` and `SummarizedExperiment`.

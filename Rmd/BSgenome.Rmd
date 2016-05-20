@@ -26,8 +26,6 @@ biocLite(c("BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 
 The `r Biocpkg("BSgenome")` package contains infrastructure for representing genome sequences in Bioconductor.
 
-## Other Resources
-
 ## Genomes
 
 The `r Biocpkg("BSgenome")` package provides support for genomes.  In Bioconductor, we have special classes for genomes, because the chromosomes can get really big.  For example, the human genome takes up several GB of memory.

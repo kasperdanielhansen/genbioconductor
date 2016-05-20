@@ -29,7 +29,7 @@ The Illumina 450k DNA methylation microarray is a cheap and relatively comprehen
 
 ## Other Resources
 
-- The vignette from the [minfi webpage](http://bioconductor.org/packages/minfi).
+- The vignette from the [minfi package](http://bioconductor.org/packages/minfi).
 
 ## DNA methylation
 
@@ -145,4 +145,3 @@ Another possibility is to look for clusters of CpGs all changing in the same dir
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
 
-## References

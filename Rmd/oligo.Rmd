@@ -28,7 +28,7 @@ This document presents the `r Biocpkg("oligo")` package for handling Affymetrix 
 
 ## Other Resources
 
-- The vignette from the [oligo webpage](http://bioconductor.org/packages/oligo).
+- The vignettes from the [oligo package](http://bioconductor.org/packages/oligo).
 
 ## Getting the data
 

@@ -33,11 +33,9 @@ biocLite("limma")
 
 The reason why you want to use `biocLite` - and only this function - to install and update Bioconductor, is because one of the top problems users have is when they mix and match Bioconductor packages from different releases.  Using `biocLite` ensures that everything is synchronized.
 
-The way you update Bioconductor itself when a new release comes out, is by updating R itself and then run `biocLite`.
+The way you update Bioconductor itself when a new release comes out, is by updating R itself and then run `biocLite()`.
 
-## Other Resources
-
-- Installation instructions from the [Bioconductor site](http://bioconductor.org/install/).
+There are more comprehensive installation instructions on the [Bioconductor site](http://bioconductor.org/install).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

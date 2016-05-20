@@ -29,8 +29,6 @@ We will present the `SummarizedExperiment` class from `r Biocpkg("GenomicRanges"
   
 This class is suitable for storing processed data particularly from high-throughout sequencing assays.
   
-## Other Resources
-
 ## Start
 
 An example dataset, stored as a `SummarizedExperiment` is available in the `r Biocexptpkg("airway")` package.  This data represents an RNA sequencing experiment, but we will use it only for illustrating the class.

@@ -27,7 +27,7 @@ biocLite(c("Biostrings", "BSgenome",
 
 ## Overview
 
-We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`
+We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`, focusing on searching the genome.
 
 ## Pattern matching
 

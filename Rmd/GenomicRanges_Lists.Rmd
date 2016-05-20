@@ -21,13 +21,11 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-### Overview
+## Overview
 
 In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa; blinded by the insight here!).
 
-## Other Resources
-
-### Why
+## Why
 
 The `r Biocpkg("IRanges")` and `r Biocpkg("GenomicRanges")` packages introduced a number of classes I'll call `XXList`; an example is `GRangesList`.
 
@@ -37,7 +35,7 @@ But things are also happening behind the scenes.  These types of lists often hav
 
 An important usecase specifically for `GRangesList` is the representation of a set of **transcripts**.  Each transcript is an element in the list and the **exons** of the transcript is represented as a `GRanges`.
 
-### GrangesList
+## GrangesList
 
 Let us make a `GRangesList`:
 

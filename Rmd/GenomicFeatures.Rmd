@@ -28,7 +28,7 @@ The `r Biocpkg("GenomicFeatures")` package contains functionality for so-called 
 
 ## Other Resources
 
-- The vignette from the [GenomicFeatures webpage](http://bioconductor.org/packages/GenomicFeatures).
+- The vignette from the [GenomicFeatures package](http://bioconductor.org/packages/GenomicFeatures).
 
 ## Examples
 

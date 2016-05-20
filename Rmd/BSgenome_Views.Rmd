@@ -28,8 +28,6 @@ biocLite(c("BSgenome",
 
 We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome")`
 
-## Other Resources
-
 ## Views
 
 `Views` are used when you have a single big object (think chromosome or other massive dataset) and you need to deal with (many) subsets of this object.  `Views` are not restricted to genome sequences; we will discuss `Views` on other types of objects in a different session.

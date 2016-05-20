@@ -24,7 +24,7 @@ biocLite(c("GenomicRanges"))
 
 ## Other Resources
 
-- The vignettes from the [GenomicRanges webpage](http://bioconductor.org/packages/GenomicRanges).
+- The vignettes from the [GenomicRanges package](http://bioconductor.org/packages/GenomicRanges).
 - The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
 
 ## DataFrame
@@ -103,7 +103,7 @@ makeGRangesFromDataFrame(df, keep.extra.columns = TRUE)
 
 Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
 
-### Biology usecase I
+## Biology usecase I
 
 Suppose we want to identify transcription factor (TF) binding sites that overlaps known SNPs.
 

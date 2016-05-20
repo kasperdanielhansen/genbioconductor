@@ -34,7 +34,7 @@ In a recent paper I was involved in [@Hansen:EBV], I used `r Biocpkg("Annotation
 
 ## Other Resources
 
-- The `r Biocpkg("AnnotationHub")` vignette from the [AnnotationHub webpage](http://bioconductor.org/packages/AnnotationHub).
+- The `r Biocpkg("AnnotationHub")` vignette from the [AnnotationHub package](http://bioconductor.org/packages/AnnotationHub).
 - The [Annotation Resources](http://www.bioconductor.org/help/workflows/annotation/Annotation_Resources/) workflow on Bioconductor contains material on `r Biocpkg("AnnotationHub")`.
 - The BioC 2015 conference had a tutorial on `r Biocpkg("AnnotationHub")`; material is available through the [course materials](http://www.bioconductor.org/help/course-materials/) site.
 

@@ -21,13 +21,11 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-### Overview
+## Overview
 
 In this session we will discuss a data representation class called `Rle` (run length encoding).  This class is great for representation genome-wide sequence coverage.
 
-## Other Resources
-
-### Coverage
+## Coverage
 
 In high-throughput sequencing, coverage is the number of reads overlapping each base.  In other words, it associates a number (the number of reads) to every base in the genome.
 
@@ -35,7 +33,7 @@ This is a fundamental quantity for many high-throughout sequencing analyses.  Fo
 
 A file format which is often used to represent coverage data is `Wig` or the modern version `BigWig`.
 
-### Rle
+## Rle
 
 An `Rle` (run-length-encoded) vector is a specific representation of a vector.  The `r Biocpkg("IRanges")` package implements support for this class.  Watch out: there is also a base R class called `rle` which has much less functionality.
 
@@ -60,7 +58,7 @@ In many ways `Rle`s function as normal vectors, you can do arithmetic with them,
 
 There are also `RleList` which is a list of `Rle`s.  This class is used to represent a genome wide coverage track where each element of the list is a different chromosome.
 
-### Useful functions for Rle
+## Useful functions for Rle
 
 A standard usecase is that you have a number of regions (say `IRanges`) and you want to do something to your `Rle` over each of these regions.  Enter `aggregate()`.
 
@@ -84,7 +82,7 @@ slice(rl, 2)
 
 This outputs a `Views` object, see next section.
 
-### Views and Rles
+## Views and Rles
 
 In the sessions on the `r Biocpkg("Biostrings")` package we learned about `Views` on genomes.  `Views` can also be instantiated on `Rle`s.
 
@@ -100,11 +98,11 @@ This is very similar to using `aggregate()` described above.
 
 
 
-### RleList
+## RleList
 
 An `RleList` is simply a list of `Rle`.  It is similar to a `GRangesList` in concept.
 
-### Rles and GRanges
+## Rles and GRanges
 
 `Rle`'s can also be constructed from `GRanges`.
 

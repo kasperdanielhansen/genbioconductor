@@ -27,7 +27,7 @@ NCBI Gene Expression Omnibus (GEO) has a lot of high-throughput genomics dataset
 
 ## Other Resources
 
-- The vignette from the [GEOquert webpage](http://bioconductor.org/packages/GEOquery).
+- The vignette from the [GEOquery package](http://bioconductor.org/packages/GEOquery).
 - GEO [documentation](http://www.ncbi.nlm.nih.gov/geo/info/overview.html).
 
 ## NCBI GEO

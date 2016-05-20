@@ -30,7 +30,7 @@ The `r Biocpkg("GenomeInfoDb")` package addresses a seemingly small, but consist
 
 ## Other Resources
 
-- The vignette from the [GenomeInfoDb webpage](http://bioconductor.org/packages/GenomeInfoDb).
+- The vignette from the [GenomeInfoDb package](http://bioconductor.org/packages/GenomeInfoDb).
 
 ## Drop and keep seqlevels
 

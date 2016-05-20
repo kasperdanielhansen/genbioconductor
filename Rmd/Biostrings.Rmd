@@ -26,9 +26,6 @@ biocLite(c("Biostrings"))
 
 The `r Biocpkg("Biostrings")` package contains classes and functions for representing biological strings such as DNA, RNA and amino acids.  In addition the package has functionality for pattern matching (short read alignment) as well as a pairwise alignment function implementing Smith-Waterman local alignments and Needleman-Wunsch global alignments used in classic sequence alignment (see [@Durbin:1998] for a description of these algorithms).  There are also functions for reading and writing output such as FASTA files.
 
-## Other Resources
-
-
 ## Representing sequences
 
 There are two basic types of containers for representing strings.  One container represents a single string (say a chromosome or a single short read) and the other container represents a set of strings (say a set of short reads).  There are different classes intended to represent different types of sequences such as DNA or RNA sequences.
