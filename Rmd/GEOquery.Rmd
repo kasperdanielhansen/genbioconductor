@@ -68,10 +68,11 @@ The function returns a `list` because you might be getting multiple SubSeries.  
 names(pData(eData))
 ```
 
-However, what we got here was processed data.  Users (including me) often wants access to more raw data.  This is called "supplementary files" in GEO language and we can get those as well.
+However, what we got here was processed data.  Users (including me) often wants access to more raw data.  This is called "supplementary files" in GEO language and we can get those as well.  For display purposes we only keep the `basename()` of the files.
 
 ```{r getGEOsupp}
 eList2 <- getGEOSuppFiles("GSE11675")
+rownames(eList2) <- basename(rownames(eList2))
 eList2
 tarArchive <- rownames(eList2)[1]
 tarArchive

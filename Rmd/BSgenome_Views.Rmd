@@ -36,7 +36,7 @@ We continue our treatment of `r Biocpkg("Biostrings")` and `r Biocpkg("BSgenome"
 
 Technically, a `Views` is like an `IRanges` couple with a pointer to the massive object.  The `IRanges` contains the indexes.  Let's look at `matchPattern` again:
 ```{r views1}
-library("BSgenome.Scerevisiae.UCSC.sacCer2")
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
 dnaseq <- DNAString("ACGTACGT")
 vi <- matchPattern(dnaseq, Scerevisiae$chrI)
 vi
@@ -97,10 +97,11 @@ gcPercentage <- sum(gccontent) / sum(seqlengths(Scerevisiae))
 gcPercentage
 ```
 Let us compare this genome percentage to the distribution of GC content for promoters
-```{r plotGC, fig=TRUE}
+```{r plotGC, fig=TRUE, fig.cap="The distribution of GC content of promoters."}
 plot(density(gcProm))
 abline(v = gcPercentage, col = "red")
 ```
+
 At first glance, the GC content of the promoters is not very different from the genome-wide GC content (perhaps shifted a bit to the right).
 
 ```{r back, child="back.Rmd", echo=FALSE}

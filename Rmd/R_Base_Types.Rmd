@@ -1,5 +1,5 @@
 ---
-title: "R - Base Types"
+title: "Base types in R"
 author: "Kasper D. Hansen"
 ---
 

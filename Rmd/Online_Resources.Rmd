@@ -21,7 +21,7 @@ The [Bioconductor site](http://www.bioconductor.org) has a wealth of great infor
 - [Stack Overflow (R)](http://stackoverflow.com/questions/tagged/r); this is a popular help site for computer programming.
 - [Stack Overflow (Bioconductor)](http://stackoverflow.com/questions/tagged/bioconductor); this is a popular help site for computer programming.
 - [R Documentation](http://www.rdocumentation.org/); a search engine for all documentation from all packages from CRAN and Bioconductor.
-- [R Seek](http://rseek.org); like 'R Documentation" but it also search a few other sites and is based on a different search engine.
+- [R Seek](http://rseek.org); like "R Documentation" but it also search a few other sites and is based on a different search engine.
 
 ## Getting Vignettes in R
 

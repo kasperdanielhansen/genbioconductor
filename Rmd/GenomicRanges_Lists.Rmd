@@ -23,7 +23,7 @@ biocLite(c("GenomicRanges"))
 
 ### Overview
 
-In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa; blinded by the insight here ...).
+In this session we will discuss `GRangesList` which is a list of `GRanges` (whoa; blinded by the insight here!).
 
 ## Other Resources
 

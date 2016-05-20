@@ -19,7 +19,7 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("oligo", "GEOquery))
+biocLite(c("oligo", "GEOquery"))
 ```
 
 ## Overview
@@ -89,7 +89,7 @@ pData(rawData)
 
 Let us look at the probe intensities across the samples, using the `boxplot()` function.
 
-```{r rawBox, plot=TRUE}
+```{r rawBox, plot=TRUE, fig.cap="Boxplots of the raw data."}
 boxplot(rawData)
 ```
 
@@ -108,7 +108,7 @@ Note how `normData` has on the order of 33k features which is closer to the numb
 
 We can check the performance of RMA by looking at boxplots again.
 
-```{r normBox, plot=TRUE}
+```{r normBox, plot=TRUE, fig.cap="Boxplots of the data preprocessed using RMA."}
 boxplot(normData)
 ```
 
@@ -118,11 +118,5 @@ For the normalization-interested person, note that while the distributions are s
 
 The data is now ready for differential expression analysis.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

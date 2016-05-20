@@ -19,7 +19,7 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("ALL" "GenomicRanges"))
+biocLite(c("ALL", "GenomicRanges"))
 ```
 
 ## Overview
@@ -238,7 +238,7 @@ We have addressed (1) above.  The problem with the help system is that each meth
 
 The correct way to look up a help page for a method is
 ```{r helpMethod,eval=FALSE}
-method?as.data.frame,DataFrame
+method?"as.data.frame,DataFrame"
 ?"as.data.frame-method,DataFrame"
 ```
 which is quite a mothful.  This becomes worse when there is dispatching on multiple arguments; a great example is

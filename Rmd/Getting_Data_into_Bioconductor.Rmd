@@ -101,11 +101,5 @@ A number of data repositories have software packages dedicated to accessing the 
 - NCBI [SRA](http://www.ncbi.nlm.nih.gov/sra) (Short Read Archive): the `r Biocpkg("SRAdb")` package.
 - EBI [ArrayExpress](https://www.ebi.ac.uk/arrayexpress/): the `r Biocpkg("ArrayExpress")` package.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

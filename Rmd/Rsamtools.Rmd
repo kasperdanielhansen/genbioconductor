@@ -18,7 +18,7 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("Rsamtools")
+biocLite(c("Rsamtools"))
 ```
 
 ## Overview
@@ -176,11 +176,5 @@ names(aln[[1]])
 
 Sometimes, all you want to do is count... use `countBam()` instead of `scanBam()`.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
-

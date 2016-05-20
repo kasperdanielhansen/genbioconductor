@@ -9,6 +9,8 @@ author: Kasper D. Hansen
 ```{r plotRanges, echo=FALSE}
 plotRanges <- function(x, xlim = x, main = deparse(substitute(x)),
                        col = "black", sep = 0.5, ...) {
+    opar <- par(mar = c(5,1,1.5,1))
+    on.exit(par(opar))
     height <- 1
     if (is(xlim, "Ranges"))
         xlim <- c(min(start(xlim)), max(end(xlim)))
@@ -105,11 +107,11 @@ A normal IRanges is a minimal representation of the IRanges viewed as a set.  Ea
 ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
 ``` 
 
-```{r irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE}
+```{r irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE, fig.cap="An IRanges consisting of 4 ranges."}
 plotRanges(ir)
 ``` 
 
-```{r irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+```{r irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE, fig.cap="reduce() applied to the previous IRanges produces a normal IRanges."}
 plotRanges(reduce(ir))
 ``` 
 
@@ -129,11 +131,11 @@ From some perspective, `disjoin()` is the opposite of `reduce()`.  An example ex
 disjoin(ir1)
 ```
 
-```{r irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE}
+```{r irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE, fig.cap="An IRanges"}
 plotRanges(ir)
 ``` 
 
-```{r irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE}
+```{r irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE, fig.cap="disjoin() applied to the previous IRanges."}
 plotRanges(disjoin(ir))
 ``` 
 

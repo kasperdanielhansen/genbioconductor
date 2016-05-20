@@ -60,7 +60,7 @@ Currently `r Biocpkg("minfi")` does not support reading compressed IDAT files.  
 
 ```{r decompress}
 idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
-sapply(idatFiles, gunzip, overwrite = TRUE)
+head(sapply(idatFiles, gunzip, overwrite = TRUE), n = 3)
 ```
 
 Now we read the IDAT files using `read.450k.exp()` which (in this case) reads all the IDAT files in a directory.
@@ -142,12 +142,7 @@ Once the data has been normalized, one possibility is to identify differentially
 
 Another possibility is to look for clusters of CpGs all changing in the same direction.  One method for doing this is through the `bumphunter()` function which interfaces to the `r Biocpkg("bumphunter")` package.
 
-## SessionInfo
-
-\scriptsize
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
+```{r back, child="back.Rmd", echo=FALSE}
 ```
 
 ## References

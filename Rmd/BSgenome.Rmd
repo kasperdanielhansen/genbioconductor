@@ -32,12 +32,17 @@ The `r Biocpkg("BSgenome")` package contains infrastructure for representing gen
 
 The `r Biocpkg("BSgenome")` package provides support for genomes.  In Bioconductor, we have special classes for genomes, because the chromosomes can get really big.  For example, the human genome takes up several GB of memory.
 
-The `available.genomes()` function lists which genomes are currently available from from Bioconductor (it is possible to make your own genome package).  Note that there are several so-called "masked" genomes, where some parts of the genome are masked.  We will avoid this subject for now.
+The `available.genomes()` function lists which genomes are currently available from from Bioconductor (it is possible to make your own genome package).  Note that there are several so-called "masked" genomes, where some parts of the genome are masked.  We will avoid this subject for now.  We can `grep()` for known organisms.
+
+```{r availGenomes}
+allgenomes <- available.genomes()
+grep("Hsapiens", allgenomes, value = TRUE)
+grep("Scerevisiae", allgenomes, value = TRUE)
+```
 
 Let us load the latest yeast genome
 ```{r BSgenome}
-available.genomes()
-library("BSgenome.Scerevisiae.UCSC.sacCer2")
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
 Scerevisiae
 ```
 

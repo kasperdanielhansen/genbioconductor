@@ -13,13 +13,14 @@ This document has the following dependencies:
 ```{r dependencies, warning=FALSE, message=FALSE}
 library(DESeq2)
 library(edgeR)
+library(airway)
 ```
 
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("DESeq2", "edgeR))
+biocLite(c("DESeq2", "edgeR", "airway"))
 ```
 
 ## Overview
@@ -145,8 +146,9 @@ and then all we need to do is get the results.  Note that the results are not or
 ```{r deseqResults}
 res <- results(dds)
 res <- res[order(res$padj),]
-res
+res[1:10,]
 ```
+and then we print the first 10 hits.
 
 ## Comments
 
