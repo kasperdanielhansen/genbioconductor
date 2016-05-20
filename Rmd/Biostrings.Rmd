@@ -36,7 +36,7 @@ There are two basic types of containers for representing strings.  One container
 ```{r DNAString, error=TRUE}
 dna1 <- DNAString("ACGT-N")
 dna1
-DNAStringSet("ADE")
+DNAStringSet("ACG")
 dna2 <- DNAStringSet(c("ACGT", "GTCA", "GCTA"))
 dna2
 ```

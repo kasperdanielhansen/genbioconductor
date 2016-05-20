@@ -11,6 +11,7 @@ author: "Kasper D. Hansen"
 This document has the following dependencies:
 
 ```{r dependencies, warning=FALSE, message=FALSE}
+library(SummarizedExperiment)
 library(GenomicRanges)
 library(airway)
 ```
@@ -19,7 +20,7 @@ Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
 source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges", "airway"))
+biocLite(c("SummarizedExperiment", "GenomicRanges", "airway"))
 ```
 
 ## Overview
@@ -54,9 +55,9 @@ You can still use `$` to get a particular column:
 ```{r getColumn}
 airway$cell
 ```
-`exptData` is like `experimentData` from `ExpressionSet`.  This slot is often un-used; this is the case for this object:
+`metadata` is like `experimentData` from `ExpressionSet`.  This slot is often un-used; this is the case for this object:
 ```{r exptData}
-exptData(airway)
+metadata(airway)
 ```
 `colnames` are like `sampleNames` from `ExpressionSet`; `rownames` are like `featureNames`.
 ```{r names}
@@ -91,7 +92,7 @@ For some operations, you don't need to use `rowRanges` first, you can use the op
 start(rowRanges(airway))
 start(airway)
 ```
-You can use `granges` as synonymous for `rowRanges`.
+You can use `granges()` as synonymous for `rowRanges()`.
 
 Subsetting works like `ExpressionSet`: there are two dimensions, the first dimension is features (genes) and the second dimension is samples.
 
