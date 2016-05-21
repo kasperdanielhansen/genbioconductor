@@ -22,11 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-## Other Resources
-
-- The vignettes from the [GenomicRanges package](http://bioconductor.org/packages/GenomicRanges).
-- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
-
 ## GRanges
 
 `GRanges` are like `IRanges` with strand and chromosome.  Strand can be `+`, `-` and `*`. The value `*` indicates 'unknown strand' or 'unstranded'.  This value usually gets treated as a third strand, which is sometimes confusing to users (examples below).
@@ -102,6 +97,11 @@ The fact that each sequence may have its own genome is more esoteric. One usecas
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
+
+## Other Resources
+
+- The vignettes from the [GenomicRanges package](http://bioconductor.org/packages/GenomicRanges).
+- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
 
 ## References
 

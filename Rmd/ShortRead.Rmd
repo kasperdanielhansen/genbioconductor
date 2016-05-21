@@ -25,10 +25,6 @@ biocLite(c("ShortRead"))
 
 The `r Biocpkg("ShortRead")` package contains functionality for reading and examining raw sequence reads (typically in FASTQ format).
 
-## Other Resources
-
-- The vignettes from the [ShortRead package](http://bioconductor.org/packages/ShortRead).
-
 ## ShortRead
 
 The ShortRead package was one of the first Bioconductor packages to deal with low-level analysis of high-throughput sequencing data. Some of its functionality has now been superseded by other packages, but there is still relevant functionality left.
@@ -83,6 +79,9 @@ In the early days of next generation sequencing, there was no standardized align
 
 The package has some very old support for parsing BAM files, but use `r Biocpkg("Rsamtools")` and `r Biocpkg("GenomicAlignments")` for this task instead.
 
+## Other Resources
+
+- The vignettes from the [ShortRead package](http://bioconductor.org/packages/ShortRead).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

@@ -29,10 +29,6 @@ The `r Biocpkg("biomaRt")` package implements such an interface.
 
 Databases supporting the Biomart interface includes Ensembl (from EBI), HapMap and UniProt.
 
-## Other Resources
-
-- The vignette from the [biomaRt package](http://bioconductor.org/packages/biomaRt).
-
 ## Specifiying a mart and a dataset
 
 To use `r Biocpkg("biomaRt")` you need a mart (database) and a dataset inside the database.  This is somewhat similar to `r Biocpkg("AnnotationHub")`.
@@ -106,6 +102,10 @@ The `r Biocpkg("biomaRt")` vignette is very useful and readable and contains a l
 9. Retrieve protein sequences for a given list of EntrezGene identifiers.
 10. Retrieve known SNPs located on the human chromosome 8 between positions 148350 and 148612.
 11. Given the human gene TP53, retrieve the human chromosomal location of this gene and also retrieve the chromosomal location and RefSeq id of it’s homolog in mouse.
+
+## Other Resources
+
+- The vignette from the [biomaRt package](http://bioconductor.org/packages/biomaRt).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

@@ -1,5 +1,5 @@
 ---
-title: "GenomicRanges - seqinfo"
+title: "GenomicRanges - More on seqinfo"
 author: "Kasper D. Hansen"
 ---
 
@@ -27,10 +27,6 @@ biocLite(c("GenomeInfoDb", "GenomicRanges"))
 The `GRanges` class contains `seqinfo` information about the length and the names of the chromosomes.  Here we will briefly discuss strategies for harmonizing this information.
 
 The `r Biocpkg("GenomeInfoDb")` package addresses a seemingly small, but consistent problem: different online resources uses different naming conventions for chromosomes.  In more technical jargon, this package helps keeping your `seqinfo` and `seqlevels` harmonized.
-
-## Other Resources
-
-- The vignette from the [GenomeInfoDb package](http://bioconductor.org/packages/GenomeInfoDb).
 
 ## Drop and keep seqlevels
 
@@ -84,4 +80,8 @@ Hopefully, in Bioconductor 3.2 we will get support for `seqlengths` in `r Biocpk
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
+
+## Other Resources
+
+- The vignette from the [GenomeInfoDb package](http://bioconductor.org/packages/GenomeInfoDb).
 

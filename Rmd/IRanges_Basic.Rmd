@@ -51,10 +51,6 @@ A surprising amount of objects/tasks in computational biology can be formulated 
 
 Here we discuss `IRanges`, which provides the foundation for `GRanges`.  This package implements (amongst other things) an algebra for handling integer intervals.
 
-## Other Resources
-
-The vignette titled "An Introduction to IRanges" from the [IRanges package](http://bioconductor.org/packages/IRanges).
-
 ## Basic IRanges
   
 Specify IRanges by 2 of start, end, width (SEW).
@@ -211,9 +207,9 @@ The list of arguments to `findOverlaps()` is long; there are a few hidden treasu
 args(findOverlaps)
 ``` 
 
-## countOverlaps
+## Counting Overlaps
 
-For efficiency, there is also `countOverlaps()`, which just returns the number of overlaps.  This function is faster and takes up less memory because it does not have to keep track of which ranges overlap, just the number of overlaps.
+For efficiency, there is also `countOverlaps()`, which just returns the number of overlaps.  This function is more efficient than `findOverlaps()` because it does not have to keep track of which ranges overlap, just the number of overlaps.
 
 ```{r countOverlaps}
 countOverlaps(ir1, ir2)
@@ -228,6 +224,10 @@ ir1
 ir2
 nearest(ir1, ir2)
 ``` 
+
+## Other Resources
+
+The vignette titled "An Introduction to IRanges" from the [IRanges package](http://bioconductor.org/packages/IRanges).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

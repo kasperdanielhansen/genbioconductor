@@ -26,10 +26,6 @@ biocLite(c("GenomicFeatures", "TxDb.Hsapiens.UCSC.hg19.knownGene"))
 
 The `r Biocpkg("GenomicFeatures")` package contains functionality for so-called transcript database or *TxDb* objects.  These objects contains a coherent interface to transcripts.  Transcripts are complicated because higher organisms usually have many different transcripts for each gene locus.
 
-## Other Resources
-
-- The vignette from the [GenomicFeatures package](http://bioconductor.org/packages/GenomicFeatures).
-
 ## Examples
 
 We will show the `TxDb` functionality by examining a database of human transcripts.  Unlike genomes in Bioconductor, there is no shorthand object; we reassign the long name to a shorter for convenience:
@@ -115,6 +111,10 @@ subset(transcriptLengths(txdb, with.cds_len = TRUE), gene_id == "100287102")
 (here we subset a `data.frame`).
 
 Note: as an example of terminology mixup, consider that the output of `transcripts()` are coordinates for the unspliced transcript, whereas `extractTranscriptSeqs()` is the RNA sequence of the spliced transcripts.
+
+## Other Resources
+
+- The vignette from the [GenomicFeatures package](http://bioconductor.org/packages/GenomicFeatures).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

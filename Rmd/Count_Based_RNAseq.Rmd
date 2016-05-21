@@ -29,12 +29,6 @@ RNA seq data is often analyzed by creating a count matrix of gene counts per sam
 
 This type of analysis discards part of the information in the RNA sequencing reads, but we have a good understanding of how to analyze this type of data.
 
-## Other Resources
-
-- The vignette from the [edgeR webpage](http://bioconductor.org/packages/edgeR).
-- The vignette from the [DESeq2 webpage](http://bioconductor.org/packages/DESeq2).
-- The [RNA-seq workflow](http://bioconductor.org/help/workflows/rnaseqGene/).
-
 ## RNA-seq count data
 
 One simple way of analyzing RNA sequencing data is to make it look like microarray data.  This is done by counting how many reads in each sample overlaps a gene.  There are many ways to do this.  It obviously depends on the annotation used, but also on how it is decided that a read overlaps a region.  Of specific concern is which genomic regions are part of a gene with multiple transcripts.
@@ -153,6 +147,12 @@ and then we print the first 10 hits.
 ## Comments
 
 We see that amongst the top 5 genes, 3 are shared between edgeR and DESeq2, with some small variation in the estimated fold-change.  The two methods are both being continually developed (and probably bench-marked against each other by the authors).  At any given time it is difficult to decide which one to prefer.
+
+## Other Resources
+
+- The vignette from the [edgeR webpage](http://bioconductor.org/packages/edgeR).
+- The vignette from the [DESeq2 webpage](http://bioconductor.org/packages/DESeq2).
+- The [RNA-seq workflow](http://bioconductor.org/help/workflows/rnaseqGene/).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

@@ -29,10 +29,6 @@ The `r Biocpkg("rtracklayer")` package interfaces to (UCSC) Genome Browser.  It 
 
 This includes functionality for parsing file formats associated the UCSC Genome Browser such as BED, Wig, BigBed and BigWig.
 
-## Other Resources
-
-- The vignette from the [rtracklayer package](http://bioconductor.org/packages/rtracklayer).
-
 ## The import function
 
 The function to parse data formats is `import()`.  This function has a `format` argument taking values such as `BED` or `BigWig`.
@@ -157,6 +153,10 @@ zipped <- bgzip(from, to)
 idx <- indexTabix(zipped, "sam")
 ```
 see also the help page for `indexTabix`.
+
+## Other Resources
+
+- The vignette from the [rtracklayer package](http://bioconductor.org/packages/rtracklayer).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

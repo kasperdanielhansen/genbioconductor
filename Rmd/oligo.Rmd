@@ -26,10 +26,6 @@ biocLite(c("oligo", "GEOquery"))
   
 This document presents the `r Biocpkg("oligo")` package for handling Affymetrix and Nimblegen microarrays, especially gene expression, exon expression and SNP arrays.
 
-## Other Resources
-
-- The vignettes from the [oligo package](http://bioconductor.org/packages/oligo).
-
 ## Getting the data
 
 We will use the dataset deposited as GEO accession number "GSE38792".  In this dataset, the experimenters profiled fat biopsies from two different conditions: 10 patients with obstructive sleep apnea (OSA) and 8 healthy controls.
@@ -117,6 +113,10 @@ Here, it is important to remember that the first set of boxplots is at the probe
 For the normalization-interested person, note that while the distributions are similar, they are not identical despite the fact that RMA includes quantile normalization.  This is because quantile normalization is done prior to probe summarization; if you quantile normalize different distributions they are guaranteed to have the same distribution afterwards.
 
 The data is now ready for differential expression analysis.
+
+## Other Resources
+
+- The vignettes from the [oligo package](http://bioconductor.org/packages/oligo).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

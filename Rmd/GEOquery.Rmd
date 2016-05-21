@@ -25,11 +25,6 @@ biocLite(c("GEOquery"))
   
 NCBI Gene Expression Omnibus (GEO) has a lot of high-throughput genomics datasets publicly available.  Despite the name, this database is not exclusively for gene expression data.
 
-## Other Resources
-
-- The vignette from the [GEOquery package](http://bioconductor.org/packages/GEOquery).
-- GEO [documentation](http://www.ncbi.nlm.nih.gov/geo/info/overview.html).
-
 ## NCBI GEO
 
 NCBI GEO is organised as samples which are grouped into series.  For bigger experiments there are both SubSeries and SuperSeries.  A SuperSeries is all the experiments for a single paper; a SuperSeries can be decomposed into SubSeries which are different technologies.  As an example, look at the SuperSeries [GSE19486](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19486). In this paper they used 2 different platforms (this is a weird name; a platform is a combination of a technology and a species).  And they did RNA-seq and ChIP-seq for two different factors (NFkB-II and Pol II).  This results in 4 SubSeries (2 for RNA-seq and 2 for ChIP-seq).
@@ -85,6 +80,11 @@ It is also possible to use `r Biocpkg("GEOquery")` to query GEO as a database (i
 ## Other packages
 
 There are other packages for accessing other online repositories with public data; they include `r Biocpkg("SRAdb")` for the Short Read Archive (SRA) and `r Biocpkg("ArrayExpress")` (ArrayExpress; a similar database to NCBI GEO but hosted at the European Bioinformatics Institute (EBI)).
+
+## Other Resources
+
+- The vignette from the [GEOquery package](http://bioconductor.org/packages/GEOquery).
+- GEO [documentation](http://www.ncbi.nlm.nih.gov/geo/info/overview.html).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

@@ -29,10 +29,6 @@ biocLite(c("limma", "leukemiasEset"))
 
 LIMMA stands for "linear models for microarray data".  Perhaps unsurprisingly, limma contains functionality for fitting a broad class of statistical models called "linear models".  Examples of such models include linear regression and analysis of variance.  While most of the functionality of limma has been developed for microarray data, the model fitting routines of limma are useful for many types of data, and is not limited to microarrays.  For example, I am using limma in my research on analysis of DNA methylation.
 
-## Other Resources
-
-- The limma User's Guide from the [limma webpage](http://bioconductor.org/packages/limma).  This is an outstanding piece of documentation which has (rightly) been called "the best resource on differential expression analysis available".
-
 ## Analysis Setup and Design
 
 (The discussion in this section is not specific to limma.)
@@ -169,6 +165,10 @@ As we see above, `r Biocpkg("limma")` works directly on `ExpressionSet`s.  It al
 ## Background: The targets file
 
 limma introduced the concept of a so-called `targets` file.  This is just a simple text file (usually TAB or comma-separated) which holds the phenotype data.  The idea is that it is easier for many users to create this text file in a spreadsheet program, and then read it into R and stored the information in the data object.
+
+## Other Resources
+
+The limma User's Guide from the [limma webpage](http://bioconductor.org/packages/limma).  This is an outstanding piece of documentation which has (rightly) been called "the best resource on differential expression analysis available".
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

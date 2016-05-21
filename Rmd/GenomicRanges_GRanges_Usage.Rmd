@@ -22,11 +22,6 @@ source("http://www.bioconductor.org/biocLite.R")
 biocLite(c("GenomicRanges"))
 ```
 
-## Other Resources
-
-- The vignettes from the [GenomicRanges package](http://bioconductor.org/packages/GenomicRanges).
-- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
-
 ## DataFrame
 
 The `r Biocpkg("S4Vectors")` package introduced the `DataFrame` class.  This class is very similar to the base `data.frame` class from R, but it allows columns of any class, provided a number of required methods are supported.  For example, `DataFrame` can have `IRanges` as columns, unlike `data.frame`:
@@ -99,10 +94,6 @@ makeGRangesFromDataFrame(df)
 makeGRangesFromDataFrame(df, keep.extra.columns = TRUE)
 ```
 
-## Biology usecases
-
-Here are some simple usecases with pseudo-code showing how we can accomplish various tasks with `GRanges` objects and functionality.
-
 ## Biology usecase I
 
 Suppose we want to identify transcription factor (TF) binding sites that overlaps known SNPs.
@@ -136,6 +127,11 @@ findOverlaps(dmrs, big_islands)
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
+
+## Other Resources
+
+- The vignettes from the [GenomicRanges package](http://bioconductor.org/packages/GenomicRanges).
+- The package is described in a paper in PLOS Computational Biology [@GenomicRanges].
 
 ## References
 

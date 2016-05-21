@@ -29,11 +29,6 @@ We will examine how to use and manipulate the `ExpressionSet` class; a fundament
 
 This class has inspired many other data containers in Bioconductor and can be considered a great success in programming with data.
 
-## Other Resources
-
-- The "An Introduction to Bioconductor's ExpressionSet Class" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase).
-- The "Notes for eSet Developers" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase) contains advanced information.
-
 ## Start
 
 An example dataset, stored as an `ExpressionSet` is available in the `r Biocexptpkg("ALL")` package.  This package is an example of an "experimental data" package"; a bundling of a full experiment inside an R package.  These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.
@@ -157,6 +152,11 @@ The `ExpressionSet` class is an example of an `eSet`.  The `ExpressionSet` class
 An example of another `eSet` derived class is `NChannelSet` which is meant to store multichannel microarray measurements; an example is a two-color array where the microarray has been imaged in two different colors.
 
 Another example of classes are from the `r Biocpkg("minfi")` package for DNA methylation arrays; here there are classes such as `RGChannelSet` for a two color microarray and `MethylSet` for methylation measurements.
+
+## Other Resources
+
+- The "An Introduction to Bioconductor's ExpressionSet Class" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase).
+- The "Notes for eSet Developers" vignette from the [Biobase webpage](http://bioconductor.org/packages/Biobase) contains advanced information.
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

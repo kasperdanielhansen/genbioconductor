@@ -27,10 +27,6 @@ biocLite(c("minfi", "GEOquery"))
   
 The Illumina 450k DNA methylation microarray is a cheap and relatively comprehensive array for assaying DNA methylation.  It is the platform of choice for large sample profiling of DNA methylation, especially for so-called EWAS (Epigenome-wide association studies).  The studies are like GWAS (genome-wide association studies) but instead of associated a phenotype (like disease) with genotype (typically measured on SNP arrays or exome/whole-genome sequencing) they associated phenotype with epigenotype.
 
-## Other Resources
-
-- The vignette from the [minfi package](http://bioconductor.org/packages/minfi).
-
 ## DNA methylation
 
 DNA methylation is a chemical modification of DNA.  In humans, it occurs at CpG dinucleotides where the 'C' can be methylated or not.  The methylation state of a given locus in a single cell is binary (technically tertiary since we have two copies of most chromosomes) but we measure DNA methylation across a population of cells.  We observe that some loci has intermediate methylation values (between 0 and 1) and we use the methylation percentage (or Beta-value) to describe this.
@@ -141,6 +137,10 @@ head(getIslandStatus(grSet))
 Once the data has been normalized, one possibility is to identify differentially methylated CpGs by using `r Biocpkg("limma")` on the Beta values.
 
 Another possibility is to look for clusters of CpGs all changing in the same direction.  One method for doing this is through the `bumphunter()` function which interfaces to the `r Biocpkg("bumphunter")` package.
+
+## Other Resources
+
+The vignette from the [minfi package](http://bioconductor.org/packages/minfi).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

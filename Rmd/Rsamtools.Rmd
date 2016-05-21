@@ -25,11 +25,6 @@ biocLite(c("Rsamtools"))
 
 The `r Biocpkg("Rsamtools")` packages contains functionality for reading and examining aligned reads in the BAM format.
 
-## Other Resources
-
-- The vignettes from the [Rsamtools package](http://bioconductor.org/packages/Rsamtools).
-- For representing more complicated alignments (specifically spliced alignments from RNA-seq), see the `r Biocpkg("GenomicAlignments")` package.
-
 ## Rsamtools
 
 The Rsamtools package is an interface to the widely used `samtools`/`htslib` library. The main functionality of the package is support for reading BAM files.
@@ -177,5 +172,11 @@ names(aln[[1]])
 
 Sometimes, all you want to do is count... use `countBam()` instead of `scanBam()`.
 
+## Other Resources
+
+- The vignettes from the [Rsamtools package](http://bioconductor.org/packages/Rsamtools).
+- For representing more complicated alignments (specifically spliced alignments from RNA-seq), see the `r Biocpkg("GenomicAlignments")` package.
+
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
+

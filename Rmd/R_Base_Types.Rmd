@@ -17,12 +17,6 @@ This document has no dependencies.
 
 A very brief overview of core R object types and how to subset them.
 
-## Other Resources
-
-"An Introduction to R" ships with R and can also be access on the web ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) | 
-[PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)).  This introduction contains a lot of useful material but it is written very terse; you will need to pay close attention to the details.  It is useful to re-read this introduction after you have used R for a while; you are likely to learn new details you had missed at first.
-
-
 ## Atomic Vectors
 
 The most basic object in R is an atomic vector.  Examples includes `numeric`, `integer`, `logical`, `character` and `factor`.  These objects have a single length and can have names, which can be used for indexing
@@ -202,6 +196,11 @@ library(methods)
 as(x, "matrix")
 ```
 This is how you convert most Bioconductor objects.
+
+## Other Resources
+
+"An Introduction to R" ships with R and can also be access on the web ([HTML](https://cran.r-project.org/doc/manuals/r-release/R-intro.html) | 
+[PDF](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)).  This introduction contains a lot of useful material but it is written very terse; you will need to pay close attention to the details.  It is useful to re-read this introduction after you have used R for a while; you are likely to learn new details you had missed at first.
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
