@@ -1,5 +1,5 @@
 ---
-title: "Base types in R"
+title: "An overview of base types in R"
 author: "Kasper D. Hansen"
 ---
 
@@ -15,7 +15,7 @@ This document has no dependencies.
 
 ## Overview
 
-A very brief overview of core R object types and how to subset them.
+Bioconductor has a rich class of different types of objects.  Some are used to represent entire experiments (such as `ExpressionSet`, covered later) and some are used to represent simpler structures.  It is my experience that a prerequisite for understanding and using many Bioconductor objects efficiently, is a good understanding of the different base types in R.  This document contains a brief overview of these objects and how to subset and manipulate them.
 
 ## Atomic Vectors
 

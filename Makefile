@@ -1,5 +1,5 @@
-#R_SCRIPT=/usr/local/bin/Rscript
-R_SCRIPT=~/Bin/Rscript-devel
+R_SCRIPT=/usr/local/bin/Rscript
+# R_SCRIPT=~/Bin/Rscript-devel
 GITHUB_URL=https://github.com/kasperdanielhansen/genbioconductor/blob/master/Rmd
 COURSERA_URL=https://class.coursera.org/genbioconductor-004/lecture
 
@@ -59,7 +59,7 @@ Rmds : html/Install_Bioconductor.html\
        html/minfi.html\
        html/Count_Based_RNAseq.html
 
-temp: html/Install_Bioconductor.html
+temp: html/ExpressionSet.html
 
 all : Rmds index
 

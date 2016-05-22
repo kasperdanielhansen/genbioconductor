@@ -6,13 +6,42 @@ author: "Kasper D. Hansen"
 ```{r front, child="front.Rmd", echo=FALSE}
 ```
 
+## Overview
+
+Bioconductor is very well documented, compared to most other pieces of academic software.  But sometimes the documentation is hard to find or hard to get started with.  One of the problems is that sometimes useful documentation is scattered around different sources and sometimes it is hard to find exactly what you want to accomplish a given task.  This document has a short overview of some of the more useful web sites and resources.  The intention is that, as you learn more and more, you will return to some of these sources to get the gory details.
+
+## Bioconductor packages and documentation
+
+Bioconductor is organized into packages and there are minimal requirements for the documentation of a package.  All we can really check is whether the documentation is there, not whether it is useful.  But it is my experience that most packages are very well documented, although they sometimes assume some basic familiarity with the conventions of the project.
+
+Bioconductor has been a leader in the R community wrt. package *vignettes*.  A vignette is a small manual, typically giving a holistic overview of the package and its capabilities.  The first thing I do, when I examine a new package, is to skim the vignette to get some idea of what I can accomplish with the software.  A package can contain multiple vignettes.
+
+In addition to the package vignettes, there are the man pages.  These help pages describes the details of each function, how to use it and what the arguments are.  But most of the time, the different help pages does not provide a good idea of how to put it all together to achieve a task.  This is the intention of the vignette(s).
+
+Package vignettes are installed inside of R.  You can access vignettes in the following ways
+
+1. Through the online help (for example in RStudio).
+2. Through the `vignettes()` function in R, but that requires you know the name of the vignette.
+3. Through the `browseVignettes()` function in `r Biocpkg("Biobase")` which shows a list of installed vignettes in a browser (this is a different interface to the RStudio help interface).
+
+In addition, the vignettes are available from the [Bioconductor site](http://www.bioconductor.org); this is often how I access them.
+
+A useful trick is to get a listing of all help pages in a given package.  You can do this through the online HTML help (not all ways of interacting with R gives you access to the HTML help system).  Another useful trick (which I use all the time) is to do
+
+```{r eval=FALSE}
+library(NAME = help)
+```
+
+where `r NAME` is the package name.
+
 ## The Bioconductor site
 
 The [Bioconductor site](http://www.bioconductor.org) has a wealth of great information.  Here are some pointers
 
-- Package vignettes are a very important source of information for Bioconductor packages.  You can access package vignettes from the help menu in RStudio or from the package page on Bioconductor.
 - [Workflows](http://bioconductor.org/help/workflows/).  This is a new addition to Bioconductor; the intention is to provide across-package description of useful functionality.
 - [Software packages](http://bioconductor.org/packages/release/BiocViews.html#___Software); note the use of `biocViews` to the left of the page, this might be useful if you are searching for specific functionality.
+
+There are also developer HOWTOs, which are very useful for developing packages.  And you can browse an exhaustive list of the different packages.
 
 ## Other resources
 
@@ -23,13 +52,6 @@ The [Bioconductor site](http://www.bioconductor.org) has a wealth of great infor
 - [R Documentation](http://www.rdocumentation.org/); a search engine for all documentation from all packages from CRAN and Bioconductor.
 - [R Seek](http://rseek.org); like "R Documentation" but it also search a few other sites and is based on a different search engine.
 
-## Getting Vignettes in R
-
-Package vignettes are installed inside of R.  You can access vignettes in the following ways
-
-1. Through the online help (for example in RStudio).
-2. Through the `vignettes()` function in R, but that requires you know the name of the vignette.
-3. Through the `browseVignettes()` function in `r Biocpkg("Biobase")` which shows a list of installed vignettes in a browser (this is a different interface to the RStudio help interface).
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```

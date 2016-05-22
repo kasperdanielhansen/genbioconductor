@@ -63,6 +63,9 @@ pD
 colnames(pD)[1:3]
 varLabels(pD)[1:3]
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

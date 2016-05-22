@@ -27,9 +27,47 @@ biocLite(c("Biobase", "ALL", "hgu95av2.db"))
   
 We will examine how to use and manipulate the `ExpressionSet` class; a fundamental data container in Bioconductor.  The class is defined in the `r Biocpkg("Biobase")` package.
 
-This class has inspired many other data containers in Bioconductor and can be considered a great success in programming with data.
+This class has inspired many other data containers in Bioconductor.  It is a great example of _programming with data_.
 
-## Start
+# Data Containers
+
+R/Bioconductor has a rich set of data containers, or types of objects for storing different types of genomic data.  Data containers might seem a boring subject at first, but in my opinion, they have been critical to the success of Bioconductor.  Don't just take my word for it; the following quote is from Robert Gentleman (co-creator of R and founder of Bioconductor) on successful computational biology software [@softwareAnatomy]:
+
+> If everybody puts their gene expression data into the same kind of box, it doesn’t matter how the data came about, but that box is the same and can be used by analytic tools
+
+The classic example is gene expression microarray data.  In Bioconductor, data from such an experiment goes through the following pipeline
+
+1. Data is read into Bioconductor from a vendor specific file format and stored as raw data in a vendor specific data container.
+2. The raw data is preprocessed, using statistical and computational methods which are specific to the vendor specific data.
+3. After preprocessing, the data is stored in an `ExpressionSet` data container.
+
+For example, data from Affymetrix microarrays and Agilent microarrays have (in their raw version) aspects of the data which are different to each vendor.  Affymetrix uses short oligonucleotide probes and therefore uses multiple probes to measure a single gene.  In contrast, Agilent uses long(er) probes and typically uses a single probe to measure a gene.  But after preprocessing, both platforms have a set of measurements on a set of genes.  At this level, the data becomes similar.
+
+![Multiple types of raw data are unified in a single data container.](./DataContainer.png){#id .class width=2.637in height=2.053in}
+
+Having well designed data containers allows developer to write methods for these data containers which will be applicable to many types of use cases.  And it helps users by making the data easier to manipulate; thereby reducing errors.
+
+# The structure of an ExpressionSet
+
+Gene expression data can be thought of as a data matrix of expression values, one for each (gene, sample) pair. Tradition demands that rows are genes and columns are samples.  Genes are sometimes called features.  An example of this is
+
+![Gene by sample matrix of expression values.  The pink rectangle denotes the measurement of all genes in one sample, and the blue rectangle denote the measurement of one gene across all samples.](./ExpressionSet1.png){#id .class width=2.22in height=1.63in}
+
+We always have additional data on the samples, often called covariates or phenotype data.  This is represented in a new data matrix; this time samples are in the rows and covariates are in the columns.  There is an implicit link between columns of the gene expression data matrix and rows of the phenotype matrix.  An example of this is
+
+![Gene by sample matrix linked to a sample by covariate matrix.](./ExpressionSet2.png){#id .class width=2.22in height=3.297in}
+
+You can think of the phenotype information as annotation on the columns of the expression matrix.  We also allow annotation on the rows of the expression matrix.  This is additional information on each _gene_ in the matrix, such as name, location and GC content.  Historically, this has been used less in Bioconductor.  An full depiction of an `ExpressionSet` is seen here:
+
+![An ExpressionSet, linking a gene expression matrix to metadata on both columns (samples) and rows (features).](./ExpressionSet3.png){#id .class width=4.173in height=3.297in}
+
+The `ExpressionSet` construction has been used for many other ttypes of data, besides gene expression data.  A general class, allowing for multiple data matrices, is an `eSet` depicted below.
+
+![An eSet](./eSet.png){#id .class width=4.173in height=3.407in}
+
+Examples of the need for multiple data matrices are DNA methylation microarrays where two measurements are obtained for each feature (a methylated and an unmethylated channel).
+
+## Example
 
 An example dataset, stored as an `ExpressionSet` is available in the `r Biocexptpkg("ALL")` package.  This package is an example of an "experimental data" package"; a bundling of a full experiment inside an R package.  These experimental data packages are used for teaching, testing and illustration, but can also serve as the documentation of a data analysis.
 

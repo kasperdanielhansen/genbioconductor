@@ -31,7 +31,7 @@ We are going to use `r Biocpkg("AnnotationHub")` and `r Biocpkg("GenomicRanges")
 2. Getting promoters using `r Biocpkg("AnnotationHub")`.
 3. Comparing the histone data and promoters using `findOverlaps` in `r Biocpkg("GenomicRanges")`.
 
-## Getting the data
+## Accomplishing our goals
 
 First we use `r Biocpkg("AnnotationHub")` to get data on homo sapiens.
 
