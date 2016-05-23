@@ -8,7 +8,7 @@ library(Biostrings)
 ## ----DNAString, error=TRUE-----------------------------------------------
 dna1 <- DNAString("ACGT-N")
 dna1
-DNAStringSet("ADE")
+DNAStringSet("ACG")
 dna2 <- DNAStringSet(c("ACGT", "GTCA", "GCTA"))
 dna2
 
@@ -42,6 +42,9 @@ alphabetFrequency(dna2)
 letterFrequency(dna2, "GC")
 consensusMatrix(dna2, as.prob = TRUE)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

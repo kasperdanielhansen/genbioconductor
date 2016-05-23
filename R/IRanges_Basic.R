@@ -34,10 +34,10 @@ c(ir1, ir2)
 ## ----irNormal1, echo=FALSE-----------------------------------------------
 ir <- IRanges(start = c(1,3,7,9), end = c(4,4,8,10))
 
-## ----irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE-----------------
+## ----irNormal2, echo=FALSE, fig.height=2, small.mar=TRUE, fig.cap="An IRanges consisting of 4 ranges."----
 plotRanges(ir)
 
-## ----irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE--------------
+## ----irNormal3, echo=FALSE, fig.height=1.75, small.mar=TRUE, fig.cap="reduce() applied to the previous IRanges produces a normal IRanges."----
 plotRanges(reduce(ir))
 
 ## ----irNormal4-----------------------------------------------------------
@@ -47,10 +47,10 @@ reduce(ir)
 ## ----irDisjoin1, eval=FALSE----------------------------------------------
 ## disjoin(ir1)
 
-## ----irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE----------------
+## ----irDisjoin2, echo=FALSE, fig.height=2, small.mar=TRUE, fig.cap="An IRanges"----
 plotRanges(ir)
 
-## ----irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE-------------
+## ----irDisjoin3, echo=FALSE, fig.height=1.75, small.mar=TRUE, fig.cap="disjoin() applied to the previous IRanges."----
 plotRanges(disjoin(ir))
 
 ## ----ir_resize-----------------------------------------------------------
@@ -73,8 +73,8 @@ ov <- findOverlaps(ir1, ir2)
 ov
 
 ## ----findOverlaps_ill----------------------------------------------------
-intersect(ir1[subjectHits(ov)[1]],
-          ir2[queryHits(ov)[2]])
+intersect(ir1[queryHits(ov)[1]],
+          ir2[subjectHits(ov)[2]])
 
 ## ----subjectHits---------------------------------------------------------
 queryHits(ov)
@@ -91,6 +91,9 @@ ir1
 ir2
 nearest(ir1, ir2)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

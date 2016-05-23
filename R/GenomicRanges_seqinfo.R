@@ -30,6 +30,9 @@ gr <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:2, width = 2))
 newStyle <- mapSeqlevels(seqlevels(gr), "NCBI")
 gr <- renameSeqlevels(gr, newStyle)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

@@ -3,7 +3,7 @@ library(Rsamtools)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("Rsamtools")
+## biocLite(c("Rsamtools"))
 
 ## ----bamPath-------------------------------------------------------------
 bamPath <- system.file("extdata", "ex1.bam", package="Rsamtools")
@@ -54,6 +54,9 @@ aln <- scanBam(bamView)
 names(aln)
 names(aln[[1]])
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

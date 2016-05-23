@@ -36,6 +36,12 @@ gr <- GRanges(seqnames = "chr1", ranges = IRanges(start = 1:10, width = 3))
 rl <- coverage(gr)
 rl
 
+## ----RleGRangesSubset1---------------------------------------------------
+grView <- GRanges("chr1", ranges = IRanges(start = c(2,5), end = c(3,6)))
+
+## ----RleGRangesSubset2---------------------------------------------------
+rl[grView]
+
 ## ----GRangesViews, error=TRUE--------------------------------------------
 grView <- GRanges("chr1", ranges = IRanges(start = 2, end = 7))
 vi <- Views(rl, grView)
@@ -51,6 +57,9 @@ vi[[1]]
 ## nCoverage <- sum(Views(coverage(reads), bases))
 ## nCoverage / nBases
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

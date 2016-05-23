@@ -24,6 +24,9 @@ shift(gL, 10)
 ## ----findOverlaps--------------------------------------------------------
 findOverlaps(gL, gr2)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

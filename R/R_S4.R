@@ -84,7 +84,7 @@ getMethod("as.data.frame", "DataFrame")
 base::as.data.frame
 
 ## ----helpMethod,eval=FALSE-----------------------------------------------
-## method?as.data.frame,DataFrame
+## method?"as.data.frame,DataFrame"
 ## ?"as.data.frame-method,DataFrame"
 
 ## ----findOverlaps--------------------------------------------------------
@@ -94,6 +94,9 @@ showMethods("findOverlaps")
 getMethod("findOverlaps", signature(query = "Ranges", subject = "Ranges"))
 getMethod("findOverlaps", signature(query = "GenomicRanges", subject = "GenomicRanges"))
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

@@ -32,6 +32,9 @@ subsetByOverlaps(cdsBy(txdb, by = "tx"), gr)
 ## ----transcriptLengths---------------------------------------------------
 subset(transcriptLengths(txdb, with.cds_len = TRUE), gene_id == "100287102")
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

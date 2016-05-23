@@ -86,7 +86,7 @@ pData(rawData)
 Let us look at the probe intensities across the samples, using the `boxplot()` function.
 
 ```{r rawBox, plot=TRUE, fig.cap="Boxplots of the raw data."}
-boxplot(rawData)
+boxplot(rawData, target = "core")
 ```
 
 Boxplots are great for comparing many samples because it is easy to display many box plots side by side.  We see there is a large difference in both location and spread between samples.  There are three samples with very low intensities; almost all probes have intensities less than 7 on the log2 scale.  From experience with Affymetrix microarrays, I know this is an extremely low intensity.  Perhaps the array hybridization failed for these arrays.  To determine this will require more investigation.

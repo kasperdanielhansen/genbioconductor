@@ -18,7 +18,7 @@ html/%.html: Rmd/%.Rmd .FORCE
            printBook=FALSE; library(rmarkdown); library(BiocStyle);\
            render("$*.Rmd", \
                   output_format="BiocStyle::html_document",\
-                  output_options=list(toc=TRUE))}'
+                  output_options=list(toc=TRUE, number_sections=FALSE))}'
 	mv Rmd/$*.html html
 	cd Rmd && $(R_SCRIPT) -e '{library(knitr);\
                         purl("$*.Rmd")}'
@@ -59,7 +59,8 @@ Rmds : html/Install_Bioconductor.html\
        html/minfi.html\
        html/Count_Based_RNAseq.html
 
-temp: html/ExpressionSet.html
+temp: html/minfi.html\
+      html/Count_Based_RNAseq.html
 
 all : Rmds index
 

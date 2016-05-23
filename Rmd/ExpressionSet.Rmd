@@ -29,7 +29,7 @@ We will examine how to use and manipulate the `ExpressionSet` class; a fundament
 
 This class has inspired many other data containers in Bioconductor.  It is a great example of _programming with data_.
 
-# Data Containers
+## Data Containers
 
 R/Bioconductor has a rich set of data containers, or types of objects for storing different types of genomic data.  Data containers might seem a boring subject at first, but in my opinion, they have been critical to the success of Bioconductor.  Don't just take my word for it; the following quote is from Robert Gentleman (co-creator of R and founder of Bioconductor) on successful computational biology software [@softwareAnatomy]:
 
@@ -47,7 +47,7 @@ For example, data from Affymetrix microarrays and Agilent microarrays have (in t
 
 Having well designed data containers allows developer to write methods for these data containers which will be applicable to many types of use cases.  And it helps users by making the data easier to manipulate; thereby reducing errors.
 
-# The structure of an ExpressionSet
+## The structure of an ExpressionSet
 
 Gene expression data can be thought of as a data matrix of expression values, one for each (gene, sample) pair. Tradition demands that rows are genes and columns are samples.  Genes are sometimes called features.  An example of this is
 

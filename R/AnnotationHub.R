@@ -26,6 +26,9 @@ query(ah, "H3K4me3")
 ## ----display, eval=FALSE-------------------------------------------------
 ## hist <- display(ah)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

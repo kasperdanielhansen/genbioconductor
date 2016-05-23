@@ -32,7 +32,7 @@ A useful trick is to get a listing of all help pages in a given package.  You ca
 library(NAME = help)
 ```
 
-where `r NAME` is the package name.
+where `NAME` is the package name.
 
 ## The Bioconductor site
 

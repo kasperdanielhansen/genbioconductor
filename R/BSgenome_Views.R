@@ -9,7 +9,7 @@ library(AnnotationHub)
 ##            "BSgenome.Scerevisiae.UCSC.sacCer2", "AnnotationHub"))
 
 ## ----views1--------------------------------------------------------------
-library("BSgenome.Scerevisiae.UCSC.sacCer2")
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
 dnaseq <- DNAString("ACGTACGT")
 vi <- matchPattern(dnaseq, Scerevisiae$chrI)
 vi
@@ -54,10 +54,13 @@ gccontent <- bsapply(params, letters = "GC")
 gcPercentage <- sum(gccontent) / sum(seqlengths(Scerevisiae))
 gcPercentage
 
-## ----plotGC, fig=TRUE----------------------------------------------------
+## ----plotGC, fig=TRUE, fig.cap="The distribution of GC content of promoters."----
 plot(density(gcProm))
 abline(v = gcPercentage, col = "red")
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

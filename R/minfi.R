@@ -14,7 +14,7 @@ head(list.files("GSE68777/idat", pattern = "idat"))
 
 ## ----decompress----------------------------------------------------------
 idatFiles <- list.files("GSE68777/idat", pattern = "idat.gz$", full = TRUE)
-sapply(idatFiles, gunzip, overwrite = TRUE)
+head(sapply(idatFiles, gunzip, overwrite = TRUE), n = 3)
 
 ## ----readExp-------------------------------------------------------------
 rgSet <- read.450k.exp("GSE68777/idat")
@@ -51,6 +51,9 @@ getBeta(grSet)[1:3,1:3]
 ## ----getIslandStatus-----------------------------------------------------
 head(getIslandStatus(grSet))
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

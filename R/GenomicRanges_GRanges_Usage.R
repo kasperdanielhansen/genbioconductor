@@ -48,6 +48,9 @@ makeGRangesFromDataFrame(df, keep.extra.columns = TRUE)
 ## big_islands <- resize(islands, width = 20000 + width(islands), fix = "center")
 ## findOverlaps(dmrs, big_islands)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

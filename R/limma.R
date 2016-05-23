@@ -53,6 +53,9 @@ fit2C <- contrasts.fit(fit2, contrast.matrix)
 fit2C <- eBayes(fit2C)
 topTable(fit2C)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

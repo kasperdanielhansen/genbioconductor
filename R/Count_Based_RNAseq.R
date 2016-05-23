@@ -1,10 +1,11 @@
 ## ----dependencies, warning=FALSE, message=FALSE--------------------------
 library(DESeq2)
 library(edgeR)
+library(airway)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("DESeq2", "edgeR))
+## biocLite(c("DESeq2", "edgeR", "airway"))
 
 ## ----data----------------------------------------------------------------
 library(airway)
@@ -55,8 +56,11 @@ dds <- DESeq(dds)
 ## ----deseqResults--------------------------------------------------------
 res <- results(dds)
 res <- res[order(res$padj),]
-res
+res[1:10,]
+
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
 
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

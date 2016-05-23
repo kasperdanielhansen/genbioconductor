@@ -41,6 +41,9 @@ gr2 <- gr
 genome(gr2) <- "hg18"
 findOverlaps(gr, gr2)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

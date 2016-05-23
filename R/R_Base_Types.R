@@ -103,6 +103,9 @@ as.list(x)
 library(methods)
 as(x, "matrix")
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

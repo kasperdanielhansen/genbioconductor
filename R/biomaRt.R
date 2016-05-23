@@ -32,6 +32,9 @@ attributes <- listAttributes(ensembl, page = "feature_page")
 head(attributes)
 nrow(attributes)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

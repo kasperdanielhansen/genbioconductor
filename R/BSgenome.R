@@ -6,9 +6,13 @@ library(BSgenome.Scerevisiae.UCSC.sacCer2)
 ## source("http://www.bioconductor.org/biocLite.R")
 ## biocLite(c("BSgenome", "BSgenome.Scerevisiae.UCSC.sacCer2"))
 
+## ----availGenomes--------------------------------------------------------
+allgenomes <- available.genomes()
+grep("Hsapiens", allgenomes, value = TRUE)
+grep("Scerevisiae", allgenomes, value = TRUE)
+
 ## ----BSgenome------------------------------------------------------------
-available.genomes()
-library("BSgenome.Scerevisiae.UCSC.sacCer2")
+library(BSgenome.Scerevisiae.UCSC.sacCer2)
 Scerevisiae
 
 ## ----BSgenomeLength------------------------------------------------------
@@ -32,6 +36,9 @@ bsapply(param, letters = "GC")
 ## ----gcGenome3-----------------------------------------------------------
 sum(bsapply(param, letters = "GC")) / sum(seqlengths(Scerevisiae))
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

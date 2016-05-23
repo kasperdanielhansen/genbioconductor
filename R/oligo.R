@@ -4,7 +4,7 @@ library(GEOquery)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("oligo", "GEOquery))
+## biocLite(c("oligo", "GEOquery"))
 
 ## ----getData-------------------------------------------------------------
 library(GEOquery)
@@ -40,16 +40,19 @@ pData(rawData)$group <- ifelse(grepl("^OSA", sampleNames(rawData)),
                                "OSA", "Control")
 pData(rawData)
 
-## ----rawBox, plot=TRUE---------------------------------------------------
-boxplot(rawData)
+## ----rawBox, plot=TRUE, fig.cap="Boxplots of the raw data."--------------
+boxplot(rawData, target = "core")
 
 ## ----rma-----------------------------------------------------------------
 normData <- rma(rawData)
 normData
 
-## ----normBox, plot=TRUE--------------------------------------------------
+## ----normBox, plot=TRUE, fig.cap="Boxplots of the data preprocessed using RMA."----
 boxplot(normData)
+
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
 
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

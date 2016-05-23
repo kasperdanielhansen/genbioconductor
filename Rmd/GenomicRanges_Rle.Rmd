@@ -116,7 +116,19 @@ rl <- coverage(gr)
 rl
 ```
 
-Using `Views` on such an object exposes some missing functionality
+Let us consider a `GRanges` which we want to use to index into the `Rle`:
+
+```{r RleGRangesSubset1}
+grView <- GRanges("chr1", ranges = IRanges(start = c(2,5), end = c(3,6)))
+```
+
+We can subset directly into the `Rle` by
+
+```{r RleGRangesSubset2}
+rl[grView]
+```
+
+But using `Views` on such an object exposes some missing functionality
 
 ```{r GRangesViews, error=TRUE}
 grView <- GRanges("chr1", ranges = IRanges(start = 2, end = 7))

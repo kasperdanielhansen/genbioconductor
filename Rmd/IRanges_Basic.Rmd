@@ -190,8 +190,8 @@ The two columns of the hits object can be accessed by `queryHits()` and `subject
 For example, the first row of the matrix describes that the first range of `ir1` overlaps with the first range of `ir2`. Or said differently, they have a non-empty intersection:
 
 ```{r findOverlaps_ill}
-intersect(ir1[subjectHits(ov)[1]],
-          ir2[queryHits(ov)[2]])
+intersect(ir1[queryHits(ov)[1]],
+          ir2[subjectHits(ov)[2]])
 ```
 
 The elements of `unique(queryHits)` gives you the indices of the query ranges which actually had an overlap; you need `unique` because a query range may overlap multiple subject ranges.

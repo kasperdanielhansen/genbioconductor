@@ -24,6 +24,9 @@ id(reads)[1:2]
 ## ----convertQual---------------------------------------------------------
 as(quality(reads), "matrix")[1:2,1:10]
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

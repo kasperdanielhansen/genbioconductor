@@ -1,10 +1,11 @@
 ## ----dependencies, warning=FALSE, message=FALSE--------------------------
+library(SummarizedExperiment)
 library(GenomicRanges)
 library(airway)
 
 ## ----biocLite, eval=FALSE------------------------------------------------
 ## source("http://www.bioconductor.org/biocLite.R")
-## biocLite(c("GenomicRanges", "airway"))
+## biocLite(c("SummarizedExperiment", "GenomicRanges", "airway"))
 
 ## ----airway--------------------------------------------------------------
 library(airway)
@@ -18,7 +19,7 @@ colData(airway)
 airway$cell
 
 ## ----exptData------------------------------------------------------------
-exptData(airway)
+metadata(airway)
 
 ## ----names---------------------------------------------------------------
 colnames(airway)
@@ -47,6 +48,9 @@ start(airway)
 gr <- GRanges(seqnames = "1", ranges = IRanges(start = 1, end = 10^7))
 subsetByOverlaps(airway, gr)
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 

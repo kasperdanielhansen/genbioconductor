@@ -18,10 +18,14 @@ names(pData(eData))
 
 ## ----getGEOsupp----------------------------------------------------------
 eList2 <- getGEOSuppFiles("GSE11675")
+rownames(eList2) <- basename(rownames(eList2))
 eList2
 tarArchive <- rownames(eList2)[1]
 tarArchive
 
+## ----back, child="back.Rmd", echo=FALSE----------------------------------
+
 ## ----sessionInfo, echo=FALSE---------------------------------------------
 sessionInfo()
+
 
