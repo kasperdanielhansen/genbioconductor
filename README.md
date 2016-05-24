@@ -1,11 +1,12 @@
-## Bioconductor for Genomic Data Science
+# Bioconductor for Genomic Data Science
 
 * [Website](http://kasperdanielhansen.github.io/genbioconductor/)
 * Lecture Notes: [Leanpub](https://leanpub.com/bioconductor/)
 * Course: [Bioconductor for Genomic Data Science](https://www.coursera.org/learn/bioconductor)
 * Specialization: [Genomic Data Science Specialization](https://www.coursera.org/specializations/genomic-data-science)
+* [Github](https://github.com/kasperdanielhansen/genbioconductor)
 
-### License
+## License
 
 This work is (c) Kasper D. Hansen.
 
