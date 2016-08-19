@@ -224,7 +224,7 @@ The following objects are masked from 'package:base':
     unique, unlist, unsplit
 ```
 
-There are drwabacks to methods:
+There are drawbacks to methods:
 
 1. It is hard (but not impossible) to get the actual code.
 2. The help system can be confusing.
