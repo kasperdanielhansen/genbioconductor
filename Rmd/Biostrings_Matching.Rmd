@@ -69,7 +69,7 @@ There are a number of other, specialized, alignment functions in `r Biocpkg("Bio
 
 For now, we will avoid further discussion of these functions.
 
-One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read data, because the algorithms scale badly with the length of the sequence (ie. the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particular interested in high-quality alignments to a specific small gene or region of the genome.
+One note: `pairwiseAlignment` allows you to do pairwise alignments of millions of short reads against a single sequence, for example a gene or a transposable element.  Few people use these algorithms for short read data, because the algorithms scale badly with the length of the sequence (ie. the genome), but they work fine for millions of reads as long as the reference sequence is short.  In my opinion this approach might be very fruitful if you are particularly interested in high-quality alignments to a specific small gene or region of the genome.
 
 ```{r back, child="back.Rmd", echo=FALSE}
 ```
