@@ -17,8 +17,8 @@ library(GenomicRanges)
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
-source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GenomicRanges"))
+if (!requireNamespace("BiocManager")) install.packages("BiocManager")
+BiocManager::install("GenomicRanges")
 ```
 
 ## Overview
