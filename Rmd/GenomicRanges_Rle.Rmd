@@ -23,7 +23,7 @@ biocLite(c("GenomicRanges"))
 
 ## Overview
 
-In this session we will discuss a data representation class called `Rle` (run length encoding).  This class is great for representation genome-wide sequence coverage.
+In this session we will discuss a data representation class called `Rle` (run length encoding).  This class is great for representating genome-wide sequence coverage.
 
 ## Coverage
 
