@@ -17,8 +17,10 @@ library(GEOquery)
 Use the following commands to install these packages in R.
 
 ```{r biocLite, eval=FALSE}
-source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("GEOquery"))
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("GEOquery")
 ```
 
 ## Overview

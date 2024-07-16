@@ -71,8 +71,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>This document has the following dependencies:</p>
 <pre class="r"><code>library(GEOquery)</code></pre>
 <p>Use the following commands to install these packages in R.</p>
-<pre class="r"><code>source(&quot;http://www.bioconductor.org/biocLite.R&quot;)
-biocLite(c(&quot;GEOquery&quot;))</code></pre>
+<pre class="r"><code>if (!require(&quot;BiocManager&quot;, quietly = TRUE))
+    install.packages(&quot;BiocManager&quot;)
+
+BiocManager::install(&quot;GEOquery&quot;)</code></pre>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
